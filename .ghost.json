@@ -1,10 +1,10 @@
 {
   "development": {
     "apiUrl": "http://ghost.cesargdm.com:3001",
-    "contentApiKey": "c8f75103ec94453044acb4cc27"
+    "contentApiKey": "0f4898e074118ba831c8349d26"
   },
   "production": {
     "apiUrl": "http://ghost.cesargdm.com:3001",
-    "contentApiKey": "c8f75103ec94453044acb4cc27"
+    "contentApiKey": "0f4898e074118ba831c8349d26"
   }
 }
