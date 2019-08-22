@@ -48,8 +48,7 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
             <div className="container">
               <div className="site-mast">
                 <div className="site-mast-left">
-                  cesargdm
-                  {/* <Link to="/">
+                  <Link to="/">
                     {site.logo ? (
                       <img
                         className="site-logo"
@@ -62,7 +61,7 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
                         alt={site.title}
                       />
                     )}
-                  </Link> */}
+                  </Link>
                 </div>
                 <div className="site-mast-right">
                   {site.twitter && (
@@ -95,10 +94,8 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
               </div>
               {isHome ? (
                 <div className="site-banner">
-                  <h1 className="site-banner-title">cesargdm</h1>
-                  {/* <h1 className="site-banner-title">{site.title}</h1> */}
-                  <p className="site-banner-desc">César Guadarrama</p>
-                  {/* <p className="site-banner-desc">{site.description}</p> */}
+                  <h1 className="site-banner-title">{site.title}</h1>
+                  <p className="site-banner-desc">{site.description}</p>
                 </div>
               ) : null}
               <nav className="site-nav">
