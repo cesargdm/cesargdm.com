@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { graphql } from "gatsby";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { graphql } from 'gatsby'
 
-import { Layout, PostCard, Pagination } from "../components/common";
-import { MetaData } from "../components/common/meta";
+import { Layout, PostCard, Pagination } from '../components/common'
+import { MetaData } from '../components/common/meta'
 
 /**
  * Tag page (/tag/:slug)
@@ -12,8 +12,8 @@ import { MetaData } from "../components/common/meta";
  *
  */
 const Tag = ({ data, location, pageContext }) => {
-  const tag = data.ghostTag;
-  const posts = data.allGhostPost.edges;
+  const tag = data.ghostTag
+  const posts = data.allGhostPost.edges
 
   return (
     <>
@@ -34,24 +34,24 @@ const Tag = ({ data, location, pageContext }) => {
         </div>
       </Layout>
     </>
-  );
-};
+  )
+}
 
 Tag.propTypes = {
   data: PropTypes.shape({
     ghostTag: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      description: PropTypes.string
+      description: PropTypes.string,
     }),
-    allGhostPost: PropTypes.object.isRequired
+    allGhostPost: PropTypes.object.isRequired,
   }).isRequired,
   location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
-  pageContext: PropTypes.object
-};
+  pageContext: PropTypes.object,
+}
 
-export default Tag;
+export default Tag
 
 export const pageQuery = graphql`
   query GhostTagQuery($slug: String!, $limit: Int!, $skip: Int!) {
@@ -71,4 +71,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`;
+`
