@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@tryghost/helpers": "1.1.9",
-    "@tryghost/helpers-gatsby": "1.0.14",
+    "@tryghost/helpers-gatsby": "1.0.22",
     "cheerio": "1.0.0-rc.3",
     "gatsby": "2.15.28",
     "gatsby-awesome-pagination": "0.3.4",
