@@ -1,5 +1,4 @@
 const path = require('path')
-const slug = require('slug')
 
 const LOCALES = ['en', 'es']
 const MAIN_LOCALE = 'en'
