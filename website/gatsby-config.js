@@ -16,6 +16,7 @@ const {
 
 module.exports = {
   plugins: [
+    'gatsby-plugin-netlify-cache',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-typescript',
     'gatsby-plugin-sharp',
