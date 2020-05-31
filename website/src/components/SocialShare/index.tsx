@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as Styles from './styles'
 
 import twitter from './twitter.svg'
-import linkedIn from './linkedIn.svg'
+import linkedIn from './linkedin.svg'
 
 function SocialShare(): JSX.Element {
   return (
