@@ -13,9 +13,10 @@ const { GATSBY_SANITY_DATASET } = process.env
 
 function Gallery(props: unknown): JSX.Element {
   const {
+    location: { href },
     data,
     pathContext: { locale },
-  } = props
+  } = props as any
 
   const localized = localize(data.gallery, [locale]) as any
 
@@ -34,7 +35,7 @@ function Gallery(props: unknown): JSX.Element {
   return (
     <DefaultLayout locale={locale}>
       <Styles.GalleryContainer>
-        <SocialShare />
+        <SocialShare url={href} />
 
         <h1>{localized.title}</h1>
 
