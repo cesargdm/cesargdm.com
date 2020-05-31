@@ -5,7 +5,7 @@ import * as Styles from './styles'
 
 const messages = {
   en: {
-    illustrationsBy: 'Illustrtations by ',
+    illustrationsBy: 'Illustrations by ',
   },
   es: {
     illustrationsBy: 'Ilustraciones por ',
