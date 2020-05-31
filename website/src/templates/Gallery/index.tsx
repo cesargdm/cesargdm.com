@@ -2,6 +2,7 @@ import * as React from 'react'
 import { graphql } from 'gatsby'
 import PortableText from '@sanity/block-content-to-react'
 
+import SocialShare from '../../components/SocialShare'
 import DefaultLayout from '../../layouts/Default'
 import localize from '../../utils/localize'
 
@@ -10,7 +11,7 @@ import * as Styles from './styles'
 const { GATSBY_SANITY_PROJECT_ID } = process.env
 const { GATSBY_SANITY_DATASET } = process.env
 
-function Gallery(props: unknown) {
+function Gallery(props: unknown): JSX.Element {
   const {
     data,
     pathContext: { locale },
@@ -33,7 +34,10 @@ function Gallery(props: unknown) {
   return (
     <DefaultLayout locale={locale}>
       <Styles.GalleryContainer>
+        <SocialShare />
+
         <h1>{localized.title}</h1>
+
         {content}
       </Styles.GalleryContainer>
     </DefaultLayout>
