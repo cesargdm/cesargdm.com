@@ -10,15 +10,19 @@ function SocialShare(): JSX.Element {
     <Styles.Container>
       <a
         rel="noreferrer noopenner"
-        className="twitter-share-button"
-        href={`https://twitter.com/intent/tweet?text=${window.location.href}`}
+        target="_blank"
+        href={`https://twitter.com/intent/tweet?text=${
+          typeof window !== 'undefined' && window.location.href
+        }`}
       >
         <Styles.SocialIcon src={twitter} alt="Twittter icon" />
       </a>
       <a
         rel="noreferrer noopenner"
         target="_blank"
-        href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}`}
+        href={`https://www.linkedin.com/shareArticle?mini=true&url=${
+          typeof window !== 'undefined' && window.location.href
+        }`}
       >
         <Styles.SocialIcon src={linkedIn} alt="LinkedIn icon" />
       </a>
