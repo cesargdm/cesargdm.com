@@ -22,7 +22,7 @@ button {
 
   --color--light-background: #ddd;
 
-  --color--shadow: rgba(0, 0, 0, 0.2);
+  --color--shadow: rgba(0, 0, 0, 0.1);
 
   --color--tint: #df5256;
   --max-width--content: 900px;

@@ -8,9 +8,9 @@ import serializers from '../../utils/serializers'
 
 import * as Styles from '../Page/styles'
 
-import me from './me.svg'
+import me from '../../assets/me.svg'
 
-function Page(props: any) {
+function Page(props: any): JSX.Element {
   const {
     pathContext: { locale, slug },
     data,
