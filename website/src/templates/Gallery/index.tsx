@@ -18,15 +18,23 @@ function Gallery(props: unknown) {
 
   const localized = localize(data.gallery, [locale]) as any
 
+  let content = null
+
+  if (typeof window !== 'undefined') {
+    content = (
+      <PortableText
+        projectId={GATSBY_SANITY_PROJECT_ID}
+        dataset={GATSBY_SANITY_DATASET}
+        blocks={localized._rawBody}
+      />
+    )
+  }
+
   return (
     <DefaultLayout locale={locale}>
       <Styles.GalleryContainer>
         <h1>{localized.title}</h1>
-        <PortableText
-          projectId={GATSBY_SANITY_PROJECT_ID}
-          dataset={GATSBY_SANITY_DATASET}
-          blocks={localized._rawBody}
-        />
+        {content}
       </Styles.GalleryContainer>
     </DefaultLayout>
   )
