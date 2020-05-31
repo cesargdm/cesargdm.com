@@ -10,10 +10,11 @@ import * as Styles from './styles'
 
 const { GATSBY_SANITY_PROJECT_ID } = process.env
 const { GATSBY_SANITY_DATASET } = process.env
+const { GATSBY_DOMAIN } = process.env
 
 function Gallery(props: unknown): JSX.Element {
   const {
-    location: { href },
+    path,
     data,
     pathContext: { locale },
   } = props as any
@@ -35,7 +36,9 @@ function Gallery(props: unknown): JSX.Element {
   return (
     <DefaultLayout locale={locale}>
       <Styles.GalleryContainer>
-        <SocialShare url={href} />
+        <SocialShare
+          url={`${GATSBY_DOMAIN}${locale === 'en' ? '' : '/es'}${path}`}
+        />
 
         <h1>{localized.title}</h1>
 
