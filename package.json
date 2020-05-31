@@ -1,57 +1,40 @@
 {
-  "name": "gatsby-starter-ghost",
-  "description": "A starter template to build lightning fast websites with Ghost and Gatsby",
-  "version": "1.0.0",
-  "license": "MIT",
-  "author": "Ghost Foundation",
-  "homepage": "https://docs.ghost.org/api/gatsby/",
+  "engines": {
+    "node": ">=12"
+  },
+  "workspaces": [
+    "studio/*",
+    "website/*"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tryghost/gatsby-starter-ghost.git"
+    "url": "git@github.com:cesargdm/cesargdm.com.git"
   },
-  "engines": {
-    "node": ">= 8.9.0"
-  },
-  "bugs": {
-    "url": "https://github.com/tryghost/gatsby-starter-ghost/issues"
-  },
-  "keywords": [
-    "gatsby",
-    "ghost"
-  ],
-  "main": "n/a",
   "scripts": {
-    "serve": "gatsby build && NODE_ENV=production gatsby serve",
-    "build": "gatsby build",
-    "start": "gatsby develop",
-    "lint": "eslint . --ext .js --cache",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
+    "lint": "eslint --ignore-path .gitignore ."
   },
-  "devDependencies": {
-    "eslint": "6.4.0",
-    "eslint-plugin-ghost": "0.5.0",
-    "eslint-plugin-react": "7.14.3"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint && npm run test -- --watchAll=false"
+    }
   },
-  "dependencies": {
-    "@tryghost/helpers": "1.1.9",
-    "@tryghost/helpers-gatsby": "1.0.14",
-    "cheerio": "1.0.0-rc.3",
-    "gatsby": "2.15.28",
-    "gatsby-awesome-pagination": "0.3.4",
-    "gatsby-image": "2.2.19",
-    "gatsby-plugin-advanced-sitemap": "1.4.4",
-    "gatsby-plugin-feed": "2.3.12",
-    "gatsby-plugin-force-trailing-slashes": "1.0.4",
-    "gatsby-plugin-manifest": "2.2.16",
-    "gatsby-plugin-offline": "3.0.6",
-    "gatsby-plugin-react-helmet": "3.1.7",
-    "gatsby-plugin-sharp": "2.2.27",
-    "gatsby-source-filesystem": "2.1.22",
-    "gatsby-source-ghost": "3.4.6",
-    "gatsby-transformer-sharp": "2.2.14",
-    "lodash": "4.17.15",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "react-helmet": "5.2.1"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix",
+    "*.{js,jsx,ts,tsx,md,html,css}": "prettier --write"
+  },
+  "browserslist": {
+    "production": [
+      "> 0.2%",
+      "not dead",
+      "not ie >= 0",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

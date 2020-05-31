@@ -1,4 +1,0 @@
-# Netlify redirects file, edit with your domain
-# https://www.netlify.com/docs/redirects/
-
-https://cesargdm.netlify.com/* https://cesargdm.com/:splat 301!
