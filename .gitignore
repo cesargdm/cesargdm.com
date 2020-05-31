@@ -1,6 +1,8 @@
 .cache
 node_modules
 
+studio/dist
+
 .DS_Store
 
 .env.local

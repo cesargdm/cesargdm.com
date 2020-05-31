@@ -8,7 +8,11 @@ if (NODE_ENV === 'development') {
   })
 }
 
-const { SANITY_API_TOKEN, SANITY_PROJECT_ID, SANITY_DATASET } = process.env
+const {
+  SANITY_API_TOKEN,
+  GATSBY_SANITY_PROJECT_ID,
+  GATSBY_SANITY_DATASET,
+} = process.env
 
 module.exports = {
   plugins: [
@@ -23,8 +27,8 @@ module.exports = {
       options: {
         watchMode: true,
         overlayDrafts: true,
-        projectId: SANITY_PROJECT_ID,
-        dataset: SANITY_DATASET,
+        projectId: GATSBY_SANITY_PROJECT_ID,
+        dataset: GATSBY_SANITY_DATASET,
         token: SANITY_API_TOKEN,
       },
     },
