@@ -12,6 +12,7 @@ const {
   SANITY_API_TOKEN,
   GATSBY_SANITY_PROJECT_ID,
   GATSBY_SANITY_DATASET,
+  GOOGLE_ANALYTICS_TRACKING_ID,
 } = process.env
 
 module.exports = {
@@ -23,6 +24,12 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-styled-components',
     'gatsby-plugin-remove-trailing-slashes',
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: GOOGLE_ANALYTICS_TRACKING_ID,
+      },
+    },
     {
       resolve: `gatsby-source-sanity`,
       options: {
