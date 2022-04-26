@@ -23,6 +23,7 @@ function DefaultLayout({ children, locale }: Props) {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <script data-host="https://microanalytics.io" data-dnt="false" src="https://microanalytics.io/js/script.js" id="ZwSg9rf6GA" async defer />
         <html lang={locale} />
         <title>César Guadarrama</title>
         <link rel="shortcut icon" href="/favicon.ico" />
