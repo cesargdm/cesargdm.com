@@ -2,7 +2,7 @@ import path from 'path'
 
 import slugify from 'slugify'
 
-exports.createPages = async ({ graphql, actions, reporter }) => {
+exports.createPages = async ({ graphql, actions, reporter }: any) => {
   // Destructure the createPage function from the actions object
   const { createPage } = actions
 
@@ -28,13 +28,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const posts = result.data.allMdx.edges
 
-  posts.forEach(({ node }) => {
+  posts.forEach(({ node }: any) => {
     const { title, type } = node.frontmatter ?? {}
 
-    console.dir(node.frontmatter)
-
     if (!title || !type) {
-      console.log(`Skipping blog post with no title or type: ${node.id}`)
+      console.error(`Skipping blog post with no title or type: ${node.id}`)
       return
     }
 
