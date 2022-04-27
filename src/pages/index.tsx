@@ -29,22 +29,23 @@ function Index() {
   return (
     <Template>
       <Content>
-        <p>Hi</p>
+        <p>Hi!</p>
         <p>
-          I'm a software engineer and photographer from México. I use TypeScript
-          on my daily basis, React and React Native for user interfaces, and
-          Node + GraphQL whenever I can.
+          I'm a product engineer and photographer. I use TypeScript on my daily
+          basis, React for user interfaces, and Node GraphQL and MongoDB for
+          that server magic 🪄. Currently working on the web2 by day and web3 by
+          night, but looking to be 24/7 web3.
         </p>
         <p>
-          As today I'm working in an awesome company{' '}
+          As today I'm working in the awesome startup{' '}
           <a {...blankProps} href="https://www.ocho.co">
             Ocho
           </a>{' '}
-          and my startup{' '}
+          and my side project{' '}
           <a {...blankProps} href="https://www.cretia.app">
             Cretia
           </a>
-          ; before that I've worked at{' '}
+          ; before that I've been part of amazing teams such as{' '}
           <a {...blankProps} href="https://tesorio.com">
             Tesorio
           </a>
@@ -56,10 +57,14 @@ function Index() {
           <a {...blankProps} href="https://covalto.com">
             Covalto
           </a>{' '}
-          (prev. Credijusto) and IBM, but I've also developed some interesting
-          products with{' '}
+          (prev. Credijusto) and <a href="https://ibm.com">IBM</a>. And since I
+          cannot sit still I've done some extra work with with some clients like{' '}
           <a {...blankProps} href="https://fucesa.com">
             Fucesa
+          </a>
+          ,{' '}
+          <a {...blankProps} href="https://concepthaus.mx/">
+            ConceptHaus
           </a>
           .
         </p>

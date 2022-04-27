@@ -76,7 +76,7 @@ function Footer() {
         <p style={{ fontSize: '0.6rem', marginTop: 10, opacity: 0.3 }}>
           Analytics data is public in{' '}
           <a href="https://microanalytics.io/cesargdm.com">Microanalytics</a>,
-          source code available at{' '}
+          source code available at{''}
           <a href="https://www.github.com/cesargdm/cesargdm.com">GitHub</a>
         </p>
       </Content>
