@@ -1,0 +1,24 @@
+---
+title: Let's all swich from npm to pnpm
+type: blog
+date: 2020-04-26
+lang: en
+tags: [dev]
+draft: true
+---
+
+I've been working with pnpm for a couple of months now and all I can say is that is marvelous, firstly the gains in disk usage, offline cache and seep are incomparable.
+
+The only downside is the dependency resolver, where npm will show a lot of warnings and sometimes errors for peer dependencies that are not installed. And that still happens for a lot of libraries where peer dependencies should be marked as regular dependencies.
+
+```bash
+npm install --global pnpm
+```
+
+Upgrading dependencies is really easy. While running
+
+```bash
+pnpm upgrade --latest --interactive # or 'pnpm up -iL' for short
+```
+
+You will get a fully interactive viewer for your outdated depedencies, link to the repo to make sure the update does not bring any breaking changes.
