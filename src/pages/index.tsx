@@ -33,8 +33,7 @@ function Index() {
         <p>
           I'm a product engineer and photographer. I use TypeScript on my daily
           basis, React for user interfaces, and Node GraphQL and MongoDB for
-          that server magic 🪄. Currently working on the web2 by day and web3 by
-          night, but looking to be 24/7 web3.
+          that server magic 🪄... but I also work on the web3 by night.
         </p>
         <p>
           As today I'm working in the awesome startup{' '}
@@ -58,7 +57,8 @@ function Index() {
             Covalto
           </a>{' '}
           (prev. Credijusto) and <a href="https://ibm.com">IBM</a>. And since I
-          cannot sit still I've done some extra work with with some clients like{' '}
+          cannot sit still, I've done some extra work with with some clients
+          like{' '}
           <a {...blankProps} href="https://fucesa.com">
             Fucesa
           </a>

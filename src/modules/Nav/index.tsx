@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
 
+import small from './cesargdm-small.svg'
+
 const Container = styled.nav`
   height: var(--sizes--nav_height);
   display: flex;
@@ -57,7 +59,16 @@ function Nav() {
   return (
     <Container>
       <Content>
-        <Link to="/">cesargdm</Link>
+        <Link to="/">
+          <img
+            style={{ marginRight: 5 }}
+            width={30}
+            height={30}
+            src={small}
+            alt=""
+          />
+          cesargdm
+        </Link>
         <ul>
           {/* <li>
             <Link partiallyActive activeClassName="active" to="/projects">
