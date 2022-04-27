@@ -29,7 +29,7 @@ function Template({
 }) {
   return (
     <>
-      <Helmet>
+      <Helmet defaultTitle="cesargdm" titleTemplate="%s | cesargdm">
         <title>{title}</title>
         <meta charSet="utf-8" />
         <script

@@ -12,7 +12,7 @@ function Eth() {
   }
 
   return (
-    <Template>
+    <Template title="eth">
       <div
         style={{
           display: 'flex',
