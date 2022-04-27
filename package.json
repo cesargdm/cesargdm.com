@@ -22,7 +22,7 @@
     "gatsby-plugin-vercel": "^1.0.3",
     "gatsby-react-router-scroll": "5.13.0",
     "query-string": "7.1.1",
-    "react": "17.0.0",
+    "react": "18.1.0",
     "react-dom": "17.0.0",
     "react-helmet": "^6.1.0",
     "styled-components": "^5.3.5"
