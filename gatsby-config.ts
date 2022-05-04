@@ -1,9 +1,11 @@
 import type { GatsbyConfig } from 'gatsby'
 
+const siteUrl = process.env.URL || `https://cesargdm.com`
+
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `cesargdm`,
-    siteUrl: `https://cesargdm.com`,
+    siteUrl,
   },
   plugins: [
     'gatsby-plugin-styled-components',
@@ -12,7 +14,32 @@ const config: GatsbyConfig = {
 
     'gatsby-plugin-image',
 
-    'gatsby-plugin-sitemap',
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        query: `
+        {
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+        }
+      `,
+        resolveSiteUrl: () => siteUrl,
+        resolvePages: ({ allSitePage: { nodes: allPages } }: any) => {
+          return allPages.map((page: any) => {
+            return { ...page }
+          })
+        },
+        serialize: ({ path, modifiedGmt }: any) => {
+          return {
+            url: path,
+            lastmod: modifiedGmt,
+          }
+        },
+      },
+    },
 
     `gatsby-plugin-vercel`,
 
@@ -31,6 +58,22 @@ const config: GatsbyConfig = {
     },
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
+
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        host: siteUrl,
+        sitemap: `${siteUrl}/sitemap/sitemap-index.xml`,
+        env: {
+          development: {
+            policy: [{ userAgent: '*', disallow: ['/'] }],
+          },
+          production: {
+            policy: [{ userAgent: '*', allow: '/' }],
+          },
+        },
+      },
+    },
 
     // Images
 

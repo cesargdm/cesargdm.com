@@ -52,6 +52,7 @@ function Blog({ data: { posts } }: any) {
             <Link
               to={`/${post.frontmatter.type}/${slugify(post.frontmatter.title, {
                 lower: true,
+                strict: true,
               })}`}
             >
               <div>

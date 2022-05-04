@@ -13,7 +13,7 @@ function Projects({ data: { projects } }: any) {
           key={project.id}
           to={`/${project.frontmatter.type}/${slugify(
             project.frontmatter.title,
-            { lower: true },
+            { lower: true, strict: true },
           )}`}
         >
           <h2>{project.frontmatter.title}</h2>
