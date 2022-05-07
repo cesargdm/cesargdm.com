@@ -41,7 +41,7 @@
     "babel-plugin-styled-components": "~2.0.7",
     "css.escape": "~1.5.1",
     "deepmerge": "^4.2.2",
-    "eslint": "~8.14.0",
+    "eslint": "~8.15.0",
     "eslint-config-cretia": "~0.2.0",
     "event-source-polyfill": "~1.0.26",
     "gatsby-legacy-polyfills": "~2.13.0",
