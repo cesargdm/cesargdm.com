@@ -31,6 +31,10 @@ function Template({
     <>
       <Helmet defaultTitle="cesargdm" titleTemplate="%s | cesargdm">
         <title>{title}</title>
+        <meta
+          name="description"
+          content="Cesar Guadarrama • Web engineer, photographer and web3 • @cesargdm"
+        />
         <meta charSet="utf-8" />
         <script
           src="https://microanalytics.io/js/script.js"
