@@ -19,7 +19,7 @@ const Content = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid var(--colors-border);
   height: 100%;
 
   a {
@@ -42,7 +42,7 @@ const Content = styled.div`
         content: '';
         width: 100%;
         height: 2px;
-        background-color: black;
+        background-color: var(--colors--text);
         opacity: 0;
       }
       &:hover::before {
@@ -70,18 +70,18 @@ function Nav() {
           cesargdm
         </Link>
         <ul>
-          {/* <li>
-            <Link partiallyActive activeClassName="active" to="/projects">
+          <li>
+            <Link partiallyActive activeClassName="active" to="/projects/">
               Projects
             </Link>
-          </li> */}
+          </li>
           <li>
-            <Link partiallyActive activeClassName="active" to="/blog">
+            <Link partiallyActive activeClassName="active" to="/blog/">
               Blog
             </Link>
           </li>
           <li>
-            <Link partiallyActive activeClassName="active" to="/eth">
+            <Link partiallyActive activeClassName="active" to="/eth/">
               .eth
             </Link>
           </li>

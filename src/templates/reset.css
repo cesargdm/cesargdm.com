@@ -133,7 +133,7 @@ input[type='button'],
 input[type='reset'],
 input[type='submit'] {
   background: none;
-  cursor: pointer;
+  cursor: default;
   -webkit-appearance: button;
   border: none;
   font-size: 1rem;

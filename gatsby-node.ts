@@ -1,6 +1,9 @@
 import path from 'path'
 
 import slugify from 'slugify'
+import fetch from 'node-fetch'
+
+import 'dotenv/config'
 
 exports.createPages = async ({ graphql, actions, reporter }: any) => {
   // Destructure the createPage function from the actions object
@@ -51,6 +54,50 @@ exports.createPages = async ({ graphql, actions, reporter }: any) => {
       // You can use the values in this context in
       // our page layout component
       context: { id: node.id },
+    })
+  })
+}
+
+// Source nodes
+
+export const sourceNodes = async ({
+  actions: { createNode },
+  createContentDigest,
+}: any) => {
+  const result = (await fetch(
+    `https://api.opensea.io/api/v1/assets?owner=0xE3a856E4034D25FF68b3702B8f1618173BBFa130`,
+    {
+      method: 'GET',
+      headers: {
+        'X-API-KEY': process.env.OPENSEA_API_KEY as string,
+      },
+    },
+  ).then((res) => res.json())) as {
+    assets: {
+      name: string
+      last_sale: number
+      description: string
+      permalink: string
+      image_url: string
+      id: string
+    }[]
+  }
+
+  result?.assets.forEach((token) => {
+    createNode({
+      name: token.name,
+      lastSale: Number(token.last_sale || 0),
+      description: token.description,
+      permalink: token.permalink,
+      imageUrl: token.image_url,
+      // required fields
+      id: String(token.id),
+      parent: 'allNfts',
+      children: [],
+      internal: {
+        type: `Nft`,
+        contentDigest: createContentDigest(token),
+      },
     })
   })
 }

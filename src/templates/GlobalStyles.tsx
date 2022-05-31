@@ -3,13 +3,34 @@ import { createGlobalStyle } from 'styled-components'
 const GlobalStyles = createGlobalStyle`
   :root {
     --colors--tint: #DD5256;
+    --colors--background: #fff;
+    --colors--border: #ddd;
+    --colors--background-secondary: #fcfcfc;
+    --colors--text: #111;
     
     --sizes--content_max_width: 900px;
     --sizes--nav_height: 50px;
   }
 
+  /* Change root vars when prefers dark */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --colors--tint: #DD5256;
+      --colors--background: #111;
+      --colors--border: #333;
+      --colors--background-secondary: #222;
+      --colors--text: #fff;
+    }
+  }
+  
+  html {
+    background-color: var(--colors--background);
+  }
+
   html, li, p, body {
     font-family: 'Inter', Helvetica, sans-serif;
+    color: var(--colors--text);
+    
   }
 
   a {
