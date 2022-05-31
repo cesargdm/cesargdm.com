@@ -38,7 +38,7 @@ function Index() {
         <p>
           As today I'm working in the awesome startup{' '}
           <a {...blankProps} href="https://www.ocho.co">
-            Ocho
+            OCHO
           </a>{' '}
           and my side project{' '}
           <a {...blankProps} href="https://www.cretia.app">
