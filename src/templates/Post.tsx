@@ -2,8 +2,9 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer'
 
+import EntryContent from '../components/EntryContent'
+
 import Layout from '.'
-// import Layout from '../components/mdx-test-layout'
 
 export default function Post({ data: { mdx } }: any) {
   return (
@@ -13,7 +14,9 @@ export default function Post({ data: { mdx } }: any) {
         <p style={{ textAlign: 'left', display: 'block', width: '100%' }}>
           {new Date(mdx.frontmatter.date).toLocaleDateString()}
         </p>
-        <MDXRenderer>{mdx.body}</MDXRenderer>
+        <EntryContent>
+          <MDXRenderer>{mdx.body}</MDXRenderer>
+        </EntryContent>
       </Layout>
     </>
   )

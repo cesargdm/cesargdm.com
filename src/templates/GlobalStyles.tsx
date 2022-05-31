@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
     --colors--tint: #DD5256;
     --colors--background: #fff;
     --colors--border: #ddd;
-    --colors--background-secondary: #fcfcfc;
+    --colors--background-secondary: #fafafa;
     --colors--text: #111;
     
     --sizes--content_max_width: 900px;
