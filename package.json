@@ -23,7 +23,7 @@
     "gatsby-react-router-scroll": "5.15.0",
     "gatsby-script": "1.0.0",
     "got": "^12.1.0",
-    "node-fetch": "2.6.1",
+    "node-fetch": "3.2.8",
     "query-string": "7.1.1",
     "react": "18.1.0",
     "react-dom": "18.1.0",
