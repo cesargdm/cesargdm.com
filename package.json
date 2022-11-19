@@ -45,7 +45,7 @@
     "css.escape": "~1.5.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.1",
-    "eslint": "~8.16.0",
+    "eslint": "~8.28.0",
     "eslint-config-cretia": "~0.2.0",
     "event-source-polyfill": "~1.0.26",
     "gatsby-legacy-polyfills": "~2.15.0",
