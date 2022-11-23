@@ -21,7 +21,7 @@
     "gatsby-link": "4.15.0",
     "gatsby-plugin-vercel": "^1.0.3",
     "gatsby-react-router-scroll": "5.15.0",
-    "gatsby-script": "1.0.0",
+    "gatsby-script": "2.1.0",
     "got": "^12.1.0",
     "node-fetch": "2.6.1",
     "query-string": "7.1.1",
