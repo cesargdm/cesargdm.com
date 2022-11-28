@@ -50,7 +50,7 @@
     "eslint": "~8.28.0",
     "eslint-config-cretia": "~0.3.1",
     "event-source-polyfill": "~1.0.31",
-    "gatsby-legacy-polyfills": "~2.19.0",
+    "gatsby-legacy-polyfills": "~3.2.0",
     "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-image": "~2.19.0",
     "gatsby-plugin-manifest": "~4.19.0",
