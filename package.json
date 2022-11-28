@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
-    "gatsby": "4.19.2",
+    "gatsby": "4.24.7",
     "gatsby-link": "4.19.1",
     "gatsby-plugin-vercel": "^1.0.3",
     "gatsby-react-router-scroll": "5.19.0",
