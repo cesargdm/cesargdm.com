@@ -7,7 +7,6 @@ import Nav from '../modules/Nav'
 import Footer from '../modules/Footer'
 
 import './reset.css'
-import './posthog'
 import GlobalStyles from './GlobalStyles'
 
 const Container = styled.main`
