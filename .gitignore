@@ -1,3 +1,5 @@
+src/gatsby-types.d.ts
+
 node_modules/
 
 .cache/

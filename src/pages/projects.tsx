@@ -9,6 +9,7 @@ const ProjectsList = styled.ul`
   display: grid;
   auto-flow: column;
   margin-top: 20px;
+  gap: 20px;
 `
 
 const ProjectItem = styled.li`
@@ -57,6 +58,7 @@ function Projects({ data: { projects } }: any) {
               <p>
                 <b>{project.frontmatter.title}</b>
               </p>
+              <p>{project.frontmatter.description}</p>
               <div>
                 {project.frontmatter?.tags?.map((tag: string) => (
                   <span key={tag}>{tag}</span>
@@ -75,8 +77,8 @@ export default Projects
 export const query = graphql`
   query {
     projects: allMdx(
-      sort: { order: DESC, fields: frontmatter___date }
-      filter: { frontmatter: { type: { eq: "projects" }, draft: { ne: true } } }
+      sort: {frontmatter: {date: DESC}}
+      filter: {frontmatter: {type: {eq: "projects"}, draft: {ne: true}}}
     ) {
       nodes {
         id
@@ -84,6 +86,7 @@ export const query = graphql`
           title
           type
           tags
+          description
         }
       }
     }

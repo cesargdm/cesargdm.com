@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
+import { Globe } from 'react-feather'
 
 import Nav from '../modules/Nav'
 import Footer from '../modules/Footer'
@@ -18,6 +19,7 @@ const Content = styled.div`
   max-width: var(--sizes--content_max_width);
   margin: 0 auto;
   width: 100%;
+  position: relative;
 `
 
 function Template({

@@ -64,6 +64,7 @@ function Blog({ data: { posts } }: any) {
                   ))}
                 </div>
               </div>
+              
               <p>
                 {formatDistanceToNowStrict(new Date(post.frontmatter.date), {
                   addSuffix: true,
@@ -82,8 +83,8 @@ export default Blog
 export const query = graphql`
   query {
     posts: allMdx(
-      sort: { order: DESC, fields: frontmatter___date }
-      filter: { frontmatter: { type: { eq: "blog" }, draft: { ne: true } } }
+      sort: {frontmatter: {date: DESC}}
+      filter: {frontmatter: {type: {eq: "blog"}, draft: {ne: true}}}
     ) {
       nodes {
         id
@@ -91,7 +92,6 @@ export const query = graphql`
           title
           tags
           type
-          title
           date
           lang
         }

@@ -1,10 +1,9 @@
 ---
 title: 6 VS Code extensions you must have
 type: blog
-date: 2022-04-26
+date: 2022-07-21
 lang: en
 tags: [dev]
-draft: true
 ---
 
 Whenever you are just starting out with programming, you have switched to VS Code or even if you already have experience with VS Code, we all may want to discover or rediscover tools that will make us more productive and confident when writing code.
@@ -15,22 +14,22 @@ This is a very basic tool that will help us to write code in a more consistent w
 
 > Image of code with warnings, errors and bad formatting
 
-
 Keep in mind that you will likely want to have them already ... project and have both installed.
 
 ```bash
-npm install --dev prettier eslint  
+npm install --dev prettier eslint
 ```
 
 And with a set of existing eslint and prettier rules, there a lot of standards out there, but you can use these I already made team proof.
 
 ```bash
-npm install --dev eslint-config-cretia prettier-config-cretia 
+npm install --dev eslint-config-cretia prettier-config-cretia
 ```
 
 And just modify your `package.json` to include the next lines
 
 ```json
+{
   ...,
   "prettier": "prettier-config-cretia",
   "eslint-config": {
@@ -45,7 +44,7 @@ And just modify your `package.json` to include the next lines
 
 When working on frontend code we should be cautious about the amount of code we are importing, popular but large libraries like lodash or moment.js are still spotted in the wild.
 
-> IMAGE of using lodash, moment and node, :( 
+> IMAGE of using lodash, moment and node, :(
 
 So please, for the sake of your users, and avoid burning money let's watch out for the number of K's we're using on our projects.
 
@@ -63,7 +62,7 @@ We always know when our code stinks, but CodeMetrics will make it clear when we 
 
 ## Code Spell Checker
 
-We can always improve our writing, but when it comes to code, a misspell is important to catch on, imagine trying to refactor 
+We can always improve our writing, but when it comes to code, a misspell is important to catch on, imagine trying to refactor
 
 ## Bonus
 

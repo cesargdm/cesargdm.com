@@ -1,113 +1,69 @@
 import type { GatsbyConfig } from 'gatsby'
 
-const siteUrl = process.env.URL || `https://cesargdm.com`
-
 const config: GatsbyConfig = {
-  siteMetadata: {
-    title: `cesargdm`,
-    siteUrl,
-  },
-  plugins: [
-    'gatsby-plugin-styled-components',
+	siteMetadata: {
+		title: `cesargdm`,
+		siteUrl: `https://cesargdm.com`,
+	},
+	// More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
+	// If you use VSCode you can also use the GraphQL plugin
+	// Learn more at: https://gatsby.dev/graphql-typegen
+	graphqlTypegen: true,
+	plugins: [
+		'gatsby-plugin-image',
+		'gatsby-plugin-react-helmet',
+		'gatsby-plugin-sitemap',
 
-    'gatsby-plugin-react-helmet',
+		{
+			resolve: 'gatsby-plugin-manifest',
+			options: {
+				icon: 'src/assets/images/icon.png',
+			},
+		},
 
-    'gatsby-plugin-image',
+		// MDX
 
-    {
-      resolve: `gatsby-plugin-sitemap`,
-      options: {
-        query: `
-        {
-          allSitePage {
-            nodes {
-              path
-            }
-          }
-        }
-      `,
-        resolveSiteUrl: () => siteUrl,
-        resolvePages: ({ allSitePage: { nodes: allPages } }: any) => {
-          return allPages.map((page: any) => {
-            return { ...page }
-          })
-        },
-        serialize: ({ path, modifiedGmt }: any) => {
-          return {
-            url: path,
-            lastmod: modifiedGmt,
-          }
-        },
-      },
-    },
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `posts`,
+				path: `${__dirname}/src/assets/posts/`,
+			},
+		},
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `projects`,
+				path: `${__dirname}/src/assets/projects/`,
+			},
+		},
+		{
+			resolve: `gatsby-plugin-mdx`,
+			options: {
+				extensions: [`.mdx`, `.md`],
+			},
+		},
 
-    `gatsby-plugin-vercel`,
+		'gatsby-plugin-sharp',
+		'gatsby-transformer-sharp',
 
-    {
-      resolve: 'gatsby-plugin-manifest',
-      options: {
-        icon: 'src/assets/images/icon.png',
-      },
-    },
-    {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [`Inter:100,200,300,400,500,600,700,800,900`],
-        display: 'swap',
-      },
-    },
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
-
-    {
-      resolve: 'gatsby-plugin-robots-txt',
-      options: {
-        host: siteUrl,
-        sitemap: `${siteUrl}/sitemap/sitemap-index.xml`,
-        env: {
-          development: {
-            policy: [{ userAgent: '*', disallow: ['/'] }],
-          },
-          production: {
-            policy: [{ userAgent: '*', allow: '/' }],
-          },
-        },
-      },
-    },
-
-    // Images
-
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: './src/assets/images/',
-      },
-    },
-
-    // MDX
-
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `posts`,
-        path: `${__dirname}/src/assets/posts/`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `projects`,
-        path: `${__dirname}/src/assets/projects/`,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        extensions: [`.mdx`, `.md`],
-      },
-    },
-  ],
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				name: 'images',
+				path: './src/assets/images/',
+			},
+			__key: 'images',
+		},
+		{
+			resolve: 'gatsby-source-filesystem',
+			options: {
+				name: 'pages',
+				path: './src/pages/',
+			},
+			__key: 'pages',
+		},
+	],
 }
 
 export default config

@@ -14,10 +14,11 @@ const EntryContent = styled.div`
     background-color: var(--colors--background-secondary);
     padding: 8px 16px;
     border-radius: 16px;
-    margin-bottom: 16px;
     font-weight: 600;
     opacity: 0.8;
     font-size: 0.9rem;
+    max-width: 600px;
+    margin: 0 auto 24px;
 
     p {
       margin: 0;
