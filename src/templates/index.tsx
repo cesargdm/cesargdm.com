@@ -7,6 +7,7 @@ import Nav from '../modules/Nav'
 import Footer from '../modules/Footer'
 
 import './reset.css'
+import './posthog'
 import GlobalStyles from './GlobalStyles'
 
 const Container = styled.main`
@@ -38,14 +39,6 @@ function Template({
           content="Cesar Guadarrama • Web engineer, photographer and web3 • @cesargdm"
         />
         <meta charSet="utf-8" />
-        <script
-          src="https://microanalytics.io/js/script.js"
-          data-host="https://microanalytics.io"
-          data-dnt="false"
-          id="ZwSg9rf6GA"
-          async
-          defer
-        />
       </Helmet>
       <GlobalStyles />
       <Nav />
