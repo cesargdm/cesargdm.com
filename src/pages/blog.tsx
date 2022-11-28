@@ -91,7 +91,6 @@ export const query = graphql`
           title
           tags
           type
-          title
           date
           lang
         }

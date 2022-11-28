@@ -9,6 +9,7 @@ const ProjectsList = styled.ul`
   display: grid;
   auto-flow: column;
   margin-top: 20px;
+  gap: 20px;
 `
 
 const ProjectItem = styled.li`
@@ -57,6 +58,7 @@ function Projects({ data: { projects } }: any) {
               <p>
                 <b>{project.frontmatter.title}</b>
               </p>
+              <p>{project.frontmatter.description}</p>
               <div>
                 {project.frontmatter?.tags?.map((tag: string) => (
                   <span key={tag}>{tag}</span>
@@ -84,6 +86,7 @@ export const query = graphql`
           title
           type
           tags
+          description
         }
       }
     }
