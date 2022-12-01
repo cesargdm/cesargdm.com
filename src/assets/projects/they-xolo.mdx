@@ -2,7 +2,7 @@
 title: They Xolo
 type: projects
 lang: en
-tags: [active, web3]
+tags: [active, web3, react]
 description: NFT Art collection
 website: https://theyxolo.art
 ---
@@ -22,6 +22,8 @@ We aimed to create a collection that represented the diversity of the Mexican cu
 
 I developed an extension for the ERC721A contract, I called it ERC721X (for Xolo :P) it allows an allow list for a presale, royality per token information and contract URI.
 
+The contract code is fairly tested using hardhat and available on my GitHub profile.
+
 <img
 	alt="Mint page"
 	src="https://github.com/cesargdm/cesargdm.com/raw/main/src/assets/images/Screenshot%202022-12-01%20at%2011.30.59%20AM.png"
@@ -29,7 +31,7 @@ I developed an extension for the ERC721A contract, I called it ERC721X (for Xolo
 
 ## Profile explorer
 
-Connects to your ens profile and shows your NFTs by connecting to the OpenSea API and The Graph API.
+Connects to your ens profile, shows They Xolos collected, They Xolo honorary collection badges, and all of your other NFTs by connecting to the OpenSea API with the hability of displaying details of each token.
 
 <img
 	alt="Profile page"
@@ -40,18 +42,24 @@ You can edit your profile and it will send edit transactions to ens supporting m
 
 ## Gallery
 
+For this, I developed an API in The Graph that connects to the contract and gets the token information and supports multiple filters.
+
+By clicking on a token you can see the details, attributes and the current owner of the token.
+
 <img
 	alt="Gallery page"
 	src="https://github.com/cesargdm/cesargdm.com/raw/main/src/assets/images/Screenshot%202022-12-01%20at%2011.29.55%20AM.png"
 />
 
-For this, I developed an API in The Graph that connects to the contract and gets the token information and supports multiple filters.
-
 ## Wallet
+
+Gets token balances from the blockchain and shows them in a nice way, along with you ens name and image.
 
 <img
 	alt="Wallet drawer on top of the home page"
 	src="https://github.com/cesargdm/cesargdm.com/raw/main/src/assets/images/Screenshot%202022-12-01%20at%2011.29.42%20AM.png"
 />
 
-Gets token balances from the blockchain and shows them in a nice way.
+## Staking, Tonim and more
+
+Token staking will be available on this proyect, so you can stake your They Xolos and get Tonim, the Tonim token will be used to vote on the project and purchase digital and physical items in the Market.
