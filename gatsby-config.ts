@@ -22,6 +22,13 @@ const config: GatsbyConfig = {
 			},
 		},
 
+		{
+			resolve: 'gatsby-plugin-posthog',
+			options: {
+				apiKey: 'phc_QqTefgQ0LMbAE0QMfoIsI2pQqwQFu378qgc8xb7tfp3',
+			},
+		},
+
 		// MDX
 
 		{
