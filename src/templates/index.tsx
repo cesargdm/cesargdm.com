@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import styled from '@emotion/styled'
 import { Helmet } from 'react-helmet-async'
 
@@ -21,16 +21,19 @@ const Content = styled.div`
 	position: relative;
 `
 
-function Template({
-	title,
-	children,
-}: {
+type Props = {
 	title?: string
 	children: React.ReactNode
-}) {
+}
+
+function Template({ title, children }: Props): ReactElement {
 	return (
 		<>
-			<Helmet defaultTitle="cesargdm" titleTemplate="%s | cesargdm">
+			<Helmet
+				htmlAttributes={{ lang: 'en-US' }}
+				defaultTitle="cesargdm"
+				titleTemplate="%s | cesargdm"
+			>
 				<title>{title}</title>
 				<meta
 					name="description"

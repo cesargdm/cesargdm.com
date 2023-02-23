@@ -1,3 +1,6 @@
 {
-	"extends": "eslint-config-cretia"
+	"extends": "eslint-config-cretia",
+	"rules": {
+		"@typescript-eslint/explicit-module-boundary-types": "off"
+	}
 }

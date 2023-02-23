@@ -5,7 +5,12 @@ import EntryContent from '../components/EntryContent'
 
 import Layout from '.'
 
-export default function Post({ data: { mdx }, children }: any) {
+type Props = {
+	data: any
+	children: React.ReactNode
+}
+
+export default function Post({ data: { mdx }, children }: Props) {
 	return (
 		<>
 			<Layout title={mdx.frontmatter.title}>
