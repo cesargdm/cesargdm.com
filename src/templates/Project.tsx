@@ -33,13 +33,13 @@ export default function Project({ data: { mdx }, children }: any) {
 }
 
 export const query = graphql`
-  query getProject($id: String!) {
-    mdx(id: { eq: $id }) {
-      id
-      frontmatter {
-        title
-        website
-      }
-    }
-  }
+	query getProject($id: String!) {
+		mdx(id: { eq: $id }) {
+			id
+			frontmatter {
+				title
+				website
+			}
+		}
+	}
 `

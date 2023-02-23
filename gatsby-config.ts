@@ -22,13 +22,6 @@ const config: GatsbyConfig = {
 			},
 		},
 
-		{
-			resolve: 'gatsby-plugin-posthog',
-			options: {
-				apiKey: 'phc_QqTefgQ0LMbAE0QMfoIsI2pQqwQFu378qgc8xb7tfp3',
-			},
-		},
-
 		// MDX
 
 		{
@@ -52,8 +45,13 @@ const config: GatsbyConfig = {
 			},
 		},
 
-		'gatsby-plugin-sharp',
-		'gatsby-transformer-sharp',
+		{
+			resolve: 'gatsby-plugin-sharp',
+		},
+
+		{
+			resolve: 'gatsby-transformer-sharp',
+		},
 
 		{
 			resolve: 'gatsby-source-filesystem',

@@ -13,23 +13,23 @@ exports.createPages = async ({ graphql, actions, reporter }: any) => {
 	const { createPage } = actions
 
 	const allMdxPagesResult = await graphql(`
-    query allMdxPages {
-      allMdx {
-        edges {
-          node {
-            id
-            frontmatter {
-              title
-              type
-            }
-            internal {
-              contentFilePath
-            }
-          }
-        }
-      }
-    }
-  `)
+		query allMdxPages {
+			allMdx {
+				edges {
+					node {
+						id
+						frontmatter {
+							title
+							type
+						}
+						internal {
+							contentFilePath
+						}
+					}
+				}
+			}
+		}
+	`)
 
 	if (allMdxPagesResult.errors) {
 		reporter.panicOnBuild('🚨  ERROR: Loading "createPages" query')

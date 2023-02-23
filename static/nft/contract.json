@@ -1,8 +1,8 @@
 {
-  "name": "cesargdm",
-  "description": "cesargdm test NFTs",
-  "image": "https://cesargdm.com/nft/image.png",
-  "external_link": "https://cesargdm.com",
-  "seller_fee_basis_points": 5000,
-  "fee_recipient": "0xE3a856E4034D25FF68b3702B8f1618173BBFa130"
+	"name": "cesargdm",
+	"description": "cesargdm test NFTs",
+	"image": "https://cesargdm.com/nft/image.png",
+	"external_link": "https://cesargdm.com",
+	"seller_fee_basis_points": 5000,
+	"fee_recipient": "0xE3a856E4034D25FF68b3702B8f1618173BBFa130"
 }

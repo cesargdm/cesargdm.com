@@ -20,13 +20,13 @@ export default function Post({ data: { mdx }, children }: any) {
 }
 
 export const query = graphql`
-  query getPost($id: String!) {
-    mdx(id: { eq: $id }) {
-      id
-      frontmatter {
-        title
-        date
-      }
-    }
-  }
+	query getPost($id: String!) {
+		mdx(id: { eq: $id }) {
+			id
+			frontmatter {
+				title
+				date
+			}
+		}
+	}
 `

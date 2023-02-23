@@ -52,7 +52,7 @@ const GlobalStyles = createGlobalStyle`
 
   h1 {
     font-size: 1.7rem;
-    font-weight: 700;
+    font-weight: 900;
     margin: 10px 0 20px;
   }
 
