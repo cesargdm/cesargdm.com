@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Helmet } from 'react-helmet'
-import { Globe } from 'react-feather'
+import styled from '@emotion/styled'
+import { Helmet } from 'react-helmet-async'
 
 import Nav from '../modules/Nav'
 import Footer from '../modules/Footer'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
 import slugify from 'slugify'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import * as AspectRatio from '@radix-ui/react-aspect-ratio'
 
 import Template from '../templates'

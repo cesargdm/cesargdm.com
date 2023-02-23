@@ -1,6 +1,6 @@
 import { graphql } from 'gatsby'
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import * as AspectRatio from '@radix-ui/react-aspect-ratio'
 
 import Template from '../templates'

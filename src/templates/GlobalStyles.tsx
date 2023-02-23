@@ -1,94 +1,104 @@
-import { createGlobalStyle } from 'styled-components'
+import React from 'react'
+import { Global, css } from '@emotion/react'
 
-const GlobalStyles = createGlobalStyle`
-  :root {
-    --colors--tint: #DD5256;
-    --colors--background: #fff;
-    --colors--border: #ddd;
-    --colors--background-secondary: #fafafa;
-    --colors--text: #111;
-    
-    --sizes--content_max_width: 900px;
-    --sizes--nav_height: 50px;
-  }
+function GlobalStyles() {
+	return (
+		<Global
+			styles={css`
+				:root {
+					--colors--tint: #dd5256;
+					--colors--background: #fff;
+					--colors--border: #ddd;
+					--colors--background-secondary: #fafafa;
+					--colors--text: #111;
 
-  /* Change root vars when prefers dark */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --colors--tint: #DD5256;
-      --colors--background: #111;
-      --colors--border: #333;
-      --colors--background-secondary: #222;
-      --colors--text: #fff;
-    }
-  }
-  
-  html {
-    background-color: var(--colors--background);
-  }
+					--sizes--content_max_width: 900px;
+					--sizes--nav_height: 50px;
+				}
 
-  html, li, p, body {
-    font-family: 'Inter', Helvetica, sans-serif;
-    color: var(--colors--text);
-    
-  }
+				/* Change root vars when prefers dark */
+				@media (prefers-color-scheme: dark) {
+					:root {
+						--colors--tint: #dd5256;
+						--colors--background: #111;
+						--colors--border: #333;
+						--colors--background-secondary: #222;
+						--colors--text: #fff;
+					}
+				}
 
-  a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 40px;
-    min-height: 40px;
+				html {
+					background-color: var(--colors--background);
+				}
 
-    &:hover {
-      opacity: 0.7;
-    }
-  }
+				html,
+				li,
+				p,
+				body {
+					font-family: 'Inter', Helvetica, sans-serif;
+					color: var(--colors--text);
+				}
 
-  p {
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
+				a {
+					display: inline-flex;
+					justify-content: center;
+					align-items: center;
+					min-width: 40px;
+					min-height: 40px;
 
-  h1 {
-    font-size: 1.7rem;
-    font-weight: 900;
-    margin: 10px 0 20px;
-  }
+					&:hover {
+						opacity: 0.7;
+					}
+				}
 
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 5px 0 10px;
-  }
+				p {
+					margin-bottom: 10px;
+					line-height: 1.3;
+				}
 
-  pre {
-    background-color: #242B2E;
-    color: white;
-    font-family: 'Fira Code', consolas, monospace;
-    width: 100%;
-    border-radius: 4px;
-    padding: 15px;
-    margin: 20px 0;
-  }
+				h1 {
+					font-size: 1.7rem;
+					font-weight: 900;
+					margin: 10px 0 20px;
+				}
 
-  button, input[type="submit"] {
-    will-change: transform;
-    transform: scale(1);
-    transition: transform ease 0.1s;
-    min-height: 40px;
-    min-width: 40px;
-    border-radius: 10px;
+				h2 {
+					font-size: 1.3rem;
+					font-weight: 600;
+					margin: 5px 0 10px;
+				}
 
-    &:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
+				pre {
+					background-color: #242b2e;
+					color: white;
+					font-family: 'Fira Code', consolas, monospace;
+					width: 100%;
+					border-radius: 4px;
+					padding: 15px;
+					margin: 20px 0;
+				}
 
-    &:active {
-      opacity: 0.5; 
-      /* transform: scale(0.9); */
-    }
-  }
-`
+				button,
+				input[type='submit'] {
+					will-change: transform;
+					transform: scale(1);
+					transition: transform ease 0.1s;
+					min-height: 40px;
+					min-width: 40px;
+					border-radius: 10px;
+
+					&:hover {
+						background-color: rgba(0, 0, 0, 0.05);
+					}
+
+					&:active {
+						opacity: 0.5;
+						/* transform: scale(0.9); */
+					}
+				}
+			`}
+		/>
+	)
+}
 
 export default GlobalStyles
