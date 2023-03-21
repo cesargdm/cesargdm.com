@@ -12,6 +12,21 @@ const config: GatsbyConfig = {
 	plugins: [
 		'gatsby-plugin-emotion',
 
+		{
+			resolve: 'gatsby-plugin-sharp',
+			options: {
+				defaults: {
+					quality: 70,
+					formats: ['auto', 'webp', 'avif'],
+					placeholder: 'blurred',
+				},
+			},
+		},
+
+		'gatsby-transformer-sharp',
+
+		'gatsby-transformer-remark',
+
 		'gatsby-plugin-image',
 
 		'gatsby-plugin-react-helmet-async',
@@ -42,15 +57,19 @@ const config: GatsbyConfig = {
 			},
 		},
 		{
-			resolve: `gatsby-plugin-mdx`,
+			resolve: 'gatsby-plugin-mdx',
 			options: {
 				extensions: [`.mdx`, `.md`],
+				gatsbyRemarkPlugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth: 1200,
+						},
+					},
+				],
 			},
 		},
-
-		'gatsby-plugin-sharp',
-
-		'gatsby-transformer-sharp',
 
 		{
 			resolve: 'gatsby-source-filesystem',
@@ -67,6 +86,20 @@ const config: GatsbyConfig = {
 				path: './src/pages/',
 			},
 			__key: 'pages',
+		},
+
+		{
+			resolve: `gatsby-transformer-remark`,
+			options: {
+				plugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth: 800,
+						},
+					},
+				],
+			},
 		},
 	],
 }

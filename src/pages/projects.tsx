@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby'
 import slugify from 'slugify'
 import styled from '@emotion/styled'
 import * as AspectRatio from '@radix-ui/react-aspect-ratio'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 import Template from '../templates'
 
@@ -51,43 +52,46 @@ function Projects({ data: { projects } }: any) {
 		<Template title="Projects">
 			<h1>Projects</h1>
 			<ProjectsList>
-				{projects.nodes.map((project: any) => (
-					<ProjectItem key={project.id}>
-						<Link
-							to={`/${project.frontmatter.type}/${slugify(
-								project.frontmatter.title,
-								{ lower: true, strict: true },
-							)}`}
-						>
-							<AspectRatio.Root
-								ratio={16 / 9}
-								style={{
-									borderRadius: 12,
-									overflow: 'hidden',
-								}}
+				{projects.nodes.map((project: any) => {
+					const heroImage = getImage(
+						project.frontmatter.heroImage?.childImageSharp?.gatsbyImageData,
+					)
+
+					return (
+						<ProjectItem key={project.id}>
+							<Link
+								to={`/${project.frontmatter.type}/${slugify(
+									project.frontmatter.title,
+									{ lower: true, strict: true },
+								)}`}
 							>
-								<img
+								<AspectRatio.Root
+									// eslint-disable-next-line no-magic-numbers
+									ratio={16 / 9}
 									style={{
-										backgroundColor: 'gray',
-										width: '100%',
-										height: '100%',
+										borderRadius: 12,
+										overflow: 'hidden',
 									}}
-									src=""
-									alt=""
-								/>
-							</AspectRatio.Root>
-							<p>
-								<b>{project.frontmatter.title}</b>
-							</p>
-							<p>{project.frontmatter.description}</p>
-							<div>
-								{project.frontmatter?.tags?.map((tag: string) => (
-									<span key={tag}>{tag}</span>
-								))}
-							</div>
-						</Link>
-					</ProjectItem>
-				))}
+								>
+									<GatsbyImage
+										// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+										image={heroImage!}
+										alt=""
+									/>
+								</AspectRatio.Root>
+								<p>
+									<b>{project.frontmatter.title}</b>
+								</p>
+								<p>{project.frontmatter.description}</p>
+								<div>
+									{project.frontmatter?.tags?.map((tag: string) => (
+										<span key={tag}>{tag}</span>
+									))}
+								</div>
+							</Link>
+						</ProjectItem>
+					)
+				})}
 			</ProjectsList>
 		</Template>
 	)
@@ -108,6 +112,11 @@ export const query = graphql`
 					type
 					tags
 					description
+					heroImage {
+						childImageSharp {
+							gatsbyImageData(width: 800)
+						}
+					}
 				}
 			}
 		}

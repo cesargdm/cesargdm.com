@@ -4,10 +4,9 @@ const EntryContent = styled.div`
 	margin-bottom: 40px;
 
 	img {
-		width: auto;
-		max-height: 50vh;
+		width: 100%;
+		max-width: 100%;
 		margin: 0 auto;
-		display: block;
 	}
 
 	blockquote {
