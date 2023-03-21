@@ -10,7 +10,7 @@ import Template from '../templates'
 const ProjectsList = styled.ul`
 	display: grid;
 	auto-flow: column;
-	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 	margin-top: 20px;
 	gap: 20px;
 `
@@ -34,12 +34,18 @@ const ProjectItem = styled.li`
 		align-items: flex-start;
 		justify-content: flex-start;
 
+		&:hover {
+			text-decoration-line: none;
+		}
+
 		[data-radix-aspect-ratio-wrapper] {
+			border: 1px solid var(--colors--border);
+			border-radius: 8px;
+			overflow: hidden;
 			box-shadow: var(--box-shadow__smooth_initial);
 			will-change: box-shadow, transform;
 			transition: box-shadow 250ms ease, scale 250ms ease;
 			margin-bottom: 8px;
-			border-radius: 8px;
 		}
 
 		&:hover {

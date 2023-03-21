@@ -9,15 +9,6 @@ const Content = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	height: 100%;
-
-	a {
-		text-decoration: none;
-		padding: 0;
-		height: auto;
-		display: inline;
-		color: inherit;
-		font-weight: 700;
-	}
 `
 
 const blankProps = {

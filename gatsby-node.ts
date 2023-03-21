@@ -71,7 +71,7 @@ export const sourceNodes = async ({
 	createContentDigest,
 }: any) => {
 	const allMdxPagesResult = (await fetch(
-		`https://api.opensea.io/api/v1/assets?owner=0xE3a856E4034D25FF68b3702B8f1618173BBFa130`,
+		`https://api.opensea.io/api/v1/assets?owner=0xE3a856E4034D25FF68b3702B8f1618173BBFa130&limit=100`,
 		{
 			method: 'GET',
 			headers: {

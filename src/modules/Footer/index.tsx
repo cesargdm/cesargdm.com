@@ -11,7 +11,7 @@ const Content = styled.div`
 	margin: 0 auto;
 	width: 100%;
 	text-align: center;
-	font-size: 0.85rem;
+	font-size: 0.9rem;
 
 	ul {
 		display: flex;
@@ -19,11 +19,16 @@ const Content = styled.div`
 		gap: 10px;
 	}
 
+	p {
+		font-size: 0.9rem;
+		margin: 0;
+	}
 	a {
 		opacity: 0.8;
 		text-decoration: none;
-		color: inherit;
 		font-weight: 600;
+		min-height: 40px;
+		color: inherit;
 	}
 `
 
@@ -73,10 +78,8 @@ function Footer() {
 					César Guadarrama © {new Date().getFullYear()}, Illustrations by{' '}
 					<a href="https://weshouldbeblue.com">@weshouldbeblue</a>
 				</p>
-				<p style={{ fontSize: '0.6rem', marginTop: 10, opacity: 0.3 }}>
-					Analytics data is public in{' '}
-					<a href="https://microanalytics.io/cesargdm.com">Microanalytics</a>,
-					source code available at{''}
+				<p>
+					Source code available at{' '}
 					<a href="https://www.github.com/cesargdm/cesargdm.com">GitHub</a>
 				</p>
 			</Content>

@@ -14,6 +14,14 @@ const Container = styled.nav`
 	display: flex;
 	align-items: center;
 	padding: 0 10px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.9);
+	z-index: 100;
+	backdrop-filter: blur(10px);
 `
 
 const Content = styled.div`
@@ -32,6 +40,7 @@ const Content = styled.div`
 		color: inherit;
 		font-weight: 700;
 		position: relative;
+		min-height: 40px;
 	}
 
 	ul {

@@ -21,6 +21,11 @@ const PostListItem = styled.li`
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		font-family: var(--fonts--body);
+
+		&:hover {
+			text-decoration-line: none;
+		}
 
 		> p {
 			font-size: 0.75rem;

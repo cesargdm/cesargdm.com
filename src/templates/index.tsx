@@ -6,11 +6,12 @@ import Nav from '../modules/Nav'
 import Footer from '../modules/Footer'
 
 import './reset.css'
-import GlobalStyles from './GlobalStyles'
+import './main.css'
 
 const Container = styled.main`
-	min-height: calc(100vh - var(--sizes--nav_height));
+	min-height: 100vh;
 	padding: 10px;
+	padding-top: var(--sizes--nav_height);
 	display: flex;
 `
 
@@ -19,6 +20,19 @@ const Content = styled.div`
 	margin: 0 auto;
 	width: 100%;
 	position: relative;
+
+	a {
+		color: var(--colors--tint);
+		font-weight: 600;
+		text-decoration: none;
+		font-family: 'EduTASBeginner';
+		font-size: 1.2rem;
+
+		&:hover {
+			text-decoration-line: underline;
+			text-decoration-thickness: 2px;
+		}
+	}
 `
 
 type Props = {
@@ -41,7 +55,6 @@ function Template({ title, children }: Props): ReactElement {
 				/>
 				<meta charSet="utf-8" />
 			</Helmet>
-			<GlobalStyles />
 			<Nav />
 			<Container>
 				<Content>{children}</Content>
