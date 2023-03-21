@@ -16,34 +16,69 @@ const ProjectsList = styled.ul`
 `
 
 const ProjectItem = styled.li`
+	--box-shadow__smooth: 0 1px 1px rgba(0, 0, 0, 0.03),
+		0 2px 2px rgba(0, 0, 0, 0.03), 0 4px 4px rgba(0, 0, 0, 0.03),
+		0 8px 8px rgba(0, 0, 0, 0.03), 0 16px 16px rgba(0, 0, 0, 0.03);
+	--box-shadow__smooth_initial: 0 1px 1px rgba(0, 0, 0, 0),
+		0 2px 2px rgba(0, 0, 0, 0), 0 4px 4px rgba(0, 0, 0, 0),
+		0 8px 8px rgba(0, 0, 0, 0), 0 16px 16px rgba(0, 0, 0, 0);
+
 	a {
 		display: flex;
+		height: 100%;
 		gap: 4px;
 		flex-direction: column;
 		width: 100%;
 		color: inherit;
 		text-decoration: none;
+		align-items: flex-start;
+		justify-content: flex-start;
 
-		p {
-			margin: 0;
-			b {
-				font-size: 1.2rem;
-				font-weight: 700;
-			}
+		[data-radix-aspect-ratio-wrapper] {
+			box-shadow: var(--box-shadow__smooth_initial);
+			will-change: box-shadow, transform;
+			transition: box-shadow 250ms ease, scale 250ms ease;
+			margin-bottom: 8px;
+			border-radius: 8px;
 		}
 
-		> div {
-			display: flex;
-			gap: 8px;
+		&:hover {
+			opacity: 1;
 
-			span {
-				display: inline-block;
-				background-color: var(--colors--border);
-				font-size: 0.7rem;
-				padding: 2px 5px;
-				border-radius: 4px;
+			[data-radix-aspect-ratio-wrapper] {
+				box-shadow: var(--box-shadow__smooth);
+				scale: 1.03;
 			}
 		}
+	}
+`
+
+const Title = styled.p`
+	font-size: 1.2rem;
+	font-weight: 700;
+	line-height: 1;
+	margin: 0;
+`
+
+const DescriptionP = styled.p`
+	margin-bottom: 8px;
+	line-height: 1;
+`
+
+const TagsContainer = styled.ul`
+	display: flex;
+	gap: 8px;
+	margin-top: auto;
+	width: 100%;
+	justify-content: flex-end;
+
+	li {
+		display: inline-block;
+		background-color: var(--colors--border);
+		font-size: 0.7rem;
+		padding: 2px 5px;
+		border-radius: 4px;
+		font-weight: 500;
 	}
 `
 
@@ -79,15 +114,13 @@ function Projects({ data: { projects } }: any) {
 										alt=""
 									/>
 								</AspectRatio.Root>
-								<p>
-									<b>{project.frontmatter.title}</b>
-								</p>
-								<p>{project.frontmatter.description}</p>
-								<div>
+								<Title>{project.frontmatter.title}</Title>
+								<DescriptionP>{project.frontmatter.description}</DescriptionP>
+								<TagsContainer>
 									{project.frontmatter?.tags?.map((tag: string) => (
-										<span key={tag}>{tag}</span>
+										<li key={tag}>{tag}</li>
 									))}
-								</div>
+								</TagsContainer>
 							</Link>
 						</ProjectItem>
 					)
