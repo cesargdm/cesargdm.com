@@ -69,6 +69,7 @@ const Title = styled.p`
 const DescriptionP = styled.p`
 	margin-bottom: 8px;
 	line-height: 1;
+	font-weight: 400;
 `
 
 const TagsContainer = styled.ul`
