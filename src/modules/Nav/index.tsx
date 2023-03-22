@@ -19,7 +19,7 @@ const Container = styled.nav`
 	left: 0;
 	right: 0;
 	width: 100%;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: var(--colors--background-transparent);
 	z-index: 100;
 	backdrop-filter: blur(10px);
 `
