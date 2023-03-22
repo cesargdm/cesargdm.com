@@ -100,3 +100,7 @@ button:active,
 input[type='submit']:active {
 	opacity: 0.5;
 }
+
+.gatsby-resp-image-image {
+	box-shadow: none !important;
+}
