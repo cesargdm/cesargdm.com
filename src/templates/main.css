@@ -24,7 +24,7 @@
 	:root {
 		--colors--tint: #407fdb;
 		--colors--background: #111;
-		--color--background-transparent: rgba(1, 1, 1, 0.9);
+		--color--background-transparent: rgba(1, 1, 1, 0.95);
 		--colors--border: #333;
 		--colors--background-secondary: #222;
 		--colors--text: #fff;
