@@ -93,7 +93,8 @@ function Nft(token: any) {
 	useEffect(() => {
 		if (!ref.current || !isLoaded) return
 
-		if (cachedColors.has(token.imageThumbnailUrl)) {
+		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
+		if (cachedColor && cachedColor.length === 3) {
 			return
 		}
 
@@ -163,9 +164,9 @@ export const query = graphql`
 				id
 				name
 				imageUrl
+				lastSale
 				permalink
 				description
-				lastSale
 				imageThumbnailUrl
 				collection {
 					name
