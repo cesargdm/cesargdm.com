@@ -28,7 +28,7 @@ function Ask() {
 	const [prompt, setPrompt] = useState('')
 	const debouncedPrompt = useDebounce(prompt, 1000)
 
-	const { data } = useQuery({
+	const { data, isInitialLoading } = useQuery({
 		queryKey: ['ask'],
 		queryFn: () =>
 			window.fetch(`/api/ask?prompt=${debouncedPrompt}`, {
@@ -59,7 +59,11 @@ function Ask() {
 					onChange={(e) => setPrompt(e.target.value)}
 				/>
 			</InputWrapper>
-			<p>{JSON.stringify(data, null, 2)}</p>
+			{isInitialLoading || prompt !== debouncedPrompt ? (
+				<pre>Loading...</pre>
+			) : (
+				<pre>{JSON.stringify({ data }, null, 2)}</pre>
+			)}
 		</Template>
 	)
 }

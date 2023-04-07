@@ -20,5 +20,6 @@ module.exports = async function (request, response) {
 	})
 
 	response.setHeader('Cache-Control', 's-maxage=86400')
-	return response.send(result.data.choices[0].text)
+
+	return response.json(result.data.choices[0])
 }
