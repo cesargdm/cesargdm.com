@@ -15,6 +15,7 @@ const Input = styled.input`
 	font-weight: 700;
 	display: block;
 	width: 100%;
+	color: var(--colors--tint);
 `
 
 const InputWrapper = styled.div`

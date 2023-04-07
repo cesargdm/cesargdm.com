@@ -23,12 +23,12 @@
 /* Change root vars when prefers dark */
 @media (prefers-color-scheme: dark) {
 	:root {
-		--colors--tint: #407fdb;
+		--colors--tint: #ffffff;
 		--colors--background: #111;
 		--colors--background-transparent: rgba(1, 1, 1, 0.95);
 		--colors--border: #333;
 		--colors--background-secondary: #222;
-		--colors--text: #fff;
+		--colors--text: #dddddd;
 	}
 }
 
