@@ -89,7 +89,7 @@ function Nft(token: {
 	const ref = useRef<HTMLImageElement>(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [color, setColor] = useState<[number, number, number] | undefined>(
-		cachedColors.get(token.imageThumbnailUrl),
+		undefined,
 	)
 
 	function handleOnload() {
@@ -97,10 +97,13 @@ function Nft(token: {
 	}
 
 	useEffect(() => {
-		if (!ref.current || !(isLoaded || ref.current?.complete)) return
-
 		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
-		if (cachedColor && cachedColor.length === 3) return
+		if (cachedColor && cachedColor.length === 3) {
+			setColor(cachedColor)
+			return
+		}
+
+		if (!ref.current || !(isLoaded || ref.current?.complete)) return
 
 		const colorThief = new ColorThief()
 
@@ -118,13 +121,6 @@ function Nft(token: {
 
 		setColor(color)
 	}, [ref, isLoaded])
-
-	console.log({
-		color,
-		image: token.imageThumbnailUrl,
-		cachedColors,
-		$color: `rgb(${color?.join(',') ?? [0, 0, 0]})`,
-	})
 
 	return (
 		<NftContainer
