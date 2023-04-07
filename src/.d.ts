@@ -7,6 +7,6 @@ declare module '*.svg' {
 
 declare module 'colorthief' {
 	export default class ColorThief {
-		getColor(sourceImage: HTMLImageElement): number[]
+		getColor(sourceImage: HTMLImageElement): [number, number, number]
 	}
 }
