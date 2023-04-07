@@ -49,9 +49,13 @@ const NftTitle = styled.p`
 
 const NftsList = styled.ul`
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 	align-items: flex-end;
 	gap: var(--spaces--large);
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	}
 `
 
 const AddressButton = styled.button`
