@@ -11,7 +11,7 @@ const EntryContent = styled.div`
 
 	blockquote {
 		background-color: var(--colors--background-secondary);
-		padding: 8px 16px;
+		padding: var(--spaces--medium) var(--spaces--large);
 		border-radius: var(--border_radius--medium);
 		font-weight: 600;
 		opacity: 0.8;
@@ -21,18 +21,18 @@ const EntryContent = styled.div`
 
 		p {
 			margin: 0;
-			padding-left: 8px;
+			padding-left: var(--spaces--medium);
 			border-left: 2px solid var(--colors--tint);
 		}
 	}
 
 	ul {
-		margin: 8px 0;
+		margin: var(--spaces--medium) 0;
 		list-style: square;
 
 		li {
-			margin-bottom: 8px;
-			margin-left: 16px;
+			margin-bottom: var(--spaces--medium);
+			margin-left: var(--spaces--large);
 		}
 	}
 `

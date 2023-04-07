@@ -26,7 +26,7 @@ const ProjectItem = styled.li`
 	a {
 		display: flex;
 		height: 100%;
-		gap: 4px;
+		gap: var(--spaces--small);
 		flex-direction: column;
 		width: 100%;
 		color: inherit;
@@ -45,7 +45,7 @@ const ProjectItem = styled.li`
 			box-shadow: var(--box-shadow__smooth_initial);
 			will-change: box-shadow, transform;
 			transition: box-shadow 250ms ease, scale 250ms ease;
-			margin-bottom: 8px;
+			margin-bottom: var(--spaces--medium);
 		}
 
 		&:hover {
@@ -67,14 +67,14 @@ const Title = styled.p`
 `
 
 const DescriptionP = styled.p`
-	margin-bottom: 8px;
+	margin-bottom: var(--spaces--medium);
 	line-height: 1;
 	font-weight: 400;
 `
 
 const TagsContainer = styled.ul`
 	display: flex;
-	gap: 8px;
+	gap: var(--spaces--medium);
 	margin-top: auto;
 	width: 100%;
 	justify-content: flex-end;

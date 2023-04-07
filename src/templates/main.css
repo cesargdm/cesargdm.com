@@ -9,10 +9,15 @@
 	--sizes--content_max_width: 1000px;
 	--sizes--nav_height: 50px;
 
+	--spaces--small: 4px;
+	--spaces--medium: 8px;
+	--spaces--large: 16px;
+
 	--border_radius--medium: 16px;
 	--border_radius--small: 8px;
 
-	--fonts--body: 'Inter', Helvetica, sans-serif;
+	--fonts--body: 'Inter', system-ui, 'Segoe UI', Roboto, Helvetica, Arial,
+		sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 /* Change root vars when prefers dark */
@@ -44,7 +49,7 @@ a {
 	justify-content: center;
 	align-items: center;
 	min-width: 40px;
-	gap: 4px;
+	gap: var(--spaces--small);
 	color: inherit;
 	text-decoration: none;
 }

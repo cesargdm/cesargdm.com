@@ -18,12 +18,13 @@ const NftImage = styled.img`
 `
 
 const NftContainer = styled.li<{ $color: string }>`
+	gap: var(--spaces--small);
 	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	background-color: ${({ $color }) => $color};
-	border-radius: var(--border_radius--medium);
 	overflow: hidden;
+	flex-direction: column;
+	border-radius: var(--border_radius--medium);
+	background-color: ${({ $color }) => $color};
+	transition: background-color 0.2s ease-in-out;
 `
 
 const NftTitle = styled.p`
@@ -49,7 +50,7 @@ const NftsList = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	align-items: flex-end;
-	gap: 16px;
+	gap: var(--spaces--large);
 `
 
 const AddressButton = styled.button`
@@ -123,10 +124,7 @@ function Nft(token: {
 	}, [ref, isLoaded])
 
 	return (
-		<NftContainer
-			data-color={`rgb(${color?.join(',')})`}
-			$color={`rgb(${color?.join(',') ?? [0, 0, 0]})`}
-		>
+		<NftContainer $color={`rgb(${color?.join(',') ?? [0, 0, 0]})`}>
 			<AspectRatio.Root ratio={1}>
 				<NftImage
 					ref={ref}
