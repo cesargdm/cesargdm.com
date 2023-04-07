@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from 'openai'
+const { Configuration, OpenAIApi } = require('openai')
 
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -6,7 +6,7 @@ const configuration = new Configuration({
 
 const MODEL = 'text-davinci-003'
 
-export default async function handler(request, response) {
+module.exports = async function (request, response) {
 	const { prompt = "What's your name?" } = request.query
 
 	const openai = new OpenAIApi(configuration)
@@ -18,5 +18,6 @@ export default async function handler(request, response) {
 		temperature: 0,
 	})
 
+	response.setHeader('Cache-Control', 's-maxage=86400')
 	return response.send(result.data.choices[0].text)
 }
