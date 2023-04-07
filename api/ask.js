@@ -14,7 +14,7 @@ module.exports = async function (request, response) {
 	const result = await openai.createCompletion({
 		model: MODEL,
 		prompt,
-		max_tokens: 7,
+		max_tokens: 20,
 		temperature: 0,
 	})
 
