@@ -17,11 +17,11 @@ const NftImage = styled.img`
 	left: 0;
 `
 
-const NftContainer = styled.li<{ color: string }>`
+const NftContainer = styled.li<{ $color: string }>`
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	background-color: ${({ color }) => color};
+	background-color: ${({ $color }) => $color};
 	border-radius: var(--border_radius--medium);
 	overflow: hidden;
 `
@@ -95,7 +95,6 @@ function Nft(token: {
 	}
 
 	useEffect(() => {
-		console.log({ cachedColors })
 		if (!ref.current || !(isLoaded || ref.current?.complete)) return
 
 		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
@@ -118,8 +117,13 @@ function Nft(token: {
 		setColor(color)
 	}, [ref, isLoaded])
 
+	console.log({ color, image: token.imageThumbnailUrl, cachedColors })
+
 	return (
-		<NftContainer color={`rgb(${color?.join(',')})`}>
+		<NftContainer
+			data-color={`rgb(${color?.join(',')})`}
+			$color={`rgb(${color?.join(',')})`}
+		>
 			<AspectRatio.Root ratio={1}>
 				<NftImage
 					ref={ref}
