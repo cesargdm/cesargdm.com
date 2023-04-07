@@ -12,10 +12,10 @@ module.exports = async function (request, response) {
 	const openai = new OpenAIApi(configuration)
 
 	const result = await openai.createCompletion({
-		prompt: `${rawPrompt.slice(0, 100)}->`,
+		prompt: `${rawPrompt.slice(0, 50)}->`,
 		model: MODEL,
 		max_tokens: 50,
-		temperature: 0,
+		temperature: 0.5,
 		stop: ['END'],
 	})
 

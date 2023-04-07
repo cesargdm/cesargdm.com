@@ -53,10 +53,7 @@ function Template({ title, children }: Props): ReactElement {
 					name="description"
 					content="Cesar Guadarrama • Web and product engineer • @cesargdm"
 				/>
-				<meta
-					name="viewport"
-					content="initial-scale=1, viewport-fit=cover"
-				></meta>
+				<meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
 				<meta charSet="utf-8" />
 			</Helmet>
 			<Nav />
