@@ -91,9 +91,7 @@ function Nft(token: {
 	const ref = useRef<HTMLImageElement>(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [color, setColor] = useState<[number, number, number] | undefined>(
-		typeof window !== 'undefined'
-			? cachedColors.get(token.imageThumbnailUrl)
-			: undefined,
+		undefined,
 	)
 
 	function handleOnload() {
