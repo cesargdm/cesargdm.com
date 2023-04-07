@@ -13,11 +13,11 @@ module.exports = async function (request, response) {
 		const openai = new OpenAIApi(configuration)
 
 		const result = await openai.createCompletion({
-			prompt: `${rawPrompt.slice(0, 50)}->`,
+			prompt: `${rawPrompt.trim().replace('->', '').slice(0, 50)}->`,
 			model: MODEL,
-			max_tokens: 50,
-			temperature: 0.5,
 			stop: ['END'],
+			max_tokens: 50,
+			temperature: 0.8,
 		})
 
 		response.setHeader('Cache-Control', 's-maxage=86400')

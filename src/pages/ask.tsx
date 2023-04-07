@@ -36,6 +36,8 @@ function Ask() {
 				method: 'GET',
 			}).then((res) => res.json()),
 		enabled: debouncedPrompt.length > 10,
+		refetchOnReconnect: false,
+		refetchOnWindowFocus: false,
 	})
 
 	return (
@@ -60,11 +62,11 @@ function Ask() {
 					onChange={(e) => setPrompt(e.target.value)}
 				/>
 			</InputWrapper>
-			{isInitialLoading || prompt !== debouncedPrompt ? (
+			{(isInitialLoading || prompt !== debouncedPrompt) && prompt ? (
 				<pre>Loading...</pre>
-			) : (
+			) : data?.text ? (
 				<pre>{data?.text}</pre>
-			)}
+			) : null}
 		</Template>
 	)
 }
