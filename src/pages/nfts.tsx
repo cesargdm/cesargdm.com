@@ -126,7 +126,7 @@ function Nft(token: {
 		} catch {
 			//
 		}
-	}, [ref, isLoaded])
+	}, [ref.current, isLoaded])
 
 	return (
 		<NftContainer $color={`rgb(${color?.join(',') ?? [0, 0, 0]})`}>
