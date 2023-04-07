@@ -14,7 +14,7 @@ module.exports = async function (request, response) {
 	const result = await openai.createCompletion({
 		prompt: `${rawPrompt.slice(0, 100)}->`,
 		model: MODEL,
-		max_tokens: 20,
+		max_tokens: 50,
 		temperature: 0,
 		stop: ['END'],
 	})
