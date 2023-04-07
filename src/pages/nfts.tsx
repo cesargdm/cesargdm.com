@@ -1,5 +1,5 @@
 import { graphql } from 'gatsby'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import * as AspectRatio from '@radix-ui/react-aspect-ratio'
 import ColorThief from 'colorthief'
@@ -91,19 +91,21 @@ function Nft(token: {
 	const ref = useRef<HTMLImageElement>(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [color, setColor] = useState<[number, number, number] | undefined>(
-		cachedColors.get(token.imageThumbnailUrl),
+		undefined,
 	)
 
 	function handleOnload() {
 		setIsLoaded(true)
 	}
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
 		if (cachedColor && cachedColor.length === 3 && !color) {
 			setColor(cachedColor)
 			return
 		}
+
+		console.log({ cachedColor, color })
 
 		if (!ref.current || !(isLoaded || ref.current?.complete)) return
 
