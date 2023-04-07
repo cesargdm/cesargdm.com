@@ -31,9 +31,9 @@ function Ask() {
 	const { data, isInitialLoading } = useQuery({
 		queryKey: ['ask'],
 		queryFn: () =>
-			window.fetch(`/api/ask?prompt=${debouncedPrompt}`, {
+			fetch(`/api/ask?prompt=${debouncedPrompt}`, {
 				method: 'GET',
-			}),
+			}).then((res) => res.json()),
 		enabled: debouncedPrompt.length > 10,
 	})
 
