@@ -1,5 +1,7 @@
 src/gatsby-types.d.ts
 
+yarn-error.log
+
 node_modules/
 
 .cache/

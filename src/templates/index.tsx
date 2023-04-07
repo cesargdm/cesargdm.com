@@ -25,8 +25,6 @@ const Content = styled.div`
 		color: var(--colors--tint);
 		font-weight: 600;
 		text-decoration: none;
-		font-family: 'EduTASBeginner';
-		font-size: 1.2rem;
 
 		&:hover {
 			text-decoration-line: underline;

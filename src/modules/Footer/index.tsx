@@ -1,5 +1,10 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import {
+	IconBrandGithub,
+	IconBrandTwitter,
+	IconBrandLinkedin,
+} from '@tabler/icons-react'
 
 const Container = styled.footer`
 	background-color: var(--colors--background-secondary);
@@ -32,51 +37,41 @@ const Content = styled.div`
 	}
 `
 
+const SOCIAL = [
+	{
+		url: 'https://github.com/cesargdm',
+		icon: IconBrandGithub,
+		title: 'GitHub',
+	},
+	{
+		url: 'https://linkedin.com/in/cesargdm',
+		icon: IconBrandLinkedin,
+		title: 'LinkedIn',
+	},
+	{
+		url: 'https://twitter.com/cesargdm',
+		icon: IconBrandTwitter,
+		title: 'Twitter',
+	},
+] as const
+
 function Footer() {
 	return (
 		<Container>
 			<Content>
 				<ul>
-					<li>
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							href="https://github.com/cesargdm"
-						>
-							GitHub
-						</a>
-					</li>
-					<li>
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							href="https://500px.com/cesargdm"
-						>
-							500px
-						</a>
-					</li>
-					<li>
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							href="https://linkedin.com/in/cesargdm"
-						>
-							LinkedIn
-						</a>
-					</li>
-					<li>
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							href="https://twitter.com/cesargdm"
-						>
-							Twitter
-						</a>
-					</li>
+					{SOCIAL.map(({ icon: Icon, ...social }) => (
+						<li key={social.title}>
+							<a target="_blank" rel="noopener noreferrer" href={social.url}>
+								<Icon aria-hidden />
+								{social.title}
+							</a>
+						</li>
+					))}
 				</ul>
 				<p>
 					César Guadarrama © {new Date().getFullYear()}, Illustrations by{' '}
-					<a href="https://weshouldbeblue.com">@weshouldbeblue</a>
+					<a href="https://mariaazuli.com">@mariaazuli</a>
 				</p>
 				<p>
 					Source code available at{' '}

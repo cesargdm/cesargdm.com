@@ -1,20 +1,16 @@
-@font-face {
-	font-family: 'EduTASBeginner';
-	src: url('/fonts/Edu_NSW_ACT_Foundation/EduNSWACTFoundation-VariableFont_wght.ttf')
-		format('truetype-variations');
-	font-weight: 1 999;
-}
-
 :root {
-	--colors--tint: #407fdb;
+	--colors--tint: #000000;
 	--colors--background: #fff;
-	--color--background-transparent: rgba(255, 255, 255, 0.9);
+	--colors--background-transparent: rgba(255, 255, 255, 0.8);
 	--colors--border: #eee;
 	--colors--background-secondary: #fafafa;
-	--colors--text: #111;
+	--colors--text: #222222;
 
 	--sizes--content_max_width: 1000px;
 	--sizes--nav_height: 50px;
+
+	--border_radius--medium: 16px;
+	--border_radius--small: 8px;
 
 	--fonts--body: 'Inter', Helvetica, sans-serif;
 }
@@ -24,7 +20,7 @@
 	:root {
 		--colors--tint: #407fdb;
 		--colors--background: #111;
-		--color--background-transparent: rgba(1, 1, 1, 0.95);
+		--colors--background-transparent: rgba(1, 1, 1, 0.95);
 		--colors--border: #333;
 		--colors--background-secondary: #222;
 		--colors--text: #fff;
@@ -88,7 +84,7 @@ input[type='submit'] {
 	transition: transform ease 0.1s;
 	min-height: 40px;
 	min-width: 40px;
-	border-radius: 10px;
+	border-radius: var(--border_radius--small);
 }
 
 button:hover,

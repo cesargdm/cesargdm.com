@@ -12,7 +12,7 @@ const EntryContent = styled.div`
 	blockquote {
 		background-color: var(--colors--background-secondary);
 		padding: 8px 16px;
-		border-radius: 16px;
+		border-radius: var(--border_radius--medium);
 		font-weight: 600;
 		opacity: 0.8;
 		font-size: 0.9rem;

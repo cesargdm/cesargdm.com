@@ -111,9 +111,9 @@ function Nav() {
 						</Link>
 					</li>
 					<li>
-						<Link partiallyActive activeClassName="active" to="/eth/">
+						<Link partiallyActive activeClassName="active" to="/nfts/">
 							<IconCurrencyEthereum size={18} />
-							Eth
+							NFTs
 						</Link>
 					</li>
 				</ul>

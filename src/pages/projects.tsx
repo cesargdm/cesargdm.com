@@ -40,7 +40,7 @@ const ProjectItem = styled.li`
 
 		[data-radix-aspect-ratio-wrapper] {
 			border: 1px solid var(--colors--border);
-			border-radius: 8px;
+			border-radius: var(--border_radius--medium);
 			overflow: hidden;
 			box-shadow: var(--box-shadow__smooth_initial);
 			will-change: box-shadow, transform;

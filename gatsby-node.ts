@@ -79,23 +79,36 @@ export const sourceNodes = async ({
 			},
 		},
 	).then((res) => res.json())) as {
-		assets: {
+		assets: ({
 			name: string
 			last_sale: number
 			description: string
 			permalink: string
 			image_url: string
 			id: string
-		}[]
+		} & any)[]
 	}
 
 	allMdxPagesResult?.assets.forEach((token) => {
+		const {
+			total_price,
+			payment_token: { symbol, decimals } = { symbol: '', decimals: 1 },
+		} = token.last_sale ?? {}
+		const lastSale =
+			isNaN(total_price) || !symbol
+				? ''
+				: `${total_price / 10 ** decimals}${symbol}`
+
 		createNode({
 			name: token.name,
-			lastSale: Number(token.last_sale || 0),
+			lastSale,
 			description: token.description,
 			permalink: token.permalink,
 			imageUrl: token.image_url,
+			creator: token.creator,
+			collection: token.collection,
+			numSales: token.num_sales,
+			imageThumbnailUrl: token.image_thumbnail_url,
 			// required fields
 			id: String(token.id),
 			parent: 'allNfts',

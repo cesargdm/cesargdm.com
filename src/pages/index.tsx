@@ -22,12 +22,12 @@ function Index() {
 			<Content>
 				<p>Hi!</p>
 				<p>
-					I'm a product engineer and photographer. I use TypeScript on my daily
-					basis, React for user interfaces, and Node GraphQL and MongoDB for
-					that server magic 🪄... but I also work on the web3 by night.
+					I'm a product engineer. I use TypeScript on my daily basis, React for
+					user interfaces, and Node GraphQL and MongoDB for that server magic
+					🪄.
 				</p>
 				<p>
-					As today I'm working in the awesome startup{' '}
+					I'm working in the awesome startup{' '}
 					<a {...blankProps} href="https://www.ocho.co">
 						OCHO
 					</a>{' '}
