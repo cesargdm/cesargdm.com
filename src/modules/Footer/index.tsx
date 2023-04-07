@@ -17,6 +17,8 @@ const Content = styled.div`
 	width: 100%;
 	text-align: center;
 	font-size: 0.9rem;
+	padding-right: env(safe-area-inset-right);
+	padding-left: env(safe-area-inset-left);
 
 	ul {
 		display: flex;

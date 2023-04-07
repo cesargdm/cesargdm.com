@@ -20,6 +20,8 @@ const Content = styled.div`
 	margin: 0 auto;
 	width: 100%;
 	position: relative;
+	padding-right: env(safe-area-inset-right);
+	padding-left: env(safe-area-inset-left);
 
 	a {
 		color: var(--colors--tint);

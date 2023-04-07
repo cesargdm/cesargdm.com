@@ -34,6 +34,8 @@ const Content = styled.div`
 	justify-content: space-between;
 	border-bottom: 2px solid var(--colors-border);
 	height: 100%;
+	padding-right: env(safe-area-inset-right);
+	padding-left: env(safe-area-inset-left);
 
 	a {
 		text-decoration: none;
