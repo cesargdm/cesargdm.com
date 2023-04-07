@@ -42,8 +42,9 @@ const NftTitle = styled.p`
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	padding: 10px;
-	filter: invert(1) grayscale(1) contrast(9);
+	padding: var(--spaces--small);
+	opacity: 0.9;
+	filter: invert(1) grayscale(1) contrast(30);
 `
 
 const NftsList = styled.ul`
@@ -55,7 +56,7 @@ const NftsList = styled.ul`
 
 const AddressButton = styled.button`
 	font-weight: 600;
-	padding: 0 10px;
+	padding: 0 var(--spaces--small);
 	align-self: center;
 `
 
@@ -90,7 +91,7 @@ function Nft(token: {
 	const ref = useRef<HTMLImageElement>(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [color, setColor] = useState<[number, number, number] | undefined>(
-		undefined,
+		cachedColors.get(token.imageThumbnailUrl),
 	)
 
 	function handleOnload() {
@@ -99,28 +100,32 @@ function Nft(token: {
 
 	useEffect(() => {
 		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
-		if (cachedColor && cachedColor.length === 3) {
+		if (cachedColor && cachedColor.length === 3 && !color) {
 			setColor(cachedColor)
 			return
 		}
 
 		if (!ref.current || !(isLoaded || ref.current?.complete)) return
 
-		const colorThief = new ColorThief()
+		try {
+			const colorThief = new ColorThief()
 
-		const color = colorThief.getColor(ref.current)
+			const color = colorThief.getColor(ref.current)
 
-		// Save to localstorage
-		if (typeof window !== 'undefined') {
-			cachedColors.set(token.imageThumbnailUrl, color)
+			// Save to localstorage
+			if (typeof window !== 'undefined') {
+				cachedColors.set(token.imageThumbnailUrl, color)
 
-			window.localStorage.setItem(
-				'cachedColors',
-				JSON.stringify([...cachedColors]),
-			)
+				window.localStorage.setItem(
+					'cachedColors',
+					JSON.stringify([...cachedColors]),
+				)
+			}
+
+			setColor(color)
+		} catch {
+			//
 		}
-
-		setColor(color)
 	}, [ref, isLoaded])
 
 	return (
