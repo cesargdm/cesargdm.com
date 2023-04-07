@@ -4,7 +4,7 @@ const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,
 })
 
-const MODEL = 'davinci:ft-personal-2023-04-07-19-02-24'
+const MODEL = 'davinci:ft-personal-2023-04-07-20-32-03'
 
 module.exports = async function (request, response) {
 	const { prompt: rawPrompt = "What's your name?" } = request.query
