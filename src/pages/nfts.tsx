@@ -158,7 +158,7 @@ function Nfts({ data: { allNft } }: any) {
 
 export const query = graphql`
 	query GetAllNfts {
-		allNft(sort: { lastSale: DESC }) {
+		allNft(filter: { imageUrl: { ne: null } }, sort: { lastSale: DESC }) {
 			nodes {
 				id
 				name
