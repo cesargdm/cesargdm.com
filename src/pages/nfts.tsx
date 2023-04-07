@@ -72,38 +72,43 @@ try {
 		const cachedColorsString = window.localStorage.getItem('cachedColors')
 
 		if (cachedColorsString) {
-			cachedColors = new Map(JSON.parse(cachedColorsString))
+			const cachedColorsObject = JSON.parse(cachedColorsString)
+
+			cachedColors = new Map(cachedColorsObject)
 		}
 	}
 } catch {
 	//
 }
 
-function Nft(token: any) {
-	const ref = useRef(null)
+function Nft(token: {
+	name: string
+	imageThumbnailUrl: string
+	description: string
+}) {
+	const ref = useRef<HTMLImageElement>(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [color, setColor] = useState(cachedColors.get(token.imageThumbnailUrl))
-
-	const colorThief = new ColorThief()
 
 	function handleOnload() {
 		setIsLoaded(true)
 	}
 
 	useEffect(() => {
-		if (!ref.current || !isLoaded) return
+		console.log({ cachedColors })
+		if (!ref.current || !(isLoaded || ref.current?.complete)) return
 
 		const cachedColor = cachedColors.get(token.imageThumbnailUrl)
-		if (cachedColor && cachedColor.length === 3) {
-			return
-		}
+		if (cachedColor && cachedColor.length === 3) return
+
+		const colorThief = new ColorThief()
 
 		const color = colorThief.getColor(ref.current)
 
-		cachedColors.set(token.imageThumbnailUrl, color)
-
 		// Save to localstorage
 		if (typeof window !== 'undefined') {
+			cachedColors.set(token.imageThumbnailUrl, color)
+
 			window.localStorage.setItem(
 				'cachedColors',
 				JSON.stringify([...cachedColors]),
