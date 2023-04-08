@@ -141,8 +141,8 @@ function Ask() {
 	}
 
 	return (
-		<Template title="Bar Code / QR Code">
-			<h1>Barcode - QR Code</h1>
+		<Template title="QR Code Generator">
+			<h1>QR Code Generator</h1>
 			<p>
 				{`I don't like getting a dozen ads and sign-ups when I simply want a 
 				QR code, so this is for us.`}
