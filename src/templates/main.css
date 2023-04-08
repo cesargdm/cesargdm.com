@@ -83,6 +83,12 @@ pre {
 	overflow: auto;
 }
 
+input,
+textarea,
+select {
+	background-color: transparent;
+}
+
 button,
 input[type='submit'] {
 	will-change: transform;
@@ -92,6 +98,23 @@ input[type='submit'] {
 	min-width: 40px;
 	border-radius: var(--border_radius--small);
 	font-weight: 800;
+	color: var(--colors--text);
+}
+
+hr {
+	border: none;
+	border-top: 1px solid var(--colors--border);
+	margin: var(--spaces--large) 0;
+}
+
+a {
+	color: var(--colors--tint);
+	font-weight: 600;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
 }
 
 button:hover,

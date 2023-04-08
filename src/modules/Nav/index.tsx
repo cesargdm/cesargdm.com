@@ -72,6 +72,7 @@ const Content = styled.div`
 			}
 
 			&:hover {
+				text-decoration-line: none;
 				opacity: 1;
 				::before {
 					opacity: 0.2;

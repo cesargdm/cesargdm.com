@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import path from 'path'
 
 import slugify from 'slugify'
@@ -94,10 +95,12 @@ export const sourceNodes = async ({
 			total_price,
 			payment_token: { symbol, decimals } = { symbol: '', decimals: 1 },
 		} = token.last_sale ?? {}
+
 		const lastSale =
 			isNaN(total_price) || !symbol
 				? ''
-				: `${total_price / 10 ** decimals}${symbol}`
+				: // eslint-disable-next-line no-magic-numbers
+				  `${total_price / 10 ** decimals}${symbol}`
 
 		createNode({
 			name: token.name,

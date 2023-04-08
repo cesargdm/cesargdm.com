@@ -7,6 +7,7 @@
 		"frontmatter",
 		"microqrcode",
 		"openai",
-		"tabler"
+		"tabler",
+		"Typegen"
 	]
 }

@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import {
-	IconWand,
-	IconQrcode,
 	IconBrandGithub,
 	IconBrandTwitter,
 	IconBrandLinkedin,
@@ -14,6 +12,16 @@ const Container = styled.footer`
 	padding: 25px 10px;
 `
 
+const LinksList = styled.ul`
+	display: flex;
+	flex-direction: column;
+	gap: var(--spaces--medium);
+
+	a {
+		font-weight: initial;
+	}
+`
+
 const Content = styled.div`
 	max-width: var(--sizes--content_max_width);
 	margin: 0 auto;
@@ -21,6 +29,7 @@ const Content = styled.div`
 	font-size: 0.9rem;
 	padding-right: env(safe-area-inset-right);
 	padding-left: env(safe-area-inset-left);
+	padding-bottom: max(env(safe-area-inset-bottom), 40px);
 	display: flex;
 
 	> * {
@@ -62,18 +71,12 @@ function Footer() {
 	return (
 		<Container>
 			<Content>
-				<ul style={{ display: 'flex', flexDirection: 'column' }}>
+				<LinksList>
 					<li>
-						<Link to="/ai-ask/">
-							<IconWand />
-							AI Ask
-						</Link>
+						<Link to="/ai-ask/">AI Ask</Link>
 					</li>
 					<li>
-						<Link to="/qrcode-generator/">
-							<IconQrcode />
-							QR Code Generator
-						</Link>
+						<Link to="/qrcode-generator/">QR Code Generator</Link>
 					</li>
 					{/* <li>
 						<Link to="/nft-to-go/">
@@ -81,7 +84,7 @@ function Footer() {
 							NFT to Go
 						</Link>
 					</li> */}
-				</ul>
+				</LinksList>
 
 				<div style={{ textAlign: 'center' }}>
 					<p style={{ marginBottom: 'var(--spaces--small)' }}>

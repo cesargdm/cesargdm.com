@@ -20,7 +20,7 @@ function Index() {
 	return (
 		<Template>
 			<Content>
-				<p>Hi!</p>
+				<h1>Hi!</h1>
 				<p>
 					I'm a product engineer. I use TypeScript on my daily basis, React for
 					user interfaces, and Node GraphQL and MongoDB for that server magic

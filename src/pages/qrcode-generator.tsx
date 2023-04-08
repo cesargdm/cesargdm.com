@@ -151,9 +151,9 @@ function Ask() {
 			<Container>
 				<div
 					style={{
-						backgroundColor: 'var(--colors--background-secondary)',
-						borderRadius: 'var(--border_radius--medium)',
 						padding: 20,
+						borderRadius: 'var(--border_radius--medium)',
+						backgroundColor: '#f9f9f9',
 					}}
 				>
 					<canvas style={{ width: '100%' }} id="canvas" ref={canvasRef} />
