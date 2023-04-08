@@ -130,7 +130,8 @@ function Nft(token: {
 		} catch {
 			//
 		}
-	}, [ref.current, isLoaded])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isLoaded, token.imageThumbnailUrl])
 
 	return (
 		<NftContainer $color={`rgb(${color?.join(',') ?? [0, 0, 0]})`}>

@@ -24,7 +24,8 @@
 		"@mdx-js/react": "2.3.0",
 		"@radix-ui/react-aspect-ratio": "1.0.2",
 		"@tabler/icons-react": "2.14.0",
-		"@tanstack/react-query": "^4.28.0",
+		"@tanstack/react-query": "~4.28.0",
+		"bwip-js": "~3.4.0",
 		"colorthief": "^2.4.0",
 		"date-fns": "2.29.3",
 		"gatsby": "5.8.1",
@@ -48,6 +49,7 @@
 		"slugify": "1.6.6"
 	},
 	"devDependencies": {
+		"@types/bwip-js": "^3.2.0",
 		"@types/node": "~18.15.11",
 		"@types/react": "~18.0.33",
 		"@types/react-dom": "~18.0.11",

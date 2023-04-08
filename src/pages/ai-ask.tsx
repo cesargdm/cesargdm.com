@@ -1,10 +1,11 @@
+/* eslint-disable compat/compat */
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { IconBolt, IconQuestionMark } from '@tabler/icons-react'
+import { IconBolt } from '@tabler/icons-react'
+import { useQuery } from '@tanstack/react-query'
 
 import Template from '../templates'
 import useDebounce from '../utils/useDebounce'
-import { useQuery } from '@tanstack/react-query'
 
 const Input = styled.input`
 	padding: var(--spaces--medium) var(--spaces--large);
@@ -25,9 +26,12 @@ const InputWrapper = styled.div`
 	max-width: 300px;
 `
 
+const DEBOUNCE_MS = 500
+const MIN_QUESTION_LENGTH = 10
+
 function Ask() {
 	const [prompt, setPrompt] = useState('')
-	const debouncedPrompt = useDebounce(prompt, 1000)
+	const debouncedPrompt = useDebounce(prompt, DEBOUNCE_MS)
 
 	const { data, isInitialLoading } = useQuery({
 		queryKey: ['ask', debouncedPrompt],
@@ -35,7 +39,7 @@ function Ask() {
 			fetch(`/api/ask?prompt=${debouncedPrompt}`, {
 				method: 'GET',
 			}).then((res) => res.json()),
-		enabled: debouncedPrompt.length > 10,
+		enabled: debouncedPrompt.length > MIN_QUESTION_LENGTH,
 		refetchOnReconnect: false,
 		refetchOnWindowFocus: false,
 	})
@@ -55,7 +59,7 @@ function Ask() {
 				/>
 				<Input
 					type="text"
-					minLength={10}
+					minLength={MIN_QUESTION_LENGTH}
 					maxLength={50}
 					value={prompt}
 					placeholder="Ask something..."
@@ -66,7 +70,9 @@ function Ask() {
 				<pre>Loading...</pre>
 			) : data?.text ? (
 				<pre>{data?.text}</pre>
-			) : null}
+			) : (
+				<pre>Sorry, no answer for that.</pre>
+			)}
 		</Template>
 	)
 }

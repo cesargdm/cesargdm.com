@@ -91,6 +91,7 @@ input[type='submit'] {
 	min-height: 40px;
 	min-width: 40px;
 	border-radius: var(--border_radius--small);
+	font-weight: 800;
 }
 
 button:hover,
