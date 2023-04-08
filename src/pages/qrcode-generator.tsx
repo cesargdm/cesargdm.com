@@ -234,7 +234,7 @@ function Ask() {
 							</select>
 						</InputWrapper>
 					</label>
-					<button onClick={handleDownload}>Download image</button>
+					<button onClick={handleDownload}>Download QR Code Image</button>
 				</div>
 			</Container>
 		</Template>

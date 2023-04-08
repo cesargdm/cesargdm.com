@@ -70,7 +70,7 @@ function Footer() {
 						</Link>
 					</li>
 					<li>
-						<Link to="/qrcode/">
+						<Link to="/qrcode-generator/">
 							<IconQrcode />
 							QR Code Generator
 						</Link>
