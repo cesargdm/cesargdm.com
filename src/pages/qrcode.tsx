@@ -1,3 +1,5 @@
+// https://github.com/codebude/QRCoder.wiki.git
+
 import React, { useEffect, useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import {
@@ -7,7 +9,6 @@ import {
 	IconAlphabetLatin,
 } from '@tabler/icons-react'
 import bwipjs from 'bwip-js'
-import * as AspectRatio from '@radix-ui/react-aspect-ratio'
 
 import Template from '../templates'
 
@@ -39,6 +40,7 @@ const Container = styled.div`
 	display: flex;
 	gap: var(--spaces--medium);
 	flex-direction: column;
+	align-items: flex-start;
 
 	label {
 		b {
@@ -78,7 +80,29 @@ const Container = styled.div`
 	}
 `
 
-const BARCODE_TYPES = ['microqrcode', 'qrcode'] as const
+const CONTENT_TYPES = [
+	'Plain text',
+	'BezahlCode',
+	'Bitcoin',
+	'Bookmark',
+	'CalendarEvent',
+	'ContactData',
+	'Geolocation',
+	'Girocode',
+	'Mail',
+	'MMS',
+	'MoneroTransaction',
+	'OneTimePassword',
+	'PhoneNumber',
+	'ShadowSocksConfig',
+	'SkypeCall',
+	'SlovenianUpnQr',
+	'SMS',
+	'SwissQrCode',
+	'Url',
+	'WhatsAppMessage',
+	'WiF',
+] as const
 
 function downloadURI(uri: string, name: string) {
 	const link = document.createElement('a')
@@ -92,11 +116,8 @@ function downloadURI(uri: string, name: string) {
 
 function Ask() {
 	const [prompt, setPrompt] = useState('cesargdm.com')
-	const [barcodeType, setBarcodeType] = useState('qrcode')
 	const [fileType, setFileType] = useState('png' as 'png' | 'jpeg' | 'svg')
-	const [options, setOptions] = useState({
-		eclevel: 'M' as string | undefined,
-	})
+	const [options, setOptions] = useState({ eclevel: 'M' } as any)
 
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -105,13 +126,13 @@ function Ask() {
 
 		bwipjs.toCanvas('canvas', {
 			...options,
+			bcid: 'qrcode' as string,
 			backgroundcolor: fileType === 'png' ? 'transparent' : 'ffffff',
 			text: prompt,
-			bcid: barcodeType,
 			barcolor: 'ff00000',
 			scale: 10,
 		})
-	}, [prompt, barcodeType, options, fileType])
+	}, [prompt, options, fileType])
 
 	function handleDownload() {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -128,21 +149,14 @@ function Ask() {
 			</p>
 
 			<Container>
-				<div>
-					<AspectRatio.Root
-						ratio={1}
-						style={{
-							backgroundColor: 'var(--colors--background-secondary)',
-							borderRadius: 'var(--border_radius--medium)',
-							padding: 20,
-						}}
-					>
-						<canvas
-							style={{ width: '100%', height: '100%' }}
-							id="canvas"
-							ref={canvasRef}
-						/>
-					</AspectRatio.Root>
+				<div
+					style={{
+						backgroundColor: 'var(--colors--background-secondary)',
+						borderRadius: 'var(--border_radius--medium)',
+						padding: 20,
+					}}
+				>
+					<canvas style={{ width: '100%' }} id="canvas" ref={canvasRef} />
 				</div>
 
 				<div
@@ -152,6 +166,20 @@ function Ask() {
 						gap: 'var(--spaces--medium)',
 					}}
 				>
+					<label>
+						<b>Type</b>
+						<InputWrapper>
+							<IconBarcode aria-hidden />
+							<select value={options.bcid} onChange={() => undefined} disabled>
+								{CONTENT_TYPES.map((type) => (
+									<option key={type} value={type}>
+										{type}
+									</option>
+								))}
+							</select>
+						</InputWrapper>
+					</label>
+
 					{/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
 					<label>
 						<b>Content</b>
@@ -164,29 +192,19 @@ function Ask() {
 							/>
 						</InputWrapper>
 					</label>
-					<label>
-						<b>Barcode type</b>
-						<InputWrapper>
-							<IconBarcode aria-hidden />
-							<select
-								value={barcodeType}
-								onChange={(e) => setBarcodeType(e.target.value)}
-							>
-								{BARCODE_TYPES.map((type) => (
-									<option key={type} value={type}>
-										{type}
-									</option>
-								))}
-							</select>
-						</InputWrapper>
-					</label>
+
 					<label>
 						<b>Error correction level</b>
 						<InputWrapper>
 							<IconZoomQuestion aria-hidden />
 							<select
 								value={options.eclevel}
-								onChange={(e) => setOptions({ eclevel: e.target.value })}
+								onChange={(e) =>
+									setOptions((options: any) => ({
+										...options,
+										eclevel: e.target.value,
+									}))
+								}
 							>
 								<option value="L">Low</option>
 								<option value="M">Medium</option>
@@ -195,6 +213,9 @@ function Ask() {
 							</select>
 						</InputWrapper>
 					</label>
+
+					<hr />
+
 					<label>
 						<b>File type</b>
 						<InputWrapper>
