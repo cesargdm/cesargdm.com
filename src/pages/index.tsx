@@ -22,9 +22,10 @@ function Index() {
 			<Content>
 				<h1>Hi!</h1>
 				<p>
-					I'm a product engineer. I use TypeScript on my daily basis, React for
-					user interfaces, and Node GraphQL and MongoDB for that server magic
-					🪄.
+					I'm a dedicated Product Engineer with a passion for creating
+					delightful and functional user experiences. On a daily basis, I work
+					my magic 🪄 with TypeScript, crafting seamless user interfaces using
+					React, while powering the backend with Node, GraphQL, and MongoDB.
 				</p>
 				<p>
 					I'm working in the awesome startup{' '}
