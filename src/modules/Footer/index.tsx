@@ -76,7 +76,9 @@ function Footer() {
 						<Link to="/ai-ask/">AI Ask</Link>
 					</li>
 					<li>
-						<Link to="/qrcode-generator/">QR Code Generator</Link>
+						<Link to="/qrcode-generator/?text=cesargdm.com">
+							QR Code Generator
+						</Link>
 					</li>
 					{/* <li>
 						<Link to="/nft-to-go/">

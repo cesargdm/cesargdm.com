@@ -43,14 +43,14 @@ const config: GatsbyConfig = {
 		// MDX
 
 		{
-			resolve: `gatsby-source-filesystem`,
+			resolve: 'gatsby-source-filesystem',
 			options: {
-				name: `posts`,
+				name: 'posts',
 				path: `${__dirname}/src/assets/posts/`,
 			},
 		},
 		{
-			resolve: `gatsby-source-filesystem`,
+			resolve: 'gatsby-source-filesystem',
 			options: {
 				name: `projects`,
 				path: `${__dirname}/src/assets/projects/`,
@@ -89,11 +89,11 @@ const config: GatsbyConfig = {
 		},
 
 		{
-			resolve: `gatsby-transformer-remark`,
+			resolve: 'gatsby-transformer-remark',
 			options: {
 				plugins: [
 					{
-						resolve: `gatsby-remark-images`,
+						resolve: 'gatsby-remark-images',
 						options: {
 							maxWidth: 800,
 						},
@@ -101,6 +101,8 @@ const config: GatsbyConfig = {
 				],
 			},
 		},
+
+		'gatsby-plugin-use-query-params',
 	],
 }
 

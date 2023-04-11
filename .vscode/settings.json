@@ -4,6 +4,7 @@
 		"backgroundcolor",
 		"barcolor",
 		"bcid",
+		"eclevel",
 		"frontmatter",
 		"microqrcode",
 		"openai",

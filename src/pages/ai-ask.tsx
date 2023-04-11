@@ -70,9 +70,9 @@ function Ask() {
 				<pre>Loading...</pre>
 			) : data?.text ? (
 				<pre>{data?.text}</pre>
-			) : (
+			) : prompt ? (
 				<pre>Sorry, no answer for that.</pre>
-			)}
+			) : null}
 		</Template>
 	)
 }
