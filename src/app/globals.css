@@ -63,6 +63,14 @@ main {
 	min-height: 100dvh;
 }
 
+a {
+	color: inherit;
+}
+
+a:visited {
+	color: inherit;
+}
+
 #root,
 #__next {
 	isolation: isolate;
