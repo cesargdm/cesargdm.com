@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import styles from './nav.module.css'
+import { container, list } from './styles.css'
 
 function Nav() {
 	return (
-		<nav className={styles.container}>
-			<ul className={styles.list}>
+		<nav className={container}>
+			<ul className={list}>
 				<li>
 					<Link href="/">Home</Link>
 				</li>
@@ -18,7 +18,7 @@ function Nav() {
 					<Link href="/cv">CV</Link>
 				</li>
 			</ul>
-			<ul className={styles.list}>
+			<ul className={list}>
 				<li>Dark</li>
 			</ul>
 		</nav>

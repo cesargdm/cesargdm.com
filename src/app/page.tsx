@@ -1,4 +1,4 @@
-import styles from './index.module.css'
+import { card, cards, chat } from './styles.css'
 
 function Home() {
 	return (
@@ -16,9 +16,9 @@ function Home() {
 					some projects.`}
 				</p>
 			</div>
-			<ul className={styles.cards}>
-				<li className={styles.chat}>
-					<div className={styles.card}>
+			<ul className={cards}>
+				<li className={chat}>
+					<div className={card}>
 						<h2>Chat</h2>
 						<div>
 							<ul>
@@ -34,25 +34,25 @@ function Home() {
 					</div>
 				</li>
 				<li>
-					<div className={styles.card}>
+					<div className={card}>
 						<h2>Tweets</h2>
 						<p>Last tweet</p>
 					</div>
 				</li>
 				<li>
-					<div className={styles.card}>
+					<div className={card}>
 						<h2>Reading</h2>
 						<p>Current book</p>
 					</div>
 				</li>
 				<li>
-					<div className={styles.card}>
+					<div className={card}>
 						<h2>Cretia</h2>
 						<p>LOGO</p>
 					</div>
 				</li>
 				<li>
-					<div className={styles.card}>
+					<div className={card}>
 						<h2>Unsplash</h2>
 						<p>Last photo</p>
 					</div>

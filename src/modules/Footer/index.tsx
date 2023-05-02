@@ -1,3 +1,6 @@
+import Twitter from '../../assets/icons/Twitter'
+import { socialItem } from './styles.css'
+
 const year = new Date().getFullYear()
 
 function Footer() {
@@ -5,7 +8,10 @@ function Footer() {
 		<footer>
 			<p>&copy; {year}</p>
 			<ul>
-				<li>Twitter</li>
+				<li className={socialItem}>
+					<Twitter aria-hidden />
+					Twitter
+				</li>
 				<li>GitHub</li>
 				<li>LinkedIn</li>
 				<li>Email</li>
