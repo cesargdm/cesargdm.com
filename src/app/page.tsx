@@ -1,95 +1,65 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import styles from './index.module.css'
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+function Home() {
+	return (
+		<main>
+			<div>
+				<h1>Hi!</h1>
+				<p>
+					{`I'm a dedicated Product Engineer with a passion for creating
+					delightful and functional user experiences. On a daily basis, I work
+					my magic 🪄 with TypeScript, crafting seamless user interfaces using
+					React, while powering the backend with Node, GraphQL, and MongoDB. I'm
+					working in the awesome startup OCHO and my side project Cretia; before
+					that I've been part of amazing teams such as Tesorio, Aura, Covalto
+					(prev. Credijusto) and IBM. And since I cannot sit still, I've created
+					some projects.`}
+				</p>
+			</div>
+			<ul className={styles.cards}>
+				<li className={styles.chat}>
+					<div className={styles.card}>
+						<h2>Chat</h2>
+						<div>
+							<ul>
+								<li>Message</li>
+								<li>Message</li>
+								<li>Message</li>
+							</ul>
+							<form>
+								<input type="text" />
+								<input type="submit" />
+							</form>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div className={styles.card}>
+						<h2>Tweets</h2>
+						<p>Last tweet</p>
+					</div>
+				</li>
+				<li>
+					<div className={styles.card}>
+						<h2>Reading</h2>
+						<p>Current book</p>
+					</div>
+				</li>
+				<li>
+					<div className={styles.card}>
+						<h2>Cretia</h2>
+						<p>LOGO</p>
+					</div>
+				</li>
+				<li>
+					<div className={styles.card}>
+						<h2>Unsplash</h2>
+						<p>Last photo</p>
+					</div>
+				</li>
+			</ul>
+		</main>
+	)
 }
+
+export default Home

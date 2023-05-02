@@ -1,0 +1,42 @@
+{
+	"headers": [
+		{
+			"source": "/(.*)",
+			"headers": [
+				{
+					"key": "X-Content-Type-Options",
+					"value": "nosniff"
+				},
+				{
+					"key": "Feature-Policy",
+					"value": "geolocation 'self'; microphone 'none'"
+				},
+				{
+					"key": "Referrer-Policy",
+					"value": "strict-origin-when-cross-origin"
+				},
+				{
+					"key": "X-Frame-Options",
+					"value": "DENY"
+				},
+				{
+					"key": "X-XSS-Protection",
+					"value": "1; mode=block"
+				}
+			]
+		},
+		{
+			"source": "/(index.html|manifest.json|service-worker.js)",
+			"headers": [{ "key": "Cache-Control", "value": "public, max-age=0" }]
+		},
+		{
+			"source": "/(static|pwa|fonts)/(.*)",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=31556952, immutable"
+				}
+			]
+		}
+	]
+}
