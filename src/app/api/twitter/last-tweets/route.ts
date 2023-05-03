@@ -12,7 +12,5 @@ export async function GET() {
 		},
 	).then((response) => response.json())
 
-	data.data = data.data[0]
-
 	return NextResponse.json(data)
 }

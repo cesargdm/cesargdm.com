@@ -30,7 +30,7 @@ function Chat() {
 				{ id: 'LOADING', text: '', from: 'assistant' },
 			])
 
-			const data = await fetch(`/api/completion`, {
+			const data = await fetch('/api/completion', {
 				method: 'POST',
 				body: JSON.stringify({ prompt: userMessage }),
 			}).then((response) => response.json())

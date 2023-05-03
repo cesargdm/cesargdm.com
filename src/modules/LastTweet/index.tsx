@@ -2,13 +2,15 @@ import { IconExternalLink } from '@tabler/icons-react'
 import { readTweetsLink, tweetParagraph } from './styles.css'
 
 async function LastTweet() {
-	const staticData = await fetch('/api/twitter/last-tweet', {
+	const response = await fetch('https://cesargdm.com/api/twitter/last-tweets', {
 		cache: 'force-cache',
 	})
 		.then((response) => response.json())
 		.catch(() => undefined)
 
-	const tweetText = staticData?.data?.text
+	console.log(response)
+
+	const tweetText = response?.data?.text
 
 	return (
 		<>
