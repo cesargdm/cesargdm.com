@@ -7,7 +7,10 @@ const unsplash = createApi({
 })
 
 export async function GET() {
-	const data = await unsplash.users.getPhotos({ username: 'cesargdm' })
+	const result = await unsplash.users.getPhotos({
+		username: 'cesargdm',
+		perPage: 3,
+	})
 
-	return NextResponse.json(data.response?.results[0])
+	return NextResponse.json(result?.response?.results ?? null)
 }
