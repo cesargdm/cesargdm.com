@@ -12,6 +12,18 @@ export const body = style({
 	backgroundColor: vars.colors.background.regular,
 })
 
+export const dropdownText = style({
+	// bottom line
+	textDecorationLine: 'underline',
+	textDecorationStyle: 'dotted',
+	textDecorationColor: vars.colors.primary,
+	minHeight: 'auto',
+	minWidth: 'auto',
+	lineHeight: 1.5,
+	fontSize: vars.fontSize.large,
+	display: 'inline',
+})
+
 export const card = style({
 	height: '100%',
 	overflow: 'hidden',

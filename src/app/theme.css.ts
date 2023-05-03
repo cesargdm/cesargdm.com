@@ -11,6 +11,9 @@ export const root = createGlobalTheme(':root', {
 		heading: 'Georgia, Times, Times New Roman, serif',
 		body: 'system-ui',
 	},
+	boxShadow: {
+		medium: '0 0 8px rgba(0, 0, 0, 0.125)',
+	},
 	space: {
 		small: '4px',
 		medium: '8px',
