@@ -8,10 +8,11 @@ export const container = style({
 	maxWidth: 1200,
 	margin: '0 auto',
 	padding: vars.space.medium,
+	height: vars.sizes.navBar,
 })
 
 export const list = style({
 	display: 'grid',
 	gridAutoFlow: 'column',
-	gap: vars.space.medium,
+	gap: vars.space.large,
 })

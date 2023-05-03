@@ -1,12 +1,12 @@
 import Chat from '@/modules/Chat'
-import { card, cards, chat } from './styles.css'
+import { card, cards, chat, introContainer, introParagraph } from './styles.css'
 
 function Home() {
 	return (
 		<div>
-			<div>
+			<div className={introContainer}>
 				<h1>Hi!</h1>
-				<p>
+				<p className={introParagraph}>
 					{`I'm a dedicated Product Engineer with a passion for creating
 					delightful and functional user experiences. On a daily basis, I work
 					my magic 🪄 with TypeScript, crafting seamless user interfaces using

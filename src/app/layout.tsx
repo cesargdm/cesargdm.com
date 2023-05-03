@@ -6,7 +6,6 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 
 import Nav from '@/modules/Nav'
-import Footer from '@/modules/Footer'
 
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
@@ -42,7 +41,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={body}>
 				<Nav />
 				<main className={content}>{children}</main>
-				<Footer />
 				<Analytics />
 			</body>
 		</html>

@@ -28,3 +28,17 @@ export const cards = style({
 export const chat = style({
 	gridColumnEnd: 'span 2',
 })
+
+export const introParagraph = style({
+	lineHeight: 1.5,
+})
+
+export const introContainer = style({
+	maxWidth: 800,
+	margin: '0 auto',
+	minHeight: '80dvh',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	paddingBottom: vars.sizes.navBar,
+})

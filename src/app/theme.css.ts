@@ -27,6 +27,9 @@ export const root = createGlobalTheme(':root', {
 		medium: '8px',
 		large: '16px',
 	},
+	sizes: {
+		navBar: '60px',
+	},
 })
 
 const colors = createThemeContract({
