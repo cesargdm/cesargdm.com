@@ -2,8 +2,8 @@
 
 declare module 'cookie-cutter' {
 	export default {
-		set(name: string, value: string, options?: any) {
-			return true
+		set(name: string, value: string, options?: any): void {
+			return
 		},
 		get(name: string): string {
 			return ''
