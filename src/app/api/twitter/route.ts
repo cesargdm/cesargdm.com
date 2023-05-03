@@ -1,9 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
-export default async function handler(
-	_request: NextApiRequest,
-	response: NextApiResponse<unknown>,
-) {
+export async function GET() {
 	const userId = '313716452'
 
 	const data = await fetch(
@@ -15,5 +12,5 @@ export default async function handler(
 		},
 	).then((response) => response.json())
 
-	response.status(200).json(data)
+	return NextResponse.json({ data })
 }
