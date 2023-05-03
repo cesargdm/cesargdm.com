@@ -7,7 +7,7 @@ export const container = style({
 	alignItems: 'center',
 	maxWidth: 1200,
 	margin: '0 auto',
-	padding: vars.space.medium,
+	padding: `${vars.space.medium} ${vars.space.large}`,
 	height: vars.sizes.navBar,
 })
 

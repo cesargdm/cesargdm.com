@@ -2,14 +2,14 @@ import { vars } from '@/app/theme.css'
 import { style } from '@vanilla-extract/css'
 
 export const textInput = style({
-	backgroundColor: vars.colors.background.regular,
-	border: `1px solid ${vars.colors.border}`,
-	fontSize: vars.fontSize.medium,
-	color: vars.colors.text.regular,
+	width: '100%',
+	display: 'block',
 	padding: vars.space.large,
 	paddingTop: vars.space.small,
+	fontSize: vars.fontSize.medium,
 	paddingBottom: vars.space.small,
+	color: vars.colors.text.regular,
 	borderRadius: vars.borderRadius.large,
-	display: 'block',
-	width: '100%',
+	border: `1px solid ${vars.colors.border}`,
+	backgroundColor: vars.colors.background.regular,
 })
