@@ -1,5 +1,8 @@
 import Link from 'next/link'
+
 import { container, list } from './styles.css'
+
+import ToggleTheme from './ToggleTheme'
 
 function Nav() {
 	return (
@@ -15,11 +18,13 @@ function Nav() {
 					<Link href="/blog">Blog</Link>
 				</li>
 				<li>
-					<Link href="/cv">CV</Link>
+					<Link href="/contact">Contact</Link>
 				</li>
 			</ul>
 			<ul className={list}>
-				<li>Dark</li>
+				<li>
+					<ToggleTheme />
+				</li>
 			</ul>
 		</nav>
 	)

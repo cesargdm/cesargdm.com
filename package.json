@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^2.17.0",
     "@types/node": "18.16.3",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "@vanilla-extract/css": "1.11.0",
+    "@vercel/analytics": "^1.0.0",
     "classnames": "^2.3.2",
+    "cookie-cutter": "0.2.0",
     "eslint-config-next": "13.3.4",
     "next": "13.3.4",
     "react": "18.2.0",

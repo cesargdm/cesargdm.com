@@ -1,8 +1,9 @@
+import Chat from '@/modules/Chat'
 import { card, cards, chat } from './styles.css'
 
 function Home() {
 	return (
-		<main>
+		<div>
 			<div>
 				<h1>Hi!</h1>
 				<p>
@@ -19,18 +20,7 @@ function Home() {
 			<ul className={cards}>
 				<li className={chat}>
 					<div className={card}>
-						<h2>Chat</h2>
-						<div>
-							<ul>
-								<li>Message</li>
-								<li>Message</li>
-								<li>Message</li>
-							</ul>
-							<form>
-								<input type="text" />
-								<input type="submit" />
-							</form>
-						</div>
+						<Chat />
 					</div>
 				</li>
 				<li>
@@ -58,7 +48,7 @@ function Home() {
 					</div>
 				</li>
 			</ul>
-		</main>
+		</div>
 	)
 }
 

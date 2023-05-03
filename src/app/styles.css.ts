@@ -7,10 +7,16 @@ export const content = style({
 	margin: '0 auto',
 })
 
+export const body = style({
+	color: vars.colors.text.regular,
+	backgroundColor: vars.colors.background.regular,
+})
+
 export const card = style({
-	backgroundColor: '#f6f6f6',
-	padding: vars.space.medium,
-	borderRadius: vars.space.medium,
+	backgroundColor: vars.colors.background.content,
+	padding: vars.space.large,
+	borderRadius: vars.space.large,
+	height: '100%',
 })
 
 export const cards = style({

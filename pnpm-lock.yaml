@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@tabler/icons-react':
+    specifier: ^2.17.0
+    version: 2.17.0(react@18.2.0)
   '@types/node':
     specifier: 18.16.3
     version: 18.16.3
@@ -13,9 +16,15 @@ dependencies:
   '@vanilla-extract/css':
     specifier: 1.11.0
     version: 1.11.0
+  '@vercel/analytics':
+    specifier: ^1.0.0
+    version: 1.0.0(react@18.2.0)
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
+  cookie-cutter:
+    specifier: 0.2.0
+    version: 0.2.0
   eslint-config-next:
     specifier: 13.3.4
     version: 13.3.4(eslint@8.39.0)(typescript@5.0.4)
@@ -656,6 +665,20 @@ packages:
     dependencies:
       tslib: 2.5.0
 
+  /@tabler/icons-react@2.17.0(react@18.2.0):
+    resolution: {integrity: sha512-kuEW+qNwRqcK5iMl7qTapzX2NiMOwPg4Az01d+IZ1DIMwaZ7iKPJaIor2ihKFLPYrT9D5BZHXB8R5mSkw0FETg==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.17.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons@2.17.0:
+    resolution: {integrity: sha512-UeJaylOGNRhQKyDlgZfrQ3UPSGlfVQuXcmCsTYeXioKKepibW6VZ3H36Lo1jvBTBkQD2e9m+k2NxwkztOTXwrA==}
+    dev: false
+
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
@@ -859,6 +882,14 @@ packages:
       - supports-color
       - terser
     dev: true
+
+  /@vercel/analytics@1.0.0(react@18.2.0):
+    resolution: {integrity: sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@webassemblyjs/ast@1.11.5:
     resolution: {integrity: sha512-LHY/GSAZZRpsNQH+/oHqhRQ5FT7eoULcBqgfyTB5nQHogFnK3/7QoN7dLnwSE/JkUAF0SrRuclT7ODqMFtWxxQ==}
@@ -1242,6 +1273,10 @@ packages:
 
   /convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
+
+  /cookie-cutter@0.2.0:
+    resolution: {integrity: sha512-eVyP5liHjDMCmGlp2OD+qoin5TJlwUBRjBKN8R2yJ3ePf8xqUtqmRP6e36ipe0nBm2lTiertH6iHPOptNQzAEw==}
+    dev: false
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
