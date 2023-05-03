@@ -12,5 +12,7 @@ export async function GET() {
 		perPage: 3,
 	})
 
+	console.log({ result })
+
 	return NextResponse.json(result?.response?.results ?? null)
 }

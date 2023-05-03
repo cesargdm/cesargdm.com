@@ -13,10 +13,12 @@ export const body = style({
 })
 
 export const card = style({
-	backgroundColor: vars.colors.background.content,
+	height: '100%',
+	overflow: 'hidden',
+	position: 'relative',
 	padding: vars.space.large,
 	borderRadius: vars.borderRadius.large,
-	height: '100%',
+	backgroundColor: vars.colors.background.content,
 })
 
 export const cards = style({

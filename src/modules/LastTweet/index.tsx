@@ -8,9 +8,7 @@ async function LastTweet() {
 		.then((response) => response.json())
 		.catch(() => undefined)
 
-	console.log(response)
-
-	const tweetText = response?.data?.text
+	const tweetText = response?.data?.[0]?.text
 
 	return (
 		<>

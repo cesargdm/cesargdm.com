@@ -1,17 +1,38 @@
+import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
 
 async function LastPhoto() {
-	const staticData = await fetch('/api/unsplash/last-photos', {
-		cache: 'force-cache',
-	})
+	const response = await fetch(
+		'https://cesargdm.com/api/unsplash/last-photos',
+		{
+			method: 'GET',
+			cache: 'force-cache',
+		},
+	)
 		.then((response) => response.json())
 		.catch(() => undefined)
 
-	const photoUrl = staticData?.urls?.thumb
+	const photoUrl = response[0].urls.regular
 
 	return (
 		<>
-			<Image src={photoUrl} alt={staticData?.alt_description} />
+			{photoUrl && (
+				<Image
+					src={photoUrl}
+					width={500}
+					height={500}
+					style={{
+						objectFit: 'cover',
+						position: 'absolute',
+						top: 0,
+						right: 0,
+						width: '100%',
+						height: '100%',
+					}}
+					alt={response?.alt_description}
+				/>
+			)}
+			<IconBrandUnsplash color="white" />
 		</>
 	)
 }

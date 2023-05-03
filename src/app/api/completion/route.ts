@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 			temperature: 1.0,
 		})
 
-		return NextResponse.json(result.data.choices[0])
+		return NextResponse.json(result.data)
 	} catch (error) {
 		console.error(error)
 
