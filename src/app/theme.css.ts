@@ -27,6 +27,7 @@ export const root = createGlobalTheme(':root', {
 	borderRadius: {
 		medium: '8px',
 		large: '16px',
+		full: '9999px',
 	},
 	sizes: {
 		navBar: '60px',
@@ -35,7 +36,7 @@ export const root = createGlobalTheme(':root', {
 })
 
 const colors = createThemeContract({
-	brand: null,
+	primary: null,
 	background: {
 		regular: null,
 		content: null,
@@ -51,7 +52,7 @@ const colors = createThemeContract({
 
 export const responsiveTheme = style({
 	vars: assignVars(colors, {
-		brand: 'green',
+		primary: 'rgb(0, 122, 255)',
 		background: {
 			regular: '#fff',
 			content: '#f5f5f5',
@@ -67,7 +68,7 @@ export const responsiveTheme = style({
 	'@media': {
 		'(prefers-color-scheme: dark)': {
 			vars: assignVars(colors, {
-				brand: 'blue',
+				primary: 'blue',
 				background: {
 					regular: '#000',
 					content: '#111',
@@ -85,7 +86,7 @@ export const responsiveTheme = style({
 })
 
 export const lightTheme = createTheme(colors, {
-	brand: 'red',
+	primary: 'rgb(0, 122, 255)',
 	background: {
 		regular: '#fff',
 		content: '#f5f5f5',
@@ -100,7 +101,7 @@ export const lightTheme = createTheme(colors, {
 })
 
 export const darkTheme = createTheme(colors, {
-	brand: 'orange',
+	primary: 'rgb(0, 132, 255)',
 	background: {
 		regular: '#000',
 		content: '#111',

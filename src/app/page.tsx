@@ -2,6 +2,7 @@ import Chat from '@/modules/Chat'
 import LastTweet from '@/modules/LastTweet'
 
 import { card, cards, chat, introContainer, introParagraph } from './styles.css'
+import LastPhoto from '@/modules/LastPhoto'
 
 function Home() {
 	return (
@@ -45,8 +46,8 @@ function Home() {
 				</li>
 				<li>
 					<div className={card}>
-						<h2>Unsplash</h2>
-						<p>Last photo</p>
+						{/* @ts-ignore */}
+						<LastPhoto />
 					</div>
 				</li>
 			</ul>

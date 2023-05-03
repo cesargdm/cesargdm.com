@@ -6,8 +6,10 @@ export const textInput = style({
 	border: `1px solid ${vars.colors.border}`,
 	fontSize: vars.fontSize.medium,
 	color: vars.colors.text.regular,
-	padding: vars.space.medium,
+	padding: vars.space.large,
 	paddingTop: vars.space.small,
 	paddingBottom: vars.space.small,
-	borderRadius: vars.borderRadius.medium,
+	borderRadius: vars.borderRadius.large,
+	display: 'block',
+	width: '100%',
 })
