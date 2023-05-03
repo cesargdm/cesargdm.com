@@ -1,4 +1,8 @@
-function Contact() {
+export const metadata = {
+	title: 'Contact',
+}
+
+export default function Contact() {
 	return (
 		<div>
 			<h1>Contact</h1>
@@ -10,6 +14,15 @@ function Contact() {
 						href="https://twitter.com/cesargdm"
 					>
 						Twitter
+					</a>
+				</li>
+				<li>
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href="https://read.cv/cesargdm"
+					>
+						CV
 					</a>
 				</li>
 				<li>
@@ -37,5 +50,3 @@ function Contact() {
 		</div>
 	)
 }
-
-export default Contact

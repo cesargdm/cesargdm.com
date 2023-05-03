@@ -32,7 +32,7 @@ async function LastPhoto() {
 						width: '100%',
 						height: '100%',
 					}}
-					alt={response?.alt_description}
+					alt={response[0]?.alt_description}
 				/>
 			)}
 			<a

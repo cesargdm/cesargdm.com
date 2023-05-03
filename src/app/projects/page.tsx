@@ -1,4 +1,8 @@
-function Projects() {
+export const metadata = {
+	title: 'Projects',
+}
+
+export default function Projects() {
 	return (
 		<div>
 			<h1>Projects</h1>
@@ -6,5 +10,3 @@ function Projects() {
 		</div>
 	)
 }
-
-export default Projects

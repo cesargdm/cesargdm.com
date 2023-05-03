@@ -8,7 +8,7 @@ const openai = new OpenAIApi(configuration)
 
 const MODEL = 'davinci:ft-personal-2023-04-07-20-32-03'
 
-export const revalidate = 120
+export const revalidate = 60 * 60 * 6
 
 export async function POST(request: Request) {
 	const { prompt: rawPrompt = "What's your name?" } = await request.json()

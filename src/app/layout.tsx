@@ -14,10 +14,18 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-	title: 'César',
+	title: {
+		template: '%s - cesargdm',
+		default: 'cesargdm',
+	},
+	category: 'technology',
+	metadataBase: new URL('https://cesargdm.com'),
+	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
 	description: 'César Guadarrama - Software product engineer',
-	['og:title']: 'César',
-	['og:description']: 'César Guadarrama - Software product engineer',
+	creator: 'cesargdm',
+	themeColor: 'black',
+	['og:title']: 'cesargdm',
+	['og:description']: 'César Guadarrama Cantú - Software product engineer',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

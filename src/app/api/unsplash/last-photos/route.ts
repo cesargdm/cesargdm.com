@@ -6,6 +6,8 @@ const unsplash = createApi({
 	fetch: fetch,
 })
 
+export const revalidate = 60 * 60 * 24 // 24 hours
+
 export async function GET() {
 	const result = await unsplash.users.getPhotos({
 		username: 'cesargdm',
