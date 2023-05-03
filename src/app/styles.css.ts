@@ -15,7 +15,7 @@ export const body = style({
 export const card = style({
 	backgroundColor: vars.colors.background.content,
 	padding: vars.space.large,
-	borderRadius: vars.space.large,
+	borderRadius: vars.borderRadius.large,
 	height: '100%',
 })
 
@@ -31,6 +31,7 @@ export const chat = style({
 
 export const introParagraph = style({
 	lineHeight: 1.5,
+	fontSize: vars.fontSize.large,
 })
 
 export const introContainer = style({

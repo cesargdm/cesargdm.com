@@ -20,8 +20,9 @@ export const root = createGlobalTheme(':root', {
 	fontSize: {
 		small: '0.75rem',
 		medium: '1rem',
-		large: '1.25rem',
-		xlarge: '1.5rem',
+		large: '1.1rem',
+		xlarge: '1.2rem',
+		xxlarge: '1.5rem',
 	},
 	borderRadius: {
 		medium: '8px',
@@ -29,6 +30,7 @@ export const root = createGlobalTheme(':root', {
 	},
 	sizes: {
 		navBar: '60px',
+		button: '40px',
 	},
 })
 
