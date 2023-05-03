@@ -1,9 +1,9 @@
 import {
+	style,
+	assignVars,
 	createTheme,
 	createGlobalTheme,
 	createThemeContract,
-	style,
-	assignVars,
 } from '@vanilla-extract/css'
 
 export const root = createGlobalTheme(':root', {
@@ -27,6 +27,7 @@ export const root = createGlobalTheme(':root', {
 	borderRadius: {
 		medium: '8px',
 		large: '16px',
+		xlarge: '24px',
 		full: '9999px',
 	},
 	sizes: {
@@ -40,6 +41,7 @@ const colors = createThemeContract({
 	background: {
 		regular: null,
 		content: null,
+		gray: null,
 	},
 	border: null,
 	text: {
@@ -50,46 +52,12 @@ const colors = createThemeContract({
 	},
 })
 
-export const responsiveTheme = style({
-	vars: assignVars(colors, {
-		primary: 'rgb(0, 122, 255)',
-		background: {
-			regular: '#fff',
-			content: '#f5f5f5',
-		},
-		border: '#ccc',
-		text: {
-			regular: '#000',
-			secondary: '#666',
-			tertiary: '#999',
-			decorative: '#aaa',
-		},
-	}),
-	'@media': {
-		'(prefers-color-scheme: dark)': {
-			vars: assignVars(colors, {
-				primary: 'blue',
-				background: {
-					regular: '#000',
-					content: '#111',
-				},
-				border: '#ccc',
-				text: {
-					regular: '#fff',
-					secondary: '#ccc',
-					tertiary: '#999',
-					decorative: '#aaa',
-				},
-			}),
-		},
-	},
-})
-
-export const lightTheme = createTheme(colors, {
+const lightColors = {
 	primary: 'rgb(0, 122, 255)',
 	background: {
 		regular: '#fff',
 		content: '#f5f5f5',
+		gray: '#eee',
 	},
 	border: '#ccc',
 	text: {
@@ -98,21 +66,35 @@ export const lightTheme = createTheme(colors, {
 		tertiary: '#999',
 		decorative: '#aaa',
 	},
-})
+} as const
 
-export const darkTheme = createTheme(colors, {
-	primary: 'rgb(0, 132, 255)',
+const darkColors = {
+	primary: 'rgb(10, 132, 255)',
 	background: {
 		regular: '#000',
 		content: '#111',
+		gray: '#222',
 	},
-	border: '#ccc',
+	border: '#333',
 	text: {
 		regular: '#fff',
 		secondary: '#ccc',
 		tertiary: '#999',
 		decorative: '#aaa',
 	},
+} as const
+
+export const responsiveTheme = style({
+	vars: assignVars(colors, lightColors),
+	'@media': {
+		'(prefers-color-scheme: dark)': {
+			vars: assignVars(colors, darkColors),
+		},
+	},
 })
+
+export const lightTheme = createTheme(colors, lightColors)
+
+export const darkTheme = createTheme(colors, darkColors)
 
 export const vars = { ...root, colors }

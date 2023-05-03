@@ -18,13 +18,15 @@
     "classnames": "^2.3.2",
     "cookie-cutter": "0.2.0",
     "eslint-config-next": "13.3.4",
+    "ethers": "5",
     "next": "13.3.4",
     "openai": "^3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "twitter-api-sdk": "^1.2.1",
     "typescript": "5.0.4",
-    "unsplash-js": "^7.0.15"
+    "unsplash-js": "^7.0.15",
+    "wagmi": "^0.12.12"
   },
   "devDependencies": {
     "@vanilla-extract/next-plugin": "^2.1.2",

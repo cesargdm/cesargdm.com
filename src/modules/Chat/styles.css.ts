@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 
 export const chatMessage = style({
 	padding: `${vars.space.medium} ${vars.space.large}`,
-	backgroundColor: '#E9E9EB',
+	backgroundColor: vars.colors.background.gray,
 	borderRadius: vars.borderRadius.large,
 	maxWidth: '80%',
 })

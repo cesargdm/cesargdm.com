@@ -16,10 +16,25 @@ export const card = style({
 	height: '100%',
 	overflow: 'hidden',
 	position: 'relative',
+	display: 'flex',
+	flexDirection: 'column',
 	padding: vars.space.large,
-	borderRadius: vars.borderRadius.large,
+	borderRadius: vars.borderRadius.xlarge,
 	backgroundColor: vars.colors.background.content,
 })
+
+export const cretiaCard = style([
+	card,
+	{
+		color: vars.colors.text.secondary,
+		':hover': {
+			color: vars.colors.text.regular,
+		},
+		':focus': {
+			color: vars.colors.text.regular,
+		},
+	},
+])
 
 export const cards = style({
 	display: 'grid',

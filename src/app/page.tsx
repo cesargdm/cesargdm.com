@@ -1,8 +1,20 @@
+import { IconBook } from '@tabler/icons-react'
+
 import Chat from '@/modules/Chat'
+import Mint from '@/modules/Mint'
+import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
 
-import { card, cards, chat, introContainer, introParagraph } from './styles.css'
-import LastPhoto from '@/modules/LastPhoto'
+import Cretia from '@/assets/icons/Cretia'
+
+import {
+	card,
+	cards,
+	chat,
+	cretiaCard,
+	introContainer,
+	introParagraph,
+} from './styles.css'
 
 function Home() {
 	return (
@@ -34,20 +46,34 @@ function Home() {
 				</li>
 				<li>
 					<div className={card}>
-						<h2>Reading</h2>
+						<h2>
+							<IconBook aria-hidden />
+							Reading
+						</h2>
 						<p>Current book</p>
 					</div>
 				</li>
 				<li>
-					<div className={card}>
-						<h2>Cretia</h2>
-						<p>LOGO</p>
-					</div>
+					<a
+						aria-label="Visit Cretia website"
+						href="https://about.cretia.app?utm_source=cesargdm"
+						className={cretiaCard}
+					>
+						<Cretia
+							style={{ maxWidth: 100, justifySelf: 'center', margin: 'auto' }}
+							aria-hidden
+						/>
+					</a>
 				</li>
 				<li>
 					<div className={card}>
 						{/* @ts-ignore */}
 						<LastPhoto />
+					</div>
+				</li>
+				<li>
+					<div className={card}>
+						<Mint />
 					</div>
 				</li>
 			</ul>

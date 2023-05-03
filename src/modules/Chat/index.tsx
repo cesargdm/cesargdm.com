@@ -10,12 +10,13 @@ import {
 	chatMessagesContainer,
 	chatMessageUser,
 } from './styles.css'
-import { IconArrowUp, IconMessage } from '@tabler/icons-react'
+import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
+import { vars } from '@/app/theme.css'
 
 function Chat() {
 	const [prompt, setPrompt] = useState('')
 	const [messages, setMessages] = useState([
-		{ id: '0', text: "Hey what's? up", from: 'assistant' },
+		{ id: '0', text: "Hey! what's up?", from: 'assistant' },
 	])
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -34,10 +35,11 @@ function Chat() {
 				method: 'POST',
 				body: JSON.stringify({ prompt: userMessage }),
 			}).then((response) => response.json())
+			const text = data.choices[0].text
 
 			setMessages((prev) => [
 				...prev.filter((message) => message.id !== 'LOADING'),
-				{ id: String(Date.now()), text: data.text, from: 'assistant' },
+				{ id: String(Date.now()), text, from: 'assistant' },
 			])
 		}
 
@@ -53,7 +55,10 @@ function Chat() {
 		event.preventDefault()
 
 		setPrompt('')
-		setMessages((prev) => [...prev, { id: '1', text: prompt, from: 'user' }])
+		setMessages((prev) => [
+			...prev,
+			{ id: String(Date.now()), text: prompt, from: 'user' },
+		])
 	}
 
 	return (
@@ -71,7 +76,11 @@ function Chat() {
 							}
 							key={message.id}
 						>
-							{message.text}
+							{message.id === 'LOADING' ? (
+								<IconDots key="dots" color={vars.colors.text.decorative} />
+							) : (
+								message.text
+							)}
 						</li>
 					))}
 				</ul>
@@ -86,11 +95,11 @@ function Chat() {
 					<button
 						value=""
 						type="submit"
-						disabled={isLoading}
+						disabled={isLoading || !prompt}
 						aria-label="Send message"
 						className={submitButton}
 					>
-						<IconArrowUp aria-hidden />
+						<IconArrowUp strokeWidth={3} aria-hidden />
 					</button>
 				</form>
 			</div>

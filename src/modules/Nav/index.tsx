@@ -9,7 +9,7 @@ function Nav() {
 		<nav className={container}>
 			<ul className={list}>
 				<li>
-					<Link href="/">Home</Link>
+					<Link href="/">César</Link>
 				</li>
 				<li>
 					<Link href="/projects">Projects</Link>

@@ -1,5 +1,7 @@
 import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
+import { square } from './styles.css'
+import { vars } from '@/app/theme.css'
 
 async function LastPhoto() {
 	const response = await fetch(
@@ -16,6 +18,7 @@ async function LastPhoto() {
 
 	return (
 		<>
+			<span className={square} aria-hidden />
 			{photoUrl && (
 				<Image
 					src={photoUrl}
@@ -32,7 +35,19 @@ async function LastPhoto() {
 					alt={response?.alt_description}
 				/>
 			)}
-			<IconBrandUnsplash color="white" />
+			<a
+				style={{
+					position: 'absolute',
+					top: vars.space.medium,
+					left: vars.space.medium,
+				}}
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://unsplash.com/@cesargdm"
+				aria-label="Visit César Guadarrama portfolio on Unsplash"
+			>
+				<IconBrandUnsplash fill="white" strokeWidth={0} aria-hidden />
+			</a>
 		</>
 	)
 }
