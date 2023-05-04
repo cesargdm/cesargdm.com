@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 			model: MODEL,
 			stop: ['END'],
 			max_tokens: 50,
-			temperature: 1.0,
+			temperature: 0.8,
 		})
 
 		return NextResponse.json(result.data)
