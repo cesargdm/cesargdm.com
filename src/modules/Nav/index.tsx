@@ -1,27 +1,28 @@
-import Link from 'next/link'
-
-import { container, list } from './styles.css'
+import {
+	navList,
+	navContainer,
+	centerNavList,
+	navToggleThemeItem,
+} from './styles.css'
 
 import ToggleTheme from './ToggleTheme'
 
+import NavLink from './NavLink'
+import classNames from 'classnames'
+
 function Nav() {
 	return (
-		<nav className={container}>
-			<ul className={list}>
-				<li>
-					<Link href="/">César</Link>
-				</li>
-				<li>
-					<Link href="/projects">Projects</Link>
-				</li>
-				<li>
-					<Link href="/blog">Blog</Link>
-				</li>
-				<li>
-					<Link href="/contact">Contact</Link>
-				</li>
+		<nav className={navContainer}>
+			<i aria-hidden />
+			<ul tabIndex={0} className={centerNavList}>
+				<NavLink href="/" exact>
+					Home
+				</NavLink>
+				<NavLink href="/projects">Projects</NavLink>
+				<NavLink href="/blog">Blog</NavLink>
+				<NavLink href="/contact">Contact</NavLink>
 			</ul>
-			<ul className={list}>
+			<ul className={classNames(navList, navToggleThemeItem)}>
 				<li>
 					<ToggleTheme />
 				</li>

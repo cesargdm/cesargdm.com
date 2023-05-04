@@ -17,6 +17,7 @@ import {
 	introParagraph,
 } from './styles.css'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 function Home() {
 	return (
@@ -46,8 +47,10 @@ function Home() {
 				</li>
 				<li>
 					<div className={card}>
-						{/* @ts-ignore */}
-						<LastTweet />
+						<Suspense fallback={null}>
+							{/* @ts-ignore */}
+							<LastTweet />
+						</Suspense>
 					</div>
 				</li>
 				<li>
@@ -73,13 +76,17 @@ function Home() {
 				</li>
 				<li>
 					<div className={card}>
-						{/* @ts-ignore */}
-						<LastPhoto />
+						<Suspense fallback={null}>
+							{/* @ts-ignore */}
+							<LastPhoto />
+						</Suspense>
 					</div>
 				</li>
 				<li>
 					<div className={card}>
-						<Mint />
+						<Suspense fallback={null}>
+							<Mint />
+						</Suspense>
 					</div>
 				</li>
 			</ul>

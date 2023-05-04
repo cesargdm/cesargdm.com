@@ -12,7 +12,10 @@ export const root = createGlobalTheme(':root', {
 		body: 'system-ui',
 	},
 	boxShadow: {
-		medium: '0 0 8px rgba(0, 0, 0, 0.125)',
+		medium: `0 3.9px 4.6px rgba(0, 0, 0, 0.04),
+     0 12.3px 8.4px rgba(0, 0, 0, 0.056),
+     0 18.8px 19.2px rgba(0, 0, 0, 0.037),
+     0 22px 40px rgba(0, 0, 0, 0.019)`,
 	},
 	space: {
 		small: '4px',
@@ -34,7 +37,7 @@ export const root = createGlobalTheme(':root', {
 		full: '9999px',
 	},
 	sizes: {
-		navBar: '60px',
+		navBar: '64px',
 		button: '40px',
 	},
 })
@@ -59,13 +62,13 @@ const lightColors = {
 	primary: 'rgb(0, 122, 255)',
 	background: {
 		regular: '#fff',
-		content: '#f5f5f5',
+		content: '#f8f8f8',
 		gray: '#eee',
 	},
 	border: '#ccc',
 	text: {
 		regular: '#000',
-		secondary: '#666',
+		secondary: '#444',
 		tertiary: '#999',
 		decorative: '#aaa',
 	},

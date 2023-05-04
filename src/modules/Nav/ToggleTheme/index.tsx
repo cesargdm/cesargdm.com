@@ -41,8 +41,8 @@ function ToggleTheme() {
 
 	return (
 		<button
-			className={toggleTheme}
 			title="Toggle theme"
+			className={toggleTheme}
 			onClick={handleToggleTheme}
 		>
 			{theme === 'dark' && <IconSun />}

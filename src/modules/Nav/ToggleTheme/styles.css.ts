@@ -5,8 +5,11 @@ export const toggleTheme = style({
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
-	borderRadius: vars.borderRadius.medium,
-	':hover': {
-		backgroundColor: vars.colors.background.content,
+	borderRadius: vars.borderRadius.full,
+	height: 48,
+	width: 48,
+	':focus': {
+		// outline: 'none',
+		// boxShadow: `inset 0 0 0 2px ${vars.colors.primary}`,
 	},
 })

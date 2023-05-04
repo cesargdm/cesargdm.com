@@ -4,6 +4,7 @@ import { vars } from './theme.css'
 export const content = style({
 	maxWidth: 1200,
 	padding: 20,
+	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.medium})`,
 	margin: '0 auto',
 })
 

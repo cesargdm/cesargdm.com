@@ -4,14 +4,19 @@ import { vars } from '@/app/theme.css'
 
 export const dropdownText = style({
 	// bottom line
-	textDecorationLine: 'underline',
-	textDecorationStyle: 'dotted',
-	textDecorationColor: vars.colors.primary,
-	minHeight: 'auto',
 	minWidth: 'auto',
 	lineHeight: 1.5,
-	fontSize: vars.fontSize.large,
+	minHeight: 'auto',
 	display: 'inline',
+	textDecorationStyle: 'dotted',
+	textDecorationLine: 'underline',
+	fontSize: vars.fontSize.large,
+	textDecorationColor: vars.colors.primary,
+	':focus': {
+		textDecorationLine: 'underline',
+		textDecorationStyle: 'solid',
+		textDecorationThickness: 3,
+	},
 })
 
 export const dropdownContent = style({
