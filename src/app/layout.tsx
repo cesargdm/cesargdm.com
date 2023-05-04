@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 
 import Nav from '@/modules/Nav'
+import Footer from '@/modules/Footer'
 
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
@@ -23,7 +24,6 @@ export const metadata = {
 	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
 	description: 'César Guadarrama - Software product engineer',
 	creator: 'cesargdm',
-	themeColor: 'black',
 	['og:title']: 'cesargdm',
 	['og:description']: 'César Guadarrama Cantú - Software product engineer',
 }
@@ -49,6 +49,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={body}>
 				<Nav />
 				<main className={content}>{children}</main>
+				{/* @ts-ignore */}
+				<Footer />
 				<Analytics />
 			</body>
 		</html>

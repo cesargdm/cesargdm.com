@@ -1,3 +1,7 @@
+---
+title: Tecno-neuroética
+---
+
 # Tecno-neuroética
 
 > Ingeniería en la ética
@@ -21,9 +25,9 @@ En conclusión, la neurociencia y la neuroética son disciplinas que se entrelaz
 
 ## Referencias
 
-Roskies, A. (2002). Neuroethics for the new millenium. Neuron, 35(1), 21-23.
-Fuenmayor, L. R. (2022). Bacterial Involvement in Neuropsychiatric Disorders: From Gut to Brain. Frontiers in neuroscience, 16, 631611.
-Farah, M. J. (2017). An introduction to neuroethics. Cambridge University Press.
-Gazzaniga, M. S., Ivry, R. B., & Mangun, G. R. (2014). Cognitive neuroscience: The biology of the mind. W.W. Norton & Company.
-Illes, J. (2006). Neuroethics in a new era of neuroimaging. AJOB Neuroscience, 1(1), 3-8.
-Juengst, E. T. (1998). What Does Enhancement Mean?. In Enhancing Human Traits (pp. 29-47). Georgetown University Press.
+- Roskies, A. (2002). Neuroethics for the new millenium. Neuron, 35(1), 21-23.
+- Fuenmayor, L. R. (2022). Bacterial Involvement in Neuropsychiatric Disorders: From Gut to Brain. Frontiers in neuroscience, 16, 631611.
+- Farah, M. J. (2017). An introduction to neuroethics. Cambridge University Press.
+- Gazzaniga, M. S., Ivry, R. B., & Mangun, G. R. (2014). Cognitive neuroscience: The biology of the mind. W.W. Norton & Company.
+- Illes, J. (2006). Neuroethics in a new era of neuroimaging. AJOB Neuroscience, 1(1), 3-8.
+- Juengst, E. T. (1998). What Does Enhancement Mean?. In Enhancing Human Traits (pp. 29-47). Georgetown University Press.

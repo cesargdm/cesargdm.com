@@ -29,6 +29,7 @@ export const root = createGlobalTheme(':root', {
 		large: '1.1rem',
 		xlarge: '1.2rem',
 		xxlarge: '1.5rem',
+		xxxlarge: '2rem',
 	},
 	borderRadius: {
 		medium: '8px',

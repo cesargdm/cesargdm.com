@@ -1,6 +1,6 @@
-export const meta = {
-	title: 'Cogito ergo machina',
-}
+---
+title: Cogito ergo machina
+---
 
 # Cogito ergo machina
 

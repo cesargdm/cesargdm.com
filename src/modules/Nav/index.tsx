@@ -16,7 +16,7 @@ function Nav() {
 			<i aria-hidden />
 			<ul tabIndex={0} className={centerNavList}>
 				<NavLink href="/" exact>
-					Home
+					About
 				</NavLink>
 				<NavLink href="/projects">Projects</NavLink>
 				<NavLink href="/blog">Blog</NavLink>
