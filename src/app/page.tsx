@@ -68,57 +68,59 @@ function Home() {
 					I&apos;ve created some cool <Link href="/projects">projects</Link>.
 				</p>
 			</div>
-			<ul className={cards}>
-				<li className={chat}>
-					<div className={card}>
-						<Chat />
-					</div>
-				</li>
-				<li>
-					<div className={card}>
-						<Suspense fallback={null}>
-							{/* @ts-ignore */}
-							<LastTweet />
-						</Suspense>
-					</div>
-				</li>
-				<li>
-					<div className={card}>
-						<h2>
-							<IconBook aria-hidden />
-							Reading
-						</h2>
-						<p>Current book</p>
-					</div>
-				</li>
-				<li>
-					<a
-						aria-label="Visit Cretia website"
-						href="https://about.cretia.app?utm_source=cesargdm"
-						className={cretiaCard}
-					>
-						<Cretia
-							style={{ maxWidth: 100, justifySelf: 'center', margin: 'auto' }}
-							aria-hidden
-						/>
-					</a>
-				</li>
-				<li>
-					<div className={card}>
-						<Suspense fallback={null}>
-							{/* @ts-ignore */}
-							<LastPhoto />
-						</Suspense>
-					</div>
-				</li>
-				<li>
-					<div className={card}>
-						<Suspense fallback={null}>
-							<Mint />
-						</Suspense>
-					</div>
-				</li>
-			</ul>
+			<Suspense fallback={null}>
+				<ul className={cards}>
+					<li className={chat}>
+						<div className={card}>
+							<Chat />
+						</div>
+					</li>
+					<li>
+						<div className={card}>
+							<Suspense fallback={null}>
+								{/* @ts-ignore */}
+								<LastTweet />
+							</Suspense>
+						</div>
+					</li>
+					<li>
+						<div className={card}>
+							<h2>
+								<IconBook aria-hidden />
+								Reading
+							</h2>
+							<p>Current book</p>
+						</div>
+					</li>
+					<li>
+						<a
+							aria-label="Visit Cretia website"
+							href="https://about.cretia.app?utm_source=cesargdm"
+							className={cretiaCard}
+						>
+							<Cretia
+								style={{ maxWidth: 100, justifySelf: 'center', margin: 'auto' }}
+								aria-hidden
+							/>
+						</a>
+					</li>
+					<li>
+						<div className={card}>
+							<Suspense fallback={null}>
+								{/* @ts-ignore */}
+								<LastPhoto />
+							</Suspense>
+						</div>
+					</li>
+					<li>
+						<div className={card}>
+							<Suspense fallback={null}>
+								<Mint />
+							</Suspense>
+						</div>
+					</li>
+				</ul>
+			</Suspense>
 		</div>
 	)
 }
