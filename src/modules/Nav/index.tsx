@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import {
 	navList,
 	navContainer,
@@ -8,7 +10,6 @@ import {
 import ToggleTheme from './ToggleTheme'
 
 import NavLink from './NavLink'
-import classNames from 'classnames'
 
 function Nav() {
 	return (

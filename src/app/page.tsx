@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { IconBook } from '@tabler/icons-react'
 
 import Chat from '@/modules/Chat'
@@ -12,18 +13,46 @@ import {
 	cards,
 	chat,
 	cretiaCard,
-	dropdownText,
 	introContainer,
 	introParagraph,
 } from './styles.css'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
+function getCheerFromVisitsCount(visitsCount: string) {
+	const visitsCountNumber = Number(visitsCount)
+
+	if (visitsCountNumber <= 2) {
+		return 'again'
+	}
+
+	if (visitsCountNumber <= 10) {
+		return 'buddy'
+	}
+
+	if (visitsCountNumber <= 20) {
+		return 'friend'
+	}
+
+	if (visitsCountNumber <= 30) {
+		return 'staker'
+	}
+
+	if (visitsCountNumber <= 50) {
+		return 'mom'
+	}
+
+	return 'debugger'
+}
+
 function Home() {
+	const cookieStore = cookies()
+	const visitsCount = cookieStore.get('visits-count')?.value || '1'
+
 	return (
 		<div>
 			<div className={introContainer}>
-				<h1>Hi!</h1>
+				<h1>Hi {getCheerFromVisitsCount(visitsCount)}!</h1>
 				<p className={introParagraph}>
 					I&apos;m a dedicated Product Engineer with a passion for creating
 					delightful and functional user experiences. On a daily basis, I work

@@ -11,6 +11,13 @@ function ToggleTheme() {
 	const [theme, setTheme] = useState(cookieCutter.get('theme'))
 
 	useEffect(() => {
+		cookieCutter.set(
+			'visits-count',
+			String(Number(cookieCutter.get('visits-count')) + 1 || 1),
+		)
+	}, [])
+
+	useEffect(() => {
 		document.body.classList.remove(lightTheme)
 		document.body.classList.remove(responsiveTheme)
 		document.body.classList.remove(darkTheme)

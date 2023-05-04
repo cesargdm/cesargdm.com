@@ -61,6 +61,7 @@ export const chat = style({
 
 export const introParagraph = style({
 	lineHeight: 1.5,
+	marginTop: vars.space.medium,
 	fontSize: vars.fontSize.large,
 })
 
