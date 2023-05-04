@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { IconBook } from '@tabler/icons-react'
 
@@ -16,36 +18,12 @@ import {
 	introContainer,
 	introParagraph,
 } from './styles.css'
-import Link from 'next/link'
-import { Suspense } from 'react'
 
-function getCheerFromVisitsCount(visitsCount: string) {
-	const visitsCountNumber = Number(visitsCount)
+import { getCheerFromVisitsCount } from '@/lib/cheer'
 
-	if (visitsCountNumber <= 2) {
-		return 'again'
-	}
+export const runtime = 'edge'
 
-	if (visitsCountNumber <= 10) {
-		return 'buddy'
-	}
-
-	if (visitsCountNumber <= 20) {
-		return 'friend'
-	}
-
-	if (visitsCountNumber <= 30) {
-		return 'staker'
-	}
-
-	if (visitsCountNumber <= 50) {
-		return 'mom'
-	}
-
-	return 'debugger'
-}
-
-function Home() {
+export default function Home() {
 	const cookieStore = cookies()
 	const visitsCount = cookieStore.get('visits-count')?.value || '1'
 
@@ -124,5 +102,3 @@ function Home() {
 		</div>
 	)
 }
-
-export default Home
