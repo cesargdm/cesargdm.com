@@ -2,24 +2,18 @@ import { vars } from '@/app/theme.css'
 import { style } from '@vanilla-extract/css'
 
 export const navContainer = style({
-	position: 'fixed',
-	top: vars.space.medium,
 	left: 0,
 	right: 0,
-	display: 'grid',
-	gridTemplateColumns: '1fr 3fr 1fr',
-	// justifyContent: 'space-between',
-	// alignItems: 'center',
-	maxWidth: 1200,
-	margin: '0 auto',
-	padding: `${vars.space.medium} ${vars.space.large}`,
-	height: vars.sizes.navBar,
-	justifyItems: 'center',
 	zIndex: 100,
-	':focus': {
-		// outline: 'none',
-		// boxShadow: `inset 0 0 0 2px ${vars.colors.primary}`,
-	},
+	display: 'grid',
+	margin: '0 auto',
+	position: 'fixed',
+	top: vars.space.medium,
+	justifyItems: 'center',
+	height: vars.sizes.navBar,
+	maxWidth: vars.sizes.maxWidthPage,
+	gridTemplateColumns: '1fr 3fr 1fr',
+	padding: `${vars.space.medium} ${vars.space.large}`,
 })
 
 export const navList = style({

@@ -1,11 +1,12 @@
 import { style } from '@vanilla-extract/css'
+
 import { vars } from './theme.css'
 
 export const content = style({
-	maxWidth: 1200,
 	padding: 20,
-	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.medium})`,
 	margin: '0 auto',
+	maxWidth: vars.sizes.maxWidthPage,
+	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.medium})`,
 })
 
 export const body = style({
@@ -14,22 +15,21 @@ export const body = style({
 })
 
 export const dropdownText = style({
-	// bottom line
-	textDecorationLine: 'underline',
-	textDecorationStyle: 'dotted',
-	textDecorationColor: vars.colors.primary,
-	minHeight: 'auto',
 	minWidth: 'auto',
 	lineHeight: 1.5,
-	fontSize: vars.fontSize.large,
 	display: 'inline',
+	minHeight: 'auto',
+	fontSize: vars.fontSize.large,
+	textDecorationStyle: 'dotted',
+	textDecorationLine: 'underline',
+	textDecorationColor: vars.colors.primary,
 })
 
 export const card = style({
 	height: '100%',
+	display: 'flex',
 	overflow: 'hidden',
 	position: 'relative',
-	display: 'flex',
 	flexDirection: 'column',
 	padding: vars.space.large,
 	borderRadius: vars.borderRadius.xlarge,

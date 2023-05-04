@@ -22,9 +22,13 @@ export const root = createGlobalTheme(':root', {
 		medium: '8px',
 		large: '16px',
 		xlarge: '24px',
+		xxlarge: '32px',
+		xxxlarge: '48px',
 	},
 	fontSize: {
-		small: '0.75rem',
+		xxsmall: '0.6rem',
+		xsmall: '0.8rem',
+		small: '0.92rem',
 		medium: '1rem',
 		large: '1.1rem',
 		xlarge: '1.2rem',
@@ -40,6 +44,7 @@ export const root = createGlobalTheme(':root', {
 	sizes: {
 		navBar: '64px',
 		button: '40px',
+		maxWidthPage: '1280px',
 	},
 })
 

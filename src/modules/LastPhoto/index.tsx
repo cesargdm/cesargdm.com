@@ -3,16 +3,17 @@ import Image from 'next/image'
 import { square } from './styles.css'
 import { vars } from '@/app/theme.css'
 
-async function LastPhoto() {
-	const response = await fetch(
-		'https://cesargdm.com/api/unsplash/last-photos',
-		{
-			method: 'GET',
-			cache: 'force-cache',
-		},
-	)
+function getData() {
+	return fetch('https://cesargdm.com/api/unsplash/last-photos', {
+		method: 'GET',
+		next: { revalidate: 60 * 60 * 24 },
+	})
 		.then((response) => response.json())
 		.catch(() => undefined)
+}
+
+async function LastPhoto() {
+	const response = await getData()
 
 	const photoUrl = response[0].urls.regular
 

@@ -4,14 +4,18 @@ import Twitter from '@/assets/icons/Twitter'
 
 import { readTweetsLink, tweetParagraph } from './styles.css'
 
-async function LastTweet() {
-	const response = await fetch('https://cesargdm.com/api/twitter/last-tweets', {
-		cache: 'force-cache',
+function getData() {
+	return fetch('https://cesargdm.com/api/twitter/last-tweets', {
+		next: { revalidate: 60 * 60 * 24 },
 	})
 		.then((response) => response.json())
 		.catch(() => undefined)
+}
 
-	const tweetText = response?.data?.[0]?.text
+async function LastTweet() {
+	const result = await getData()
+
+	const tweetText = result?.data?.[0]?.text
 
 	return (
 		<>
