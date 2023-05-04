@@ -4,11 +4,11 @@ import { cookies } from 'next/headers'
 import { IconBook } from '@tabler/icons-react'
 
 import Chat from '@/modules/Chat'
-import Mint from '@/modules/Mint'
+// import Mint from '@/modules/Mint'
+import Cretia from '@/assets/icons/Cretia'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
 import HoverCompany from '@/modules/HoverCompany'
-import Cretia from '@/assets/icons/Cretia'
 
 import {
 	card,
@@ -46,11 +46,22 @@ export default function Home() {
 					I&apos;ve created some cool <Link href="/projects">projects</Link>.
 				</p>
 			</div>
-			<Suspense fallback={null}>
+			<Suspense
+				fallback={
+					<ul className={cards}>
+						<li className={card}></li>
+						<li className={card}></li>
+						<li className={card}></li>
+						<li className={card}></li>
+					</ul>
+				}
+			>
 				<ul className={cards}>
 					<li className={chat}>
 						<div className={card}>
-							<Chat />
+							<Suspense fallback={null}>
+								<Chat />
+							</Suspense>
 						</div>
 					</li>
 					<li>
@@ -90,13 +101,13 @@ export default function Home() {
 							</Suspense>
 						</div>
 					</li>
-					<li>
+					{/* <li>
 						<div className={card}>
 							<Suspense fallback={null}>
 								<Mint />
 							</Suspense>
 						</div>
-					</li>
+					</li> */}
 				</ul>
 			</Suspense>
 		</div>

@@ -27,6 +27,7 @@ export const dropdownText = style({
 
 export const card = style({
 	height: '100%',
+	minHeight: 100,
 	display: 'flex',
 	overflow: 'hidden',
 	position: 'relative',

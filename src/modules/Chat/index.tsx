@@ -1,6 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
 
+import { vars } from '@/app/theme.css'
 import TextInput from '@/components/TextInput'
 
 import {
@@ -10,8 +12,6 @@ import {
 	chatMessagesContainer,
 	chatMessageUser,
 } from './styles.css'
-import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
-import { vars } from '@/app/theme.css'
 
 function Chat() {
 	const [prompt, setPrompt] = useState('')

@@ -1,7 +1,8 @@
 import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
-import { square } from './styles.css'
 import { vars } from '@/app/theme.css'
+
+import { square } from './styles.css'
 
 function getData() {
 	return fetch('https://cesargdm.com/api/unsplash/last-photos', {
