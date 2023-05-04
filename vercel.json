@@ -26,10 +26,6 @@
 			]
 		},
 		{
-			"source": "/(index.html|manifest.json|service-worker.js)",
-			"headers": [{ "key": "Cache-Control", "value": "public, max-age=0" }]
-		},
-		{
 			"source": "/(static|pwa|fonts)/(.*)",
 			"headers": [
 				{
