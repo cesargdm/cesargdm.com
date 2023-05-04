@@ -30,6 +30,7 @@ async function LastTweet() {
 				className={readTweetsLink}
 				style={{ marginTop: 'auto' }}
 				href="https://twitter.com/cesargdm"
+				aria-label="Visit my Twitter profile"
 			>
 				Read more
 				<IconExternalLink />
