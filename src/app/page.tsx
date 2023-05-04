@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { IconBook } from '@tabler/icons-react'
 
 import Chat from '@/modules/Chat'
-// import Mint from '@/modules/Mint'
 import Cretia from '@/assets/icons/Cretia'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
@@ -101,13 +100,6 @@ export default function Home() {
 							</Suspense>
 						</div>
 					</li>
-					{/* <li>
-						<div className={card}>
-							<Suspense fallback={null}>
-								<Mint />
-							</Suspense>
-						</div>
-					</li> */}
 				</ul>
 			</Suspense>
 		</div>

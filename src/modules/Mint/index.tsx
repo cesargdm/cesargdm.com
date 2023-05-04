@@ -1,12 +1,12 @@
 'use client'
 
-import { IconArtboard } from '@tabler/icons-react'
 import { getDefaultProvider } from 'ethers'
+import { IconArtboard } from '@tabler/icons-react'
 import {
-	WagmiConfig,
-	createClient,
 	useAccount,
 	useConnect,
+	WagmiConfig,
+	createClient,
 	useDisconnect,
 } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'

@@ -14,8 +14,9 @@ function getData() {
 export default async function Footer() {
 	const result = await getData()
 
-	const date = new Date()
-	date.toLocaleString('en-US', { timeZone: result.tz })
+	const date = new Date(
+		new Date().toLocaleString('en-US', { timeZone: result.tz }),
+	)
 
 	return (
 		<footer className={footerContainer}>
