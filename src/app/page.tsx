@@ -1,13 +1,15 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { IconBook } from '@tabler/icons-react'
 
 import Chat from '@/modules/Chat'
+import Reading from '@/modules/Reading'
 import Cretia from '@/assets/icons/Cretia'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
 import HoverCompany from '@/modules/HoverCompany'
+
+import { getCheerFromVisitsCount } from '@/lib/cheer'
 
 import {
 	card,
@@ -17,8 +19,6 @@ import {
 	introContainer,
 	introParagraph,
 } from './styles.css'
-
-import { getCheerFromVisitsCount } from '@/lib/cheer'
 
 export const runtime = 'edge'
 
@@ -73,11 +73,7 @@ export default function Home() {
 					</li>
 					<li>
 						<div className={card}>
-							<h2>
-								<IconBook aria-hidden />
-								Reading
-							</h2>
-							<p>Current book</p>
+							<Reading />
 						</div>
 					</li>
 					<li>

@@ -6,7 +6,13 @@ const x = Xray()
 // 1 week
 export const revalidate = 60 * 60 * 24 * 7
 
+export const runtime = 'nodejs'
+
 export async function GET() {
+	/**
+	 * I hope this does not break the tos of goodreads, if it does, please let me know
+	 * and I'll be sorry.
+	 */
 	const rawResults = await x(
 		'https://www.goodreads.com/review/list/119995387-c-sar-guadarrama?shelf=currently-reading',
 		'#booksBody .bookalike',
