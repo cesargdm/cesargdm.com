@@ -52,7 +52,7 @@ export const cretiaCard = style([
 
 export const cards = style({
 	display: 'grid',
-	gap: vars.space.medium,
+	gap: vars.space.large,
 	gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
 })
 

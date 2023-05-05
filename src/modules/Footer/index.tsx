@@ -27,16 +27,22 @@ export default async function Footer() {
 				</li>
 
 				<li className={footerParagraph}>
+					<b>Source</b>
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href="https://github.com/cesargdm/cesargdm.com"
+					>
+						GitHub
+					</a>
+				</li>
+
+				<li className={footerParagraph}>
 					<b>Local time</b>
 					{date.toLocaleTimeString(undefined, {
 						hour: 'numeric',
 						minute: 'numeric',
 					})}
-				</li>
-
-				<li className={footerParagraph}>
-					<b>Source</b>
-					<a href="https://github.com/cesargdm/cesargdm.com">GitHub</a>
 				</li>
 			</ul>
 		</footer>

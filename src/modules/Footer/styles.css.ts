@@ -12,7 +12,7 @@ export const footerContainer = style({
 export const footerList = style({
 	display: 'flex',
 	flexWrap: 'wrap',
-	gap: vars.space.large,
+	gap: vars.space.xlarge,
 })
 
 export const footerParagraph = style({
