@@ -5,74 +5,60 @@ import {
 	IconBrandTwitter,
 	IconBrandLinkedin,
 } from '@tabler/icons-react'
-import { contactList } from './styles.css'
-import { vars } from '../theme.css'
+import { contactHeading, contactList } from './styles.css'
 
 export const metadata = {
 	title: 'Contact',
 }
 
+const socialLinks = [
+	{
+		name: 'Twitter',
+		url: 'https://twitter.com/cesargdm',
+		icon: <IconBrandTwitter aria-hidden />,
+	},
+	{
+		name: 'CV',
+		url: 'https://read.cv/cesargdm',
+		icon: <IconFile aria-hidden />,
+	},
+	{
+		name: 'GitHub',
+		url: 'https://github.com/github',
+		icon: <IconBrandGithub aria-hidden />,
+	},
+	{
+		name: 'LinkedIn',
+		url: 'https://linkedin.com/in/cesargdm',
+		icon: <IconBrandLinkedin aria-hidden />,
+	},
+	{
+		name: 'Email',
+		url: 'mailto:yo@cesargdm.com',
+		icon: <IconMail aria-hidden />,
+	},
+]
+
+function SocialItem(props: { name: string; url: string; icon: JSX.Element }) {
+	return (
+		<li>
+			<a target="_blank" rel="noopener noreferrer" href={props.url}>
+				{props.icon}
+				{props.name}
+			</a>
+		</li>
+	)
+}
+
 export default function Contact() {
 	return (
-		<div>
-			<h1
-				style={{
-					textAlign: 'center',
-					width: '100%',
-					display: 'block',
-					marginBottom: vars.space.xlarge,
-				}}
-			>
-				Contact
-			</h1>
+		<>
+			<h1 className={contactHeading}>Contact</h1>
 			<ul className={contactList}>
-				<li>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href="https://twitter.com/cesargdm"
-					>
-						<IconBrandTwitter aria-hidden />
-						Twitter
-					</a>
-				</li>
-				<li>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href="https://read.cv/cesargdm"
-					>
-						<IconFile aria-hidden />
-						CV
-					</a>
-				</li>
-				<li>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href="https://github.com/cesargdm"
-					>
-						<IconBrandGithub aria-hidden />
-						GitHub
-					</a>
-				</li>
-				<li>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href="https://linkedin.com/in/cesargdm"
-					>
-						<IconBrandLinkedin aria-hidden />
-						LinkedIn
-					</a>
-				</li>
-				<li>
-					<a href="mailto:yo@cesargdm.com">
-						<IconMail aria-hidden />
-						Email
-					</a>
-				</li>
+				{socialLinks.map((link) => (
+					<SocialItem key={link.name} {...link} />
+				))}
 			</ul>
-		</div>
+		</>
 	)
 }

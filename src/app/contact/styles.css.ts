@@ -8,6 +8,13 @@ export const contactList = style({
 	gap: vars.space.xlarge,
 })
 
+export const contactHeading = style({
+	textAlign: 'center',
+	width: '100%',
+	display: 'block',
+	marginBottom: vars.space.xlarge,
+})
+
 globalStyle(`${contactList} a`, {
 	display: 'flex',
 	alignItems: 'center',
