@@ -1,36 +1,38 @@
 import { NextResponse } from 'next/server'
 
-require('webpack-node-externals')
-const Xray = require('x-ray')
-const x = Xray()
-
 // 1 week
 export const revalidate = 60 * 60 * 24 * 7
 
-export const runtime = 'nodejs'
+import { load } from 'cheerio'
 
 export async function GET() {
 	/**
 	 * I hope this does not break the tos of goodreads, if it does, please let me know
 	 * and I'll be sorry.
 	 */
-	const rawResults = await x(
+	const textResponse = await fetch(
 		'https://www.goodreads.com/review/list/119995387-c-sar-guadarrama?shelf=currently-reading',
-		'#booksBody .bookalike',
-		[
-			{
-				image: 'img@src',
-				title: '.title .value a',
-				url: '.title .value a@href',
-			},
-		],
-	).catch(() => [])
+	).then((response) => response.text())
 
-	const results = rawResults.map((result: any) => ({
-		...result,
-		title: result.title.replace(/\s\s+/g, '').replace(/\n/g, ''),
-		image: result.image.replace(/\s\s+/g, '').replace(/\._.*_\./g, '.'),
-	}))
+	const $ = load(textResponse)
+
+	const results = [] as {
+		title: string
+		image?: string
+		url?: string
+	}[]
+
+	$('#booksBody .bookalike').each((index, element) => {
+		const $element = $(element)
+
+		const result = {
+			title: $element.find('.title .value a').text().trim(),
+			image: $element.find('img').attr('src'),
+			url: $element.find('.title .value a').attr('href'),
+		}
+
+		results.push(result)
+	})
 
 	return NextResponse.json(results)
 }
