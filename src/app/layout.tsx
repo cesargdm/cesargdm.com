@@ -15,6 +15,7 @@ import './globals.css'
 const inter = Inter({
 	subsets: ['latin'],
 	weight: ['100', '400', '700', '900'],
+	variable: '--fonts--inter',
 	fallback: [
 		'system-ui',
 		'-apple-system',
