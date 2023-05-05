@@ -12,20 +12,39 @@ import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+	subsets: ['latin'],
+	weight: ['100', '400', '700', '900'],
+	fallback: [
+		'system-ui',
+		'-apple-system',
+		'BlinkMacSystemFont',
+		'Segoe UI',
+		'Roboto',
+		'Oxygen',
+		'Ubuntu',
+		'Cantarell',
+		'Open Sans',
+		'Helvetica Neue',
+		'sans-serif',
+	],
+})
 
 export const metadata = {
-	title: {
-		template: '%s - cesargdm',
-		default: 'cesargdm',
-	},
+	creator: 'cesargdm',
 	category: 'technology',
 	metadataBase: new URL('https://cesargdm.com'),
 	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
-	description: 'César Guadarrama - Software product engineer',
-	creator: 'cesargdm',
-	['og:title']: 'cesargdm',
-	['og:description']: 'César Guadarrama Cantú - Software product engineer',
+	description: 'César Guadarrama - Product engineer - Blog, portfolio and more',
+	title: {
+		default: 'cesargdm',
+		template: '%s - cesargdm',
+	},
+	openGraph: {
+		title: 'cesargdm',
+		description:
+			'César Guadarrama Cantú - Product engineer - Blog, portfolio and more',
+	},
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

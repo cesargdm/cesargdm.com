@@ -6,7 +6,11 @@ import { getPost } from '@/lib/blog'
 
 import { Merriweather } from 'next/font/google'
 
-const merriweather = Merriweather({ weight: '400', subsets: ['latin'] })
+const merriweather = Merriweather({
+	weight: ['400', '900'],
+	subsets: ['latin'],
+	fallback: ['serif'],
+})
 
 export default async function BlogPostPage({
 	params,
