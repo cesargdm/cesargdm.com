@@ -1,27 +1,39 @@
 'use client'
 
+import { IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react'
+import {
+	sitename,
+	socialLink,
+	socialLinksList,
+	smallDescription,
+} from './styles.css'
+
 export default function SideAboutMe() {
 	const url = window.location.href
 
 	return (
 		<aside>
-			<p>César Guadarrama Cantú</p>
-			<p style={{ fontSize: '0.85rem' }}>
+			<p className={sitename}>cesargdm</p>
+			<p className={smallDescription}>
 				Experienced Product Engineer crafting interfaces with latest
 				technologies. Contributed to success of multiple top companies.
 			</p>
-			<ul>
+			<ul className={socialLinksList}>
 				<li>
 					<a
+						className={socialLink}
 						href={`https://twitter.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
 					>
+						<IconBrandTwitter aria-hidden />
 						Twitter
 					</a>
 				</li>
 				<li>
 					<a
+						className={socialLink}
 						href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
 					>
+						<IconBrandLinkedin aria-hidden />
 						LinkedIn
 					</a>
 				</li>

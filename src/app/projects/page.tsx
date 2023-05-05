@@ -7,6 +7,7 @@ import {
 	entryLink,
 	entryTitle,
 	entriesList,
+	entryDate,
 } from '../blog/styles.css'
 
 export const metadata = {
@@ -24,7 +25,7 @@ export default function Blog() {
 					<li className={entryItem} key={entry.slug}>
 						<Link className={entryLink} href={`/projects/${entry.slug}`}>
 							<p className={entryTitle}>{entry.data.title}</p>
-							<p>{entry.data.date}</p>
+							<p className={entryDate}>{entry.data.date}</p>
 							<p>{entry.data.description}</p>
 						</Link>
 					</li>

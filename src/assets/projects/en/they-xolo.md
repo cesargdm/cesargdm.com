@@ -13,19 +13,19 @@ They Xolo is an NFT art collection created on the Ethereum blockchain, in collab
 
 The project was designed with a mobile-first approach, supporting both English and Spanish languages, light and dark modes, and accessibility navigation features.
 
-![Home page](../images/they-xolo--screenshot_home.png)
+![Home page](/images/they-xolo--screenshot_home.png)
 
 ## ERC721X Smart Contract
 
 To ensure the highest level of security and transparency, we developed an extension to the ERC721A contract called ERC721X (X for Xolo). This extension allows for an allow-list for a pre-sale, royalty per token information, and contract URI. Our contract code has been extensively tested using hardhat and is available on my GitHub profile.
 
-![Mint page](../images/they-xolo--screenshot_mint.png)
+![Mint page](/images/they-xolo--screenshot_mint.png)
 
 ## Profile Explorer
 
 The project also offers a profile explorer feature. When connected to your ENS profile, it displays your collection of They Xolos, They Xolo honorary collection badges, and all your other NFTs. The feature connects to the OpenSea API, which provides detailed information on each token.
 
-![Profile page](../images/they-xolo--screenshot_profile.png)
+![Profile page](/images/they-xolo--screenshot_profile.png)
 
 You can also edit your profile and make multi-call transactions.
 
@@ -33,13 +33,13 @@ You can also edit your profile and make multi-call transactions.
 
 We developed an API in The Graph that connects to the contract, allowing users to access token information, and supports multiple filters. By clicking on a token, you can view its details, attributes, and the current owner.
 
-![Gallery page](../images/they-xolo--screenshot_gallery.png)
+![Gallery page](/images/they-xolo--screenshot_gallery.png)
 
 ## Wallet
 
 Our wallet feature allows you to view your token balances on the blockchain in a user-friendly way, along with your ENS name and image.
 
-![Gallery page](../images/they-xolo--screenshot_wallet_drawer.png)
+![Gallery page](/images/they-xolo--screenshot_wallet_drawer.png)
 
 ## Staking, Tonim and More
 

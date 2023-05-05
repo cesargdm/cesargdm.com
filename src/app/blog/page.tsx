@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { getPosts } from '@/lib/blog'
 
 import {
-	entriesList,
 	entryDate,
 	entryItem,
 	entryLink,
 	entryTitle,
+	entriesList,
 } from './styles.css'
 
 export const metadata = {

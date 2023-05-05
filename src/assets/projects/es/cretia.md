@@ -11,10 +11,7 @@ Creatia has been my biggest baby of them all, I've learned in this project like 
 
 ## Web App
 
-<img
-	alt="Screen Shot 2022-05-31 at 3 27 43 PM"
-	src="https://user-images.githubusercontent.com/10179494/171282225-07fdd1e1-6c8c-4f01-9e6f-a443142f18ef.png"
-/>
+![Sign in page](https://user-images.githubusercontent.com/10179494/171282225-07fdd1e1-6c8c-4f01-9e6f-a443142f18ef.png)
 
 > Sign in page
 
@@ -30,10 +27,7 @@ Some of it's highlights are:
 - Multi-language support
 - Offline-ready mobile app that syncs data when network is available
 
-<img
-	alt="Screen Shot 2022-05-31 at 3 30 22 PM"
-	src="https://user-images.githubusercontent.com/10179494/171282289-f483a0f2-8ce0-445c-94e1-b8eb2687de2f.png"
-/>
+![Dashboard view](https://user-images.githubusercontent.com/10179494/171282289-f483a0f2-8ce0-445c-94e1-b8eb2687de2f.png)
 
 > Dashboard view
 

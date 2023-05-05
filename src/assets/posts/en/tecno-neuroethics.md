@@ -4,7 +4,7 @@ date: 2023-04-26
 extract: Neuroethics examines the ethical implications of neuroscience, including medical and genetic modification, to avoid authoritarian control over human behavior.
 ---
 
-# Tecno-neuroética
+# Tecno-neuroethics
 
 ## Neuroscience and Neuroethics
 

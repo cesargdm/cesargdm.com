@@ -44,7 +44,7 @@ export const root = createGlobalTheme(':root', {
 	sizes: {
 		navBar: '64px',
 		button: '40px',
-		maxWidthPage: '1280px',
+		maxWidthPage: '1080px',
 	},
 })
 

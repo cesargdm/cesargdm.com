@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import { getProject } from '@/lib/projects'
-import AsideAboutMe from '@/modules/AsideAboutMe'
+import EditPageBanner from '@/modules/EditPageBanner'
 
 type Params = {
 	slug: 'string'
@@ -14,15 +14,15 @@ export async function generateMetadata({ params }: { params: Params }) {
 		title: `${post?.data.title} - Projects`,
 		keywords: post?.data.keywords,
 		description: post?.data.description,
-		['og:title']: `${post?.data.title} - Projects`,
-		['og:description']: post?.data.description,
-		['og:image']: post?.data.image,
-		['og:type']: 'article',
+		openGraph: {
+			title: `${post?.data.title} - Projects`,
+			description: post?.data.description,
+		},
 	}
 }
 
 export default async function BlogPostPage({ params }: { params: Params }) {
-	const post = await getProject('es', params.slug)
+	const post = await getProject('en', params.slug)
 
 	if (!post) {
 		return notFound()
@@ -31,7 +31,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
 	return (
 		<>
 			<article dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }} />
-			<AsideAboutMe />
+			<EditPageBanner type="projects" lang="en" slug={params.slug} />
 		</>
 	)
 }

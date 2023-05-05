@@ -3,10 +3,10 @@ import { style } from '@vanilla-extract/css'
 import { vars } from './theme.css'
 
 export const content = style({
-	padding: 20,
 	margin: '0 auto',
+	padding: vars.space.large,
 	maxWidth: vars.sizes.maxWidthPage,
-	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.medium})`,
+	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.xxlarge})`,
 })
 
 export const body = style({

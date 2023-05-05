@@ -1,17 +1,38 @@
+import classNames from 'classnames'
 import { notFound } from 'next/navigation'
+import { Merriweather } from 'next/font/google'
 
 import AsideAboutMe from '@/modules/AsideAboutMe'
+import EditPageBanner from '@/modules/EditPageBanner'
 
 import { getPost } from '@/lib/blog'
 
-import { Merriweather } from 'next/font/google'
+import { articleContainer, nonTechnicalEntry } from './styles.css'
 
 const merriweather = Merriweather({
-	weight: ['400', '900'],
 	subsets: ['latin'],
-	variable: '--fonts--merriweather',
 	fallback: ['serif'],
+	weight: ['400', '900'],
+	variable: '--fonts--merriweather',
 })
+
+type Params = {
+	slug: 'string'
+}
+
+export async function generateMetadata({ params }: { params: Params }) {
+	const post = await getPost('en', params.slug)
+
+	return {
+		title: `${post?.data.title} - Blog`,
+		keywords: post?.data.keywords,
+		description: post?.data.description,
+		openGraph: {
+			title: `${post?.data.title} - Blog`,
+			description: post?.data.description,
+		},
+	}
+}
 
 export default async function BlogPostPage({
 	params,
@@ -26,10 +47,16 @@ export default async function BlogPostPage({
 
 	return (
 		<>
-			<article
-				className={merriweather.className}
-				dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }}
-			/>
+			<div>
+				<article
+					className={classNames(articleContainer, {
+						[nonTechnicalEntry]: !post.data.technical,
+						[merriweather.className]: !post.data.technical,
+					})}
+					dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }}
+				/>
+				<EditPageBanner type="posts" lang="en" slug={params.slug} />
+			</div>
 			<AsideAboutMe />
 		</>
 	)
