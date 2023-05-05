@@ -53,11 +53,23 @@ export const cretiaCard = style([
 export const cards = style({
 	display: 'grid',
 	gap: vars.space.large,
-	gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+	gridTemplateColumns: '1fr',
+	'@media': {
+		'(min-width: 768px)': {
+			gridTemplateColumns: 'repeat(2, 1fr)',
+		},
+		'(min-width: 1024px)': {
+			gridTemplateColumns: 'repeat(3, 1fr)',
+		},
+	},
 })
 
 export const chat = style({
-	gridColumnEnd: 'span 2',
+	'@media': {
+		'(min-width: 768px)': {
+			gridColumnEnd: 'span 2',
+		},
+	},
 })
 
 export const introParagraph = style({

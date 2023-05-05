@@ -1,13 +1,13 @@
-import { vars } from '@/app/theme.css'
 import { style } from '@vanilla-extract/css'
 
+import { vars } from '@/app/theme.css'
+
 export const bookList = style({
-	gap: vars.space.small,
 	width: '100%',
 	display: 'grid',
 	overflowX: 'auto',
 	gridAutoFlow: 'column',
-	gridAutoColumns: '60%',
+	gridAutoColumns: '66.6%',
 	scrollSnapType: 'x mandatory',
 	'::-webkit-scrollbar': {
 		display: 'none',
@@ -29,4 +29,12 @@ export const bookAnchor = style({
 
 export const bookItem = style({
 	scrollSnapAlign: 'start',
+	height: '100%',
+	padding: vars.space.large,
+})
+
+export const bookImage = style({
+	marginTop: 'auto',
+	boxShadow: vars.boxShadow.medium,
+	borderRadius: `0 ${vars.borderRadius.medium} ${vars.borderRadius.medium} 0`,
 })

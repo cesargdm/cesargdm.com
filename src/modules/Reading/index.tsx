@@ -2,7 +2,7 @@ import { IconBook } from '@tabler/icons-react'
 
 import { vars } from '@/app/theme.css'
 
-import { bookAnchor, bookItem, bookList } from './styles.css'
+import { bookAnchor, bookImage, bookItem, bookList } from './styles.css'
 
 async function getData() {
 	const result = await fetch(
@@ -33,16 +33,7 @@ export default async function Reading() {
 							rel="noopener noreferrer"
 						>
 							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
-								style={{
-									marginTop: 'auto',
-									maxHeight: 200,
-									borderRadius: 5,
-									boxShadow: vars.boxShadow.medium,
-								}}
-								src={book.image}
-								alt=""
-							/>
+							<img className={bookImage} src={book.image} alt="" />
 							<div
 								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}
 							>

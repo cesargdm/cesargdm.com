@@ -37,13 +37,15 @@ export default async function Footer() {
 					</a>
 				</li>
 
-				<li className={footerParagraph}>
-					<b>Local time</b>
-					{date.toLocaleTimeString(undefined, {
-						hour: 'numeric',
-						minute: 'numeric',
-					})}
-				</li>
+				{Boolean(result.tz) && (
+					<li className={footerParagraph}>
+						<b>Local time</b>
+						{date.toLocaleTimeString(undefined, {
+							hour: 'numeric',
+							minute: 'numeric',
+						})}
+					</li>
+				)}
 			</ul>
 		</footer>
 	)
