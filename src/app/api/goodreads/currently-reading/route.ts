@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-// 7 days
-export const revalidate = 60 * 60 * 24 * 7
+// 1 day
+export const revalidate = 60 * 60 * 24
 
 import { load } from 'cheerio'
 
@@ -12,6 +12,7 @@ export async function GET() {
 	 */
 	const textResponse = await fetch(
 		'https://www.goodreads.com/review/list/119995387-c-sar-guadarrama?shelf=currently-reading',
+		{ next: { revalidate: 60 * 60 * 24 } },
 	).then((response) => response.text())
 
 	const $ = load(textResponse)
