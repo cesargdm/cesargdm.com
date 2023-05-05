@@ -1,9 +1,9 @@
 import {
-	IconBrandGithub,
-	IconBrandLinkedin,
-	IconBrandTwitter,
 	IconFile,
 	IconMail,
+	IconBrandGithub,
+	IconBrandTwitter,
+	IconBrandLinkedin,
 } from '@tabler/icons-react'
 import { contactList } from './styles.css'
 import { vars } from '../theme.css'
