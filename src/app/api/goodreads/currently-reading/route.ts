@@ -32,7 +32,9 @@ export async function GET() {
 				.find('img')
 				.attr('src')
 				?.replace(/\._.*_\./g, '.'),
-			url: $element.find('.title .value a').attr('href'),
+			url: `https://goodreads.com${$element
+				.find('.title .value a')
+				.attr('href')}`,
 		}
 
 		results.push(result)
