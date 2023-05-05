@@ -7,9 +7,7 @@ export async function GET() {
 
 	const data = await fetch(
 		`https://slack.com/api/users.info?user=${userId}&pretty=1`,
-		{
-			headers: { Authorization: `Bearer ${process.env.SLACK_TOKEN}` },
-		},
+		{ headers: { Authorization: `Bearer ${process.env.SLACK_TOKEN}` } },
 	).then((response) => response.json())
 
 	return NextResponse.json(data.user)
