@@ -27,7 +27,10 @@ export async function GET() {
 
 		const result = {
 			title: $element.find('.title .value a').text().trim(),
-			image: $element.find('img').attr('src'),
+			image: $element
+				.find('img')
+				.attr('src')
+				?.replace(/\._.*_\./g, '.'),
 			url: $element.find('.title .value a').attr('href'),
 		}
 

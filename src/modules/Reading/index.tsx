@@ -20,7 +20,16 @@ export default async function Reading() {
 				Reading
 			</h2>
 
-			<p>{JSON.stringify(data, null, 2)}</p>
+			<ul>
+				{data?.map((book: any) => (
+					<li key={book.title}>
+						<a href={book.url} target="_blank" rel="noopener noreferrer">
+							<img src={book.image} alt="" />
+							<p>{book.title}</p>
+						</a>
+					</li>
+				))}
+			</ul>
 		</>
 	)
 }
