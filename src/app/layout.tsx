@@ -35,9 +35,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			className={classNames(inter.className, {
+				[responsiveTheme]: !theme,
 				[darkTheme]: theme === 'dark',
 				[lightTheme]: theme === 'light',
-				[responsiveTheme]: !theme,
 			})}
 			lang="en"
 		>
