@@ -1,5 +1,6 @@
 ---
 title: Tecno-neuroética
+date: 2023-04-26
 ---
 
 # Tecno-neuroética

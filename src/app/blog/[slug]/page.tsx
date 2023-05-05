@@ -13,7 +13,7 @@ export default async function BlogPostPage({
 }: {
 	params: { slug: string }
 }) {
-	const post = await getPost('es', params.slug)
+	const post = await getPost('en', params.slug)
 
 	if (!post) {
 		return notFound()

@@ -1,5 +1,6 @@
 ---
 title: Cogito ergo machina
+date: 2020-04-26
 ---
 
 # Cogito ergo machina

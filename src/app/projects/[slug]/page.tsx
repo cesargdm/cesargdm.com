@@ -8,7 +8,7 @@ type Params = {
 }
 
 export async function generateMetadata({ params }: { params: Params }) {
-	const post = await getProject('es', params.slug)
+	const post = await getProject('en', params.slug)
 
 	return {
 		title: `${post?.data.title} - Projects`,

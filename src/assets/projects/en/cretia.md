@@ -1,6 +1,7 @@
 ---
 title: Cretia
 tags: [active, react, graphql, nodejs]
+date: 2017
 description: ERP for small and medium sized companies in Mexico
 url: https://www.cretia.app
 ---
