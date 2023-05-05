@@ -73,7 +73,10 @@ export default function Home() {
 					</li>
 					<li>
 						<div className={card}>
-							<Reading />
+							<Suspense fallback={null}>
+								{/* @ts-ignore */}
+								<Reading />
+							</Suspense>
 						</div>
 					</li>
 					<li>
