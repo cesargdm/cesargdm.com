@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 
+require('webpack-node-externals')
 const Xray = require('x-ray')
 const x = Xray()
 
@@ -23,7 +24,7 @@ export async function GET() {
 				url: '.title .value a@href',
 			},
 		],
-	)
+	).catch(() => [])
 
 	const results = rawResults.map((result: any) => ({
 		...result,

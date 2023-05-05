@@ -76,6 +76,9 @@ dependencies:
   wagmi:
     specifier: ^0.12.12
     version: 0.12.12(ethers@5.0.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
+  webpack-node-externals:
+    specifier: ^3.0.0
+    version: 3.0.0
   x-ray:
     specifier: ^2.3.4
     version: 2.3.4
@@ -7312,6 +7315,11 @@ packages:
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+    dev: false
+
+  /webpack-node-externals@3.0.0:
+    resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
+    engines: {node: '>=6'}
     dev: false
 
   /webpack-sources@3.2.3:
