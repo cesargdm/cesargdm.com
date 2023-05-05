@@ -1,6 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react'
+
 import {
 	sitename,
 	socialLink,
@@ -13,6 +15,13 @@ export default function SideAboutMe() {
 
 	return (
 		<aside>
+			<Image
+				style={{ borderRadius: 9999 }}
+				src="/apple-touch-icon.png"
+				width={40}
+				height={40}
+				alt=""
+			/>
 			<p className={sitename}>cesargdm</p>
 			<p className={smallDescription}>
 				Experienced Product Engineer crafting interfaces with latest

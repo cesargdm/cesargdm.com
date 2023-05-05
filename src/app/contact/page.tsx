@@ -5,6 +5,7 @@ import {
 	IconBrandTwitter,
 	IconBrandLinkedin,
 } from '@tabler/icons-react'
+
 import { contactHeading, contactList } from './styles.css'
 
 export const metadata = {

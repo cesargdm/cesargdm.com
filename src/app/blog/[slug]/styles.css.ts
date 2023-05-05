@@ -1,6 +1,22 @@
 import { vars } from '@/app/theme.css'
 import { globalStyle, style } from '@vanilla-extract/css'
 
+export const notFoundContainer = style({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	justifyContent: 'center',
+	margin: 'auto',
+	gridColumn: '1 / -1',
+	gap: vars.space.xlarge,
+})
+
+globalStyle(`${notFoundContainer} a`, {
+	display: 'block',
+	textAlign: 'center',
+	fontWeight: 'bold',
+})
+
 export const entryContainer = style({
 	display: 'grid',
 	margin: '0 auto',

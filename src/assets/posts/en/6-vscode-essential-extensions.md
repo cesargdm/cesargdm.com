@@ -1,11 +1,11 @@
 ---
-title: 6 VS Code extensions you must have
-type: blog
+title: 6 VS Code essential extensions
 date: 2022-07-21
+extract: Boost your coding game with 6 essential VS Code extensions, including GitHub Copilot or Tab9 as a bonus.
 technical: true
 ---
 
-# 6 VS Code extensions you must have
+# 6 VS Code essential extensions
 
 Whenever you are just starting out with programming, you have switched to VS Code or even if you already have experience with VS Code, we all may want to discover or rediscover tools that will make us more productive and confident when writing code.
 
@@ -59,7 +59,13 @@ Working with a large project with different contributors, a large history of com
 
 We always know when our code stinks, but CodeMetrics will make it clear when we are not following the best practices.
 
-> "Bloody hell" code screen shot
+![Complexity 20](/images/complexity-20.png)
+
+> We can see that this component is too complex, and we should refactor it.
+
+![Complexity 20](/images/complexity-6.png)
+
+> Ahh, much better. Smaller components, easier to read and understand.
 
 ## Code Spell Checker
 

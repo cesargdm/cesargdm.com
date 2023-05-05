@@ -9,6 +9,14 @@ export const content = style({
 	paddingTop: `calc(${vars.sizes.navBar} + ${vars.space.xxlarge})`,
 })
 
+export const errorPageContainer = style({
+	display: 'flex',
+	alignItems: 'center',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	gap: vars.space.xlarge,
+})
+
 export const body = style({
 	color: vars.colors.text.regular,
 	backgroundColor: vars.colors.background.regular,

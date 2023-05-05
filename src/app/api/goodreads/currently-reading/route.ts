@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server'
+import { load } from 'cheerio'
 
 // 1 day
 export const revalidate = 60 * 60 * 24
-
-import { load } from 'cheerio'
 
 export async function GET() {
 	/**

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
 
 import { vars } from '@/app/theme.css'
@@ -9,16 +9,19 @@ import {
 	chatForm,
 	chatMessage,
 	submitButton,
-	chatMessagesContainer,
+	chatContainer,
 	chatMessageUser,
+	chatMessagesList,
 } from './styles.css'
 
 function Chat() {
 	const [prompt, setPrompt] = useState('')
 	const [messages, setMessages] = useState([
-		{ id: '0', text: "Hey! what's up?", from: 'assistant' },
+		{ id: '0', text: 'Hey! got any questions?', from: 'assistant' },
 	])
 	const [isLoading, setIsLoading] = useState(false)
+
+	const chatListRef = useRef<HTMLUListElement>(null)
 
 	useEffect(() => {
 		async function fetchResponse() {
@@ -34,14 +37,21 @@ function Chat() {
 			const data = await fetch('https://cesargdm.com/api/completion', {
 				method: 'POST',
 				body: JSON.stringify({ prompt: userMessage }),
-			}).then((response) => response.json())
-			const text = data.choices[0].text
+			})
+				.then((response) => response.json())
+				.catch(() => null)
+			const text = data?.choices[0].text
 
 			setMessages((prev) => [
 				...prev.filter((message) => message.id !== 'LOADING'),
 				{ id: String(Date.now()), text, from: 'assistant' },
 			])
 		}
+
+		chatListRef.current?.scrollTo({
+			top: chatListRef.current.scrollHeight,
+			behavior: 'smooth',
+		})
 
 		const lastMessage = messages[messages.length - 1]
 
@@ -67,8 +77,8 @@ function Chat() {
 				<IconMessage aria-hidden />
 				Chat
 			</h2>
-			<div>
-				<ul className={chatMessagesContainer}>
+			<div className={chatContainer}>
+				<ul ref={chatListRef} className={chatMessagesList}>
 					{messages.map((message) => (
 						<li
 							className={

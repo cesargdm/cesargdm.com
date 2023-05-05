@@ -2,10 +2,18 @@ import { vars } from '@/app/theme.css'
 import { style } from '@vanilla-extract/css'
 
 export const chatMessage = style({
-	padding: `${vars.space.medium} ${vars.space.large}`,
-	backgroundColor: vars.colors.background.gray,
-	borderRadius: vars.borderRadius.large,
 	maxWidth: '80%',
+	justifySelf: 'start',
+	borderRadius: vars.borderRadius.large,
+	backgroundColor: vars.colors.background.gray,
+	padding: `${vars.space.medium} ${vars.space.large}`,
+})
+
+export const chatContainer = style({
+	flexGrow: 1,
+	height: '20vh',
+	display: 'flex',
+	flexDirection: 'column',
 })
 
 export const chatMessageUser = style([
@@ -13,21 +21,18 @@ export const chatMessageUser = style([
 	{
 		backgroundColor: vars.colors.primary,
 		color: 'white',
-		alignSelf: 'flex-end',
+		justifySelf: 'end',
 	},
 ])
 
-export const chatMessagesContainer = style({
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'flex-end',
-	padding: vars.space.small,
-	alignItems: 'flex-start',
+export const chatMessagesList = style({
 	width: '100%',
-	gap: vars.space.medium,
-	height: '100vh',
-	maxHeight: '20vh',
+	height: '100%',
+	display: 'grid',
+	alignItems: 'end',
 	overflowY: 'auto',
+	gap: vars.space.medium,
+	padding: vars.space.small,
 })
 
 export const submitButton = style({
