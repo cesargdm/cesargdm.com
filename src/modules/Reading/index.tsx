@@ -1,5 +1,9 @@
 import { IconBook } from '@tabler/icons-react'
 
+import { vars } from '@/app/theme.css'
+
+import { bookAnchor, bookItem, bookList } from './styles.css'
+
 async function getData() {
 	const result = await fetch(
 		'https://cesargdm.com/api/goodreads/currently-reading',
@@ -15,17 +19,36 @@ export default async function Reading() {
 
 	return (
 		<>
-			<h2>
+			<h2 style={{ padding: vars.space.large }}>
 				<IconBook aria-hidden />
 				Reading
 			</h2>
-
-			<ul>
+			<ul className={bookList}>
 				{data?.map((book: any) => (
-					<li key={book.title}>
-						<a href={book.url} target="_blank" rel="noopener noreferrer">
-							<img src={book.image} alt="" />
-							<p>{book.title}</p>
+					<li className={bookItem} key={book.title}>
+						<a
+							href={book.url}
+							target="_blank"
+							className={bookAnchor}
+							rel="noopener noreferrer"
+						>
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img
+								style={{
+									marginTop: 'auto',
+									maxHeight: 200,
+									borderRadius: 5,
+									boxShadow: vars.boxShadow.medium,
+								}}
+								src={book.image}
+								alt=""
+							/>
+							<div
+								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}
+							>
+								<p style={{ fontWeight: 'bold' }}>{book.title}</p>
+								<p>{book.author}</p>
+							</div>
 						</a>
 					</li>
 				))}

@@ -1,4 +1,4 @@
-import { footerContainer, footerParagraph } from './styles.css'
+import { footerContainer, footerList, footerParagraph } from './styles.css'
 
 function getData() {
 	/**
@@ -20,18 +20,25 @@ export default async function Footer() {
 
 	return (
 		<footer className={footerContainer}>
-			<p className={footerParagraph}>
-				<b>Copyright</b>
-				{date.getFullYear()} &copy; César Guadarrama
-			</p>
+			<ul className={footerList}>
+				<li className={footerParagraph}>
+					<b>Copyright</b>
+					{date.getFullYear()} &copy; César Guadarrama
+				</li>
 
-			<p className={footerParagraph}>
-				<b>Local time</b>
-				{date.toLocaleTimeString(undefined, {
-					hour: 'numeric',
-					minute: 'numeric',
-				})}
-			</p>
+				<li className={footerParagraph}>
+					<b>Local time</b>
+					{date.toLocaleTimeString(undefined, {
+						hour: 'numeric',
+						minute: 'numeric',
+					})}
+				</li>
+
+				<li className={footerParagraph}>
+					<b>Source</b>
+					<a href="https://github.com/cesargdm/cesargdm.com">GitHub</a>
+				</li>
+			</ul>
 		</footer>
 	)
 }

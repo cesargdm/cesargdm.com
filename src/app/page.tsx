@@ -72,7 +72,7 @@ export default function Home() {
 						</div>
 					</li>
 					<li>
-						<div className={card}>
+						<div style={{ padding: 0 }} className={card}>
 							<Suspense fallback={null}>
 								{/* @ts-ignore */}
 								<Reading />

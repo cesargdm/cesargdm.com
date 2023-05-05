@@ -1,5 +1,4 @@
 import { vars } from '@/app/theme.css'
-import './style.css'
 
 import { dropdownContent, dropdownText } from './styles.css'
 

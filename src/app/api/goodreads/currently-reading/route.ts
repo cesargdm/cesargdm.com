@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-// 1 week
+// 7 days
 export const revalidate = 60 * 60 * 24 * 7
 
 import { load } from 'cheerio'
@@ -22,11 +22,12 @@ export async function GET() {
 		url?: string
 	}[]
 
-	$('#booksBody .bookalike').each((index, element) => {
+	$('#booksBody .bookalike').each((_index, element) => {
 		const $element = $(element)
 
 		const result = {
 			title: $element.find('.title .value a').text().trim(),
+			author: $element.find('.author .value a').text().trim(),
 			image: $element
 				.find('img')
 				.attr('src')
