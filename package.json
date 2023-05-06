@@ -29,7 +29,7 @@
 		"remark-html": "^15.0.2",
 		"typescript": "5.0.4",
 		"unsplash-js": "7.0.15",
-		"wagmi": "0.12.12"
+		"wagmi": "0.12.13"
 	},
 	"devDependencies": {
 		"@vanilla-extract/next-plugin": "^2.1.2",
