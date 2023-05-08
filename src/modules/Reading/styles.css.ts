@@ -35,6 +35,7 @@ export const bookItem = style({
 
 export const bookImage = style({
 	marginTop: 'auto',
+	maxHeight: '30vh',
 	boxShadow: vars.boxShadow.medium,
 	borderRadius: `0 ${vars.borderRadius.medium} ${vars.borderRadius.medium} 0`,
 })
