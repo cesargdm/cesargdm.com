@@ -14,10 +14,10 @@ export async function generateMetadata({ params }: { params: Params }) {
 		title: `${post?.data.title} - Projects`,
 		keywords: post?.data.keywords,
 		description: post?.data.description,
-		openGraph: {
-			title: `${post?.data.title} - Projects`,
-			description: post?.data.description,
-		},
+		// openGraph: {
+		// 	title: `${post?.data.title} - Projects`,
+		// 	description: post?.data.description,
+		// },
 	}
 }
 

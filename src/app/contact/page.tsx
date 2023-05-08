@@ -10,10 +10,10 @@ import { contactHeading, contactList } from './styles.css'
 
 export const metadata = {
 	title: 'Contact',
-	openGraph: {
-		title: 'Contact',
-		description: 'César Guadarrama Cantú - Product engineer - Contact',
-	},
+	// openGraph: {
+	// 	title: 'Contact',
+	// 	description: 'César Guadarrama Cantú - Product engineer - Contact',
+	// },
 }
 
 const socialLinks = [

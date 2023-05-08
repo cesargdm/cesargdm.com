@@ -20,28 +20,9 @@ import {
 	introContainer,
 } from './styles.css'
 
-export const runtime = 'edge'
-
-export const metadata = {
-	creator: 'cesargdm',
-	category: 'technology',
-	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
-	description: 'César Guadarrama - Product engineer - Blog, portfolio and more',
-	title: {
-		default: 'cesargdm',
-		template: '%s - cesargdm',
-	},
-	openGraph: {
-		title: 'cesargdm',
-		images: 'https://cesargdm.com/images/og.png',
-		description:
-			'César Guadarrama Cantú - Product engineer - Blog, portfolio and more',
-	},
-}
-
 export default function Home() {
-	const cookieStore = cookies()
-	const visitsCount = cookieStore.get('visits-count')?.value || '1'
+	const { get } = cookies()
+	const visitsCount = get('visits-count')?.value || '1'
 
 	return (
 		<div>
