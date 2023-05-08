@@ -1,11 +1,13 @@
 import { ReactNode } from 'react'
 import classNames from 'classnames'
-// import { cookies } from 'next/headers'
+import { cookies } from 'next/headers'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 
 import Nav from '@/modules/Nav'
 import Footer from '@/modules/Footer'
+
+import { openGraph } from '@/lib/constants'
 
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
@@ -39,18 +41,12 @@ export const metadata = {
 		default: 'cesargdm',
 		template: '%s - cesargdm',
 	},
-	openGraph: {
-		title: 'cesargdm',
-		images: 'https://cesargdm.com/images/og.png',
-		description:
-			'César Guadarrama Cantú - Product engineer - Blog, portfolio and more',
-	},
+	openGraph,
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-	// const cookieStore = cookies()
-	// const theme = cookieStore.get('theme')?.value
-	const theme = undefined
+	const cookieStore = cookies()
+	const theme = cookieStore.get('theme')?.value
 
 	return (
 		<html
