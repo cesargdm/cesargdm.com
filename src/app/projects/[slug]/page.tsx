@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation'
 
-import { getProject } from '@/lib/projects'
 import EditPageBanner from '@/modules/EditPageBanner'
+
+import { openGraph } from '@/lib/constants'
+import { getProject } from '@/lib/projects'
 
 type Params = {
 	slug: 'string'
@@ -14,10 +16,11 @@ export async function generateMetadata({ params }: { params: Params }) {
 		title: `${post?.data.title} - Projects`,
 		keywords: post?.data.keywords,
 		description: post?.data.description,
-		// openGraph: {
-		// 	title: `${post?.data.title} - Projects`,
-		// 	description: post?.data.description,
-		// },
+		openGraph: {
+			...openGraph,
+			title: `${post?.data.title} - Projects`,
+			description: post?.data.description,
+		},
 	}
 }
 

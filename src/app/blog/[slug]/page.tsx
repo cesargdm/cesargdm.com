@@ -6,6 +6,7 @@ import AsideAboutMe from '@/modules/AsideAboutMe'
 import EditPageBanner from '@/modules/EditPageBanner'
 
 import { getPost } from '@/lib/blog'
+import { openGraph } from '@/lib/constants'
 
 import { articleContainer, nonTechnicalEntry } from './styles.css'
 
@@ -24,12 +25,13 @@ export async function generateMetadata({ params }: { params: Params }) {
 	const post = await getPost('en', params.slug)
 
 	return {
-		title: `${post?.data.title} - Blog`,
 		keywords: post?.data.keywords,
 		description: post?.data.extract,
+		title: `${post?.data.title} - Blog`,
 		openGraph: {
-			title: `${post?.data.title} - Blog`,
+			...openGraph,
 			description: post?.data.extract,
+			title: `${post?.data.title} - Blog`,
 		},
 	}
 }
