@@ -11,7 +11,7 @@ import {
 } from './styles.css'
 
 export default function SideAboutMe() {
-	const url = window.location.href
+	const url = typeof window !== 'undefined' && window.location.href
 
 	return (
 		<aside>
@@ -38,16 +38,18 @@ export default function SideAboutMe() {
 					</a>
 				</li>
 				<li>
-					<a
-						className={socialLink}
-						href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
-					>
-						<IconBrandLinkedin aria-hidden />
-						LinkedIn
-					</a>
+					{url && (
+						<a
+							className={socialLink}
+							href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+						>
+							<IconBrandLinkedin aria-hidden />
+							LinkedIn
+						</a>
+					)}
 				</li>
 			</ul>
-			{typeof navigator.share === 'function' && (
+			{typeof navigator.share === 'function' && url && (
 				<button
 					onClick={() =>
 						navigator
