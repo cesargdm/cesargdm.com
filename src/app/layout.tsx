@@ -30,23 +30,6 @@ const inter = Inter({
 	],
 })
 
-export const metadata = {
-	creator: 'cesargdm',
-	category: 'technology',
-	metadataBase: new URL('https://cesargdm.com'),
-	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
-	description: 'César Guadarrama - Product engineer - Blog, portfolio and more',
-	title: {
-		default: 'cesargdm',
-		template: '%s - cesargdm',
-	},
-	openGraph: {
-		title: 'cesargdm',
-		description:
-			'César Guadarrama Cantú - Product engineer - Blog, portfolio and more',
-	},
-}
-
 export default function RootLayout({ children }: { children: ReactNode }) {
 	const cookieStore = cookies()
 	const theme = cookieStore.get('theme')?.value

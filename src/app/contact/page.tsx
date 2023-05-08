@@ -10,6 +10,10 @@ import { contactHeading, contactList } from './styles.css'
 
 export const metadata = {
 	title: 'Contact',
+	openGraph: {
+		title: 'Contact',
+		description: 'César Guadarrama Cantú - Product engineer - Contact',
+	},
 }
 
 const socialLinks = [
@@ -25,7 +29,7 @@ const socialLinks = [
 	},
 	{
 		name: 'GitHub',
-		url: 'https://github.com/github',
+		url: 'https://github.com/cesargdm',
 		icon: <IconBrandGithub aria-hidden />,
 	},
 	{

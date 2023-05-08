@@ -12,6 +12,10 @@ import {
 
 export const metadata = {
 	title: 'Projects',
+	openGraph: {
+		title: 'Projects',
+		description: 'César Guadarrama Cantú - Product engineer - Projects',
+	},
 }
 
 export default function Blog() {

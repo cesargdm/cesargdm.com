@@ -12,6 +12,10 @@ import {
 
 export const metadata = {
 	title: 'Blog',
+	openGraph: {
+		title: 'Blog',
+		description: 'César Guadarrama Cantú - Product engineer - Blog',
+	},
 }
 
 function getReadingTime(content: string) {
