@@ -2,7 +2,13 @@ import { IconBook } from '@tabler/icons-react'
 
 import { vars } from '@/app/theme.css'
 
-import { bookAnchor, bookImage, bookItem, bookList } from './styles.css'
+import {
+	bookAnchor,
+	bookImage,
+	bookItem,
+	bookList,
+	titleText,
+} from './styles.css'
 
 async function getData() {
 	const result = await fetch(
@@ -37,7 +43,7 @@ export default async function Reading() {
 							<div
 								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}
 							>
-								<p style={{ fontWeight: 'bold' }}>{book.title}</p>
+								<p className={titleText}>{book.title}</p>
 								<p>{book.author}</p>
 							</div>
 						</a>

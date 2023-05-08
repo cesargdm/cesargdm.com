@@ -65,6 +65,7 @@ export const navToggleThemeItem = style({
 	transition: 'transform 0.2s ease-in-out',
 	backgroundColor: vars.colors.background.regular,
 	transform: 'scale(1)',
+	display: 'none',
 	padding: 0,
 	':hover': {
 		transform: 'scale(0.9)',
@@ -74,5 +75,10 @@ export const navToggleThemeItem = style({
 	},
 	':active': {
 		transform: 'scale(1)',
+	},
+	'@media': {
+		'(min-width: 768px)': {
+			display: 'inherit',
+		},
 	},
 })

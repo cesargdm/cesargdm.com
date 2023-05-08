@@ -38,3 +38,13 @@ export const bookImage = style({
 	boxShadow: vars.boxShadow.medium,
 	borderRadius: `0 ${vars.borderRadius.medium} ${vars.borderRadius.medium} 0`,
 })
+
+export const titleText = style({
+	fontWeight: 'bold',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+	lineClamp: 1,
+	WebkitLineClamp: 1,
+	display: '-webkit-box',
+	WebkitBoxOrient: 'vertical',
+})
