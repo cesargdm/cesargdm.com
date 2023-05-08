@@ -25,7 +25,6 @@ export const runtime = 'edge'
 export const metadata = {
 	creator: 'cesargdm',
 	category: 'technology',
-	metadataBase: new URL('https://cesargdm.com'),
 	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
 	description: 'César Guadarrama - Product engineer - Blog, portfolio and more',
 	title: {
