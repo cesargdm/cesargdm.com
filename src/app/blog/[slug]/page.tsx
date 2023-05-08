@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 		title: `${post?.data.title} - Blog`,
 		openGraph: {
 			...openGraph,
+			type: 'article',
 			description: post?.data.extract,
 			title: `${post?.data.title} - Blog`,
 		},

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { getProjects } from '@/lib/projects'
+import { openGraph } from '@/lib/constants'
 
 import {
 	entryItem,
@@ -12,10 +13,11 @@ import {
 
 export const metadata = {
 	title: 'Projects',
-	// openGraph: {
-	// 	title: 'Projects',
-	// 	description: 'César Guadarrama Cantú - Product engineer - Projects',
-	// },
+	openGraph: {
+		...openGraph,
+		title: 'Projects',
+		description: 'César Guadarrama Cantú - Product engineer - Projects',
+	},
 }
 
 export default function Blog() {

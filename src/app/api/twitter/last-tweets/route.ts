@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 
-export const revalidate = 60 * 60 * 24 // 24 hours
+/**
+ * 24 hours
+ */
+export const revalidate = 60 * 60 * 24
 
 export async function GET() {
 	const userId = '313716452'

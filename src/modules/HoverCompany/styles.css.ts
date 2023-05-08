@@ -3,7 +3,6 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { vars } from '@/app/theme.css'
 
 export const dropdownText = style({
-	// bottom line
 	minWidth: 'auto',
 	lineHeight: 1.5,
 	minHeight: 'auto',

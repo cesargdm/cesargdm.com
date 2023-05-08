@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { getPosts } from '@/lib/blog'
+import { openGraph } from '@/lib/constants'
 
 import {
 	entryDate,
@@ -12,10 +13,11 @@ import {
 
 export const metadata = {
 	title: 'Blog',
-	// openGraph: {
-	// 	title: 'Blog',
-	// 	description: 'César Guadarrama Cantú - Product engineer - Blog',
-	// },
+	openGraph: {
+		...openGraph,
+		title: 'Blog',
+		description: 'César Guadarrama Cantú - Product engineer - Blog',
+	},
 }
 
 function getReadingTime(content: string) {

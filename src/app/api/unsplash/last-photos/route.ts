@@ -6,7 +6,10 @@ const unsplash = createApi({
 	fetch: fetch,
 })
 
-export const revalidate = 60 * 60 * 24 // 24 hours
+/**
+ * 24 hours
+ */
+export const revalidate = 60 * 60 * 24
 
 export async function GET() {
 	const result = await unsplash.users.getPhotos({
