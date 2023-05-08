@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: { params: Params }) {
 		title: `${post?.data.title} - Blog`,
 		keywords: post?.data.keywords,
 		description: post?.data.extract,
-		// openGraph: {
-		// 	title: `${post?.data.title} - Blog`,
-		// 	description: post?.data.extract,
-		// },
+		openGraph: {
+			title: `${post?.data.title} - Blog`,
+			description: post?.data.extract,
+		},
 	}
 }
 
