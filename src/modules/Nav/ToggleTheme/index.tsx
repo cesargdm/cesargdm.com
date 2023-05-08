@@ -1,19 +1,19 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import cookieCutter from 'cookie-cutter'
+import Cookies from 'js-cookie'
 
 import { darkTheme, lightTheme, responsiveTheme } from '@/app/theme.css'
 import { IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
 import { toggleTheme } from './styles.css'
 
 function ToggleTheme() {
-	const [theme, setTheme] = useState(cookieCutter.get('theme'))
+	const [theme, setTheme] = useState(Cookies.get('theme'))
 
 	useEffect(() => {
-		cookieCutter.set(
+		Cookies.set(
 			'visits-count',
-			String(Number(cookieCutter.get('visits-count')) + 1 || 1),
+			String(Number(Cookies.get('visits-count')) + 1 || 1),
 		)
 	}, [])
 
@@ -23,15 +23,15 @@ function ToggleTheme() {
 		document.body.classList.remove(darkTheme)
 
 		if (!theme) {
-			cookieCutter.set('theme', '')
+			Cookies.set('theme', '')
 			document.body.classList.add(responsiveTheme)
 		}
 		if (theme === 'dark') {
-			cookieCutter.set('theme', 'dark')
+			Cookies.set('theme', 'dark')
 			document.body.classList.add(darkTheme)
 		}
 		if (theme === 'light') {
-			cookieCutter.set('theme', 'light')
+			Cookies.set('theme', 'light')
 			document.body.classList.add(lightTheme)
 		}
 	}, [theme])

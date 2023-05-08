@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import classNames from 'classnames'
-import { cookies } from 'next/headers'
+// import { cookies } from 'next/headers'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 

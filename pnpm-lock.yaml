@@ -25,9 +25,9 @@ dependencies:
   classnames:
     specifier: 2.3.2
     version: 2.3.2
-  cookie-cutter:
-    specifier: 0.2.0
-    version: 0.2.0
+  cookie-js:
+    specifier: ^0.0.1
+    version: 0.0.1
   eslint-config-next:
     specifier: 13.4.0
     version: 13.4.0(eslint@8.39.0)(typescript@5.0.4)
@@ -66,6 +66,9 @@ dependencies:
     version: 0.12.12(ethers@5.7.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
 
 devDependencies:
+  '@types/js-cookie':
+    specifier: ^3.0.3
+    version: 3.0.3
   '@vanilla-extract/next-plugin':
     specifier: ^2.1.2
     version: 2.1.2(@types/node@18.16.3)(next@13.4.0)(webpack@5.82.0)
@@ -1455,6 +1458,10 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
+  /@types/js-cookie@3.0.3:
+    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
+    dev: true
+
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -2744,8 +2751,8 @@ packages:
   /convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
-  /cookie-cutter@0.2.0:
-    resolution: {integrity: sha512-eVyP5liHjDMCmGlp2OD+qoin5TJlwUBRjBKN8R2yJ3ePf8xqUtqmRP6e36ipe0nBm2lTiertH6iHPOptNQzAEw==}
+  /cookie-js@0.0.1:
+    resolution: {integrity: sha512-14dvbw7fMODfzOLZ/xz/qfp3nDZ+DYSZqxQbKWAbqTubLpxV5EE847iJQzExqphF4lkj/eoytfhoeW7RQsP9oA==}
     dev: false
 
   /copy-to-clipboard@3.3.3:
