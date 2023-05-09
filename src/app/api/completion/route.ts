@@ -16,6 +16,12 @@ export async function GET(request: Request) {
 	const rawPrompt = new URL(request.url).searchParams.get('prompt') ?? ''
 	const prompt = `${rawPrompt.trim().replace('->', '').slice(0, 50)}->`
 
+	if (!prompt) {
+		return new Response('Missing prompt', {
+			status: 400,
+		})
+	}
+
 	try {
 		const result = await openai.createCompletion({
 			prompt: prompt,
