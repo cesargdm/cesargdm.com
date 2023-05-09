@@ -1,5 +1,6 @@
-import { Configuration, OpenAIApi } from 'openai'
 import { NextResponse } from 'next/server'
+import { sql } from '@vercel/postgres'
+import { Configuration, OpenAIApi } from 'openai'
 
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -10,8 +11,9 @@ const MODEL = 'davinci:ft-personal-2023-04-07-20-32-03'
 
 export const revalidate = 60 * 60 * 6
 
-export async function POST(request: Request) {
-	const { prompt: rawPrompt = "What's your name?" } = await request.json()
+export async function GET(request: Request) {
+	// get prompt from params
+	const rawPrompt = new URL(request.url).searchParams.get('prompt') ?? ''
 	const prompt = `${rawPrompt.trim().replace('->', '').slice(0, 50)}->`
 
 	try {
@@ -22,6 +24,9 @@ export async function POST(request: Request) {
 			max_tokens: 50,
 			temperature: 0.8,
 		})
+
+		// Save prompt to database
+		await sql`INSERT INTO prompts (prompt) VALUES (${prompt})`
 
 		return NextResponse.json(result.data)
 	} catch (error) {

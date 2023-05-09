@@ -32,7 +32,7 @@ async function LastTweet() {
 				href="https://twitter.com/cesargdm"
 				aria-label="Visit my Twitter profile"
 			>
-				Read more
+				Read more tweets
 				<IconExternalLink />
 			</a>
 		</>

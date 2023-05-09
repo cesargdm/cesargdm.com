@@ -24,8 +24,8 @@ export default function SideAboutMe() {
 			/>
 			<p className={sitename}>cesargdm</p>
 			<p className={smallDescription}>
-				Experienced Product Engineer crafting interfaces with latest
-				technologies. Contributed to success of multiple top companies.
+				Product Engineer crafting interfaces with latest technologies.
+				Contributed to the success of multiple top companies.
 			</p>
 			<ul className={socialLinksList}>
 				<li>

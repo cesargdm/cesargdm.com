@@ -34,10 +34,9 @@ function Chat() {
 				{ id: 'LOADING', text: '', from: 'assistant' },
 			])
 
-			const data = await fetch('https://cesargdm.com/api/completion', {
-				method: 'POST',
-				body: JSON.stringify({ prompt: userMessage }),
-			})
+			const data = await fetch(
+				`https://cesargdm.com/api/completion?prompt=${userMessage}`,
+			)
 				.then((response) => response.json())
 				.catch(() => null)
 			const text = data?.choices[0].text
