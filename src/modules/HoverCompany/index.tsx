@@ -48,7 +48,7 @@ export default function HoverCompany({ children }: { children: string }) {
 	const metadata = companiesMetadata[children as keyof typeof companiesMetadata]
 
 	return (
-		<div style={{ position: 'relative', display: 'inline' }}>
+		<span style={{ position: 'relative', display: 'inline' }}>
 			<a href={metadata.url} className={dropdownText}>
 				{children}
 				{metadata.outOfBusiness && (
@@ -62,20 +62,20 @@ export default function HoverCompany({ children }: { children: string }) {
 					</span>
 				)}
 			</a>
-			<div className={dropdownContent} aria-hidden>
-				<div style={{ gap: 15, display: 'flex', flexDirection: 'column' }}>
-					<p
+			<span style={{ display: 'none' }} className={dropdownContent} aria-hidden>
+				<span style={{ gap: 15, display: 'flex', flexDirection: 'column' }}>
+					<span
 						style={{
 							color: vars.colors.text.secondary,
 							fontSize: vars.fontSize.small,
 						}}
 					>
 						{metadata.field}
-					</p>
+					</span>
 
-					<div className="Text">{metadata.description}</div>
-				</div>
-			</div>
-		</div>
+					<span>{metadata.description}</span>
+				</span>
+			</span>
+		</span>
 	)
 }

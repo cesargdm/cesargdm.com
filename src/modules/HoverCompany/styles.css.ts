@@ -8,8 +8,8 @@ export const dropdownText = style({
 	minHeight: 'auto',
 	display: 'inline',
 	textDecorationStyle: 'dotted',
-	textDecorationLine: 'underline',
 	fontSize: vars.fontSize.large,
+	textDecorationLine: 'underline',
 	textDecorationColor: vars.colors.primary,
 	':focus': {
 		textDecorationLine: 'underline',
@@ -19,22 +19,21 @@ export const dropdownText = style({
 })
 
 export const dropdownContent = style({
-	display: 'none',
 	position: 'absolute',
 })
 
 globalStyle(`${dropdownText}:hover + ${dropdownContent}`, {
-	backgroundColor: vars.colors.background.regular,
-	display: 'flex',
 	zIndex: 1,
-	padding: vars.space.large,
-	top: `calc(${vars.fontSize.large} + 4px)`,
 	left: '50%',
-	flexDirection: 'column',
-	position: 'absolute',
-	transform: 'translateX(-50%)',
-	borderRadius: vars.borderRadius.large,
-	boxShadow: vars.boxShadow.medium,
 	maxWidth: 220,
 	width: '10000%',
+	position: 'absolute',
+	flexDirection: 'column',
+	padding: vars.space.large,
+	display: 'flex !important',
+	transform: 'translateX(-50%)',
+	backgroundColor: vars.colors.background.regular,
+	top: `calc(${vars.fontSize.large} + 4px)`,
+	borderRadius: vars.borderRadius.large,
+	boxShadow: vars.boxShadow.medium,
 })
