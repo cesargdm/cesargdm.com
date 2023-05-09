@@ -23,7 +23,7 @@ export async function GET(request: Request) {
 	}
 
 	try {
-		const result = await openai.createCompletion({
+		const { data } = await openai.createCompletion({
 			prompt: prompt,
 			model: MODEL,
 			stop: ['END'],
@@ -31,10 +31,14 @@ export async function GET(request: Request) {
 			temperature: 0.8,
 		})
 
-		// Save prompt to database
-		await sql`INSERT INTO prompts (prompt) VALUES (${prompt})`
+		const completion = data.choices[0].text
 
-		return NextResponse.json(result.data)
+		// Save prompt to database
+		await sql`
+			INSERT INTO prompts (prompt, choice) VALUES (${prompt}, ${completion ?? ''})
+		`.catch(() => undefined)
+
+		return NextResponse.json(data)
 	} catch (error) {
 		console.error(error)
 
