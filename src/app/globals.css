@@ -9,6 +9,10 @@
 	padding: unset;
 }
 
+html {
+	font-size: calc(1rem - 1px);
+}
+
 html,
 body {
 	height: 100%;
@@ -92,4 +96,16 @@ input {
 	color: inherit;
 	background-color: initial;
 	font-size: initial;
+}
+
+@media screen and (min-width: 768px) {
+	html {
+		font-size: calc(1rem);
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	html {
+		font-size: calc(1rem + 1px);
+	}
 }

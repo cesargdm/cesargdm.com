@@ -13,6 +13,7 @@ import {
 async function getData() {
 	const result = await fetch(
 		'https://cesargdm.com/api/goodreads/currently-reading',
+		{ next: { revalidate: 60 * 60 * 24 } },
 	)
 		.then((response) => response.json())
 		.catch(() => null)

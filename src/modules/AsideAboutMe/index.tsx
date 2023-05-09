@@ -49,7 +49,7 @@ export default function SideAboutMe() {
 					)}
 				</li>
 			</ul>
-			{typeof navigator.share === 'function' && url && (
+			{typeof navigator === 'object' && navigator.share && url && (
 				<button
 					onClick={() =>
 						navigator
