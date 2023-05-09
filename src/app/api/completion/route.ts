@@ -35,7 +35,7 @@ export async function GET(request: Request) {
 
 		// Save prompt to database
 		await sql`
-			INSERT INTO prompts (prompt, choice) VALUES (${prompt}, ${completion ?? ''})
+			INSERT INTO prompts (prompt, completion) VALUES (${prompt}, ${completion ?? ''})
 		`.catch(() => undefined)
 
 		return NextResponse.json(data)
