@@ -2,7 +2,9 @@
 title: They Xolo
 tags: [active, web3, react]
 description: NFT Art collection showcasing the diversity of Mexican culture
+date: 2022
 url: https://theyxolo.art
+highlight: true
 ---
 
 # They Xolo

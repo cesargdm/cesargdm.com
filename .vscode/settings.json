@@ -4,6 +4,7 @@
 	"cSpell.words": [
 		"Artboard",
 		"bookalike",
+		"Cantú",
 		"davinci",
 		"openai",
 		"sitename",
@@ -11,5 +12,6 @@
 		"xxlarge",
 		"xxsmall",
 		"xxxlarge"
-	]
+	],
+	"python.analysis.typeCheckingMode": "basic"
 }

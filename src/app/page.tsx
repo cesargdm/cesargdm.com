@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
+import classNames from 'classnames'
 
 import Chat from '@/modules/Chat'
 import Reading from '@/modules/Reading'
-import Cretia from '@/assets/icons/Cretia'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
 import HoverCompany from '@/modules/HoverCompany'
@@ -13,11 +13,10 @@ import { getCheerFromVisitsCount } from '@/lib/cheer'
 
 import {
 	card,
-	cards,
-	chat,
-	cretiaCard,
+	cardsList,
 	introParagraph,
 	introContainer,
+	twoColumnCard,
 } from './styles.css'
 
 export default function Home() {
@@ -45,7 +44,7 @@ export default function Home() {
 			</div>
 			<Suspense
 				fallback={
-					<ul className={cards}>
+					<ul className={cardsList}>
 						<li className={card}></li>
 						<li className={card}></li>
 						<li className={card}></li>
@@ -53,49 +52,36 @@ export default function Home() {
 					</ul>
 				}
 			>
-				<ul className={cards}>
-					<li className={chat}>
-						<div className={card}>
-							<Suspense fallback={null}>
-								<Chat />
-							</Suspense>
-						</div>
+				<ul className={cardsList}>
+					<li
+						className={classNames(card, twoColumnCard)}
+						style={{ height: '100%' }}
+					>
+						<Suspense fallback={null}>
+							<Chat />
+						</Suspense>
 					</li>
-					<li>
-						<div className={card}>
-							<Suspense fallback={null}>
-								{/* @ts-ignore */}
-								<LastTweet />
-							</Suspense>
-						</div>
+					<li style={{ aspectRatio: '1 / 1' }} className={card}>
+						<Suspense fallback={null}>
+							{/* @ts-ignore */}
+							<LastTweet />
+						</Suspense>
 					</li>
-					<li>
-						<div style={{ padding: 0 }} className={card}>
-							<Suspense fallback={null}>
-								{/* @ts-ignore */}
-								<Reading />
-							</Suspense>
-						</div>
+					<li style={{ padding: 0 }} className={card}>
+						<Suspense fallback={null}>
+							{/* @ts-ignore */}
+							<LastPhoto />
+						</Suspense>
 					</li>
-					<li>
-						<a
-							aria-label="Visit Cretia website"
-							href="https://about.cretia.app?utm_source=cesargdm"
-							className={cretiaCard}
-						>
-							<Cretia
-								style={{ maxWidth: 100, justifySelf: 'center', margin: 'auto' }}
-								aria-hidden
-							/>
-						</a>
-					</li>
-					<li>
-						<div className={card}>
-							<Suspense fallback={null}>
-								{/* @ts-ignore */}
-								<LastPhoto />
-							</Suspense>
-						</div>
+
+					<li
+						className={classNames(card, twoColumnCard)}
+						style={{ padding: 0 }}
+					>
+						<Suspense fallback={null}>
+							{/* @ts-ignore */}
+							<Reading />
+						</Suspense>
 					</li>
 				</ul>
 			</Suspense>

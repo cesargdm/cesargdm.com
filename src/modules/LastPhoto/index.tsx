@@ -2,7 +2,13 @@ import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
 import { vars } from '@/app/theme.css'
 
-import { square } from './styles.css'
+import {
+	image,
+	morePhotosButton,
+	photoContainer,
+	photosWrapper,
+} from './styles.css'
+import { cardButton } from '../LastTweet/styles.css'
 
 function getData() {
 	return fetch('https://cesargdm.com/api/unsplash/last-photos', {
@@ -16,40 +22,43 @@ function getData() {
 async function LastPhoto() {
 	const response = await getData()
 
-	const photoUrl = response[0].urls.regular
-
 	return (
 		<>
-			<span className={square} aria-hidden />
-			{photoUrl && (
-				<Image
-					src={photoUrl}
-					width={500}
-					height={500}
-					style={{
-						objectFit: 'cover',
-						position: 'absolute',
-						top: 0,
-						right: 0,
-						width: '100%',
-						height: '100%',
-					}}
-					alt={response[0]?.alt_description}
-				/>
-			)}
+			<div className={photosWrapper}>
+				{response.map((photo: any) => (
+					<div key={photo.id} className={photoContainer}>
+						<Image
+							width={500}
+							height={500}
+							className={image}
+							src={photo.urls.regular}
+							alt={response[0]?.alt_description}
+						/>
+					</div>
+				))}
+			</div>
 			<a
-				style={{
-					position: 'absolute',
-					top: vars.space.medium,
-					left: vars.space.medium,
-				}}
 				target="_blank"
 				rel="noopener noreferrer"
+				className={morePhotosButton}
 				href="https://unsplash.com/@cesargdm"
-				aria-label="Visit César Guadarrama portfolio on Unsplash"
+			>
+				View more photos
+			</a>
+			<div
+				style={{
+					color: 'white',
+					display: 'flex',
+					position: 'absolute',
+					top: vars.space.large,
+					gap: vars.space.small,
+					textDecoration: 'none',
+					left: vars.space.large,
+				}}
 			>
 				<IconBrandUnsplash fill="white" strokeWidth={0} aria-hidden />
-			</a>
+				<h2>Unsplash</h2>
+			</div>
 		</>
 	)
 }

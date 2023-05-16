@@ -38,13 +38,13 @@ export const root = createGlobalTheme(':root', {
 	borderRadius: {
 		medium: '8px',
 		large: '16px',
-		xlarge: '24px',
+		xlarge: '36px',
 		full: '9999px',
 	},
 	sizes: {
 		navBar: '64px',
 		button: '40px',
-		maxWidthPage: '1080px',
+		maxWidthPage: '1440px',
 	},
 })
 

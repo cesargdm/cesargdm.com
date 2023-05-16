@@ -25,10 +25,18 @@ export const chatMessageUser = style([
 	},
 ])
 
+export const participantName = style({
+	justifySelf: 'start',
+	fontSize: '0.8rem',
+	marginLeft: '8px',
+	opacity: 0.7,
+})
+
 export const chatMessagesList = style({
 	width: '100%',
-	height: '100%',
 	display: 'grid',
+	marginTop: 'auto',
+	maxHeight: '100%',
 	alignItems: 'end',
 	overflowY: 'auto',
 	gap: vars.space.medium,

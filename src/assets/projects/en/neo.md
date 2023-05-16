@@ -3,6 +3,7 @@ title: Neo
 tags: [inactive, react, graphql, nodejs]
 description: Emotional education for adolescents
 url: https://app.neoeducate.app
+date: 2020
 ---
 
 # Neo Educate
@@ -15,4 +16,4 @@ The app has a simple and intuitive navigation system. Users can navigate through
 
 The app was built using React Native, which allowed us to create a cross-platform application for iOS, Android and Web. The backend was built using GraphQL, with Node.js and MongoDB. We also integrated Sanity CMS and Mux to optimize the delivery of images and videos to users. The app is hosted on AWS and the code is stored on GitHub.
 
-{/* ![Play store page](../images/neo--screenshot_store.png) */}
+{/_ ![Play store page](../images/neo--screenshot_store.png) _/}

@@ -12,7 +12,7 @@ export function getProjects(language = 'en') {
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
 
-	const allEntries = fileNames.map((fileName) => {
+	let allEntries = fileNames.map((fileName) => {
 		const slug = fileName.replace(/\.mdx?$/, '')
 
 		const fullPath = path.join(languagePostsDirectory, fileName)
@@ -23,6 +23,14 @@ export function getProjects(language = 'en') {
 		return {
 			slug,
 			...grayMatterResult,
+		}
+	})
+
+	allEntries = allEntries.sort((a, b) => {
+		if (a.data.date < b.data.date) {
+			return 1
+		} else {
+			return -1
 		}
 	})
 

@@ -5,7 +5,7 @@
 }
 
 * {
-	margin: 0;
+	margin: unset;
 	padding: unset;
 }
 
@@ -89,13 +89,15 @@ a:hover {
 
 button,
 input {
-	min-height: 40px;
-	min-width: 40px;
 	border: none;
-	appearance: none;
 	color: inherit;
-	background-color: initial;
+	min-width: 40px;
+	min-height: 40px;
+	appearance: none;
 	font-size: initial;
+	text-align: center;
+	border-radius: 99999px;
+	background-color: initial;
 }
 
 @media screen and (min-width: 768px) {

@@ -6,8 +6,10 @@ export const bookList = style({
 	width: '100%',
 	display: 'grid',
 	overflowX: 'auto',
+	// overflowY: 'hidden',
+	gridAutoRows: '1fr',
 	gridAutoFlow: 'column',
-	gridAutoColumns: '66.6%',
+	gridAutoColumns: '40%',
 	scrollSnapType: 'x mandatory',
 	'::-webkit-scrollbar': {
 		display: 'none',
@@ -19,17 +21,17 @@ export const bookList = style({
 export const bookAnchor = style({
 	display: 'flex',
 	height: '100%',
+	cursor: 'pointer',
 	alignItems: 'center',
 	flexDirection: 'column',
-	cursor: 'pointer',
 	':hover': {
 		textDecoration: 'none',
 	},
 })
 
 export const bookItem = style({
-	scrollSnapAlign: 'start',
 	height: '100%',
+	scrollSnapAlign: 'start',
 	padding: vars.space.large,
 })
 

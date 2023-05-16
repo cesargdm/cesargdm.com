@@ -34,8 +34,6 @@ export const dropdownText = style({
 })
 
 export const card = style({
-	height: '100%',
-	minHeight: 150,
 	display: 'flex',
 	overflow: 'hidden',
 	position: 'relative',
@@ -45,37 +43,25 @@ export const card = style({
 	backgroundColor: vars.colors.background.content,
 })
 
-export const cretiaCard = style([
-	card,
-	{
-		color: vars.colors.text.secondary,
-		':hover': {
-			color: vars.colors.text.regular,
-		},
-		':focus': {
-			color: vars.colors.text.regular,
-		},
-	},
-])
-
-export const cards = style({
+export const cardsList = style({
 	display: 'grid',
 	gap: vars.space.large,
 	gridTemplateColumns: '1fr',
+	alignItems: 'flex-start',
 	'@media': {
 		'(min-width: 768px)': {
-			gridTemplateColumns: 'repeat(2, 1fr)',
+			gridTemplateColumns: 'repeat(3, 1fr)',
 		},
 		'(min-width: 1024px)': {
-			gridTemplateColumns: 'repeat(3, 1fr)',
+			gridTemplateColumns: 'repeat(4, 1fr)',
 		},
 	},
 })
 
-export const chat = style({
+export const twoColumnCard = style({
 	'@media': {
 		'(min-width: 768px)': {
-			gridColumnEnd: 'span 2',
+			gridColumn: 'span 2',
 		},
 	},
 })

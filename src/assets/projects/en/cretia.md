@@ -4,6 +4,7 @@ tags: [active, react, graphql, nodejs]
 date: 2017
 description: ERP for small and medium sized companies in Mexico
 url: https://www.cretia.app
+highlight: true
 ---
 
 # Cretia
@@ -34,12 +35,16 @@ Some of it's highlights are:
 
 Currently it serves a little over 50 users but it's still growing. We are aiming to convert it to the most beautiful and easiest to use ERP system for small businesses in Mexico.
 
-You can get more information about Cretia in our [website](https://www.cretia.app/)
+You can get more information about Cretia in the [website](https://about.cretia.app/)
 
-## NodeJS API
+## APIs
 
-The API consists of a GraphQL API that serves the web app and the mobile app, database is served by MongoDB at MongoDB Cloud and the Node servers are hosted in AWS thru the SCS service.
+The API is built using GraphQL, which is used to serve both the web and mobile app. The database is hosted on MongoDB Cloud, while the Node servers are hosted on Amazon Web Services (AWS) using the Elastic Container Service (ECS) for scalability.
+
+In addition to this, some microservices are used to handle specific tasks such as sending and receiving emails, listening for Stripe webhooks, and more. This allows for a more efficient and streamlined approach to managing the platform, as these tasks can be handled independently from the main API.
 
 ## Mobile App
 
-The mobile app is developed in React Native and it uses the Apollo Client to communicate with the GraphQL API and support offline capabilities. It has a Peer to Peer communication module on iOS.
+The mobile application was developed using React Native, a popular framework for creating cross-platform mobile applications. It leverages the Apollo Client to communicate with the GraphQL API, allowing for a more efficient and secure exchange of data. The app also supports offline mode and Peer to Peer communication features on iOS, so that in-field workers can easily distribute the work and synchronize their data without an internet connection.
+
+The initial version of the app was written in Swift and CoreData, but as the requirements of the project grew and the need to support Android devices became apparent, I decided to rewrite the application in React Native. This allowed me to create a single codebase that could be used across multiple platforms, making the development process more efficient and cost-effective.

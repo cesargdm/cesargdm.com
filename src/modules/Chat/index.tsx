@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
 
 import { vars } from '@/app/theme.css'
@@ -11,6 +11,7 @@ import {
 	submitButton,
 	chatContainer,
 	chatMessageUser,
+	participantName,
 	chatMessagesList,
 } from './styles.css'
 
@@ -78,19 +79,23 @@ function Chat() {
 			</h2>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>
-					{messages.map((message) => (
-						<li
-							className={
-								message.from === 'assistant' ? chatMessage : chatMessageUser
-							}
-							key={message.id}
-						>
-							{message.id === 'LOADING' ? (
-								<IconDots key="dots" color={vars.colors.text.decorative} />
-							) : (
-								message.text
+					{messages.map((message, index) => (
+						<Fragment key={message.id}>
+							{index === 0 && (
+								<li className={participantName}>César Guadarrama</li>
 							)}
-						</li>
+							<li
+								className={
+									message.from === 'assistant' ? chatMessage : chatMessageUser
+								}
+							>
+								{message.id === 'LOADING' ? (
+									<IconDots key="dots" color={vars.colors.text.decorative} />
+								) : (
+									message.text
+								)}
+							</li>
+						</Fragment>
 					))}
 				</ul>
 				<form className={chatForm} onSubmit={handleSubmit}>

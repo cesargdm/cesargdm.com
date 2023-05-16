@@ -2,7 +2,7 @@ import { IconExternalLink } from '@tabler/icons-react'
 
 import Twitter from '@/assets/icons/Twitter'
 
-import { readTweetsLink, tweetParagraph } from './styles.css'
+import { readTweetsButton, tweetParagraph } from './styles.css'
 
 function getData() {
 	return fetch('https://cesargdm.com/api/twitter/last-tweets', {
@@ -20,20 +20,18 @@ async function LastTweet() {
 	return (
 		<>
 			<h2>
-				<Twitter style={{ width: 24 }} />
+				<Twitter style={{ width: 24, height: 24 }} aria-hidden />
 				Tweets
 			</h2>
 			<p className={tweetParagraph}>{tweetText}</p>
 			<a
 				target="_blank"
 				rel="noopener noreferrer"
-				className={readTweetsLink}
-				style={{ marginTop: 'auto' }}
+				className={readTweetsButton}
 				href="https://twitter.com/cesargdm"
 				aria-label="Visit my Twitter profile"
 			>
 				Read more tweets
-				<IconExternalLink />
 			</a>
 		</>
 	)

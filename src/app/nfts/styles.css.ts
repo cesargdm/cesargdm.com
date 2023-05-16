@@ -32,7 +32,6 @@ export const nftLink = style({
 export const nftImageWrapper = style({
 	width: '100%',
 	height: 'auto',
-	paddingTop: '100%',
 	position: 'relative',
 })
 

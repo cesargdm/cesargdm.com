@@ -32,7 +32,7 @@ export default function Blog() {
 	const entries = getPosts('en')
 
 	return (
-		<div>
+		<>
 			<h1>Blog</h1>
 			<ul className={entriesList}>
 				{entries.map((entry) => (
@@ -48,6 +48,6 @@ export default function Blog() {
 					</li>
 				))}
 			</ul>
-		</div>
+		</>
 	)
 }
