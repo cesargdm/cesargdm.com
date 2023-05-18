@@ -35,7 +35,7 @@ Some of it's highlights are:
 
 Currently it serves a little over 50 users but it's still growing. We are aiming to convert it to the most beautiful and easiest to use ERP system for small businesses in Mexico.
 
-You can get more information about Cretia in the [website](https://about.cretia.app/)
+You can get more information about Cretia in the [website](https://about.cretia.app/).
 
 ## APIs
 

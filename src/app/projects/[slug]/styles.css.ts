@@ -29,3 +29,40 @@ globalStyle(`${entryContainer} article p`, {
 	lineHeight: '1.5',
 	fontSize: vars.fontSize.large,
 })
+
+globalStyle(`${entryContainer} article a`, {
+	color: vars.colors.primary,
+})
+
+globalStyle(`${entryContainer} article blockquote`, {
+	margin: `${vars.space.large} 0`,
+	marginBottom: vars.space.xxlarge,
+	paddingLeft: vars.space.large,
+	position: 'relative',
+	color: vars.colors.text.secondary,
+})
+
+globalStyle(`${entryContainer} article blockquote p:last-child`, {
+	marginBottom: 0,
+})
+
+globalStyle(`${entryContainer} article blockquote:before`, {
+	content: '""',
+	position: 'absolute',
+	top: 0,
+	left: 0,
+	width: '4px',
+	height: '100%',
+	borderRadius: '4px',
+	backgroundColor: vars.colors.text.decorative,
+})
+
+globalStyle(`${entryContainer} article ul`, {
+	margin: `${vars.space.large} 0`,
+})
+
+globalStyle(`${entryContainer} article ul li`, {
+	marginBottom: vars.space.large,
+	listStyle: 'inside',
+	paddingLeft: vars.space.large,
+})
