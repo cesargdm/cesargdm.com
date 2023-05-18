@@ -1,6 +1,5 @@
 ---
 title: Refranes Mexicanos
-lang: en
 date: 2014
 description: First swift app I ever made
 ---

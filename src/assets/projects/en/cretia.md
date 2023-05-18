@@ -2,9 +2,11 @@
 title: Cretia
 tags: [active, react, graphql, nodejs]
 date: 2017
-description: ERP for small and medium sized companies in Mexico
+description: ERP for small and medium sized companies in Mexico, expenses, sales, inventory, payments and more.
 url: https://www.cretia.app
-highlight: true
+highlight:
+  logoUrl: 'https://cretia.app/assets/app-icon-36bd8a16.svg'
+  color: '#dddddd'
 ---
 
 # Cretia
@@ -17,7 +19,7 @@ Creatia has been my biggest baby of them all, I've learned in this project like 
 
 > Sign in page
 
-It started as a simple project, a small utility for my dad's pest control company, the first iteration was using the most poppular framework at the time, AngularJS, we're talking around 2016; as it evolved I researched and used several technologies like Redux, css-modules, css flex and grid, Angular 2, Svelte, Watermelon DB for the mobile app, and also it made me learn Swift with CoreData. Currently it uses cutting edge technologies like React, NodeJS, GraphQL, Docker, MongoDB, AWS services, React Native, and a lot more.
+It started as a simple project, a small utility for my dad's pest control company, the first iteration was using the most popular framework at the time, AngularJS, we're talking around 2016; as it evolved I researched and used several technologies like Redux, css-modules, css flex and grid, Angular 2, Svelte, Watermelon DB for the mobile app, and also it made me learn Swift with CoreData. Currently it uses cutting edge technologies like React, NodeJS, GraphQL, Docker, MongoDB, AWS services, React Native, and a lot more.
 
 Cretia is now a Sass bussiness with over 16 different modules that solve different issues of bussinesses, even tho it started it's focus on Pest Control companies, it's also a CRM for small Mexican businesses; it's comprehended on a Mobile App, two Web Applications for different users and a set of microservices and one GraphQL API.
 

@@ -13,24 +13,29 @@ export const entriesList = style({
 	},
 })
 
-export const entryItem = style({ padding: vars.space.large })
+export const entryItem = style({})
 
-export const highlightedEntry = style([
-	entryItem,
-	{
-		backgroundColor: vars.colors.background.content,
-		borderRadius: vars.borderRadius.large,
-	},
-])
+export const highlightedEntry = style([entryItem])
 
 export const entryLink = style({
 	display: 'flex',
 	flexDirection: 'column',
+	padding: vars.space.large,
 	gap: vars.space.small,
+	borderRadius: vars.borderRadius.large,
 	':hover': {
 		textDecoration: 'none',
 	},
 })
+
+export const projectEntryLink = style([
+	entryLink,
+	{
+		flexDirection: 'row',
+		gap: vars.space.large,
+		alignItems: 'center',
+	},
+])
 
 export const entryTitle = style({
 	fontSize: vars.fontSize.xlarge,
@@ -39,5 +44,6 @@ export const entryTitle = style({
 
 export const entryDate = style({
 	fontSize: vars.fontSize.small,
-	color: vars.colors.text.secondary,
+	opacity: 0.8,
+	fontWeight: 'bold',
 })

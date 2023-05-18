@@ -1,10 +1,12 @@
 ---
 title: They Xolo
 tags: [active, web3, react]
-description: NFT Art collection showcasing the diversity of Mexican culture
+description: NFT Art collection, built using a custom art engine, enhanced with staking and marketplace.
 date: 2022
 url: https://theyxolo.art
-highlight: true
+highlight:
+  logoUrl: https://theyxolo.art/assets/logo-ccb5d19c.svg
+  color: '#E86DAE'
 ---
 
 # They Xolo

@@ -10,7 +10,11 @@ import {
 	entriesList,
 	entryDate,
 	highlightedEntry,
+	projectEntryLink,
 } from '../blog/styles.css'
+import Image from 'next/image'
+import { vars } from '../theme.css'
+import classNames from 'classnames'
 
 export const metadata = {
 	title: 'Projects',
@@ -33,13 +37,32 @@ export default function Blog() {
 						className={entry.data.highlight ? highlightedEntry : entryItem}
 						key={entry.slug}
 					>
-						<Link className={entryLink} href={`/projects/${entry.slug}`}>
-							<p className={entryTitle}>
-								{entry.data.highlight ? '⭐️ ' : ''}
-								{entry.data.title}
-							</p>
-							<p className={entryDate}>{entry.data.date}</p>
-							<p>{entry.data.description}</p>
+						<Link
+							style={{ backgroundColor: entry.data.highlight?.color }}
+							className={projectEntryLink}
+							href={`/projects/${entry.slug}`}
+						>
+							{entry.data.highlight?.logoUrl && (
+								<Image
+									width={40}
+									height={40}
+									style={{ borderRadius: 10 }}
+									src={entry.data.highlight.logoUrl}
+									alt=""
+								/>
+							)}
+							<div>
+								{!entry.data.highlight?.logoUrl && (
+									<p className={entryTitle}>{entry.data.title}</p>
+								)}
+								<p className={entryDate}>
+									{entry.data.highlight?.logoUrl
+										? `${entry.data.title} • `
+										: ''}
+									{entry.data.date}
+								</p>
+								<p>{entry.data.description}</p>
+							</div>
 						</Link>
 					</li>
 				))}
