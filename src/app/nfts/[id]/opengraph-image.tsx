@@ -23,11 +23,15 @@ export default async function Image({
 }) {
 	const data = await getNfts()
 
+	if (!data) return new ImageResponse(<div />, { ...size })
+
 	const nft = data.find(
 		(nft: any) =>
 			`${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}` ===
 			id,
 	)
+
+	if (!nft) return new ImageResponse(<div />, { ...size })
 
 	return new ImageResponse(
 		(
