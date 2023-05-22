@@ -1,5 +1,7 @@
-import { getAssets } from '@/lib/assets'
 import { ImageResponse } from 'next/server'
+
+import { getAssets } from '@/lib/assets'
+import { fetchFonts, styles } from '@/lib/open-graph'
 
 // Route segment config
 export const runtime = 'edge'
@@ -22,50 +24,37 @@ export default async function Image({
 }) {
 	const data = await getAssets()
 
+	const fonts = await fetchFonts('Inter', [
+		{
+			weight: 400,
+			url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
+		},
+		{
+			weight: 600,
+			url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
+		},
+	])
+
 	const asset = data.projects.find((asset: any) => asset.slug === slug)
 
 	return new ImageResponse(
 		(
-			<div
-				style={{
-					background: 'white',
-					width: '100%',
-					height: '100%',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'flex-start',
-					justifyContent: 'center',
-					padding: 40,
-					paddingRight: 400,
-				}}
-			>
-				<p
-					style={{
-						fontSize: 80,
-						width: '100%',
-						lineHeight: 1,
-						fontWeight: '900',
-					}}
-				>
-					{asset?.data?.title}
-				</p>
-				<p style={{ fontSize: 35, opacity: 0.6 }}>{asset.data.description}</p>
+			<div style={styles.container}>
+				<div style={styles.textContainer}>
+					<p style={styles.heading}>cesargdm</p>
+					<p style={styles.title}>{asset?.data?.title}</p>
+					<p style={styles.extract}>{asset.data.description}</p>
+				</div>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
-					width={200}
-					height={200}
-					style={{
-						bottom: 0,
-						right: 0,
-						width: 400,
-						height: 400,
-						position: 'absolute',
-					}}
+					width={290}
+					height={290}
+					style={styles.rightImage}
 					src="https://cesargdm.com/android-chrome-512x512.png"
 					alt=""
 				/>
 			</div>
 		),
-		{ ...size },
+		{ ...size, fonts },
 	)
 }
