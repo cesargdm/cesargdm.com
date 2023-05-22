@@ -11,7 +11,7 @@ highlight:
 
 # They Xolo
 
-They Xolo is an NFT art collection created on the Ethereum blockchain, in collaboration with the talented artist, [@maria*azuli*](https://twitter.com/maria_azuli_). Our aim was to create a diverse collection that reflects the beauty and richness of Mexican culture.
+[They Xolo](https://theyxolo.art) is an NFT art collection created on the Ethereum blockchain, in collaboration with the talented artist, [@maria*azuli*](https://twitter.com/maria_azuli_). Our aim was to create a diverse collection that reflects the beauty and richness of Mexican culture.
 
 ## Website Features
 
