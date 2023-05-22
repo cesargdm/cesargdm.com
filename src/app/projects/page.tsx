@@ -1,29 +1,22 @@
 import Link from 'next/link'
 
 import { getProjects } from '@/lib/projects'
-import { openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 
 import {
 	entryItem,
-	entryLink,
+	entryDate,
 	entryTitle,
 	entriesList,
-	entryDate,
 	highlightedEntry,
 	projectEntryLink,
 } from '../blog/styles.css'
 import Image from 'next/image'
-import { vars } from '../theme.css'
-import classNames from 'classnames'
 
-export const metadata = {
+export const metadata = getMetadata({
 	title: 'Projects',
-	openGraph: {
-		...openGraph,
-		title: 'Projects',
-		description: 'César Guadarrama Cantú - Product engineer - Projects',
-	},
-}
+	description: 'César Guadarrama Cantú - Product engineer - Projects',
+})
 
 export default function Blog() {
 	const entries = getProjects('en')

@@ -1,4 +1,8 @@
 import Image from 'next/image'
+import Link from 'next/link'
+
+import { getNfts } from '@/lib/open-sea'
+import { getMetadata } from '@/lib/metadata'
 
 import {
 	nftItem,
@@ -9,8 +13,11 @@ import {
 	nftTextWrapper,
 	nftImageWrapper,
 } from './styles.css'
-import Link from 'next/link'
-import { getNfts } from '@/lib/open-sea'
+
+export const metadata = getMetadata({
+	title: 'NFTs',
+	description: 'César Guadarrama Cantú - Product engineer - NFTs',
+})
 
 export default async function Nfts() {
 	const data = await getNfts()

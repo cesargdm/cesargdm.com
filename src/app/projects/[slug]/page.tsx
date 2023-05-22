@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 
 import EditPageBanner from '@/modules/EditPageBanner'
 
-import { openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 import { getProject } from '@/lib/projects'
 
 type Params = {
@@ -12,16 +12,11 @@ type Params = {
 export async function generateMetadata({ params }: { params: Params }) {
 	const post = await getProject('en', params.slug)
 
-	return {
+	return getMetadata({
 		title: `${post?.data.title} - Projects`,
-		keywords: post?.data.keywords,
 		description: post?.data.description,
-		openGraph: {
-			...openGraph,
-			title: `${post?.data.title} - Projects`,
-			description: post?.data.description,
-		},
-	}
+		keywords: post?.data.keywords,
+	})
 }
 
 export default async function BlogPostPage({ params }: { params: Params }) {

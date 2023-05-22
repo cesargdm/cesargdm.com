@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import NftInfo from '@/components/Nft'
 import { getNft } from '@/lib/open-sea'
-import { openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 
 type Params = {
 	id: string
@@ -11,16 +11,12 @@ type Params = {
 export async function generateMetadata({ params }: { params: Params }) {
 	const nft = await getNft(params.id)
 
-	if (!nft) return {}
+	if (!nft) return getMetadata()
 
-	return {
+	return getMetadata({
+		type: 'article',
 		title: `${nft.name} - NFTs`,
-		openGraph: {
-			...openGraph,
-			type: 'article',
-			title: `${nft.name} - NFTs`,
-		},
-	}
+	})
 }
 
 export default async function Nft({ params }: { params: Params }) {

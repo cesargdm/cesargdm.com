@@ -14,9 +14,9 @@ import { getCheerFromVisitsCount } from '@/lib/cheer'
 import {
 	card,
 	cardsList,
+	twoColumnCard,
 	introParagraph,
 	introContainer,
-	twoColumnCard,
 } from './styles.css'
 
 export default function Home() {

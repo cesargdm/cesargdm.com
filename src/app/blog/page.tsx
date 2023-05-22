@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { getPosts } from '@/lib/blog'
-import { openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 
 import {
 	entryDate,
@@ -11,20 +11,17 @@ import {
 	entriesList,
 } from './styles.css'
 
-export const metadata = {
+export const metadata = getMetadata({
 	title: 'Blog',
-	openGraph: {
-		...openGraph,
-		title: 'Blog',
-		description: 'César Guadarrama Cantú - Product engineer - Blog',
-	},
-}
+	description: 'César Guadarrama Cantú - Product engineer - Blog',
+})
 
 function getReadingTime(content: string) {
 	const wordsPerMinute = 200
 	const words = content.split(/\s/g).length
 	const minutes = words / wordsPerMinute
 	const readTime = Math.ceil(minutes)
+
 	return readTime
 }
 

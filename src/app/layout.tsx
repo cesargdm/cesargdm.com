@@ -7,7 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import Nav from '@/modules/Nav'
 import Footer from '@/modules/Footer'
 
-import { openGraph, twitter } from '@/lib/metadata'
+import { metadata as defaultMetadata } from '@/lib/metadata'
 
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
@@ -32,18 +32,7 @@ const inter = Inter({
 	],
 })
 
-export const metadata = {
-	creator: 'cesargdm',
-	category: 'technology',
-	keywords: ['César Guadarrama Cantú', 'cesargdm', 'software', 'engineer'],
-	description: 'César Guadarrama - Product engineer - Blog, portfolio and more',
-	title: {
-		default: 'cesargdm',
-		template: '%s - cesargdm',
-	},
-	twitter,
-	openGraph,
-}
+export const metadata = defaultMetadata
 
 export default function RootLayout({
 	children,
