@@ -18,7 +18,7 @@ const merriweather = Merriweather({
 })
 
 type Params = {
-	slug: 'string'
+	slug: string
 }
 
 export async function generateMetadata({ params }: { params: Params }) {

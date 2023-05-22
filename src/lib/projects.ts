@@ -7,7 +7,10 @@ import grayMatter from 'gray-matter'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/projects')
 
-export function getProjects(language = 'en') {
+export function getProjects(
+	language = 'en',
+	options: { content: boolean } = { content: true },
+) {
 	const languagePostsDirectory = path.join(postsDirectory, language)
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
@@ -19,6 +22,11 @@ export function getProjects(language = 'en') {
 		const fileContents = fs.readFileSync(fullPath, 'utf8')
 
 		const grayMatterResult = grayMatter(fileContents)
+
+		if (!options.content && grayMatterResult.content) {
+			// @ts-ignore
+			delete grayMatterResult.content
+		}
 
 		return {
 			slug,

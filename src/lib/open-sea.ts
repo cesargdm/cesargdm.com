@@ -41,3 +41,11 @@ export function findNft(nfts: Nft[], id: string): Nft | undefined {
 			id,
 	)
 }
+
+export async function getNft(id: string): Promise<Nft | undefined> {
+	const nfts = await getNfts()
+
+	if (!nfts) return undefined
+
+	return findNft(nfts, id)
+}

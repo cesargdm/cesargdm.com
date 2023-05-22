@@ -1,17 +1,30 @@
-import NftInfo from '@/components/Nft'
-import { findNft, getNfts } from '@/lib/open-sea'
 import Link from 'next/link'
 
-export default async function Nft({
-	params: { id },
-}: {
-	params: { id: string }
-}) {
-	const nfts = await getNfts()
+import NftInfo from '@/components/Nft'
+import { getNft } from '@/lib/open-sea'
+import { openGraph } from '@/lib/constants'
 
-	if (!nfts) return null
+type Params = {
+	id: string
+}
 
-	const nft = findNft(nfts, id)
+export async function generateMetadata({ params }: { params: Params }) {
+	const nft = await getNft(params.id)
+
+	if (!nft) return {}
+
+	return {
+		title: `${nft.name} - NFTs`,
+		openGraph: {
+			...openGraph,
+			type: 'article',
+			title: `${nft.name} - NFTs`,
+		},
+	}
+}
+
+export default async function Nft({ params }: { params: Params }) {
+	const nft = await getNft(params.id)
 
 	if (!nft) return null
 
