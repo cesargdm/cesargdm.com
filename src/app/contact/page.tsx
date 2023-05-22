@@ -6,7 +6,7 @@ import {
 	IconBrandLinkedin,
 } from '@tabler/icons-react'
 
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 
 import { contactHeading, contactList } from './styles.css'
 

@@ -6,7 +6,7 @@ import AsideAboutMe from '@/modules/AsideAboutMe'
 import EditPageBanner from '@/modules/EditPageBanner'
 
 import { getPost } from '@/lib/blog'
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 
 import { articleContainer, nonTechnicalEntry } from './styles.css'
 

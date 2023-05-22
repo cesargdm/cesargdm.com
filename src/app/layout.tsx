@@ -7,7 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import Nav from '@/modules/Nav'
 import Footer from '@/modules/Footer'
 
-import { openGraph } from '@/lib/constants'
+import { openGraph, twitter } from '@/lib/metadata'
 
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
@@ -41,6 +41,7 @@ export const metadata = {
 		default: 'cesargdm',
 		template: '%s - cesargdm',
 	},
+	twitter,
 	openGraph,
 }
 

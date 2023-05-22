@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { getPosts } from '@/lib/blog'
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 
 import {
 	entryDate,

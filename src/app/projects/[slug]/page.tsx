@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 
 import EditPageBanner from '@/modules/EditPageBanner'
 
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 import { getProject } from '@/lib/projects'
 
 type Params = {

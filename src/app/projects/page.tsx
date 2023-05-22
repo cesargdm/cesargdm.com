@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { getProjects } from '@/lib/projects'
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 
 import {
 	entryItem,

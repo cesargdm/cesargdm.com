@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import NftInfo from '@/components/Nft'
 import { getNft } from '@/lib/open-sea'
-import { openGraph } from '@/lib/constants'
+import { openGraph } from '@/lib/metadata'
 
 type Params = {
 	id: string
