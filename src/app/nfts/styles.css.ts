@@ -13,6 +13,9 @@ export const nftsList = style({
 		'screen and (min-width: 1024px)': {
 			gridTemplateColumns: 'repeat(4, 1fr)',
 		},
+		'screen and (min-width: 1280px)': {
+			gridTemplateColumns: 'repeat(5, 1fr)',
+		},
 	},
 })
 
@@ -33,6 +36,7 @@ export const nftImageWrapper = style({
 	width: '100%',
 	height: 'auto',
 	position: 'relative',
+	aspectRatio: '1',
 })
 
 export const nftTextWrapper = style({

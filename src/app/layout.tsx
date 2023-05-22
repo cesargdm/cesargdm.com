@@ -44,7 +44,13 @@ export const metadata = {
 	openGraph,
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+	children,
+	modal,
+}: {
+	children: ReactNode
+	modal: ReactNode
+}) {
 	const cookieStore = cookies()
 	const theme = cookieStore.get('theme')?.value
 
@@ -61,6 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={body}>
 				<Nav />
 				<main className={content}>{children}</main>
+				{modal}
 				{/* @ts-ignore */}
 				<Footer />
 				<Analytics />
