@@ -22,7 +22,7 @@ export default async function Image({
 }) {
 	const data = await getAssets()
 
-	const asset = data.posts.find((asset: any) => asset.slug === slug)
+	const asset = data.projects.find((asset: any) => asset.slug === slug)
 
 	return new ImageResponse(
 		(
@@ -49,7 +49,7 @@ export default async function Image({
 				>
 					{asset?.data?.title}
 				</p>
-				<p style={{ fontSize: 35, opacity: 0.6 }}>{asset.data.extract}</p>
+				<p style={{ fontSize: 35, opacity: 0.6 }}>{asset.data.description}</p>
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					width={200}
