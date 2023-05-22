@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 type MetadataParams = {
 	title?: string
-	type?: 'article'
+	type?: 'article' | 'website'
 	images?: string[]
 	description?: string
 	keywords?: Metadata['keywords']
@@ -52,11 +52,11 @@ export const metadata = {
 }
 
 export const getMetadata = ({
-	type,
 	title,
+	images,
 	keywords,
 	description,
-	images,
+	type = 'website',
 }: MetadataParams | undefined = {}): Metadata => ({
 	title,
 	description,

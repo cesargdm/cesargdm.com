@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/server'
 
 import { getNfts } from '@/lib/open-sea'
+import { getDefaultFonts, styles } from '@/lib/open-graph'
 
 // Route segment config
 export const runtime = 'edge'
@@ -33,32 +34,26 @@ export default async function Image({
 
 	if (!nft) return new ImageResponse(<div />, { ...size })
 
+	const fonts = await getDefaultFonts()
+
 	return new ImageResponse(
 		(
-			<div
-				style={{
-					background: 'white',
-					width: '100%',
-					height: '100%',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					padding: 40,
-				}}
-			>
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<p style={{ fontSize: '80px' }}>cesargdm</p>
-					<p style={{ fontSize: '40px', fontWeight: '900' }}>{nft.name}</p>
+			<div style={styles.container}>
+				<div style={{ ...styles.textContainer, marginBottom: 470 }}>
+					<p style={styles.heading}>cesargdm - NFTs</p>
+					<p style={styles.title}>{nft?.name}</p>
 				</div>
 
 				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
-					style={{ borderRadius: 40, width: 300, height: 300 }}
+					width={450}
+					height={450}
+					style={styles.nftImage}
 					src={nft.image_url}
 					alt=""
 				/>
 			</div>
 		),
-		{ ...size },
+		{ ...size, fonts },
 	)
 }

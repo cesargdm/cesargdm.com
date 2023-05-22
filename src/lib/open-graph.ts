@@ -12,6 +12,7 @@ export const styles = {
 		width: '100%',
 		margin: 'auto',
 		display: 'flex',
+		fontFamily: 'Inter',
 		flexDirection: 'column',
 	},
 	heading: {
@@ -25,6 +26,13 @@ export const styles = {
 		bottom: 0,
 		right: 0,
 		position: 'absolute',
+	},
+	nftImage: {
+		bottom: 0,
+		left: '50%',
+		borderRadius: 50,
+		position: 'absolute',
+		transform: 'translate(-50%, 50px)',
 	},
 	extract: { fontSize: 32, opacity: 0.6 },
 	title: {
@@ -53,3 +61,15 @@ export function fetchFonts(
 		weights.map((weight) => fetchFont(name, weight.weight, weight.url)),
 	)
 }
+
+export const getDefaultFonts = () =>
+	fetchFonts('Inter', [
+		{
+			weight: 400,
+			url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
+		},
+		{
+			weight: 600,
+			url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
+		},
+	])

@@ -41,7 +41,7 @@ export default async function Image({
 		(
 			<div style={styles.container}>
 				<div style={styles.textContainer}>
-					<p style={styles.heading}>cesargdm</p>
+					<p style={styles.heading}>cesargdm - Projects</p>
 					<p style={styles.title}>{asset?.data?.title}</p>
 					<p style={styles.extract}>{asset.data.description}</p>
 				</div>

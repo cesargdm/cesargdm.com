@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/server'
 
 import { getAssets } from '@/lib/assets'
-import { fetchFonts, styles } from '@/lib/open-graph'
+import { fetchFonts, getDefaultFonts, styles } from '@/lib/open-graph'
 
 // Route segment config
 export const runtime = 'edge'
@@ -24,16 +24,7 @@ export default async function Image({
 }) {
 	const data = await getAssets()
 
-	const fonts = await fetchFonts('Inter', [
-		{
-			weight: 400,
-			url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
-		},
-		{
-			weight: 600,
-			url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
-		},
-	])
+	const fonts = await getDefaultFonts()
 
 	const asset = data.posts.find((asset: any) => asset.slug === slug)
 
@@ -41,7 +32,7 @@ export default async function Image({
 		(
 			<div style={styles.container}>
 				<div style={styles.textContainer}>
-					<p style={styles.heading}>cesargdm</p>
+					<p style={styles.heading}>cesargdm - Blog</p>
 					<p style={styles.title}>{asset?.data?.title}</p>
 					<p style={styles.extract}>{asset.data.extract}</p>
 				</div>
