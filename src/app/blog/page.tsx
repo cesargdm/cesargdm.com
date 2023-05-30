@@ -14,6 +14,7 @@ import {
 export const metadata = getMetadata({
 	title: 'Blog',
 	description: 'César Guadarrama Cantú - Product engineer - Blog',
+	alternates: { canonical: '/blog' },
 })
 
 function getReadingTime(content: string) {

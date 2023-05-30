@@ -26,8 +26,9 @@ export async function generateMetadata({ params }: { params: Params }) {
 
 	return getMetadata({
 		type: 'article',
-		title: `${post?.data.title} - Blog`,
 		description: post?.data.extract,
+		title: `${post?.data.title} - Blog`,
+		alternates: { canonical: `/blog/${post?.slug}` },
 	})
 }
 

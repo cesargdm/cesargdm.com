@@ -13,9 +13,10 @@ export async function generateMetadata({ params }: { params: Params }) {
 	const post = await getProject('en', params.slug)
 
 	return getMetadata({
-		title: `${post?.data.title} - Projects`,
-		description: post?.data.description,
 		keywords: post?.data.keywords,
+		description: post?.data.description,
+		title: `${post?.data.title} - Projects`,
+		alternates: { canonical: `/projects/${post?.slug}` },
 	})
 }
 

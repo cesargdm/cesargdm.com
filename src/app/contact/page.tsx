@@ -6,18 +6,14 @@ import {
 	IconBrandLinkedin,
 } from '@tabler/icons-react'
 
-import { openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 
 import { contactHeading, contactList } from './styles.css'
 
-export const metadata = {
+export const metadata = getMetadata({
 	title: 'Contact',
-	openGraph: {
-		...openGraph,
-		title: 'Contact',
-		description: 'César Guadarrama Cantú - Product engineer - Contact',
-	},
-}
+	alternates: { canonical: '/contact' },
+})
 
 const socialLinks = [
 	{

@@ -6,7 +6,7 @@ type MetadataParams = {
 	images?: string[]
 	description?: string
 	keywords?: Metadata['keywords']
-}
+} & Partial<Metadata>
 
 export const title = 'cesargdm'
 
@@ -57,11 +57,14 @@ export const getMetadata = ({
 	keywords,
 	description,
 	type = 'website',
+	...props
 }: MetadataParams | undefined = {}): Metadata => ({
+	...props,
 	title,
-	description,
 	keywords,
+	description,
 	openGraph: {
+		...props.openGraph,
 		...openGraph,
 		type,
 		title,
@@ -69,9 +72,14 @@ export const getMetadata = ({
 		description,
 	},
 	twitter: {
+		...props.twitter,
 		...twitter,
 		title,
 		images,
 		description,
+	},
+	alternates: {
+		canonical: `https://cesargdm.com${props.alternates?.canonical ?? ''}`,
+		...props.alternates,
 	},
 })

@@ -17,6 +17,7 @@ import {
 export const metadata = getMetadata({
 	title: 'NFTs',
 	description: 'César Guadarrama Cantú - Product engineer - NFTs',
+	alternates: { canonical: '/nfts' },
 })
 
 export default async function Nfts() {
@@ -25,7 +26,7 @@ export default async function Nfts() {
 	return (
 		<>
 			<ul className={nftsList}>
-				{data?.map?.((nft, index) => {
+				{data?.map?.((nft) => {
 					if (!nft.image_url) return null
 
 					return (

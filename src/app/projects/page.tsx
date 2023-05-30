@@ -16,6 +16,7 @@ import Image from 'next/image'
 export const metadata = getMetadata({
 	title: 'Projects',
 	description: 'César Guadarrama Cantú - Product engineer - Projects',
+	alternates: { canonical: '/projects' },
 })
 
 export default function Blog() {
