@@ -23,6 +23,8 @@ export const openGraph: Metadata['openGraph'] = {
 
 export const twitterUsername = '@cesargdm'
 
+export const host = 'https://cesargdm.com'
+
 export const twitter: Metadata['twitter'] = {
 	title,
 	images,
@@ -42,8 +44,8 @@ export const metadata = {
 		'engineer',
 		'javascript',
 	],
-	alternate: {
-		canonical: 'https://cesargdm.com',
+	alternates: {
+		canonical: host,
 	},
 	description,
 	title: {
@@ -82,7 +84,7 @@ export const getMetadata = ({
 		description,
 	},
 	alternates: {
-		canonical: `https://cesargdm.com${props.alternates?.canonical ?? ''}`,
 		...props.alternates,
+		canonical: `${host}${props.alternates?.canonical ?? ''}`,
 	},
 })
