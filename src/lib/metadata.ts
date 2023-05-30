@@ -42,6 +42,9 @@ export const metadata = {
 		'engineer',
 		'javascript',
 	],
+	alternate: {
+		canonical: 'https://cesargdm.com',
+	},
 	description,
 	title: {
 		default: title,
@@ -49,7 +52,7 @@ export const metadata = {
 	},
 	twitter,
 	openGraph,
-}
+} as Metadata
 
 export const getMetadata = ({
 	title,
