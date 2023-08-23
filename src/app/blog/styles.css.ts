@@ -4,7 +4,6 @@ import { vars } from '../theme.css'
 export const entriesList = style({
 	display: 'grid',
 	gridTemplateColumns: '1fr',
-	// gap: vars.space.large,
 	margin: `${vars.space.large} 0`,
 	'@media': {
 		'(min-width: 768px)': {
