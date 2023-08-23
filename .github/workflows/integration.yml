@@ -15,15 +15,15 @@ jobs:
     steps:
       - name: 👀 Checkout Code
         uses: actions/checkout@v3
+      - name: 🧱 Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: 🐢 Setup Node
         uses: actions/setup-node@v3
         with:
           cache: pnpm
           node-version: 18
-      - name: 🧱 Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
       - name: 📝 Check Code Format
         run: npm run format-check
       - name: 🚨 Lint Code
@@ -38,14 +38,14 @@ jobs:
     steps:
       - name: 👀 Checkout Code
         uses: actions/checkout@v3
+      - name: 🧱 Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - name: 🐢 Setup Node
         uses: actions/setup-node@v3
         with:
           cache: pnpm
           node-version: 18
-      - name: 🧱 Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
       - name: 🏗️ Build Web Bundle
         run: npm run build

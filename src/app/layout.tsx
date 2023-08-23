@@ -32,15 +32,14 @@ const inter = Inter({
 	],
 })
 
-export const metadata = defaultMetadata
-
-export default function RootLayout({
-	children,
-	modal,
-}: {
+type Props = {
 	children: ReactNode
 	modal: ReactNode
-}) {
+}
+
+export const metadata = defaultMetadata
+
+export default function RootLayout({ children, modal }: Props) {
 	const cookieStore = cookies()
 	const theme = cookieStore.get('theme')?.value
 
@@ -58,7 +57,6 @@ export default function RootLayout({
 				<Nav />
 				<main className={content}>{children}</main>
 				{modal}
-				{/* @ts-ignore */}
 				<Footer />
 				<Analytics />
 			</body>
