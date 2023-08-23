@@ -3,11 +3,13 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"dev": "next dev",
+		"format": "prettier --write .",
+		"format-check": "prettier --check .",
 		"lint": "next lint",
-		"format": "prettier --write ."
+		"start": "next start",
+		"tscheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@radix-ui/react-dialog": "^1.0.4",
