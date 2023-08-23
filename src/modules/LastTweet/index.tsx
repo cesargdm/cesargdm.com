@@ -1,6 +1,4 @@
-import { IconExternalLink } from '@tabler/icons-react'
-
-import Twitter from '@/assets/icons/Twitter'
+import X from '@/assets/icons/X'
 
 import { readTweetsButton, tweetParagraph } from './styles.css'
 
@@ -20,8 +18,8 @@ async function LastTweet() {
 	return (
 		<>
 			<h2>
-				<Twitter style={{ width: 24, height: 24 }} aria-hidden />
-				Tweets
+				<X style={{ width: 24, height: 24 }} aria-hidden />
+				Posts
 			</h2>
 			<p className={tweetParagraph}>{tweetText}</p>
 			<a
@@ -31,7 +29,7 @@ async function LastTweet() {
 				href="https://twitter.com/cesargdm"
 				aria-label="Visit my Twitter profile"
 			>
-				Read more tweets
+				Read more posts
 			</a>
 		</>
 	)

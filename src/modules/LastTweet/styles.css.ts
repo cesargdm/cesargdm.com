@@ -24,10 +24,10 @@ export const readTweetsButton = style([
 	{
 		color: 'white',
 		boxShadow: 'none',
-		backgroundColor: '#1da1f2',
+		backgroundColor: '#222',
 		':hover': {
 			boxShadow: 'none',
-			backgroundColor: '#0d8ecf',
+			backgroundColor: '#000',
 		},
 	},
 ])
