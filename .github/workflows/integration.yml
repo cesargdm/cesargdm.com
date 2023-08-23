@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test, Lint and Check Format
+    name: Test, Lint Check Format and Types
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -24,6 +24,8 @@ jobs:
         with:
           cache: pnpm
           node-version: 18
+      - name: 📦 Install Dependencies
+        run: pnpm install --prefer-offline
       - name: 📝 Check Code Format
         run: npm run format-check
       - name: 🚨 Lint Code
@@ -32,7 +34,7 @@ jobs:
         run: npm run tscheck
 
   build:
-    name: Build Web App
+    name: Build Site
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -47,5 +49,7 @@ jobs:
         with:
           cache: pnpm
           node-version: 18
-      - name: 🏗️ Build Web Bundle
+      - name: 📦 Install Dependencies
+        run: pnpm install --prefer-offline
+      - name: 🏗️ Build Site
         run: npm run build
