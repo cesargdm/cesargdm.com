@@ -63,13 +63,11 @@ export default function Home() {
 					</li>
 					<li style={{ aspectRatio: '1 / 1' }} className={card}>
 						<Suspense fallback={null}>
-							{/* @ts-ignore */}
 							<LastTweet />
 						</Suspense>
 					</li>
 					<li style={{ padding: 0 }} className={card}>
 						<Suspense fallback={null}>
-							{/* @ts-ignore */}
 							<LastPhoto />
 						</Suspense>
 					</li>
@@ -79,7 +77,6 @@ export default function Home() {
 						style={{ padding: 0 }}
 					>
 						<Suspense fallback={null}>
-							{/* @ts-ignore */}
 							<Reading />
 						</Suspense>
 					</li>
