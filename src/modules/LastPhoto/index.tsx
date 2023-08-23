@@ -32,7 +32,7 @@ async function LastPhoto() {
 							height={500}
 							className={image}
 							src={photo.urls.regular}
-							alt={response[0]?.alt_description}
+							alt={response[0]?.alt_description ?? ''}
 						/>
 					</div>
 				))}
