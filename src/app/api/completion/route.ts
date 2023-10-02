@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
-import { Configuration, OpenAIApi } from 'openai'
+import OpenAI from 'openai'
 
 const openAiApiKey = process.env.OPENAI_API_KEY
 
-const configuration = new Configuration({ apiKey: openAiApiKey })
+// const configuration = new openai.Configuration()
 
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAI({ apiKey: openAiApiKey })
 
 const MODEL_ID = 'davinci:ft-personal-2023-04-07-20-32-03'
 
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 	const date = new Date().toISOString()
 
 	try {
-		const { data } = await openai.createCompletion({
+		const completionResponse = await openai.completions.create({
 			prompt: prompt,
 			model: MODEL_ID,
 			stop: ['END'],
@@ -32,13 +32,13 @@ export async function GET(request: Request) {
 			temperature: 0.8,
 		})
 
-		const { text: completion } = data.choices[0] ?? {}
+		const { text: completion } = completionResponse.choices[0] ?? {}
 
 		await sql`
 			INSERT INTO prompts (prompt, completion, date) VALUES (${prompt}, ${completion}, ${date})
 		`.catch(() => undefined)
 
-		return NextResponse.json(data)
+		return NextResponse.json(completionResponse)
 	} catch (error) {
 		console.error(error)
 
