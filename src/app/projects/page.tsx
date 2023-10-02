@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 
 import { getProjects } from '@/lib/projects'
 import { getMetadata } from '@/lib/metadata'
@@ -32,7 +33,9 @@ export default function Blog() {
 						key={entry.slug}
 					>
 						<Link
-							style={{ backgroundColor: entry.data.highlight?.color }}
+							style={assignInlineVars({
+								backgroundColor: entry.data.highlight?.color,
+							})}
 							className={projectEntryLink}
 							href={`/projects/${entry.slug}`}
 						>

@@ -3,7 +3,7 @@ import X from '@/assets/icons/X'
 import { readTweetsButton, tweetParagraph } from './styles.css'
 
 function getData() {
-	return fetch('https://cesargdm.com/api/twitter/last-tweets', {
+	return fetch('https://cesargdm.com/api/x/last-posts', {
 		next: { revalidate: 60 * 60 * 24 },
 	})
 		.then((response) => response.json())

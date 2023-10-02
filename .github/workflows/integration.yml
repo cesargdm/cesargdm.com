@@ -14,24 +14,23 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: 👀 Checkout Code
-        uses: actions/checkout@v3
-      - name: 🧱 Setup PNPM
-        uses: pnpm/action-setup@v2
+        uses: actions/checkout@v4
+      - name: 🥟 Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: 8
+          bun-version: latest
       - name: 🐢 Setup Node
         uses: actions/setup-node@v3
         with:
-          cache: pnpm
           node-version: 18
       - name: 📦 Install Dependencies
-        run: pnpm install --prefer-offline
+        run: bun install
       - name: 📝 Check Code Format
-        run: npm run format-check
+        run: bun run format-check
       - name: 🚨 Lint Code
-        run: npm run lint
+        run: bun run lint
       - name: ✅ TSCheck Code
-        run: npm run tscheck
+        run: bun run tscheck
 
   build:
     name: Build Site
@@ -39,17 +38,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: 👀 Checkout Code
-        uses: actions/checkout@v3
-      - name: 🧱 Setup PNPM
-        uses: pnpm/action-setup@v2
+        uses: actions/checkout@v4
+      - name: 🥟 Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: 8
+          bun-version: latest
       - name: 🐢 Setup Node
         uses: actions/setup-node@v3
         with:
-          cache: pnpm
           node-version: 18
       - name: 📦 Install Dependencies
-        run: pnpm install --prefer-offline
+        run: bun install
       - name: 🏗️ Build Site
-        run: npm run build
+        run: bun run build

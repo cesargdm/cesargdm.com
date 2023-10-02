@@ -35,6 +35,7 @@ export const twitter: Metadata['twitter'] = {
 }
 
 export const metadata = {
+	metadataBase: new URL('https://cesargdm.com'),
 	creator: 'cesargdm',
 	category: 'technology',
 	keywords: [

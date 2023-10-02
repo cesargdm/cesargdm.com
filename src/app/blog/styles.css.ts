@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { createVar, keyframes, style } from '@vanilla-extract/css'
 import { vars } from '../theme.css'
 
 export const entriesList = style({
@@ -7,7 +7,10 @@ export const entriesList = style({
 	margin: `${vars.space.large} 0`,
 	'@media': {
 		'(min-width: 768px)': {
-			gridTemplateColumns: '1fr 1fr',
+			gridTemplateColumns: 'repeat(2, 1fr)',
+		},
+		'(min-width: 1024px)': {
+			gridTemplateColumns: 'repeat(3, 1fr)',
 		},
 	},
 })

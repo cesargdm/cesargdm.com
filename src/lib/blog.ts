@@ -12,7 +12,7 @@ export function getPosts(language = 'en') {
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
 
-	const allEntries = fileNames.map((fileName) => {
+	let allEntries = fileNames.map((fileName) => {
 		const slug = fileName.replace(/\.mdx?$/, '')
 
 		const fullPath = path.join(languagePostsDirectory, fileName)
@@ -20,13 +20,15 @@ export function getPosts(language = 'en') {
 
 		const grayMatterResult = grayMatter(fileContents)
 
-		return {
-			slug,
-			...grayMatterResult,
-		}
+		return { slug, ...grayMatterResult }
 	})
 
-	// TODO: sort by date
+	allEntries = allEntries.sort((a, b) => {
+		if (a.data.date < b.data.date) return 1
+		if (a.data.date > b.data.date) return -1
+		return 0
+	})
+
 	return allEntries
 }
 

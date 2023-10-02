@@ -1,7 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { IconBrandLinkedin, IconBrandTwitter } from '@tabler/icons-react'
+import {
+	IconBrandLinkedin,
+	IconBrandTwitter,
+	IconBrandX,
+} from '@tabler/icons-react'
 
 import {
 	sitename,
@@ -31,20 +35,20 @@ export default function SideAboutMe() {
 				<li>
 					<a
 						className={socialLink}
-						href={`https://twitter.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
+						aria-label="Share on X"
+						href={`https://x.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
 					>
-						<IconBrandTwitter aria-hidden />
-						Twitter
+						<IconBrandX aria-hidden />
 					</a>
 				</li>
 				<li>
 					{url && (
 						<a
 							className={socialLink}
+							aria-label="Share on LinkedIn"
 							href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
 						>
 							<IconBrandLinkedin aria-hidden />
-							LinkedIn
 						</a>
 					)}
 				</li>
