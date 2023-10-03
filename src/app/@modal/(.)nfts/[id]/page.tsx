@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import NftInfo from '@/components/Nft'
 
-import { findNft,getNfts } from '@/lib/open-sea'
+import { findNft, getNfts } from '@/lib/open-sea'
 
 export default async function Nft({
 	params: { id },
@@ -14,7 +14,7 @@ export default async function Nft({
 	const nfts = await getNfts()
 	if (!nfts) return null
 
-	const nft = findNft(nfts, id)
+	const nft = await findNft(nfts, id)
 
 	if (!nft) return null
 
