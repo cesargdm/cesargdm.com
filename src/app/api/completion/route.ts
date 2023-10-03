@@ -2,11 +2,11 @@ import { sql } from '@vercel/postgres'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const openAiApiKey = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 
-// const configuration = new openai.Configuration()
-
-const openai = new OpenAI({ apiKey: openAiApiKey })
+const openai = OPENAI_API_KEY
+	? new OpenAI({ apiKey: OPENAI_API_KEY })
+	: undefined
 
 const MODEL_ID = 'davinci:ft-personal-2023-04-07-20-32-03'
 
@@ -26,6 +26,8 @@ export async function GET(request: Request) {
 	const date = new Date().toISOString()
 
 	try {
+		if (!openai) throw new Error('OpenAI not initialized')
+
 		const completionResponse = await openai.completions.create({
 			prompt: prompt,
 			model: MODEL_ID,
