@@ -10,7 +10,8 @@ export type Nft = {
 	}
 }
 
-export function getNfts({
+// eslint-disable-next-line require-await
+export async function getNfts({
 	owner = '0xE3a856E4034D25FF68b3702B8f1618173BBFa130',
 } = {}): Promise<Nft[] | undefined> {
 	'use server'
