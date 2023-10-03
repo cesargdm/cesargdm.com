@@ -1,12 +1,13 @@
 import {
 	IconBrandGithub,
 	IconBrandLinkedin,
-	IconBrandTwitter,
+	IconBrandX,
 	IconFile,
 	IconMail,
 } from '@tabler/icons-react'
 
 import { getMetadata } from '@/lib/metadata'
+import social from '@/lib/social.json'
 
 import { contactHeading, contactList } from './styles.css'
 
@@ -17,28 +18,23 @@ export const metadata = getMetadata({
 
 const socialLinks = [
 	{
-		name: 'Twitter',
-		url: 'https://twitter.com/cesargdm',
-		icon: <IconBrandTwitter aria-hidden />,
+		...social.x,
+		icon: <IconBrandX aria-hidden />,
 	},
 	{
-		name: 'CV',
-		url: 'https://read.cv/cesargdm',
+		...social.cv,
 		icon: <IconFile aria-hidden />,
 	},
 	{
-		name: 'GitHub',
-		url: 'https://github.com/cesargdm',
+		...social.github,
 		icon: <IconBrandGithub aria-hidden />,
 	},
 	{
-		name: 'LinkedIn',
-		url: 'https://linkedin.com/in/cesargdm',
+		...social.linkedin,
 		icon: <IconBrandLinkedin aria-hidden />,
 	},
 	{
-		name: 'Email',
-		url: 'mailto:yo@cesargdm.com',
+		...social.email,
 		icon: <IconMail aria-hidden />,
 	},
 ]
