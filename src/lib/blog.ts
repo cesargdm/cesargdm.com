@@ -22,11 +22,17 @@ export function getPosts(language = 'en') {
 		return { slug, ...grayMatterResult }
 	})
 
+	// Sort by date
 	allEntries = allEntries.sort((a, b) => {
 		if (a.data.date < b.data.date) return 1
 		if (a.data.date > b.data.date) return -1
 		return 0
 	})
+
+	// Remove draft posts in production
+	if (process.env.NODE_ENV === 'production') {
+		allEntries = allEntries.filter((post) => !post.data.isDraft)
+	}
 
 	return allEntries
 }

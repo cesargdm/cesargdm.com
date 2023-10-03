@@ -1,7 +1,7 @@
-import { assignInlineVars } from '@vanilla-extract/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { getHumanReadableDate } from '@/lib/date'
 import { getMetadata } from '@/lib/metadata'
 import { getProjects } from '@/lib/projects'
 
@@ -33,9 +33,9 @@ export default function Blog() {
 						className={entry.data.highlight ? highlightedEntry : entryItem}
 					>
 						<Link
-							style={assignInlineVars({
-								backgroundColor: entry.data.highlight?.color,
-							})}
+							style={{
+								backgroundColor: entry.data.highlight?.color ?? 'transparent',
+							}}
 							className={projectEntryLink}
 							href={`/projects/${entry.slug}`}
 						>
@@ -56,7 +56,7 @@ export default function Blog() {
 									{entry.data.highlight?.logoUrl
 										? `${entry.data.title} • `
 										: ''}
-									{entry.data.date}
+									{getHumanReadableDate(entry.data.date)}
 								</p>
 								<p>{entry.data.description}</p>
 							</div>

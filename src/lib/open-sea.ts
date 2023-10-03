@@ -37,7 +37,11 @@ export function getNfts({
 		.catch(() => undefined)
 }
 
-export function findNft(nfts: Nft[], id: string): Nft | undefined {
+// eslint-disable-next-line require-await
+export async function findNft(
+	nfts: Nft[],
+	id: string,
+): Promise<Nft | undefined> {
 	return nfts.find(
 		(nft) =>
 			`${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}` ===

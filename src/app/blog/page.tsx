@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { getPosts } from '@/lib/blog'
+import { getHumanReadableDate } from '@/lib/date'
 import { getMetadata } from '@/lib/metadata'
 
 import {
@@ -38,7 +39,7 @@ export default function Blog() {
 						<Link className={entryLink} href={`/blog/${entry.slug}`}>
 							<p className={entryTitle}>{entry.data.title}</p>
 							<p className={entryDate}>
-								{new Date(entry.data.date).toLocaleDateString()} •{' '}
+								{getHumanReadableDate(entry.data.date)} •{' '}
 								{getReadingTime(entry.content)} minutes read
 							</p>
 							<p>{entry.data.extract}</p>
