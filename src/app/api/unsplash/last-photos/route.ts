@@ -9,6 +9,7 @@ const unsplash = createApi({
 /**
  * 24 hours
  */
+// eslint-disable-next-line no-magic-numbers
 export const revalidate = 60 * 60 * 24
 
 export async function GET() {
@@ -16,8 +17,6 @@ export async function GET() {
 		username: 'cesargdm',
 		perPage: 3,
 	})
-
-	console.log({ result })
 
 	return NextResponse.json(result?.response?.results ?? null)
 }

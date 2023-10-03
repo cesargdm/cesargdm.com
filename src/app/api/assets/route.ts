@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
-import { getProjects } from '@/lib/projects'
 import { getPosts } from '@/lib/blog'
+import { getProjects } from '@/lib/projects'
 
-export async function GET(request: Request) {
+export async function GET() {
 	const [projects, posts] = await Promise.all([
 		getProjects(undefined, { content: false }),
 		getPosts(),

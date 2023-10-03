@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import NftInfo from '@/components/Nft'
 
-import { getNfts, findNft } from '@/lib/open-sea'
+import { findNft,getNfts } from '@/lib/open-sea'
 
 export default async function Nft({
 	params: { id },

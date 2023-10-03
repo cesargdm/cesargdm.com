@@ -10,15 +10,18 @@ export type Nft = {
 	}
 }
 
-export async function getNfts({
+export function getNfts({
 	owner = '0xE3a856E4034D25FF68b3702B8f1618173BBFa130',
 } = {}): Promise<Nft[] | undefined> {
 	'use server'
 
+	// eslint-disable-next-line no-magic-numbers
+	const ONE_MINUTE = 60 * 60
+
 	return fetch(
 		`https://api.opensea.io/api/v1/assets?owner=${owner}&limit=100`,
 		{
-			next: { revalidate: 60 * 60 },
+			next: { revalidate: ONE_MINUTE },
 			headers: { 'X-API-KEY': process.env.OPENSEA_API_KEY as string },
 		},
 	)

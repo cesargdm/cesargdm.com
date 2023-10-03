@@ -1,5 +1,6 @@
 import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
+
 import { vars } from '@/app/theme.css'
 
 import {
@@ -8,12 +9,14 @@ import {
 	photoContainer,
 	photosWrapper,
 } from './styles.css'
-import { cardButton } from '../LastTweet/styles.css'
 
 function getData() {
+	// eslint-disable-next-line no-magic-numbers
+	const ONE_DAY = 60 * 60 * 24
+
 	return fetch('https://cesargdm.com/api/unsplash/last-photos', {
 		method: 'GET',
-		next: { revalidate: 60 * 60 * 24 },
+		next: { revalidate: ONE_DAY },
 	})
 		.then((response) => response.json())
 		.catch(() => undefined)

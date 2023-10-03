@@ -8,8 +8,11 @@ import { footerContainer, footerList, footerParagraph } from './styles.css'
 async function getData() {
 	'use server'
 
+	// eslint-disable-next-line no-magic-numbers
+	const ONE_DAY = 60 * 60 * 24
+
 	const response = await fetch('https://cesargdm.com/api/slack/users-info', {
-		next: { revalidate: 60 * 60 * 24 },
+		next: { revalidate: ONE_DAY },
 	})
 
 	return response.json()

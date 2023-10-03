@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 export function getCheerFromVisitsCount(visitsCount: string) {
 	const visitsCountNumber = Number(visitsCount)
 

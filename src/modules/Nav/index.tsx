@@ -1,20 +1,20 @@
 import classNames from 'classnames'
 
-import {
-	navList,
-	navContainer,
-	centerNavList,
-	navToggleThemeItem,
-} from './styles.css'
-
+import NavLink from './NavLink'
 import ToggleTheme from './ToggleTheme'
 
-import NavLink from './NavLink'
+import {
+	centerNavList,
+	navContainer,
+	navList,
+	navToggleThemeItem,
+} from './styles.css'
 
 function Nav() {
 	return (
 		<nav className={navContainer}>
 			<i aria-hidden />
+			{/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
 			<ul tabIndex={0} className={centerNavList}>
 				<NavLink href="/" exact>
 					About

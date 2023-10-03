@@ -1,3 +1,3 @@
-export async function POST() {
+export function POST() {
 	return new Response(null)
 }

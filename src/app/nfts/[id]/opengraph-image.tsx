@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/server'
 
-import { getNfts } from '@/lib/open-sea'
 import { getDefaultFonts, styles } from '@/lib/open-graph'
+import { getNfts } from '@/lib/open-sea'
 
 // Route segment config
 export const runtime = 'edge'

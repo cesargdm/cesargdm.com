@@ -1,7 +1,8 @@
+import type { MetadataRoute } from 'next'
+
 import { getPosts } from '@/lib/blog'
 import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
-import { MetadataRoute } from 'next'
 
 const urls = ['', 'projects', 'blog', 'contact', 'nfts']
 

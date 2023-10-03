@@ -1,9 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
-
+import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
-import grayMatter from 'gray-matter'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/posts')
 

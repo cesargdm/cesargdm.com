@@ -1,4 +1,5 @@
 import { vars } from '@/app/theme.css'
+
 import { globalStyle, style } from '@vanilla-extract/css'
 
 export const notFoundContainer = style({
@@ -31,6 +32,12 @@ export const entryContainer = style({
 
 globalStyle(`${entryContainer} > *`, {
 	minWidth: 0,
+})
+
+globalStyle(`${entryContainer} hr `, {
+	border: 'none',
+	margin: `${vars.space.xxlarge} 0`,
+	borderTop: `1px solid ${vars.colors.border}`,
 })
 
 export const articleContainer = style({

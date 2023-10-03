@@ -1,17 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { getNfts } from '@/lib/open-sea'
 import { getMetadata } from '@/lib/metadata'
+import { getNfts } from '@/lib/open-sea'
 
 import {
+	nftDescription,
+	nftImageWrapper,
 	nftItem,
 	nftLink,
 	nftName,
 	nftsList,
-	nftDescription,
 	nftTextWrapper,
-	nftImageWrapper,
 } from './styles.css'
 
 export const metadata = getMetadata({
@@ -30,7 +30,7 @@ export default async function Nfts() {
 					if (!nft.image_url) return null
 
 					return (
-						<li className={nftItem} key={String(nft.id)}>
+						<li key={String(nft.id)} className={nftItem}>
 							<Link
 								href={`/nfts/${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}`}
 								className={nftLink}

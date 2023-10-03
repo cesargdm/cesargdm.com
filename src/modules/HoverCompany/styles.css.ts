@@ -1,6 +1,6 @@
-import { globalStyle, style } from '@vanilla-extract/css'
-
 import { vars } from '@/app/theme.css'
+
+import { globalStyle, style } from '@vanilla-extract/css'
 
 export const dropdownText = style({
 	minWidth: 'auto',

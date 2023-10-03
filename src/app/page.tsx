@@ -1,22 +1,22 @@
 import { Suspense } from 'react'
-import Link from 'next/link'
-import { cookies } from 'next/headers'
 import classNames from 'classnames'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
 
 import Chat from '@/modules/Chat'
-import Reading from '@/modules/Reading'
+import HoverCompany from '@/modules/HoverCompany'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastTweet'
-import HoverCompany from '@/modules/HoverCompany'
+import Reading from '@/modules/Reading'
 
 import { getCheerFromVisitsCount } from '@/lib/cheer'
 
 import {
 	card,
 	cardsList,
-	twoColumnCard,
-	introParagraph,
 	introContainer,
+	introParagraph,
+	twoColumnCard,
 } from './styles.css'
 
 export default function Home() {

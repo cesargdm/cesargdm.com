@@ -1,21 +1,22 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { IconBrandLinkedin, IconBrandX } from '@tabler/icons-react'
 import Image from 'next/image'
-import {
-	IconBrandLinkedin,
-	IconBrandTwitter,
-	IconBrandX,
-} from '@tabler/icons-react'
 
 import {
 	sitename,
+	smallDescription,
 	socialLink,
 	socialLinksList,
-	smallDescription,
 } from './styles.css'
 
 export default function SideAboutMe() {
-	const url = typeof window !== 'undefined' && window.location.href
+	const [url, setUrl] = useState('')
+
+	useEffect(() => {
+		setUrl(window.location.href)
+	}, [])
 
 	return (
 		<aside>
@@ -32,17 +33,19 @@ export default function SideAboutMe() {
 				Contributed to the success of multiple top companies.
 			</p>
 			<ul className={socialLinksList}>
-				<li>
-					<a
-						className={socialLink}
-						aria-label="Share on X"
-						href={`https://x.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
-					>
-						<IconBrandX aria-hidden />
-					</a>
-				</li>
-				<li>
-					{url && (
+				{url && (
+					<li>
+						<a
+							className={socialLink}
+							aria-label="Share on X"
+							href={`https://x.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
+						>
+							<IconBrandX aria-hidden />
+						</a>
+					</li>
+				)}
+				{url && (
+					<li>
 						<a
 							className={socialLink}
 							aria-label="Share on LinkedIn"
@@ -50,8 +53,8 @@ export default function SideAboutMe() {
 						>
 							<IconBrandLinkedin aria-hidden />
 						</a>
-					)}
-				</li>
+					</li>
+				)}
 			</ul>
 			{typeof navigator === 'object' && navigator.share && url && (
 				<button

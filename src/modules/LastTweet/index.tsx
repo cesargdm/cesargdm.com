@@ -3,8 +3,11 @@ import X from '@/assets/icons/X'
 import { readTweetsButton, tweetParagraph } from './styles.css'
 
 function getData() {
+	// eslint-disable-next-line no-magic-numbers
+	const ONE_DAY = 60 * 60 * 24
+
 	return fetch('https://cesargdm.com/api/x/me', {
-		next: { revalidate: 60 * 60 * 24 },
+		next: { revalidate: ONE_DAY },
 	})
 		.then((response) => response.json())
 		.catch(() => undefined)

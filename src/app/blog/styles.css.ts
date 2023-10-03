@@ -1,5 +1,5 @@
-import { createVar, keyframes, style } from '@vanilla-extract/css'
 import { vars } from '../theme.css'
+import { style } from '@vanilla-extract/css'
 
 export const entriesList = style({
 	display: 'grid',

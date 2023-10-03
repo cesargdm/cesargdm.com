@@ -1,9 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
-
+import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
-import grayMatter from 'gray-matter'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/projects')
 
@@ -24,6 +23,7 @@ export function getProjects(
 		const grayMatterResult = grayMatter(fileContents)
 
 		if (!options.content && grayMatterResult.content) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			delete grayMatterResult.content
 		}

@@ -1,18 +1,18 @@
-import Link from 'next/link'
 import { assignInlineVars } from '@vanilla-extract/dynamic'
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { getProjects } from '@/lib/projects'
 import { getMetadata } from '@/lib/metadata'
+import { getProjects } from '@/lib/projects'
 
 import {
-	entryItem,
-	entryDate,
-	entryTitle,
 	entriesList,
+	entryDate,
+	entryItem,
+	entryTitle,
 	highlightedEntry,
 	projectEntryLink,
 } from '../blog/styles.css'
-import Image from 'next/image'
 
 export const metadata = getMetadata({
 	title: 'Projects',
@@ -29,8 +29,8 @@ export default function Blog() {
 			<ul className={entriesList}>
 				{entries.map((entry) => (
 					<li
-						className={entry.data.highlight ? highlightedEntry : entryItem}
 						key={entry.slug}
+						className={entry.data.highlight ? highlightedEntry : entryItem}
 					>
 						<Link
 							style={assignInlineVars({

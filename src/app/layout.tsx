@@ -1,17 +1,17 @@
-import { ReactNode } from 'react'
-import classNames from 'classnames'
-import { cookies } from 'next/headers'
-import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
+import classNames from 'classnames'
+import { Inter } from 'next/font/google'
+import { cookies } from 'next/headers'
+import type { ReactNode } from 'react'
 
-import Nav from '@/modules/Nav'
 import Footer from '@/modules/Footer'
+import Nav from '@/modules/Nav'
 
 import { metadata as defaultMetadata } from '@/lib/metadata'
 
+import './globals.css'
 import { body, content } from './styles.css'
 import { darkTheme, lightTheme, responsiveTheme } from './theme.css'
-import './globals.css'
 
 const inter = Inter({
 	subsets: ['latin'],

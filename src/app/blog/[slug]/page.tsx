@@ -1,12 +1,12 @@
 import classNames from 'classnames'
-import { notFound } from 'next/navigation'
 import { Merriweather } from 'next/font/google'
+import { notFound } from 'next/navigation'
 
 import AsideAboutMe from '@/modules/AsideAboutMe'
 import EditPageBanner from '@/modules/EditPageBanner'
 
 import { getPost } from '@/lib/blog'
-import { getMetadata, openGraph } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 
 import { articleContainer, nonTechnicalEntry } from './styles.css'
 
@@ -47,13 +47,17 @@ export default async function BlogPostPage({
 		<>
 			<div>
 				<article
+					dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }}
 					className={classNames(articleContainer, {
 						[nonTechnicalEntry]: !post.data.technical,
 						[merriweather.className]: !post.data.technical,
 					})}
-					dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }}
 				/>
 				<EditPageBanner type="posts" lang="en" slug={params.slug} />
+
+				<hr />
+
+				<div className="giscus" />
 			</div>
 			<AsideAboutMe />
 		</>

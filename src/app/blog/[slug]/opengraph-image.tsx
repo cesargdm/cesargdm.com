@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/server'
 
 import { getAssets } from '@/lib/assets'
-import { fetchFonts, getDefaultFonts, styles } from '@/lib/open-graph'
+import { getDefaultFonts, styles } from '@/lib/open-graph'
 
 // Route segment config
 export const runtime = 'edge'

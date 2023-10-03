@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
 const openAiApiKey = process.env.OPENAI_API_KEY
@@ -10,11 +10,13 @@ const openai = new OpenAI({ apiKey: openAiApiKey })
 
 const MODEL_ID = 'davinci:ft-personal-2023-04-07-20-32-03'
 
+// eslint-disable-next-line no-magic-numbers
 export const revalidate = 60 * 60 * 6
 
 export async function GET(request: Request) {
 	// get prompt from params
 	const rawPrompt = new URL(request.url).searchParams.get('prompt') ?? ''
+	// eslint-disable-next-line no-magic-numbers
 	const prompt = `${rawPrompt.trim().replace('->', '').slice(0, 50)}->`
 
 	if (!prompt) {
@@ -40,8 +42,6 @@ export async function GET(request: Request) {
 
 		return NextResponse.json(completionResponse)
 	} catch (error) {
-		console.error(error)
-
 		return new Response('Server error', { status: 500 })
 	}
 }

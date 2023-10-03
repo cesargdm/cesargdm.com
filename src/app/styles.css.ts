@@ -1,6 +1,5 @@
-import { style } from '@vanilla-extract/css'
-
 import { vars } from './theme.css'
+import { style } from '@vanilla-extract/css'
 
 export const content = style({
 	margin: '0 auto',

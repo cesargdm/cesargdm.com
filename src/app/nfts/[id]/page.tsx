@@ -1,8 +1,9 @@
 import Link from 'next/link'
 
 import NftInfo from '@/components/Nft'
-import { getNft } from '@/lib/open-sea'
+
 import { getMetadata } from '@/lib/metadata'
+import { getNft } from '@/lib/open-sea'
 
 type Params = {
 	id: string

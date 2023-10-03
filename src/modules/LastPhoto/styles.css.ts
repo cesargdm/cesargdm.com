@@ -1,7 +1,7 @@
-import { globalStyle, style } from '@vanilla-extract/css'
-
 import { vars } from '@/app/theme.css'
+
 import { cardButton } from '../LastTweet/styles.css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 export const photosWrapper = style({
 	width: '100%',

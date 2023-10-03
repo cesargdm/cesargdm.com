@@ -1,7 +1,8 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import Script from 'next/script'
+import type { FormEvent } from 'react'
 
 type PDFDocumentProxy = {
 	getPage: (pageNumber: number) => Promise<any>
@@ -55,6 +56,7 @@ export default function CvReview() {
 			const countPromises = []
 			for (let pageIndex = 1; pageIndex <= maxPages; pageIndex++) {
 				countPromises.push(
+					// eslint-disable-next-line no-async-promise-executor
 					new Promise(async (resolve) => {
 						const page = await pdfDocumentProxy.getPage(pageIndex)
 						const text: TextContent = await page.getTextContent()
@@ -70,6 +72,7 @@ export default function CvReview() {
 
 			setPdfTextResult(completeText)
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error(error)
 		}
 	}

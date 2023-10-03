@@ -4,11 +4,11 @@ import { getPosts } from '@/lib/blog'
 import { getMetadata } from '@/lib/metadata'
 
 import {
+	entriesList,
 	entryDate,
 	entryItem,
 	entryLink,
 	entryTitle,
-	entriesList,
 } from './styles.css'
 
 export const metadata = getMetadata({
@@ -34,7 +34,7 @@ export default function Blog() {
 			<h1>Blog</h1>
 			<ul className={entriesList}>
 				{entries.map((entry) => (
-					<li className={entryItem} key={entry.slug}>
+					<li key={entry.slug} className={entryItem}>
 						<Link className={entryLink} href={`/blog/${entry.slug}`}>
 							<p className={entryTitle}>{entry.data.title}</p>
 							<p className={entryDate}>

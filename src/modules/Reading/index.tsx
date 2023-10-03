@@ -11,9 +11,12 @@ import {
 } from './styles.css'
 
 async function getData() {
+	// eslint-disable-next-line no-magic-numbers
+	const ONE_DAY = 60 * 60 * 24
+
 	const result = await fetch(
 		'https://cesargdm.com/api/goodreads/currently-reading',
-		{ next: { revalidate: 60 * 60 * 24 } },
+		{ next: { revalidate: ONE_DAY } },
 	)
 		.then((response) => response.json())
 		.catch(() => null)
@@ -32,7 +35,7 @@ export default async function Reading() {
 			</h2>
 			<ul className={bookList}>
 				{data?.map((book: any) => (
-					<li className={bookItem} key={book.title}>
+					<li key={book.title} className={bookItem}>
 						<a
 							href={book.url}
 							target="_blank"

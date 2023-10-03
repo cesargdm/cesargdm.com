@@ -1,9 +1,9 @@
 import {
+	IconBrandGithub,
+	IconBrandLinkedin,
+	IconBrandTwitter,
 	IconFile,
 	IconMail,
-	IconBrandGithub,
-	IconBrandTwitter,
-	IconBrandLinkedin,
 } from '@tabler/icons-react'
 
 import { getMetadata } from '@/lib/metadata'

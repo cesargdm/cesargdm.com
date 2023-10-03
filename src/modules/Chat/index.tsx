@@ -2,17 +2,18 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
 
-import { vars } from '@/app/theme.css'
 import TextInput from '@/components/TextInput'
 
+import { vars } from '@/app/theme.css'
+
 import {
+	chatContainer,
 	chatForm,
 	chatMessage,
-	submitButton,
-	chatContainer,
+	chatMessagesList,
 	chatMessageUser,
 	participantName,
-	chatMessagesList,
+	submitButton,
 } from './styles.css'
 
 function Chat() {

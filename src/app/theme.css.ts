@@ -1,9 +1,9 @@
 import {
-	style,
 	assignVars,
-	createTheme,
 	createGlobalTheme,
+	createTheme,
 	createThemeContract,
+	style,
 } from '@vanilla-extract/css'
 
 export const root = createGlobalTheme(':root', {

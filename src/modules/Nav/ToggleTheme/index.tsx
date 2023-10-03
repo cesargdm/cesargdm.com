@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
 import Cookies from 'js-cookie'
 
 import { darkTheme, lightTheme, responsiveTheme } from '@/app/theme.css'
-import { IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
+
 import { toggleTheme } from './styles.css'
 
 function ToggleTheme() {

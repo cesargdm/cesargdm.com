@@ -1,6 +1,6 @@
-import { style } from '@vanilla-extract/css'
-
 import { vars } from '@/app/theme.css'
+
+import { style } from '@vanilla-extract/css'
 
 export const nftsList = style({
 	display: 'grid',
