@@ -16,7 +16,9 @@ export async function getNfts({
 	'use server'
 
 	// eslint-disable-next-line no-magic-numbers
-	const ONE_MINUTE = 0 //60 * 60
+	const ONE_MINUTE = 60 * 60
+
+	if (!process.env.OPENSEA_API_KEY) return undefined
 
 	return (
 		fetch(
