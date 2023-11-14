@@ -6,9 +6,9 @@ import NftList from './NftsList'
 
 function getData(): Promise<any[]> {
 	// eslint-disable-next-line no-magic-numbers
-	const ONE_DAY = 0 // 60 * 60 * 24
+	const ONE_DAY = 60 * 60 * 24
 
-	return fetch('http://localhost:3000/api/nfts', {
+	return fetch('/api/nfts', {
 		method: 'GET',
 		next: { revalidate: ONE_DAY },
 	})
