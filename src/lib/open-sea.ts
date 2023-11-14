@@ -28,7 +28,10 @@ export async function getNfts({
 				headers: { 'X-API-KEY': process.env.OPENSEA_API_KEY as string },
 			},
 		)
-			.then((response) => response.json())
+			.then((response) => {
+				console.log({ response })
+				return response.json()
+			})
 			.then((data: { nfts: Nft[] }) =>
 				data.nfts.filter(({ token_standard }) => token_standard !== 'erc20'),
 			)
