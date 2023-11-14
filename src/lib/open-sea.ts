@@ -18,8 +18,6 @@ export async function getNfts({
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_MINUTE = 60 * 60
 
-	if (!process.env.OPENSEA_API_KEY) return undefined
-
 	return (
 		fetch(
 			`https://api.opensea.io/api/v2/chain/${chain}/account/${owner}/nfts`,
@@ -29,7 +27,9 @@ export async function getNfts({
 			},
 		)
 			.then((response) => {
-				console.log({ response })
+				// eslint-disable-next-line no-magic-numbers
+				if (response.status < 200 || response.status > 299)
+					throw new Error('Invalid response status')
 				return response.json()
 			})
 			.then((data: { nfts: Nft[] }) =>
