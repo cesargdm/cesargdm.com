@@ -8,7 +8,7 @@ function getData(): Promise<any[]> {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	return fetch('/api/nfts', {
+	return fetch('https://cesargdm.com/api/nfts', {
 		method: 'GET',
 		next: { revalidate: ONE_DAY },
 	})
@@ -16,7 +16,7 @@ function getData(): Promise<any[]> {
 		.catch(() => undefined)
 }
 
-async function LastPhoto() {
+async function Nfts() {
 	const data = await getData()
 
 	if (!data?.length) return null
@@ -43,4 +43,4 @@ async function LastPhoto() {
 	)
 }
 
-export default LastPhoto
+export default Nfts
