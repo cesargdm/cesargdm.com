@@ -19,7 +19,7 @@ function getData(): Promise<any[]> {
 async function LastPhoto() {
 	const data = await getData()
 
-	if (!data.length) return null
+	if (!data?.length) return null
 
 	return (
 		<>
