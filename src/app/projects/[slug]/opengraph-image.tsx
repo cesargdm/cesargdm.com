@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/server'
+import { ImageResponse } from 'next/og'
 
 import { getAssets } from '@/lib/assets'
 import { fetchFonts, styles } from '@/lib/open-graph'
@@ -45,7 +45,6 @@ export default async function Image({
 					<p style={styles.title}>{asset?.data?.title}</p>
 					<p style={styles.extract}>{asset.data.description}</p>
 				</div>
-				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					width={290}
 					height={290}

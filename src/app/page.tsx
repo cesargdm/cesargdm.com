@@ -6,7 +6,8 @@ import Link from 'next/link'
 import Chat from '@/modules/Chat'
 import HoverCompany from '@/modules/HoverCompany'
 import LastPhoto from '@/modules/LastPhoto'
-import LastTweet from '@/modules/LastTweet'
+import LastTweet from '@/modules/LastPost'
+import Nfts from '@/modules/Nfts'
 import Reading from '@/modules/Reading'
 
 import { getCheerFromVisitsCount } from '@/lib/cheer'
@@ -71,7 +72,11 @@ export default function Home() {
 							<LastPhoto />
 						</Suspense>
 					</li>
-
+					<li style={{ padding: 0, aspectRatio: '1 / 1' }} className={card}>
+						<Suspense fallback={null}>
+							<Nfts />
+						</Suspense>
+					</li>
 					<li
 						className={classNames(card, twoColumnCard)}
 						style={{ padding: 0 }}

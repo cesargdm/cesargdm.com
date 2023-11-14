@@ -42,7 +42,6 @@ export default async function Reading() {
 							className={bookAnchor}
 							rel="noopener noreferrer"
 						>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img className={bookImage} src={book.image} alt="" />
 							<div
 								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}

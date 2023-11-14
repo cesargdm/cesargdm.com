@@ -21,7 +21,7 @@ export const metadata = getMetadata({
 })
 
 export default async function Nfts() {
-	const data = await getNfts()
+	const data = await getNfts({ chain: 'ethereum' })
 
 	return (
 		<>
@@ -30,9 +30,9 @@ export default async function Nfts() {
 					if (!nft.image_url) return null
 
 					return (
-						<li key={String(nft.id)} className={nftItem}>
+						<li key={String(nft.identifier)} className={nftItem}>
 							<Link
-								href={`/nfts/${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}`}
+								href={`/nfts/ethereum_${nft.contract}_${nft.identifier}`}
 								className={nftLink}
 							>
 								<div className={nftImageWrapper}>

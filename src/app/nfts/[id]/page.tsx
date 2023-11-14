@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Params }) {
 		type: 'article',
 		title: `${nft.name} - NFTs`,
 		alternates: {
-			canonical: `/nfts/${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}`,
+			canonical: `/nfts/ethereum_${nft.contract}_${nft.identifier}`,
 		},
 	})
 }

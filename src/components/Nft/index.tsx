@@ -5,7 +5,6 @@ export default function NftInfo(props: Nft) {
 		<div>
 			<h1>{props.name}</h1>
 			<p>{props.description}</p>
-			{/* eslint-disable-next-line @next/next/no-img-element */}
 			<img src={props.image_url} alt={props.name} />
 		</div>
 	)

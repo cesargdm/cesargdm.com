@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		)
 		.concat(
 			nfts.map((nft) => ({
-				url: `https://cesargdm.com/nfts/${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}`,
+				url: `https://cesargdm.com/nfts/ethereum_${nft.contract}_${nft.identifier}`,
 				lastModified: new Date(),
 			})),
 		)

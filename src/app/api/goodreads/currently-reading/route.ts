@@ -44,5 +44,9 @@ export async function GET() {
 		results.push(result)
 	})
 
-	return NextResponse.json(results)
+	return NextResponse.json(results, {
+		headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+		},
+	})
 }

@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres'
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+const OPENAI_API_KEY = process.env?.OPENAI_API_KEY
 
 const openai = OPENAI_API_KEY
 	? new OpenAI({ apiKey: OPENAI_API_KEY })

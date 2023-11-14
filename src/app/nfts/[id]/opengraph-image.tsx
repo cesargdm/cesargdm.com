@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/server'
+import { ImageResponse } from 'next/og'
 
 import { getDefaultFonts, styles } from '@/lib/open-graph'
 import { getNfts } from '@/lib/open-sea'
@@ -28,8 +28,7 @@ export default async function Image({
 
 	const nft = data.find(
 		(nft: any) =>
-			`${nft.asset_contract.chain_identifier}_${nft.asset_contract.address}_${nft.token_id}` ===
-			id,
+			`ethereum_${nft.asset_contract.address}_${nft.token_id}` === id,
 	)
 
 	if (!nft) return new ImageResponse(<div />, { ...size })
@@ -44,7 +43,6 @@ export default async function Image({
 					<p style={styles.title}>{nft?.name}</p>
 				</div>
 
-				{/* eslint-disable-next-line @next/next/no-img-element */}
 				<img
 					width={450}
 					height={450}
