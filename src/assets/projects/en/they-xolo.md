@@ -2,7 +2,7 @@
 title: They Xolo
 tags: [active, web3, react]
 description: NFT Art collection, built using a custom art engine, enhanced with staking and marketplace.
-date: 2022
+date: 2022-11-01T00:00:00.000
 url: https://theyxolo.art
 highlight:
   logoUrl: https://theyxolo.art/assets/logo-ccb5d19c.svg

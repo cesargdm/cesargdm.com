@@ -5,6 +5,7 @@ export const entriesList = style({
 	display: 'grid',
 	gridTemplateColumns: '1fr',
 	margin: `${vars.space.large} 0`,
+	gap: vars.space.large,
 	'@media': {
 		'(min-width: 768px)': {
 			gridTemplateColumns: 'repeat(2, 1fr)',
@@ -15,9 +16,18 @@ export const entriesList = style({
 	},
 })
 
-export const entryItem = style({})
+export const entryItem = style({
+	backgroundColor: vars.colors.background.content,
+	borderRadius: vars.borderRadius.large,
+})
 
-export const highlightedEntry = style([entryItem])
+export const highlightedEntry = style([
+	entryItem,
+	{
+		gridColumn: 'span 2',
+		gridRow: 'span 2',
+	},
+])
 
 export const entryLink = style({
 	display: 'flex',
@@ -33,7 +43,7 @@ export const entryLink = style({
 export const projectEntryLink = style([
 	entryLink,
 	{
-		flexDirection: 'row',
+		flexDirection: 'column',
 		gap: vars.space.large,
 		alignItems: 'center',
 	},

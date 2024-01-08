@@ -1,7 +1,7 @@
 ---
 title: Mexteca
 tags: [active, react]
-date: 2022
+date: 2022-10-01T00:00:00.000
 description: Web scrapper and mobile app for local movie listings
 ---
 

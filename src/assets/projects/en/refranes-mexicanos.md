@@ -2,6 +2,7 @@
 title: Refranes Mexicanos
 date: 2014
 description: First swift app I ever made
+isRetired: true
 ---
 
 # Refranes Mexicanos

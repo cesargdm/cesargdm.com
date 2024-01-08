@@ -30,24 +30,10 @@ export default function Blog() {
 				{entries.map((entry) => (
 					<li
 						key={entry.slug}
+						style={{ backgroundColor: entry.data.highlight?.color }}
 						className={entry.data.highlight ? highlightedEntry : entryItem}
 					>
-						<Link
-							style={{
-								backgroundColor: entry.data.highlight?.color ?? 'transparent',
-							}}
-							className={projectEntryLink}
-							href={`/projects/${entry.slug}`}
-						>
-							{entry.data.highlight?.logoUrl && (
-								<Image
-									width={40}
-									height={40}
-									style={{ borderRadius: 10 }}
-									src={entry.data.highlight.logoUrl}
-									alt=""
-								/>
-							)}
+						<Link className={projectEntryLink} href={`/projects/${entry.slug}`}>
 							<div>
 								{!entry.data.highlight?.logoUrl && (
 									<p className={entryTitle}>{entry.data.title}</p>
@@ -60,6 +46,15 @@ export default function Blog() {
 								</p>
 								<p>{entry.data.description}</p>
 							</div>
+							{entry.data.highlight?.logoUrl && (
+								<Image
+									width={40}
+									height={40}
+									style={{ borderRadius: 10 }}
+									src={entry.data.highlight.logoUrl}
+									alt=""
+								/>
+							)}
 						</Link>
 					</li>
 				))}

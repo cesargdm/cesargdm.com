@@ -9,15 +9,16 @@
 		"format:check": "prettier --check .",
 		"lint": "eslint --ignore-path .gitignore . --max-warnings 0",
 		"start": "next start",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"clean": "rm -rf node_modules bun.lockb .next .vercel"
 	},
 	"dependencies": {
 		"@radix-ui/react-dialog": "^1.0.5",
-		"@tabler/icons-react": "2.40.0",
-		"@types/node": "20.9.0",
+		"@tabler/icons-react": "2.44.0",
+		"@types/node": "20.10.5",
 		"@types/oauth": "^0.9.4",
-		"@types/react": "18.2.37",
-		"@types/react-dom": "18.2.15",
+		"@types/react": "18.2.45",
+		"@types/react-dom": "18.2.18",
 		"@vanilla-extract/css": "1.14.0",
 		"@vercel/analytics": "^1.1.1",
 		"@vercel/postgres": "0.5.1",
@@ -25,22 +26,22 @@
 		"classnames": "2.3.2",
 		"gray-matter": "^4.0.3",
 		"js-cookie": "3.0.5",
-		"next": "14.0.2",
+		"next": "14.0.4",
 		"oauth": "0.10.0",
-		"openai": "^4.17.5",
+		"openai": "^4.23.0",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"remark": "14.0.3",
 		"remark-html": "15.0.2",
 		"typescript": "5.2.2",
-		"unsplash-js": "7.0.18"
+		"unsplash-js": "7.0.19"
 	},
 	"devDependencies": {
 		"@types/js-cookie": "~3.0.6",
 		"@vanilla-extract/next-plugin": "~2.3.2",
-		"eslint": "~8.53.0",
+		"eslint": "~8.56.0",
 		"eslint-config-cretia": "~0.4.14",
-		"prettier": "~3.1.0",
+		"prettier": "~3.1.1",
 		"prettier-config-cretia": "~3.0.0"
 	}
 }
