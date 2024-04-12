@@ -1,4 +1,4 @@
-import { rewrite } from '@vercel/edge'
+import { rewrite, next } from '@vercel/edge'
 
 import social from '@/lib/social.json'
 
@@ -12,4 +12,6 @@ export default function middleware(request: Request) {
 	if (match) {
 		return rewrite(match.url)
 	}
+
+	return next()
 }
