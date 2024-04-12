@@ -18,22 +18,26 @@ const oauth = new OAuth.OAuth(
 )
 
 export async function GET() {
-	const data = await new Promise((resolve, reject) =>
-		oauth.get(
-			'https://api.twitter.com/2/users/me?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld&expansions=pinned_tweet_id',
-			process.env.X_ACCESS_TOKEN as string,
-			process.env.X_ACCESS_TOKEN_SECRET as string,
-			(error, data) => {
-				if (error) return reject(error)
+	try {
+		const data = await new Promise((resolve, reject) =>
+			oauth.get(
+				'https://api.twitter.com/2/users/me?user.fields=created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld&expansions=pinned_tweet_id',
+				process.env.X_ACCESS_TOKEN as string,
+				process.env.X_ACCESS_TOKEN_SECRET as string,
+				(error, data) => {
+					if (error) return reject(error)
 
-				return resolve(JSON.parse(data as string))
+					return resolve(JSON.parse(data as string))
+				},
+			),
+		)
+
+		return NextResponse.json(data, {
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8',
 			},
-		),
-	)
-
-	return NextResponse.json(data, {
-		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-		},
-	})
+		})
+	} catch {
+		return NextResponse.json({ message: 'Error' }, { status: 500 })
+	}
 }

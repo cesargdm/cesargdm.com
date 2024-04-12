@@ -8,6 +8,7 @@ import {
 	nftListWrapper2,
 	nftsList,
 } from './styles.css'
+import Image from 'next/image'
 
 const styles = {
 	item: {
@@ -79,8 +80,11 @@ export default function NftList({ data }: { data: any[] }) {
 												groupIndex === 1 ? `translateX(-50%)` : undefined,
 										}}
 									>
-										<img
-											src={nft.image_url.replace('w=500', 'w=200')}
+										<Image
+											src={nft.image_url}
+											width={150}
+											height={150}
+											quality={80}
 											className={nftImage}
 											alt=""
 										/>

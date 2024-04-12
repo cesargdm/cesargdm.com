@@ -4,16 +4,21 @@ const withVanillaExtract = createVanillaExtractPlugin()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	experimental: {
+		allowMiddlewareResponseBody: true,
+	},
 	images: {
+		minimumCacheTTL: 60,
 		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'images.unsplash.com',
-			},
-			{
-				protocol: 'https',
-				hostname: 'i.seadn.io',
-			},
+			{ hostname: '**.unsplash.com' },
+			{ hostname: '**.seadn.io' },
+			{ hostname: '**.mypinata.cloud' },
+			{ hostname: 'ipfs.io' },
+			{ hostname: 'alchileverso.s3.amazonaws.com' },
+			{ hostname: 'cdn.finiliar.com' },
+			{ hostname: 'theyxolo.art' },
+			{ hostname: 'arweave.net' },
+			{ hostname: 'cretia.app' },
 		],
 	},
 }
