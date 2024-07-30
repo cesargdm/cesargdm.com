@@ -8,7 +8,7 @@ const nextConfig = {
 		allowMiddlewareResponseBody: true,
 	},
 	images: {
-		minimumCacheTTL: 60,
+		minimumCacheTTL: 2600000,
 		remotePatterns: [
 			{ hostname: '**.unsplash.com' },
 			{ hostname: '**.seadn.io' },
@@ -18,7 +18,7 @@ const nextConfig = {
 			{ hostname: 'cdn.finiliar.com' },
 			{ hostname: 'theyxolo.art' },
 			{ hostname: 'arweave.net' },
-			{ hostname: 'cretia.app' },
+			{ hostname: 'web.cretia.app' },
 		],
 	},
 }
