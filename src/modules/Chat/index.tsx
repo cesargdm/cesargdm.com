@@ -162,7 +162,7 @@ function Chat() {
 		<>
 			<h2>
 				<IconMessage aria-hidden />
-				Chat
+				AI Chat
 			</h2>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>

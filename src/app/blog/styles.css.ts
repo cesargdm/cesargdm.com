@@ -19,6 +19,10 @@ export const entriesList = style({
 export const entryItem = style({
 	backgroundColor: vars.colors.background.content,
 	borderRadius: vars.borderRadius.large,
+	transition: 'opacity 300ms',
+	':hover': {
+		opacity: 0.8,
+	},
 })
 
 export const highlightedEntry = style([
