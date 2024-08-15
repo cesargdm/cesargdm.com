@@ -8,6 +8,18 @@ export const chatMessage = style({
 	borderRadius: vars.borderRadius.large,
 	backgroundColor: vars.colors.background.gray,
 	padding: `${vars.space.medium} ${vars.space.large}`,
+	position: 'relative',
+	':after': {
+		content: '',
+		position: 'absolute',
+		width: 0,
+		height: 0,
+		left: 0,
+		bottom: 0,
+		borderStyle: 'solid',
+		borderWidth: '15px 0 0 15px',
+		borderColor: `transparent ${vars.colors.background.gray}`,
+	},
 })
 
 export const chatContainer = style({
@@ -23,6 +35,12 @@ export const chatMessageUser = style([
 		backgroundColor: vars.colors.primary,
 		color: 'white',
 		justifySelf: 'end',
+		':after': {
+			borderWidth: '0 0 15px 15px',
+			borderColor: `${vars.colors.primary} transparent`,
+			right: 0,
+			left: 'auto',
+		},
 	},
 ])
 
@@ -52,6 +70,9 @@ export const submitButton = style({
 	justifyContent: 'center',
 	backgroundColor: vars.colors.primary,
 	borderRadius: vars.borderRadius.full,
+	':disabled': {
+		backgroundColor: vars.colors.text.tertiary,
+	},
 })
 
 export const chatForm = style({

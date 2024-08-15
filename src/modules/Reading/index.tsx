@@ -10,7 +10,9 @@ import {
 	titleText,
 } from './styles.css'
 
-async function getData() {
+type Book = { title: string; url: string; author: string; image: string }
+
+async function getData(): Promise<Book[]> {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
@@ -34,7 +36,7 @@ export default async function Reading() {
 				Reading
 			</h2>
 			<ul className={bookList}>
-				{data?.map((book: any) => (
+				{data?.map((book) => (
 					<li key={book.title} className={bookItem}>
 						<a
 							href={book.url}

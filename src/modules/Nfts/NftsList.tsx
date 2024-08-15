@@ -16,18 +16,20 @@ const styles = {
 		height: '100%',
 		aspectRatio: 1,
 		borderRadius: '20%',
-		// marginRight: '2%',
 	},
 }
 
 // eslint-disable-next-line no-magic-numbers
 const columnsArray = new Array(3).fill(0)
-// eslint-disable-next-line no-magic-numbers
 const rowArray = new Array(2).fill(0)
 
-export default function NftList({ data }: { data: any[] }) {
+type Props = {
+	data: { name: string; image_url: string }[]
+}
+
+export default function NftList({ data }: Props) {
 	const [isResizing, setIsResizing] = useState(false)
-	let resizeTimer = useRef<any>(null).current
+	let resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null).current
 
 	useEffect(() => {
 		function handleResizeEvent() {
@@ -37,7 +39,6 @@ export default function NftList({ data }: { data: any[] }) {
 				clearTimeout(resizeTimer)
 			}
 
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 			resizeTimer = setTimeout(() => {
 				setIsResizing(false)
 				// eslint-disable-next-line no-magic-numbers

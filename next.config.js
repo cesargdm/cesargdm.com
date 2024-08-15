@@ -1,12 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
 const withVanillaExtract = createVanillaExtractPlugin()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	experimental: {
-		allowMiddlewareResponseBody: true,
-	},
 	images: {
 		minimumCacheTTL: 2600000,
 		remotePatterns: [

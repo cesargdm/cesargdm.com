@@ -27,8 +27,7 @@ export default async function Image({
 	if (!data) return new ImageResponse(<div />, { ...size })
 
 	const nft = data.find(
-		(nft: any) =>
-			`ethereum_${nft.asset_contract.address}_${nft.token_id}` === id,
+		(nft) => `ethereum_${nft.asset_contract.address}_${nft.token_id}` === id,
 	)
 
 	if (!nft) return new ImageResponse(<div />, { ...size })

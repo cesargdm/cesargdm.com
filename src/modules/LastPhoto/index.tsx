@@ -10,7 +10,9 @@ import {
 	photosWrapper,
 } from './styles.css'
 
-function getData() {
+type Photo = { id: string; urls: { regular: string }; alt_description: string }
+
+function getData(): Promise<Photo[]> {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
@@ -23,19 +25,19 @@ function getData() {
 }
 
 async function LastPhoto() {
-	const response = await getData()
+	const data = await getData()
 
 	return (
 		<>
 			<div className={photosWrapper}>
-				{response.map((photo: any) => (
+				{data.map((photo) => (
 					<div key={photo.id} className={photoContainer}>
 						<Image
 							width={500}
 							height={500}
 							className={image}
 							src={photo.urls.regular}
-							alt={response[0]?.alt_description ?? ''}
+							alt={data[0]?.alt_description ?? ''}
 						/>
 					</div>
 				))}

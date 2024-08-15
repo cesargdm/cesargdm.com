@@ -4,7 +4,7 @@ import { vars } from '@/app/theme.css'
 
 import NftList from './NftsList'
 
-function getData(): Promise<any[]> {
+function getData(): Promise<{ name: string; image_url: string }[]> {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 

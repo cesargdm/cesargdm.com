@@ -11,11 +11,11 @@ async function getData() {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	const response = await fetch('https://cesargdm.com/api/slack/users-info', {
+	return fetch('https://cesargdm.com/api/slack/users-info', {
 		next: { revalidate: ONE_DAY },
 	})
-
-	return response.json()
+		.then((response) => response.json())
+		.catch(() => undefined)
 }
 
 export default async function Footer() {

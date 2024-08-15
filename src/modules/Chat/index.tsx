@@ -1,10 +1,18 @@
 'use client'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import {
+	ChangeEvent,
+	FormEvent,
+	Fragment,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react'
 import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
 
-import TextInput from '@/components/TextInput'
-
 import { vars } from '@/app/theme.css'
+import TextInput from '@/components/TextInput'
 
 import {
 	chatContainer,
@@ -12,65 +20,143 @@ import {
 	chatMessage,
 	chatMessagesList,
 	chatMessageUser,
-	participantName,
 	submitButton,
 } from './styles.css'
 
+type Message = {
+	id: string
+	content?: {
+		type: 'text' | 'loading'
+		text?: { value: string }
+	}[]
+	role: 'user' | 'assistant'
+}
+
+type State = {
+	content: string
+	threadId: string
+	isLoading: boolean
+	messages: Message[]
+}
+
+type AssistantResponseData = { threadId: string; messages: Message[] }
+
+function getInitialState(): State {
+	const threadId =
+		(typeof window === 'object' && window.localStorage.getItem('threadId')) ||
+		''
+
+	return {
+		content: '',
+		threadId,
+		isLoading: true,
+		messages: [],
+	}
+}
+
 function Chat() {
-	const [prompt, setPrompt] = useState('')
-	const [messages, setMessages] = useState([
-		{ id: '0', text: 'Hey! got any questions?', from: 'assistant' },
-	])
-	const [isLoading, setIsLoading] = useState(false)
+	const [state, setState] = useState<State>(getInitialState)
 
 	const chatListRef = useRef<HTMLUListElement>(null)
 
 	useEffect(() => {
-		async function fetchResponse() {
-			setIsLoading(false)
+		async function loadMessages() {
+			let data: Partial<State> = {}
 
-			const userMessage = messages[messages.length - 1].text
+			if (state.threadId) {
+				data = await fetch(
+					`https://cesargdm.com/api/assistant?threadId=${state.threadId}`,
+				).then((response) => response.json() as Promise<AssistantResponseData>)
+			} else {
+				data.messages = [
+					{
+						id: '0',
+						content: [{ type: 'text', text: { value: "Hey! what's up?" } }],
+						role: 'assistant',
+					},
+				]
+			}
 
-			setMessages((prev) => [
-				...prev,
-				{ id: 'LOADING', text: '', from: 'assistant' },
-			])
-
-			const data = await fetch(
-				`https://cesargdm.com/api/completion?prompt=${userMessage}`,
-			)
-				.then((response) => response.json())
-				.catch(() => null)
-			const text = data?.choices[0].text
-
-			setMessages((prev) => [
-				...prev.filter((message) => message.id !== 'LOADING'),
-				{ id: String(Date.now()), text, from: 'assistant' },
-			])
+			setState((prev) => ({ ...prev, ...data, isLoading: false }))
 		}
 
+		loadMessages()
+	}, [])
+
+	const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+		setState((prev) => ({ ...prev, content: event.target.value }))
+	}, [])
+
+	const handleSubmit = useCallback(
+		async (event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+
+			const content = (event.target as HTMLFormElement)['content']?.value
+
+			if (!content) return
+
+			setState((prev) => ({
+				...prev,
+				content: '',
+				isLoading: true,
+				messages: [
+					...prev.messages,
+					{
+						id: String(Date.now()),
+						content: [{ type: 'text', text: { value: content } }],
+						role: 'user',
+					},
+					{ id: 'LOADING', content: [{ type: 'loading' }], role: 'assistant' },
+				],
+			}))
+
+			const data = await fetch(`/api/assistant`, {
+				method: 'PATCH',
+				body: JSON.stringify({
+					content: content,
+					threadId: state.threadId,
+				}),
+			}).then((response) => response.json() as Promise<AssistantResponseData>)
+
+			if (!state.threadId) {
+				localStorage.setItem('threadId', data.threadId)
+			}
+
+			setState((prev) => ({ ...prev, ...data, isLoading: false }))
+		},
+		[state],
+	)
+
+	useEffect(() => {
 		chatListRef.current?.scrollTo({
 			top: chatListRef.current.scrollHeight,
 			behavior: 'smooth',
 		})
+	}, [state.messages])
 
-		const lastMessage = messages[messages.length - 1]
-
-		if (lastMessage.from === 'user') {
-			setIsLoading(true)
-			fetchResponse()
-		}
-	}, [messages])
-
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault()
-
-		setPrompt('')
-		setMessages((prev) => [
-			...prev,
-			{ id: String(Date.now()), text: prompt, from: 'user' },
-		])
-	}
+	const messages = useMemo(
+		() =>
+			state.messages.map((message) => (
+				<Fragment key={message.id}>
+					<li
+						className={
+							message.role === 'assistant' ? chatMessage : chatMessageUser
+						}
+					>
+						{message.content?.map((c, index) =>
+							c.type === 'loading' ? (
+								<IconDots key={index} color={vars.colors.text.decorative} />
+							) : (
+								<p key={index} style={{ lineHeight: 1.3 }}>
+									{c.text?.value}
+								</p>
+							),
+						)}
+					</li>
+				</Fragment>
+			)),
+		[state.messages],
+	)
 
 	return (
 		<>
@@ -80,37 +166,19 @@ function Chat() {
 			</h2>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>
-					{messages.map((message, index) => (
-						<Fragment key={message.id}>
-							{index === 0 && (
-								<li className={participantName}>César Guadarrama</li>
-							)}
-							<li
-								className={
-									message.from === 'assistant' ? chatMessage : chatMessageUser
-								}
-							>
-								{message.id === 'LOADING' ? (
-									<IconDots key="dots" color={vars.colors.text.decorative} />
-								) : (
-									message.text
-								)}
-							</li>
-						</Fragment>
-					))}
+					{messages}
 				</ul>
 				<form className={chatForm} onSubmit={handleSubmit}>
 					<TextInput
-						value={prompt}
-						onChange={(event) => setPrompt(event.currentTarget.value)}
-						name="prompt"
-						placeholder="Message"
+						value={state.content}
+						onChange={handleChange}
+						name="content"
+						placeholder="Message..."
 						type="text"
 					/>
 					<button
-						value=""
 						type="submit"
-						disabled={isLoading || !prompt}
+						disabled={state.isLoading || !prompt || !state.content}
 						aria-label="Send message"
 						className={submitButton}
 					>

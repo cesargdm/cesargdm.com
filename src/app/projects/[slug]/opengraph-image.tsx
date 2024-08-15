@@ -35,7 +35,7 @@ export default async function Image({
 		},
 	])
 
-	const asset = data.projects.find((asset: any) => asset.slug === slug)
+	const asset = data.projects.find((asset) => asset.slug === slug)
 
 	return new ImageResponse(
 		(
@@ -43,7 +43,7 @@ export default async function Image({
 				<div style={styles.textContainer}>
 					<p style={styles.heading}>cesargdm - Projects</p>
 					<p style={styles.title}>{asset?.data?.title}</p>
-					<p style={styles.extract}>{asset.data.description}</p>
+					<p style={styles.extract}>{asset?.data.description}</p>
 				</div>
 				<img
 					width={290}

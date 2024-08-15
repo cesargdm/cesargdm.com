@@ -6,9 +6,10 @@ export type Nft = {
 	identifier: string
 	token_standard: string
 	metadata_url: string
+	asset_contract: Record<string, string>
+	token_id: string
 }
 
-// eslint-disable-next-line require-await
 export async function getNfts({
 	chain = 'ethereum',
 	owner = '0xE3a856E4034D25FF68b3702B8f1618173BBFa130',
@@ -18,29 +19,25 @@ export async function getNfts({
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_MINUTE = 60 * 60
 
-	return (
-		fetch(
-			`https://api.opensea.io/api/v2/chain/${chain}/account/${owner}/nfts`,
-			{
-				next: { revalidate: ONE_MINUTE },
-				headers: { 'X-API-KEY': process.env.OPENSEA_API_KEY as string },
-			},
-		)
-			.then((response) => {
-				// eslint-disable-next-line no-magic-numbers
-				if (response.status < 200 || response.status > 299)
-					throw new Error('Invalid response status')
-				return response.json()
-			})
-			.then((data: { nfts: Nft[] }) =>
-				data.nfts.filter(({ token_standard }) => token_standard !== 'erc20'),
-			)
-			// eslint-disable-next-line no-console
-			.catch(() => undefined)
+	return fetch(
+		`https://api.opensea.io/api/v2/chain/${chain}/account/${owner}/nfts`,
+		{
+			next: { revalidate: ONE_MINUTE },
+			headers: { 'X-API-KEY': process.env.OPENSEA_API_KEY as string },
+		},
 	)
+		.then((response) => {
+			// eslint-disable-next-line no-magic-numbers
+			if (response.status < 200 || response.status > 299)
+				throw new Error('Invalid response status')
+			return response.json()
+		})
+		.then((data: { nfts: Nft[] }) =>
+			data.nfts.filter(({ token_standard }) => token_standard !== 'erc20'),
+		)
+		.catch(() => undefined)
 }
 
-// eslint-disable-next-line require-await
 export async function findNft(
 	nfts: Nft[],
 	id: string,

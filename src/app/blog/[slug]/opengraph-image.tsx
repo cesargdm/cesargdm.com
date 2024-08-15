@@ -26,7 +26,7 @@ export default async function Image({
 
 	const fonts = await getDefaultFonts()
 
-	const asset = data.posts.find((asset: any) => asset.slug === slug)
+	const asset = data.posts.find((asset) => asset.slug === slug)
 
 	return new ImageResponse(
 		(
@@ -34,7 +34,7 @@ export default async function Image({
 				<div style={styles.textContainer}>
 					<p style={styles.heading}>cesargdm - Blog</p>
 					<p style={styles.title}>{asset?.data?.title}</p>
-					<p style={styles.extract}>{asset.data.extract}</p>
+					<p style={styles.extract}>{asset?.data.extract}</p>
 				</div>
 				<img
 					width={290}
