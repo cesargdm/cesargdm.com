@@ -1,18 +1,17 @@
 import { NextResponse } from 'next/server'
 
-const slackToken = process.env.SLACK_TOKEN as string
-
 /**
  * 24 hours
  */
 // eslint-disable-next-line no-magic-numbers
 export const revalidate = 60 * 60 * 24
 
+const slackToken = process.env.SLACK_TOKEN as string
 const userId = process.env.SLACK_USER_ID as string
 
 export async function GET() {
-	if (!slackToken) {
-		return NextResponse.json({ message: 'Server error' })
+	if (!slackToken || !userId) {
+		return NextResponse.json({ message: 'Server error' }, { status: 500 })
 	}
 
 	const data = await fetch(

@@ -12,8 +12,6 @@ export async function GET() {
 	const nfts = await getNfts()
 
 	return NextResponse.json(nfts, {
-		headers: {
-			'content-type': 'application/json; charset=utf-8',
-		},
+		headers: { 'content-type': 'application/json; charset=utf-8' },
 	})
 }

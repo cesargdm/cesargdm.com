@@ -17,7 +17,8 @@ import aa from 'search-insights'
 
 import TextInput from '@/components/TextInput'
 
-import { algoliaSearchClient, getAlgoliaIndexName } from '@/lib/algolia-client'
+import { algoliaSearchClient } from '@/lib/algolia/client'
+import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import type { Locale } from '@/lib/i18n'
 
 import Search from '../Search'

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import aa from 'search-insights'
 
-import { getAlgoliaIndexName } from '@/lib/algolia-client'
+import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import type { Locale } from '@/lib/i18n'
 
 export default function PageAnalytics({

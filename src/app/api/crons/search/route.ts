@@ -2,7 +2,7 @@ import { algoliasearch } from 'algoliasearch'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { getAlgoliaIndexName } from '@/lib/algolia-client'
+import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import { getPosts } from '@/lib/blog'
 import type { Locale } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
 		return NextResponse.json({ result, indexes })
 	} catch {
 		return NextResponse.json(
-			{ message: 'Error saving record' },
+			{ message: 'Error updating Algolia indexes' },
 			{ status: 500 },
 		)
 	}
