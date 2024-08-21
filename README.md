@@ -45,6 +45,7 @@ The site has achieved a perfect score on Lighthouse, a tool by Google that audit
 <img width="400" alt="Screenshot 2024-08-20 at 11 54 26 p m" src="https://github.com/user-attachments/assets/c27abfdc-3d68-4276-9ffe-676c0019b7a4">
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contributing
