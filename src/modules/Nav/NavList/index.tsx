@@ -52,7 +52,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 		if (!deferredQuery) return
 
 		algoliaSearchClient
-			.searchSingleIndex<SuperType>({
+			?.searchSingleIndex<SuperType>({
 				indexName: getAlgoliaIndexName(locale),
 				searchParams: { query: deferredQuery, clickAnalytics: true },
 			})

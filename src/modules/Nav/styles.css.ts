@@ -73,8 +73,14 @@ export const navLink = style({
 	padding: `0 ${vars.space.large}`,
 	color: vars.colors.text.secondary,
 	cursor: 'pointer',
+	opacity: 1,
+	transition: 'opacity 300ms',
 	':hover': {
 		textDecoration: 'none',
+		opacity: 0.8,
+	},
+	':focus': {
+		opacity: 0.8,
 	},
 })
 
@@ -85,7 +91,7 @@ export const navLinkActive = style({
 })
 
 export const navToggleThemeItem = style({
-	transition: 'transform 0.2s ease-in-out',
+	transition: 'transform 300ms',
 	backgroundColor: vars.colors.background.regular,
 	transform: 'scale(1)',
 	display: 'none',
