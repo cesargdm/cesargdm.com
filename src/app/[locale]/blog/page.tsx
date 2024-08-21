@@ -14,12 +14,12 @@ import {
 	pageDescription,
 } from './styles.css'
 
-export const metadata = getMetadata({
+export const generateMetadata = getMetadata(({ params }) => ({
 	title: 'Blog',
 	description:
 		'Read about coding tips, tutorials, programming configurations, thoughts, ideas and more',
-	alternates: { canonical: '/blog' },
-})
+	alternates: { canonical: `/${params.locale}/blog` },
+}))
 
 function getReadingTime(content: string) {
 	const wordsPerMinute = 200

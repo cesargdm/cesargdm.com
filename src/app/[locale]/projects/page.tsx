@@ -26,12 +26,12 @@ import {
 	projectTechnologyItem,
 } from '../blog/styles.css'
 
-export const metadata = getMetadata({
+export const metadata = getMetadata(({ params }) => ({
 	title: 'Projects',
 	description:
 		'Software engineering projects, websites, web apps, native apps for iOS and Android and more',
-	alternates: { canonical: '/projects' },
-})
+	alternates: { canonical: `/${params.locale}/projects` },
+}))
 
 export default function Blog({ params }: PageProps) {
 	const entries = getProjects(params.locale)

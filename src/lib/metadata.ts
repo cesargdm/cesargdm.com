@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { BASE_URL } from './constants'
+import type { PageProps } from './types'
 
 type MetadataParams = {
 	title?: string
@@ -59,35 +60,47 @@ export const metadata = {
 	openGraph,
 } as Metadata
 
-export const getMetadata = ({
-	title,
-	images,
-	keywords,
-	description,
-	type = 'website',
-	...props
-}: MetadataParams | undefined = {}): Metadata => ({
-	...props,
-	title,
-	keywords,
-	description,
-	openGraph: {
-		...props.openGraph,
-		...openGraph,
-		type,
-		title,
-		images,
-		description,
-	},
-	twitter: {
-		...props.twitter,
-		...twitter,
-		title,
-		images,
-		description,
-	},
-	alternates: {
-		...props.alternates,
-		canonical: `${host}${props.alternates?.canonical?.toString() ?? ''}`,
-	},
-})
+type GenerateMetadataFunction<T = object> = (
+	props: PageProps<T>,
+) => MetadataParams | Promise<MetadataParams>
+
+export function getMetadata<T = object>(
+	generateMetadataFn: GenerateMetadataFunction<T>,
+) {
+	return async (pageProps: PageProps<T>): Promise<Metadata> => {
+		const {
+			title,
+			images,
+			keywords,
+			description,
+			type = 'website',
+			...props
+		} = await generateMetadataFn(pageProps)
+
+		return {
+			...props,
+			title,
+			keywords,
+			description,
+			openGraph: {
+				...props.openGraph,
+				...openGraph,
+				type,
+				title,
+				images,
+				description,
+			},
+			twitter: {
+				...props.twitter,
+				...twitter,
+				title,
+				images,
+				description,
+			},
+			alternates: {
+				...props.alternates,
+				canonical: `${host}${props.alternates?.canonical?.toString() ?? ''}`,
+			},
+		}
+	}
+}

@@ -20,20 +20,20 @@ const merriweather = Merriweather({
 	variable: '--fonts--merriweather',
 })
 
-type Params = {
-	slug: string
-}
+export const generateMetadata = getMetadata<{ params: { slug: string } }>(
+	async ({ params }) => {
+		const post = await getPost(params.locale, params.slug)
 
-export async function generateMetadata({ params }: { params: Params }) {
-	const post = await getPost('en', params.slug)
+		if (!post) return notFound()
 
-	return getMetadata({
-		type: 'article',
-		description: post?.data.extract as string,
-		title: `${post?.data.title} - Blog`,
-		alternates: { canonical: `/blog/${post?.slug}` },
-	})
-}
+		return {
+			type: 'article',
+			description: post?.data.extract as string,
+			title: `${post?.data.title} - Blog`,
+			alternates: { canonical: `/${params.locale}/blog/${post?.slug}` },
+		}
+	},
+)
 
 export default async function BlogPostPage({
 	params,
