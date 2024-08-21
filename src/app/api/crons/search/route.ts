@@ -10,7 +10,7 @@ import { getProjects } from '@/lib/projects'
 const APP_ID = process.env.ALGOLIA_APP_ID as string
 const API_KEY = process.env.ALGOLIA_API_KEY as string
 
-const client = algoliasearch(APP_ID, API_KEY)
+const client = APP_ID && API_KEY ? algoliasearch(APP_ID, API_KEY) : undefined
 
 const WEBSITE_PAGES = [
 	{
@@ -62,6 +62,10 @@ const WEBSITE_PAGES = [
 
 export async function GET(request: NextRequest) {
 	try {
+		if (!client) {
+			throw new Error('Algolia client not initialized')
+		}
+
 		const locale = (request.nextUrl.searchParams.get('locale') ||
 			'en') as Locale
 
