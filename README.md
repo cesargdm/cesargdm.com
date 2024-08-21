@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/cesargdm/cesargdm.com/actions/workflows/integration.yml/badge.svg)](https://github.com/cesargdm/cesargdm.com/actions/workflows/integration.yml)
 
-This is my personal website, built with NextJS, algolia, OpenAI, vanilla CSS and hosted on Vercel.
+This is my personal website, built with NextJS, Algolia, OpenAI, vanilla CSS and hosted on [Vercel](https://vercel.com).
 
 - 🌐 Internationalized
 - 🖼️ OG image generation on the fly
@@ -11,14 +11,23 @@ This is my personal website, built with NextJS, algolia, OpenAI, vanilla CSS and
 - 🧑‍⚖️ MIT License
 - 🏆 Perfect Lighthouse score
 - 🤖 Custom OpenAI Agent
+- 💅 No runtime CSS
 
-## Running
+## Development
+
+### Running
 
 ```bash
 bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Build
+
+```bash
+bun run build
+```
 
 ## Benchmarks
 
