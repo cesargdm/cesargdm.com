@@ -26,7 +26,7 @@ jobs:
       - name: 📦 Install Dependencies
         run: bun install
       - name: 📝 Check Code Format
-        run: bun run format-check
+        run: bun run format:check
       - name: 🚨 Lint Code
         run: bun run lint
       - name: ✅ TSCheck Code
