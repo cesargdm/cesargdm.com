@@ -38,6 +38,7 @@ const twitter: Metadata['twitter'] = {
 }
 
 const defaultMetadata = {
+	title,
 	metadataBase: new URL(BASE_URL),
 	creator: 'cesargdm',
 	category: 'technology',
@@ -65,7 +66,7 @@ export function getMetadata<T = object>(
 ) {
 	return async (pageProps: PageProps<T>): Promise<Metadata> => {
 		const {
-			title,
+			title = defaultMetadata.title,
 			images,
 			keywords = defaultMetadata.keywords,
 			description = defaultMetadata.description,
