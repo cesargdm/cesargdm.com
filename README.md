@@ -4,6 +4,14 @@
 
 This is my personal website, built with NextJS, algolia, OpenAI, vanilla CSS and hosted on Vercel.
 
+- 🌐 Internationalized
+- 🖼️ OG image generation on the fly
+- 📃 Data sourced from markdown
+- 🔍 Searchable thru Algolia
+- 🧑‍⚖️ MIT License
+- 🏆 Perfect Lighthouse score
+- 🤖 Custom OpenAI Agent
+
 ## Running
 
 ```bash
