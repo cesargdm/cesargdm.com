@@ -6,7 +6,7 @@ type Props = { onClick?: () => void; isOpen: boolean }
 
 export default function Search({ isOpen, ...props }: Props) {
 	return (
-		<button {...props} className={navLink}>
+		<button {...props} className={navLink} aria-label="Search">
 			{isOpen ? 'Close' : <IconSearch />}
 		</button>
 	)

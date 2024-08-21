@@ -9,7 +9,7 @@ const SEARCH_API_KEY = process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY as string
 export const algoliaSearchClient = algoliasearch(APP_ID, SEARCH_API_KEY)
 
 export function getAlgoliaIndexName(locale: Locale = 'en') {
-	return `dev_cesargdm_${locale}` as const
+	return `cesargdm_${locale}_${process.env.NODE_ENV}` as const
 }
 
 aa('init', {
