@@ -1,6 +1,7 @@
 ---
 title: Cogito ergo machina
 date: 2020-04-26
+extract: La prueba de Turing difumina las interacciones humano-máquina, lo que lleva a cuestionar la realidad y la teoría de la simulación.
 ---
 
 # Cogito ergo machina

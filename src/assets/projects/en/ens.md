@@ -1,9 +1,12 @@
 ---
 title: ENS
-tags: [development, open source, web3]
-description: Ethereum Name Service client
+description: Ethereum Name Service testnet client, register and manage your domains.
 date: 2021
 url: https://ens.cesargdm.xyz
+repository:
+  url: https://github.com/cesargdm/ens-app
+  stars: 11
+tags: [ethereum, react]
 ---
 
 # ENS

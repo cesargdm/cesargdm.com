@@ -1,9 +1,12 @@
 ---
 title: Mejor
-tags: [stale, web3, react]
+description: Open source no-code generative art tool using NodeJS.
 date: 2022
 url: https://mejor.tonim.xyz
-description: Open source no-code generative art tool
+repository:
+  url: https://github.com/theyxolo/mejor
+  stars: 2
+tags: [web3, react]
 ---
 
 # Mejor

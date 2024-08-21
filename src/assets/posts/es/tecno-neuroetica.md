@@ -1,6 +1,7 @@
 ---
 title: Tecno-neuroética
 date: 2023-04-26
+extract: La neurociencia y la neuroética son disciplinas que se entrelazan para abordar los desafíos éticos que surgen en la aplicación de los avances de la ciencia al sistema nervioso y al cerebro.
 ---
 
 # Tecno-neuroética

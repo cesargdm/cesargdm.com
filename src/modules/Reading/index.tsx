@@ -1,5 +1,7 @@
 import { IconBook } from '@tabler/icons-react'
 
+import { BASE_URL } from '@/lib/constants'
+
 import { vars } from '@/app/theme.css'
 
 import {
@@ -12,15 +14,14 @@ import {
 
 type Book = { title: string; url: string; author: string; image: string }
 
-async function getData(): Promise<Book[]> {
+async function getData() {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	const result = await fetch(
-		'https://cesargdm.com/api/goodreads/currently-reading',
-		{ next: { revalidate: ONE_DAY } },
-	)
-		.then((response) => response.json())
+	const result = await fetch(`${BASE_URL}/api/goodreads/currently-reading`, {
+		next: { revalidate: ONE_DAY },
+	})
+		.then((response) => response.json() as Promise<Book[]>)
 		.catch(() => null)
 
 	return result

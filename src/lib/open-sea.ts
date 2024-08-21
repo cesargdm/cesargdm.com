@@ -38,10 +38,7 @@ export async function getNfts({
 		.catch(() => undefined)
 }
 
-export async function findNft(
-	nfts: Nft[],
-	id: string,
-): Promise<Nft | undefined> {
+export function findNft(nfts: Nft[], id: string): Nft | undefined {
 	return nfts.find((nft) => `ethereum_${nft.contract}_${nft.identifier}` === id)
 }
 

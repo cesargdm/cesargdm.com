@@ -1,42 +1,45 @@
-import { IconArtboard } from '@tabler/icons-react'
+import { IconArrowUpRight, IconArtboard } from '@tabler/icons-react'
+import Link from 'next/link'
 
-import { vars } from '@/app/theme.css'
+import { headingLink, listContainer } from '@/modules/Nfts/styles.css'
+
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
 
 import NftList from './NftsList'
 
-function getData(): Promise<{ name: string; image_url: string }[]> {
+function getData() {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	return fetch('https://cesargdm.com/api/nfts', {
+	return fetch(`${BASE_URL}/api/nfts`, {
 		method: 'GET',
 		next: { revalidate: ONE_DAY },
 	})
-		.then((response) => response.json())
+		.then(
+			(response) =>
+				response.json() as Promise<{ name: string; image_url: string }[]>,
+		)
 		.catch(() => undefined)
 }
 
-async function Nfts() {
+async function Nfts({ locale }: { locale: Locale }) {
 	const data = await getData()
 
-	if (!data?.length) return null
+	if (!data?.length) {
+		return null
+	}
 
 	return (
 		<>
-			<div
-				style={{
-					display: 'flex',
-					gap: vars.space.small,
-					textDecoration: 'none',
-					padding: 16,
-				}}
-			>
-				<IconArtboard />
-				<h2>NFTs</h2>
-			</div>
-			<div
-				style={{ position: 'relative', height: '100%', flex: 1, minHeight: 0 }}
-			>
+			<Link className={headingLink} href={`/${locale}/nfts`}>
+				<h2>
+					<IconArtboard aria-hidden />
+					NFTs
+				</h2>
+				<IconArrowUpRight />
+			</Link>
+			<div className={listContainer}>
 				<NftList data={data} />
 			</div>
 		</>

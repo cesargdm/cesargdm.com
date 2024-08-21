@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 
 import { getPosts } from '@/lib/blog'
+import { BASE_URL } from '@/lib/constants'
+import { LOCALES } from '@/lib/i18n'
 import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
 
@@ -15,27 +17,60 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	return urls
 		.map((url) => ({
-			url: `https://cesargdm.com/${url}`,
+			url: `${BASE_URL}/${url}`,
 			lastModified: new Date(),
+			alternates: {
+				languages: Object.fromEntries(
+					LOCALES.map((locale) => [locale, `${BASE_URL}/${locale}/${url}`]),
+				),
+			},
 		}))
 		.concat(
 			projects.map((project) => ({
-				url: `https://cesargdm.com/projects/${project.slug}`,
-				lastModified: project.data.date
-					? new Date(project.data.date)
-					: new Date(),
+				url: `${BASE_URL}/projects/${project.slug}`,
+				lastModified:
+					typeof project.data.date === 'string'
+						? new Date(project.data.date)
+						: new Date(),
+				alternates: {
+					languages: Object.fromEntries(
+						LOCALES.map((locale) => [
+							locale,
+							`${BASE_URL}/${locale}/projects/${project.slug}`,
+						]),
+					),
+				},
 			})),
 		)
 		.concat(
 			posts.map((post) => ({
-				url: `https://cesargdm.com/blog/${post.slug}`,
-				lastModified: post.data.date ? new Date(post.data.date) : new Date(),
+				url: `${BASE_URL}/blog/${post.slug}`,
+				lastModified:
+					typeof post.data.date === 'string'
+						? new Date(post.data.date)
+						: new Date(),
+				alternates: {
+					languages: Object.fromEntries(
+						LOCALES.map((locale) => [
+							locale,
+							`${BASE_URL}/${locale}/blog/${post.slug}`,
+						]),
+					),
+				},
 			})),
 		)
 		.concat(
 			nfts.map((nft) => ({
-				url: `https://cesargdm.com/nfts/ethereum_${nft.contract}_${nft.identifier}`,
+				url: `${BASE_URL}/nfts/ethereum_${nft.contract}_${nft.identifier}`,
 				lastModified: new Date(),
+				alternates: {
+					languages: Object.fromEntries(
+						LOCALES.map((locale) => [
+							locale,
+							`${BASE_URL}/${locale}/nfts/ethereum_${nft.contract}_${nft.identifier}`,
+						]),
+					),
+				},
 			})),
 		)
 }

@@ -8,6 +8,21 @@ import {
 	styleVariants,
 } from '@vanilla-extract/css'
 
+export const headingLink = style({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	textDecoration: 'none',
+	padding: 16,
+})
+
+export const listContainer = style({
+	position: 'relative',
+	height: '100%',
+	flex: 1,
+	minHeight: 0,
+})
+
 export const infiniteSlideFirst = keyframes({
 	'0%': { transform: 'translate3d(0, 0, 0)' },
 	'100%': { transform: 'translate3d(-100%, 0, 0)' },

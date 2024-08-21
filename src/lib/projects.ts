@@ -4,10 +4,12 @@ import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
+import type { Locale } from '@/lib/i18n'
+
 const postsDirectory = path.join(process.cwd(), './src/assets/projects')
 
 export function getProjects(
-	language = 'en',
+	language: Locale = 'en',
 	options: { content: boolean } = { content: true },
 ) {
 	const languagePostsDirectory = path.join(postsDirectory, language)
@@ -28,7 +30,7 @@ export function getProjects(
 			delete grayMatterResult.content
 		}
 
-		return { slug, ...grayMatterResult }
+		return { slug, ...grayMatterResult } as const
 	})
 
 	// Sort by date
@@ -46,7 +48,10 @@ export function getProjects(
 	return allEntries
 }
 
-export async function getProject(language = 'en', slug: string) {
+export async function getProject(
+	language: Parameters<typeof getProjects>[0],
+	slug: string,
+) {
 	const posts = getProjects(language)
 
 	const post = posts.find((post) => post.slug === slug)

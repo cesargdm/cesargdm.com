@@ -35,9 +35,9 @@ const companiesMetadata = {
 	},
 	Cretia: {
 		url: 'https://about.cretia.app',
-		field: 'Productivity',
+		field: 'Business Intelligence',
 		description:
-			'CRM platform for pest control industry. Offers QR code generation, intelligent billing, reporting, and routing optimization.',
+			'ERP platform for mexican SME. Offers intelligent billing, invoicing, expense tracking and more.',
 	},
 } as Record<
 	string,
@@ -45,13 +45,13 @@ const companiesMetadata = {
 >
 
 export default function HoverCompany({ children }: { children: string }) {
-	const metadata = companiesMetadata[children as keyof typeof companiesMetadata]
+	const metadata = companiesMetadata[children]
 
 	return (
 		<span style={{ position: 'relative', display: 'inline' }}>
 			<a href={metadata.url} className={dropdownText}>
 				{children}
-				{metadata.outOfBusiness && (
+				{Boolean(metadata.outOfBusiness) && (
 					<span
 						style={{
 							color: vars.colors.text.secondary,

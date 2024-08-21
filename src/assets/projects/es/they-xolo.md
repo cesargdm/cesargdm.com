@@ -1,8 +1,12 @@
 ---
 title: They Xolo
-tags: [active, web3, react]
-description: NFT Art collection showcasing the diversity of Mexican culture
+description: Coleccionables de arte NFT ERC 721, sitio web de minting personalizado, mejorado con staking de contratos inteligentes y mercado.
+date: 2022-11-01T08:00:00.000
 url: https://theyxolo.art
+highlight:
+  logoUrl: https://theyxolo.art/assets/logo-ccb5d19c.svg
+  color: '#E86DAE'
+tags: [react, ethereum, the-graph]
 ---
 
 # They Xolo

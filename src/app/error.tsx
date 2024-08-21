@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { errorPageContainer } from './styles.css'
+import { errorPageContainer } from '@/app/[locale]/styles.css'
 
 export default function Error() {
 	return (

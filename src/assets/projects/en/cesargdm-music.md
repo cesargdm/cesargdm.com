@@ -1,10 +1,10 @@
 ---
 title: cesargdm Music
-tags: [react]
-description: Apple Music web player built with React
+description: Web player for Apple Music built with React.
 date: 2023
-isDraft: true
 url: https://music.cesargdm.com
+tags: [react, nextjs]
+isDraft: true
 ---
 
 # cesargdm Music

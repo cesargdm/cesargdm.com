@@ -1,4 +1,14 @@
 {
+	"crons": [
+		{
+			"path": "/api/crons/search?locale=en",
+			"schedule": "0 0 * * *"
+		},
+		{
+			"path": "/api/crons/search?locale=es",
+			"schedule": "0 0 * * *"
+		}
+	],
 	"headers": [
 		{
 			"source": "/(.*)",
@@ -26,7 +36,7 @@
 			]
 		},
 		{
-			"source": "/(static|pwa|fonts)/(.*)",
+			"source": "/(static|_next|pwa|fonts)/(.*)",
 			"headers": [
 				{
 					"key": "Cache-Control",

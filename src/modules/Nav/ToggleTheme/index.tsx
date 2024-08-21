@@ -1,15 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
+import { useCallback, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+
+import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
+import ThemeButton, { CookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
 import { darkTheme, lightTheme, responsiveTheme } from '@/app/theme.css'
 
-import { toggleTheme } from './styles.css'
-
-function ToggleTheme() {
-	const [theme, setTheme] = useState(Cookies.get('theme'))
+function ToggleTheme({
+	initialTheme = Cookies.get(CookieName) as Theme,
+}: {
+	initialTheme: Theme
+}) {
+	const [theme, setTheme] = useState(initialTheme)
 
 	useEffect(() => {
 		Cookies.set(
@@ -24,20 +28,20 @@ function ToggleTheme() {
 		document.body.classList.remove(darkTheme)
 
 		if (!theme) {
-			Cookies.set('theme', '')
+			Cookies.set(CookieName, '')
 			document.body.classList.add(responsiveTheme)
 		}
 		if (theme === 'dark') {
-			Cookies.set('theme', 'dark')
+			Cookies.set(CookieName, 'dark')
 			document.body.classList.add(darkTheme)
 		}
 		if (theme === 'light') {
-			Cookies.set('theme', 'light')
+			Cookies.set(CookieName, 'light')
 			document.body.classList.add(lightTheme)
 		}
 	}, [theme])
 
-	function handleToggleTheme() {
+	const handleToggleTheme = useCallback(() => {
 		if (!theme) {
 			setTheme('dark')
 		} else if (theme === 'dark') {
@@ -45,19 +49,9 @@ function ToggleTheme() {
 		} else if (theme === 'light') {
 			setTheme('')
 		}
-	}
+	}, [])
 
-	return (
-		<button
-			title="Toggle theme"
-			className={toggleTheme}
-			onClick={handleToggleTheme}
-		>
-			{theme === 'dark' && <IconSun />}
-			{theme === 'light' && <IconSunMoon />}
-			{!theme && <IconMoon />}
-		</button>
-	)
+	return <ThemeButton value={theme} onChange={handleToggleTheme} />
 }
 
 export default ToggleTheme

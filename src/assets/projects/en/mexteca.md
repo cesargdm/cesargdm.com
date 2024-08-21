@@ -1,8 +1,11 @@
 ---
 title: Mexteca
-tags: [active, react]
+description: Web scrapper and web app app for local cinema listings.
 date: 2022-10-01T00:00:00.000
-description: Web scrapper and mobile app for local movie listings
+repository:
+  url: https://github.com/cesargdm/mexteca
+  stars: 1
+tags: [react, cheerio, supabase]
 ---
 
 # Mexteca

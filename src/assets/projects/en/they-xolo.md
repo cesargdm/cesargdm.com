@@ -1,12 +1,12 @@
 ---
 title: They Xolo
-tags: [active, web3, react]
-description: NFT Art collection, built using a custom art engine, enhanced with staking and marketplace.
-date: 2022-11-01T00:00:00.000
+description: ERC 721 NFT Art Collectibles, custom minting website, enhanced with smart contract staking and marketplace.
+date: 2022-11-01T08:00:00.000
 url: https://theyxolo.art
 highlight:
   logoUrl: https://theyxolo.art/assets/logo-ccb5d19c.svg
   color: '#E86DAE'
+tags: [react, ethereum, the-graph]
 ---
 
 # They Xolo

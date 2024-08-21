@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/cesargdm/cesargdm.com/actions/workflows/integration.yml/badge.svg)](https://github.com/cesargdm/cesargdm.com/actions/workflows/integration.yml)
 
-This is my personal website, built with NextJS.
+This is my personal website, built with NextJS, algolia, OpenAI, vanilla CSS and hosted on Vercel.
 
 ## Running
 

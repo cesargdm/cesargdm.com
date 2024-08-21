@@ -1,7 +1,8 @@
 ---
 title: Neo
+date: 2020
 tags: [inactive, react, graphql, nodejs]
-description: Emotional education for adolescents
+description: Aplicación de educación emocional y sanitaria para adolescentes
 url: https://app.neoeducate.app
 ---
 

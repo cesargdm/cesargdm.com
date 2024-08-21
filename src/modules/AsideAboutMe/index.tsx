@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { IconBrandLinkedin, IconBrandX } from '@tabler/icons-react'
 import Image from 'next/image'
 
@@ -18,6 +18,10 @@ export default function SideAboutMe() {
 		setUrl(window.location.href)
 	}, [])
 
+	const handleShare = useCallback(() => {
+		navigator.share({ title: 'César Guadarrama Cantú', url }).catch(() => null)
+	}, [])
+
 	return (
 		<aside>
 			<Image
@@ -33,7 +37,7 @@ export default function SideAboutMe() {
 				Contributed to the success of multiple top companies.
 			</p>
 			<ul className={socialLinksList}>
-				{url && (
+				{Boolean(url) && (
 					<li>
 						<a
 							className={socialLink}
@@ -44,7 +48,7 @@ export default function SideAboutMe() {
 						</a>
 					</li>
 				)}
-				{url && (
+				{Boolean(url) && (
 					<li>
 						<a
 							className={socialLink}
@@ -56,20 +60,11 @@ export default function SideAboutMe() {
 					</li>
 				)}
 			</ul>
-			{typeof navigator === 'object' && navigator.share && url && (
-				<button
-					onClick={() =>
-						navigator
-							.share({
-								title: 'César Guadarrama Cantú',
-								url,
-							})
-							.catch(() => undefined)
-					}
-				>
-					Share
-				</button>
-			)}
+			{Boolean(
+				typeof navigator === 'object' &&
+					url &&
+					typeof navigator.share === 'function',
+			) && <button onClick={handleShare}>Share</button>}
 		</aside>
 	)
 }

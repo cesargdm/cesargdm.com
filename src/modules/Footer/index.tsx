@@ -1,3 +1,11 @@
+import Link from 'next/link'
+
+import LocalTime from '@/modules/Footer/LocalTime'
+
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+
 import { footerContainer, footerList, footerParagraph } from './styles.css'
 
 /**
@@ -11,19 +19,21 @@ async function getData() {
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	return fetch('https://cesargdm.com/api/slack/users-info', {
+	return fetch(`${BASE_URL}/api/slack/users-info`, {
 		next: { revalidate: ONE_DAY },
 	})
-		.then((response) => response.json())
+		.then((response) => response.json() as Promise<{ tz: string }>)
 		.catch(() => undefined)
 }
 
-export default async function Footer() {
+export default async function Footer({ locale }: { locale: Locale }) {
 	const result = await getData()
 
 	const date = new Date(
-		new Date().toLocaleString('en-US', { timeZone: result.tz }),
+		new Date().toLocaleString('en-US', { timeZone: result?.tz }),
 	)
+
+	const alternateLocale = LOCALES.find((l) => l !== locale)
 
 	return (
 		<footer className={footerContainer}>
@@ -44,16 +54,12 @@ export default async function Footer() {
 					</a>
 				</li>
 
-				{Boolean(result.tz) && (
-					<li className={footerParagraph}>
-						<b>Local time</b>
-						{date.toLocaleTimeString(undefined, {
-							hour: 'numeric',
-							minute: 'numeric',
-						})}
-					</li>
-				)}
+				{result?.tz ? <LocalTime timeZone={result.tz} /> : null}
 			</ul>
+
+			<p>
+				<Link href={`/${alternateLocale}`}>{alternateLocale}</Link>
+			</p>
 		</footer>
 	)
 }

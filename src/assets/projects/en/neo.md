@@ -1,10 +1,9 @@
 ---
 title: Neo
 date: 2020
-tags: [inactive, react, graphql, nodejs]
 url: https://app.neoeducate.app
-description: Emotional and health education app for adolescents
-isRetired: true
+description: Emotional and health education app for adolescents.
+tags: [react-native, graphql, nodejs]
 ---
 
 # Neo Educate

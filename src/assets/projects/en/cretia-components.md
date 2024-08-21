@@ -1,10 +1,13 @@
 ---
 title: Cretia Components
-tags: [react]
 description: Reusable React components for building web applications.
 date: 2023-01-01T00:00:00.000
-isDraft: true
 url: https://components.cretia.app
+repository:
+  url: https://github.com/cretia-app/components
+  stars: 0
+tags: [react, storybook, styled-components]
+isDraft: true
 ---
 
 # Cretia Components

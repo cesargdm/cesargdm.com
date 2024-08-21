@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 import {
 	nftImage,
@@ -8,7 +9,6 @@ import {
 	nftListWrapper2,
 	nftsList,
 } from './styles.css'
-import Image from 'next/image'
 
 const styles = {
 	item: {

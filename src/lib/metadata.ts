@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 
+import { BASE_URL } from './constants'
+
 type MetadataParams = {
 	title?: string
 	type?: 'article' | 'website'
@@ -13,7 +15,7 @@ export const title = 'cesargdm'
 export const description =
 	'César Guadarrama - Product engineer - Blog, portfolio and more'
 
-export const images = ['https://cesargdm.com/opengraph-image.png']
+export const images = [`${BASE_URL}/opengraph-image.png`]
 
 export const openGraph: Metadata['openGraph'] = {
 	title,
@@ -23,7 +25,7 @@ export const openGraph: Metadata['openGraph'] = {
 
 export const twitterUsername = '@cesargdm'
 
-export const host = 'https://cesargdm.com'
+export const host = BASE_URL
 
 export const twitter: Metadata['twitter'] = {
 	title,
@@ -35,7 +37,7 @@ export const twitter: Metadata['twitter'] = {
 }
 
 export const metadata = {
-	metadataBase: new URL('https://cesargdm.com'),
+	metadataBase: new URL(BASE_URL),
 	creator: 'cesargdm',
 	category: 'technology',
 	keywords: [
@@ -86,6 +88,6 @@ export const getMetadata = ({
 	},
 	alternates: {
 		...props.alternates,
-		canonical: `${host}${props.alternates?.canonical ?? ''}`,
+		canonical: `${host}${props.alternates?.canonical?.toString() ?? ''}`,
 	},
 })

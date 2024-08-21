@@ -6,7 +6,7 @@ import remarkHtml from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/posts')
 
-export function getPosts(language = 'en') {
+export function getPosts(language: 'en' | 'es' = 'en') {
 	const languagePostsDirectory = path.join(postsDirectory, language)
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
@@ -37,7 +37,10 @@ export function getPosts(language = 'en') {
 	return allEntries
 }
 
-export async function getPost(language = 'en', slug: string) {
+export async function getPost(
+	language: Parameters<typeof getPosts>[0],
+	slug: string,
+) {
 	const posts = getPosts(language)
 
 	const post = posts.find((post) => post.slug === slug)

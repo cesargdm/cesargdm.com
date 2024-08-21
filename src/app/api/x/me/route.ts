@@ -25,7 +25,10 @@ export async function GET() {
 				process.env.X_ACCESS_TOKEN as string,
 				process.env.X_ACCESS_TOKEN_SECRET as string,
 				(error, data) => {
-					if (error) return reject(error)
+					if (error)
+						return reject(
+							new Error(error.statusCode.toString() ?? 'Unknown error'),
+						)
 
 					return resolve(JSON.parse(data as string))
 				},

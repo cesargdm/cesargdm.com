@@ -6,15 +6,13 @@ import { usePathname } from 'next/navigation'
 
 import { navItem, navLink, navLinkActive } from './styles.css'
 
-export default function NavLink({
-	href,
-	children,
-	exact = false,
-}: {
+type Props = {
 	href: string
 	children: string
 	exact?: boolean
-}) {
+}
+
+export default function NavLink({ href, children, exact = false }: Props) {
 	const pathname = usePathname()
 	const isActive = exact ? pathname === href : pathname.startsWith(href)
 

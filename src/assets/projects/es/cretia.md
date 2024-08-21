@@ -1,44 +1,48 @@
 ---
 title: Cretia
-tags: [active, react, graphql, nodejs]
-description: ERP for small and medium sized companies in Mexico
+date: 2017
+description: ERP para pequeñas y medianas empresas en México, gastos, ventas, inventario, pagos y más.
 url: https://www.cretia.app
+highlight:
+  logoUrl: 'https://web.cretia.app/maskable-icon.png'
+  color: '#dddddd'
+tags: [react-native, nodejs, graphql, mongodb]
 ---
 
 # Cretia
 
-Creatia has been my biggest baby of them all, I've learned in this project like in no other.
+Creatia ha sido mi proyecto más grande de todos, he aprendido en este proyecto como en ningún otro.
 
-## Web App
+## Aplicación Web
 
-![Sign in page](https://user-images.githubusercontent.com/10179494/171282225-07fdd1e1-6c8c-4f01-9e6f-a443142f18ef.png)
+![Página de inicio de sesión](https://user-images.githubusercontent.com/10179494/171282225-07fdd1e1-6c8c-4f01-9e6f-a443142f18ef.png)
 
-> Sign in page
+> Página de inicio de sesión
 
-It started as a simple project, a small utility for my dad's pest control company, the first iteration was using the most poppular framework at the time, AngularJS, we're talking around 2016; as it evolved I researched and used several technologies like Redux, css-modules, css flex and grid, Angular 2, Svelte, Watermelon DB for the mobile app, and also it made me learn Swift with CoreData. Currently it uses cutting edge technologies like React, NodeJS, GraphQL, Docker, MongoDB, AWS services, React Native, and a lot more.
+Comenzó como un proyecto simple, una pequeña utilidad para la empresa de control de plagas de mi papá, la primera iteración fue usando el framework más popular en ese momento, AngularJS, estamos hablando alrededor de 2016; a medida que evolucionó, investigué y utilicé varias tecnologías como Redux, css-modules, css flex y grid, Angular 2, Svelte, Watermelon DB para la aplicación móvil, y también me hizo aprender Swift con CoreData. Actualmente utiliza tecnologías de vanguardia como React, NodeJS, GraphQL, Docker, MongoDB, servicios de AWS, React Native y mucho más.
 
-Cretia is now a Sass bussiness with over 16 different modules that solve different issues of bussinesses, even tho it started it's focus on Pest Control companies, it's also a CRM for small Mexican businesses; it's comprehended on a Mobile App, two Web Applications for different users and a set of microservices and one GraphQL API.
+Cretia es ahora un negocio SaaS con más de 16 módulos diferentes que resuelven distintos problemas de las empresas, aunque comenzó enfocándose en empresas de control de plagas, también es un CRM para pequeñas empresas mexicanas; se comprende en una aplicación móvil, dos aplicaciones web para diferentes usuarios y un conjunto de microservicios y una API GraphQL.
 
-Some of it's highlights are:
+Algunos de sus puntos destacados son:
 
-- Custom authentication mechanisms, no Auth0
-- Special sign-in mechanisms including Apple, Google, MagicLink and WebAuthn.
-- Fully featured PWA
-- Multi-language support
-- Offline-ready mobile app that syncs data when network is available
+- Mecanismos de autenticación personalizados, sin Auth0
+- Mecanismos especiales de inicio de sesión incluyendo Apple, Google, MagicLink y WebAuthn.
+- PWA con todas las funciones
+- Soporte multilenguaje
+- Aplicación móvil lista para funcionar sin conexión que sincroniza datos cuando hay red disponible
 
-![Dashboard view](https://user-images.githubusercontent.com/10179494/171282289-f483a0f2-8ce0-445c-94e1-b8eb2687de2f.png)
+![Vista del panel de control](https://user-images.githubusercontent.com/10179494/171282289-f483a0f2-8ce0-445c-94e1-b8eb2687de2f.png)
 
-> Dashboard view
+> Vista del panel de control
 
-Currently it serves a little over 50 users but it's still growing. We are aiming to convert it to the most beautiful and easiest to use ERP system for small businesses in Mexico.
+Actualmente sirve a poco más de 50 usuarios pero sigue creciendo. Nuestro objetivo es convertirlo en el sistema ERP más hermoso y fácil de usar para pequeñas empresas en México.
 
-You can get more information about Cretia in our [website](https://www.cretia.app/)
+Puedes obtener más información sobre Cretia en nuestro [sitio web](https://www.cretia.app/)
 
-## NodeJS API
+## API de NodeJS
 
-The API consists of a GraphQL API that serves the web app and the mobile app, database is served by MongoDB at MongoDB Cloud and the Node servers are hosted in AWS thru the SCS service.
+La API consiste en una API GraphQL que sirve a la aplicación web y a la aplicación móvil, la base de datos es servida por MongoDB en MongoDB Cloud y los servidores Node están alojados en AWS a través del servicio SCS.
 
-## Mobile App
+## Aplicación Móvil
 
-The mobile app is developed in React Native and it uses the Apollo Client to communicate with the GraphQL API and support offline capabilities. It has a Peer to Peer communication module on iOS.
+La aplicación móvil está desarrollada en React Native y utiliza Apollo Client para comunicarse con la API GraphQL y soportar capacidades offline. Tiene un módulo de comunicación Peer to Peer en iOS.

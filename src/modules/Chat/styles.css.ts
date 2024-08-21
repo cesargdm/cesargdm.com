@@ -2,6 +2,13 @@ import { vars } from '@/app/theme.css'
 
 import { style } from '@vanilla-extract/css'
 
+export const headingLink = style({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	textDecoration: 'none',
+})
+
 export const chatMessage = style({
 	maxWidth: '80%',
 	justifySelf: 'start',
@@ -24,9 +31,10 @@ export const chatMessage = style({
 
 export const chatContainer = style({
 	flexGrow: 1,
-	height: '20vh',
+	height: '20svh',
 	display: 'flex',
 	flexDirection: 'column',
+	minHeight: 250,
 })
 
 export const chatMessageUser = style([

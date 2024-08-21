@@ -20,11 +20,11 @@
 		}
 	},
 	"include": [
-		"src/.d.ts",
+		"src",
 		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts"
+		"eslint.config.mjs",
+		".next/types/**/*.ts",
+		"next.config.js"
 	],
-	"exclude": ["node_modules", ".next"]
+	"exclude": ["node_modules", ".next", ".vscode"]
 }

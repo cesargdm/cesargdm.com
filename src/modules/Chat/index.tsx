@@ -1,7 +1,6 @@
 'use client'
+
 import {
-	ChangeEvent,
-	FormEvent,
 	Fragment,
 	useCallback,
 	useEffect,
@@ -9,10 +8,21 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import { IconArrowUp, IconDots, IconMessage } from '@tabler/icons-react'
+import {
+	IconArrowUp,
+	IconArrowUpRight,
+	IconDots,
+	IconMessage,
+} from '@tabler/icons-react'
+import Link from 'next/link'
+import type { ChangeEvent, FormEvent } from 'react'
+
+import TextInput from '@/components/TextInput'
+
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
 
 import { vars } from '@/app/theme.css'
-import TextInput from '@/components/TextInput'
 
 import {
 	chatContainer,
@@ -20,6 +30,7 @@ import {
 	chatMessage,
 	chatMessagesList,
 	chatMessageUser,
+	headingLink,
 	submitButton,
 } from './styles.css'
 
@@ -54,33 +65,39 @@ function getInitialState(): State {
 	}
 }
 
-function Chat() {
+function Chat({ locale }: { locale: Locale }) {
 	const [state, setState] = useState<State>(getInitialState)
 
 	const chatListRef = useRef<HTMLUListElement>(null)
 
 	useEffect(() => {
 		async function loadMessages() {
-			let data: Partial<State> = {}
+			let data: Partial<State> | null = null
 
 			if (state.threadId) {
 				data = await fetch(
-					`https://cesargdm.com/api/assistant?threadId=${state.threadId}`,
-				).then((response) => response.json() as Promise<AssistantResponseData>)
-			} else {
-				data.messages = [
-					{
-						id: '0',
-						content: [{ type: 'text', text: { value: "Hey! what's up?" } }],
-						role: 'assistant',
-					},
-				]
+					`${BASE_URL}/api/assistant?threadId=${state.threadId}`,
+				)
+					.then((response) => response.json() as Promise<AssistantResponseData>)
+					.catch(() => null)
+			}
+
+			if (!data) {
+				data = {
+					messages: [
+						{
+							id: '0',
+							content: [{ type: 'text', text: { value: "Hey! what's up?" } }],
+							role: 'assistant',
+						},
+					],
+				}
 			}
 
 			setState((prev) => ({ ...prev, ...data, isLoading: false }))
 		}
 
-		loadMessages()
+		loadMessages().catch(() => undefined)
 	}, [])
 
 	const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +108,15 @@ function Chat() {
 		async (event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
-			const content = (event.target as HTMLFormElement)['content']?.value
+			if (
+				!('content' in event.target) ||
+				typeof event.target.content !== 'object' ||
+				!event.target.content ||
+				!('value' in event.target.content)
+			)
+				return
+
+			const content = event.target['content'].value as string
 
 			if (!content) return
 
@@ -147,9 +172,7 @@ function Chat() {
 							c.type === 'loading' ? (
 								<IconDots key={index} color={vars.colors.text.decorative} />
 							) : (
-								<p key={index} style={{ lineHeight: 1.3 }}>
-									{c.text?.value}
-								</p>
+								<p key={index}>{c.text?.value}</p>
 							),
 						)}
 					</li>
@@ -160,10 +183,13 @@ function Chat() {
 
 	return (
 		<>
-			<h2>
-				<IconMessage aria-hidden />
-				AI Chat
-			</h2>
+			<Link className={headingLink} href={`/${locale}/chat`}>
+				<h2>
+					<IconMessage aria-hidden />
+					AI Chat
+				</h2>
+				<IconArrowUpRight />
+			</Link>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>
 					{messages}
@@ -173,7 +199,7 @@ function Chat() {
 						value={state.content}
 						onChange={handleChange}
 						name="content"
-						placeholder="Message..."
+						placeholder={state.isLoading ? 'Loading...' : 'Message...'}
 						type="text"
 					/>
 					<button

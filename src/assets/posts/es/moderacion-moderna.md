@@ -1,6 +1,7 @@
 ---
 title: Moderación moderna
 date: 2021-04-21
+extract: La moderación es una virtud que permite el equilibrio entre el exceso y la escasez, es necesario para el pleno goce de la vida.
 ---
 
 # Moderación moderna

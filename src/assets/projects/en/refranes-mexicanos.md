@@ -1,8 +1,11 @@
 ---
 title: Refranes Mexicanos
-date: 2014
-description: First swift app I ever made
-isRetired: true
+date: 2015
+description: Swift iOS App + Watch extension that shows random Mexican sayings.
+repository:
+  url: https://github.com/cesargdm/refranes-mexicanos
+  stars: 0
+tags: [swift, ios]
 ---
 
 # Refranes Mexicanos

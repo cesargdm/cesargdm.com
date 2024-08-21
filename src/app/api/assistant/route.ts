@@ -7,7 +7,7 @@ const openai = OPENAI_API_KEY
 	? new OpenAI({ apiKey: OPENAI_API_KEY })
 	: undefined
 
-const ASSISTANT_ID = 'asst_QLRNVs3g0fesRcNRGRYvtiAQ' as const
+const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID as string
 
 const CONTENT_MAX_LENGTH = 4096
 
@@ -54,7 +54,8 @@ export async function PATCH(request: Request) {
 		}
 
 		let threadId
-		const { content, threadId: existingThreadId } = await request.json()
+		const { content, threadId: existingThreadId } =
+			await (request.json() as Promise<{ content: string; threadId?: string }>)
 
 		if (!content?.length) {
 			return NextResponse.json(
