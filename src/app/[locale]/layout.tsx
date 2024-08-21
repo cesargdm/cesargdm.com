@@ -1,5 +1,6 @@
 import { type ReactNode, Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import classNames from 'classnames'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
@@ -68,6 +69,7 @@ export default function RootLayout({ children, modal, params }: Props) {
 				<Footer locale={params.locale} />
 
 				<Analytics />
+				<SpeedInsights />
 			</body>
 		</html>
 	)
