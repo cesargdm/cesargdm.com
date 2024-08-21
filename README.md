@@ -14,4 +14,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Benchmarks
 
-<img width="513" alt="Screenshot 2023-08-23 at 11 55 44 AM" src="https://github.com/cesargdm/cesargdm.com/assets/10179494/7bbe9734-a309-40d8-b930-ac8571b4d753">
+### Lighthouse
+
+<img width="500" alt="Lighthouse perfect score" src="https://github.com/user-attachments/assets/fd092b41-5ea2-4a9a-92c5-6803a2c4ebcf">
