@@ -29,8 +29,8 @@ jobs:
         run: bun run format:check
       - name: 🚨 Lint Code
         run: bun run lint
-      - name: ✅ TSCheck Code
-        run: bun run tscheck
+      - name: ✅ Type Check Code
+        run: bun run typecheck
 
   build:
     name: Build Site
