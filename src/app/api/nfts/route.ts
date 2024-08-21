@@ -9,9 +9,16 @@ import { getNfts } from '@/lib/open-sea'
 export const revalidate = 60 * 60 * 24
 
 export async function GET() {
-	const nfts = await getNfts()
+	try {
+		const nfts = await getNfts()
 
-	return NextResponse.json(nfts, {
-		headers: { 'content-type': 'application/json; charset=utf-8' },
-	})
+		return NextResponse.json(nfts, {
+			headers: { 'content-type': 'application/json; charset=utf-8' },
+		})
+	} catch {
+		return NextResponse.json(
+			{ message: 'Failed to fetch NFTs' },
+			{ status: 500 },
+		)
+	}
 }
