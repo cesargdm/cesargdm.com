@@ -11,7 +11,7 @@ import social from '@/lib/social.json'
 
 import { contactHeading, contactList } from './styles.css'
 
-export const metadata = getMetadata(() => ({
+export const generateMetadata = getMetadata(() => ({
 	title: 'Contact',
 	description: 'Social links and contact information for César Guadarrama',
 	alternates: { canonical: `/contact` },

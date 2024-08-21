@@ -100,7 +100,7 @@ export function getMetadata<T = object>(
 			},
 			alternates: {
 				...props.alternates,
-				canonical: `${host}/${pageProps.params.locale}/${props.alternates?.canonical?.toString() ?? ''}`,
+				canonical: `${host}/${pageProps.params?.locale}/${props.alternates?.canonical?.toString() ?? ''}`,
 			},
 		}
 	}

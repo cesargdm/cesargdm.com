@@ -26,7 +26,7 @@ import {
 	projectTechnologyItem,
 } from '../blog/styles.css'
 
-export const metadata = getMetadata(() => ({
+export const generateMetadata = getMetadata(() => ({
 	title: 'Projects',
 	description:
 		'Software engineering projects, websites, web apps, native apps for iOS and Android and more',
