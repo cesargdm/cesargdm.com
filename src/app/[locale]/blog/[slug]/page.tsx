@@ -30,7 +30,7 @@ export const generateMetadata = getMetadata<{ params: { slug: string } }>(
 			type: 'article',
 			description: post?.data.extract as string,
 			title: `${post?.data.title} - Blog`,
-			alternates: { canonical: `/${params.locale}/blog/${post?.slug}` },
+			alternates: { canonical: `/blog/${post?.slug}` },
 		}
 	},
 )

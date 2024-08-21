@@ -14,10 +14,10 @@ import {
 	nftTextWrapper,
 } from './styles.css'
 
-export const generateMetadata = getMetadata(({ params }) => ({
+export const generateMetadata = getMetadata(() => ({
 	title: 'NFTs',
 	description: 'César Guadarrama Cantú - Product engineer - NFTs',
-	alternates: { canonical: `/${params.locale}/nfts` },
+	alternates: { canonical: `/nfts` },
 }))
 
 export default async function Nfts() {

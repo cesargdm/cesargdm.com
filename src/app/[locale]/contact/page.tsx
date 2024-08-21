@@ -11,10 +11,10 @@ import social from '@/lib/social.json'
 
 import { contactHeading, contactList } from './styles.css'
 
-export const metadata = getMetadata(({ params }) => ({
+export const metadata = getMetadata(() => ({
 	title: 'Contact',
 	description: 'Social links and contact information for César Guadarrama',
-	alternates: { canonical: `/${params.locale}/contact` },
+	alternates: { canonical: `/contact` },
 }))
 
 const socialLinks = [

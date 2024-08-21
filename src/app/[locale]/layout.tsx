@@ -8,7 +8,7 @@ import Footer from '@/modules/Footer'
 import Nav from '@/modules/Nav'
 import { CookieName as ThemeCookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
-import { metadata as defaultMetadata } from '@/lib/metadata'
+import { getMetadata } from '@/lib/metadata'
 import type { PageProps } from '@/lib/types'
 
 import { darkTheme, lightTheme, responsiveTheme } from '@/app/theme.css'
@@ -40,7 +40,7 @@ type Props = PageProps<{
 	modal: ReactNode
 }>
 
-export const metadata = defaultMetadata
+export const generateMetadata = getMetadata()
 
 export default function RootLayout({ children, modal, params }: Props) {
 	const cookieStore = cookies()

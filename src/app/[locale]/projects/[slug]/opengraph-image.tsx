@@ -4,10 +4,8 @@ import { getAssets } from '@/lib/assets'
 import { BASE_URL } from '@/lib/constants'
 import { fetchFonts, styles } from '@/lib/open-graph'
 
-// Route segment config
 export const runtime = 'edge'
 
-// Image metadata
 export const alt = 'cesargdm project'
 
 export const size = {

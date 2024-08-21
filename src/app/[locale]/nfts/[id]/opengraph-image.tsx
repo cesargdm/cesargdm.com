@@ -6,7 +6,6 @@ import { getNfts } from '@/lib/open-sea'
 // Route segment config
 export const runtime = 'edge'
 
-// Image metadata
 export const alt = 'About Acme'
 
 export const size = {
@@ -16,7 +15,6 @@ export const size = {
 
 export const contentType = 'image/png'
 
-// Image generation
 export default async function Image({
 	params: { id },
 }: {

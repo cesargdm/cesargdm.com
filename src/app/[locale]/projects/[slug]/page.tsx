@@ -14,17 +14,17 @@ type Params = {
 	slug: 'string'
 }
 
-export const generateMetadata = getMetadata(
-	async ({ params }: PageProps<{ params: Params }>) => {
+export const generateMetadata = getMetadata<{ params: { slug: string } }>(
+	async ({ params }) => {
 		const post = await getProject(params.locale, params.slug)
 
 		if (!post) return notFound()
 
 		return {
-			keywords: post?.data.keywords as string,
+			keywords: post?.data.keywords as string[],
 			description: post?.data.description as string,
 			title: `${post?.data.title} - Projects`,
-			alternates: { canonical: `/${params.locale}/projects/${post?.slug}` },
+			alternates: { canonical: `/projects/${post?.slug}` },
 		}
 	},
 )

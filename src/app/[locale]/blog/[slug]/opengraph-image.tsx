@@ -7,7 +7,6 @@ import { getDefaultFonts, styles } from '@/lib/open-graph'
 // Route segment config
 export const runtime = 'edge'
 
-// Image metadata
 export const alt = 'cesargdm project'
 
 export const size = {
