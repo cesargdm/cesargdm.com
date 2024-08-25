@@ -11,7 +11,7 @@ type MetadataParams = Omit<Partial<Metadata>, 'keywords'> & {
 	keywords?: string[]
 }
 
-const title = 'cesargdm'
+const title = 'César Guadarrama C. - Product engineer'
 
 const description =
 	'César Guadarrama - Product engineer - Blog, portfolio and more'
