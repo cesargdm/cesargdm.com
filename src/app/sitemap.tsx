@@ -8,12 +8,57 @@ import { getProjects } from '@/lib/projects'
 
 const urls = ['', 'projects', 'blog', 'contact', 'nfts']
 
+function getProjectSitemapEntry(project: {
+	slug: string
+	data: { [key: string]: unknown }
+}) {
+	return {
+		url: `${BASE_URL}/projects/${project.slug}`,
+		lastModified:
+			typeof project.data.date === 'string'
+				? new Date(project.data.date)
+				: new Date(),
+		alternates: {
+			languages: Object.fromEntries(
+				LOCALES.map((locale) => [
+					locale,
+					`${BASE_URL}/${locale}/projects/${project.slug}`,
+				]),
+			),
+		},
+	}
+}
+
+function getPostsSitemapEntry(post: {
+	slug: string
+	data: { [key: string]: unknown }
+}) {
+	return {
+		url: `${BASE_URL}/blog/${post.slug}`,
+		lastModified:
+			typeof post.data.date === 'string'
+				? new Date(post.data.date)
+				: new Date(),
+		alternates: {
+			languages: Object.fromEntries(
+				LOCALES.map((locale) => [
+					locale,
+					`${BASE_URL}/${locale}/blog/${post.slug}`,
+				]),
+			),
+		},
+	}
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const [projects, posts, nfts = []] = await Promise.all([
-		getProjects(),
-		getPosts(),
-		getNfts(),
-	])
+	const [projectsEn, postsEn, projectsEs, postsEs, nfts = []] =
+		await Promise.all([
+			getProjects('en'),
+			getPosts('en'),
+			getProjects('es'),
+			getPosts('es'),
+			getNfts(),
+		])
 
 	return urls
 		.map((url) => ({
@@ -25,40 +70,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				),
 			},
 		}))
-		.concat(
-			projects.map((project) => ({
-				url: `${BASE_URL}/projects/${project.slug}`,
-				lastModified:
-					typeof project.data.date === 'string'
-						? new Date(project.data.date)
-						: new Date(),
-				alternates: {
-					languages: Object.fromEntries(
-						LOCALES.map((locale) => [
-							locale,
-							`${BASE_URL}/${locale}/projects/${project.slug}`,
-						]),
-					),
-				},
-			})),
-		)
-		.concat(
-			posts.map((post) => ({
-				url: `${BASE_URL}/blog/${post.slug}`,
-				lastModified:
-					typeof post.data.date === 'string'
-						? new Date(post.data.date)
-						: new Date(),
-				alternates: {
-					languages: Object.fromEntries(
-						LOCALES.map((locale) => [
-							locale,
-							`${BASE_URL}/${locale}/blog/${post.slug}`,
-						]),
-					),
-				},
-			})),
-		)
+		.concat(projectsEn.map(getProjectSitemapEntry))
+		.concat(projectsEs.map(getProjectSitemapEntry))
+		.concat(postsEn.map(getPostsSitemapEntry))
+		.concat(postsEs.map(getPostsSitemapEntry))
 		.concat(
 			nfts.map((nft) => ({
 				url: `${BASE_URL}/nfts/ethereum_${nft.contract}_${nft.identifier}`,
