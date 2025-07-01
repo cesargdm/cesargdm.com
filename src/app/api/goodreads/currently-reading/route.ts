@@ -4,8 +4,7 @@ import { NextResponse } from 'next/server'
 /**
  * 24 hours
  */
-// eslint-disable-next-line no-magic-numbers
-export const revalidate = 60 * 60 * 24
+export const revalidate = 86400
 
 export async function GET() {
 	/**
@@ -14,8 +13,7 @@ export async function GET() {
 	 */
 	const textResponse = await fetch(
 		'https://www.goodreads.com/review/list/119995387-c-sar-guadarrama?shelf=currently-reading',
-		// eslint-disable-next-line no-magic-numbers
-		{ next: { revalidate: 60 * 60 * 24 } },
+		{ next: { revalidate: 86400 } },
 	).then((response) => response.text())
 
 	const $ = load(textResponse)

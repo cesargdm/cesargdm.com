@@ -21,10 +21,9 @@ import {
 	twoColumnCard,
 } from './styles.css'
 
-export default function Home({ params }: PageProps) {
-	const { get } = cookies()
-
-	const visitsCount = get('visits-count')?.value || '1'
+export default async function Home({ params }: PageProps) {
+	const cookieStore = await cookies()
+	const visitsCount = cookieStore.get('visits-count')?.value || '1'
 
 	return (
 		<div>

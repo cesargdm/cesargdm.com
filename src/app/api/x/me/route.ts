@@ -4,8 +4,7 @@ import OAuth from 'oauth'
 /**
  * 3 days
  */
-// eslint-disable-next-line no-magic-numbers
-export const revalidate = 60 * 60 * 24 * 3
+export const revalidate = 259200
 
 const oauth = new OAuth.OAuth(
 	'https://api.twitter.com/oauth/request_token',

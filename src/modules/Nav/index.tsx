@@ -13,8 +13,8 @@ import ToggleTheme from './ToggleTheme'
 
 import { navContainer, navList, navToggleThemeItem } from './styles.css'
 
-export default function Nav({ locale }: { locale: Locale }) {
-	const cookieStore = cookies()
+export default async function Nav({ locale }: { locale: Locale }) {
+	const cookieStore = await cookies()
 	const cookieTheme = cookieStore.get(CookieName)?.value as Theme
 
 	return (

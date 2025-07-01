@@ -8,6 +8,7 @@ import {
 
 import { getMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
+import type { ReactElement } from 'react'
 
 import { contactHeading, contactList } from './styles.css'
 
@@ -40,7 +41,7 @@ const socialLinks = [
 	},
 ]
 
-function SocialItem(props: { name: string; url: string; icon: JSX.Element }) {
+function SocialItem(props: { name: string; url: string; icon: ReactElement }) {
 	return (
 		<li>
 			<a target="_blank" rel="noopener noreferrer" href={props.url}>
