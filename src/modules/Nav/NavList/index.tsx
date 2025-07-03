@@ -83,7 +83,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 
 			if (!objectId) return
 
-			aa('clickedObjectIDsAfterSearch', {
+			void aa('clickedObjectIDsAfterSearch', {
 				index: getAlgoliaIndexName(locale),
 				eventName: 'Item Clicked',
 				queryID: results?.queryID as string,

@@ -5,6 +5,7 @@ import {
 	IconFile,
 	IconMail,
 } from '@tabler/icons-react'
+import type { ReactElement } from 'react'
 
 import { getMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
@@ -40,7 +41,7 @@ const socialLinks = [
 	},
 ]
 
-function SocialItem(props: { name: string; url: string; icon: JSX.Element }) {
+function SocialItem(props: { name: string; url: string; icon: ReactElement }) {
 	return (
 		<li>
 			<a target="_blank" rel="noopener noreferrer" href={props.url}>

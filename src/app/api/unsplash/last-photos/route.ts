@@ -9,8 +9,7 @@ const unsplash = createApi({
 /**
  * 24 hours
  */
-// eslint-disable-next-line no-magic-numbers
-export const revalidate = 60 * 60 * 24
+export const revalidate = 86400
 
 export async function GET() {
 	const result = await unsplash.users.getPhotos({
