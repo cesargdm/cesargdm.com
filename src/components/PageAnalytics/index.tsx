@@ -18,7 +18,7 @@ export default function PageAnalytics({
 		if (typeof window === 'undefined') return
 
 		try {
-			aa('viewedObjectIDs', {
+			void aa('viewedObjectIDs', {
 				index: getAlgoliaIndexName(locale),
 				objectIDs: [objectId],
 				eventName: `Viewed ${objectId.split('-')[0]}`,

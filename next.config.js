@@ -19,9 +19,6 @@ const nextConfig = {
 			{ hostname: 'web.cretia.app' },
 		],
 	},
-	eslint: {
-		ignoreDuringBuilds: true,
-	},
 }
 
 module.exports = withVanillaExtract(nextConfig)

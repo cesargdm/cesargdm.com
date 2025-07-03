@@ -5,10 +5,10 @@ import {
 	IconFile,
 	IconMail,
 } from '@tabler/icons-react'
+import type { ReactElement } from 'react'
 
 import { getMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
-import type { ReactElement } from 'react'
 
 import { contactHeading, contactList } from './styles.css'
 
