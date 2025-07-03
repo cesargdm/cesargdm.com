@@ -1,0 +1,153 @@
+# Cursor Rules for cesargdm.com
+
+## Project Overview
+This is cesargdm.com - a high-performance personal website built with modern web technologies. The site features:
+- 🌍 **Internationalization support**
+- 🖼️ **Dynamic OG Image Generation**  
+- 📄 **Markdown-driven content**
+- 🔍 **Algolia Search Integration**
+- 🏆 **Perfect Lighthouse Score** (Performance, Accessibility, SEO)
+- 🤖 **Custom OpenAI Agent**
+- 💅 **Zero Runtime CSS** with Vanilla Extract
+
+## Tech Stack
+- **Framework**: Next.js 15.3.4 (App Router)
+- **React**: 19.1.0 
+- **TypeScript**: 5.8.3
+- **Styling**: Vanilla Extract CSS (@vanilla-extract/css)
+- **Package Manager**: Bun (preferred)
+- **Deployment**: Vercel
+- **Search**: Algolia
+- **AI**: OpenAI integration
+
+## Quality & Build Verification (MANDATORY)
+
+### Always Run These Checks Before Any Code Changes
+```bash
+# 1. TypeScript type checking
+bun run typecheck
+
+# 2. ESLint with zero warnings policy
+bun run lint
+
+# 3. Prettier format checking
+bun run format:check
+
+# 4. Build verification
+bun run build
+```
+
+### Before Committing Changes
+```bash
+# Format code
+bun run format
+
+# Verify all checks pass
+bun run typecheck && bun run lint && bun run build
+```
+
+## Modern Next.js 15 & React 19 Best Practices
+
+### App Router Patterns
+- Use the `app/` directory structure (already implemented)
+- Prefer Server Components by default, use Client Components only when needed
+- Use `loading.tsx`, `error.tsx`, and `not-found.tsx` for UI states
+- Implement proper metadata API for SEO
+
+### React 19 Best Practices
+- Use the new `use()` hook for async operations in components
+- Leverage React Server Actions for form handling
+- Use React.lazy() with Suspense for code splitting
+- Prefer function declarations for named components (enforced by ESLint)
+
+### Performance Optimization
+- Always implement proper image optimization with `next/image`
+- Use dynamic imports for large dependencies
+- Implement proper caching strategies
+- Maintain the perfect Lighthouse score standard
+
+### TypeScript Best Practices
+- Use strict TypeScript configuration (already configured)
+- Implement proper type imports (`import type`) as enforced by ESLint
+- Use the `satisfies` operator for type assertion when appropriate
+- Define proper interfaces for API responses and data structures
+
+## Styling Guidelines (Vanilla Extract CSS)
+
+### CSS-in-TypeScript Patterns
+- Create `.css.ts` files for component styles
+- Use design tokens and consistent spacing/color systems
+- Implement responsive designs with breakpoint utilities
+- Avoid runtime CSS dependencies (zero runtime requirement)
+
+### File Organization
+```
+src/
+├── components/     # Reusable UI components
+├── modules/        # Feature-specific modules  
+├── app/           # Next.js App Router pages
+├── lib/           # Utilities and configurations
+└── assets/        # Static assets
+```
+
+## Code Quality Rules
+
+### ESLint Configuration
+- **Zero warnings policy**: `--max-warnings=0` is enforced
+- Accessibility rules are strict (jsx-a11y/strict)
+- Import sorting is automated with specific group ordering
+- React-specific rules for performance and best practices
+
+### Import Organization (Automated)
+1. Node.js and React packages
+2. Internal screens/navigation/containers  
+3. Modules
+4. Components
+5. Library/utility functions
+6. Internal modules
+7. Side effect imports
+8. Parent directory imports
+9. Relative imports
+10. Style imports (CSS files last)
+
+### Performance Rules
+- Avoid magic numbers (exceptions: -1, 0, 1, 2)
+- No console.log in production code
+- Proper React key usage
+- Prevent leaked renders and unnecessary fragments
+
+## Development Workflow
+
+### Starting Development
+```bash
+# Preferred package manager
+bun dev
+
+# Verify localhost:3000 loads correctly
+```
+
+### Before Pushing Changes
+1. Run full quality checks: `bun run typecheck && bun run lint && bun run build`
+2. Verify Lighthouse score remains perfect (if UI changes)
+3. Test internationalization features (if applicable)
+4. Verify search functionality (if content changes)
+
+## Internationalization Guidelines
+- Use proper i18n patterns for multi-language support
+- Implement locale-aware routing
+- Ensure proper metadata for each language variant
+
+## API & Data Handling
+- Use TypeScript for all API interfaces
+- Implement proper error handling
+- Use React Server Actions for mutations when possible
+- Maintain OpenAI integration patterns for the custom agent
+
+## Security & Performance
+- Implement proper Content Security Policy
+- Use Next.js Image optimization for all images
+- Maintain zero runtime CSS requirement
+- Follow Vercel deployment best practices
+
+## Emergency Override
+If any of these rules prevent urgent fixes, document the reason and create a follow-up task to address the rule compliance.
