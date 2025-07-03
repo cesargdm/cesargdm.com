@@ -19,43 +19,8 @@ export const navContainer = style({
 	paddingLeft: `max(${vars.space.large}, env(safe-area-inset-left))`,
 	paddingTop: `max(${vars.space.medium}, env(safe-area-inset-top))`,
 	
-	// Glass effect with backdrop blur and semi-transparent background
-	background: 'rgba(255, 255, 255, 0.8)',
-	backdropFilter: 'blur(20px) saturate(180%)',
-	WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-	
-	// Subtle border and shadow for glass appearance
-	borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-	boxShadow: `
-		0 8px 32px rgba(0, 0, 0, 0.05),
-		0 1px 0 rgba(255, 255, 255, 0.5) inset,
-		0 -1px 0 rgba(0, 0, 0, 0.05) inset
-	`,
-	
-	// Light refraction effects
-	'::before': {
-		content: '""',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		height: '1px',
-		background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent)',
-		pointerEvents: 'none',
-	},
-	
-	// Dark mode glass effect
-	'@media': {
-		'(prefers-color-scheme: dark)': {
-			background: 'rgba(0, 0, 0, 0.7)',
-			borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-			boxShadow: `
-				0 8px 32px rgba(0, 0, 0, 0.3),
-				0 1px 0 rgba(255, 255, 255, 0.1) inset,
-				0 -1px 0 rgba(0, 0, 0, 0.2) inset
-			`,
-		},
-	},
+	// Minimal container styling - no glass effect here
+	background: 'transparent',
 })
 
 export const floatingList = style({
