@@ -42,7 +42,7 @@ export default function NftList({ data }: Props) {
 
 			resizeTimer = setTimeout(() => {
 				setIsResizing(false)
-				setRerenderKey(prev => prev + 1)
+				setRerenderKey((prev) => prev + 1)
 				// eslint-disable-next-line no-magic-numbers
 			}, 100)
 		}
