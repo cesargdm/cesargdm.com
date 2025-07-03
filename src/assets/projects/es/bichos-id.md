@@ -54,25 +54,25 @@ La app está construida nativamente para iOS usando Swift, aprovechando completa
 
 El pipeline de machine learning involucró varias fases clave:
 
-**Recolección y Preparación de Datos**: Curé un conjunto de datos comprensivo de imágenes de insectos de varias fuentes, asegurando representación diversa entre especies, ambientes y calidades de imagen.
+- **Recolección y Preparación de Datos**: Curé un conjunto de datos comprensivo de imágenes de insectos de varias fuentes, asegurando representación diversa entre especies, ambientes y calidades de imagen.
 
-**Entrenamiento del Modelo**: Utilicé transfer learning con un modelo preentrenado de clasificación de imágenes, ajustado específicamente para reconocimiento de insectos. La arquitectura del modelo equilibra precisión con restricciones de rendimiento móvil.
+- **Entrenamiento del Modelo**: Utilicé transfer learning con un modelo preentrenado de clasificación de imágenes, ajustado específicamente para reconocimiento de insectos. La arquitectura del modelo equilibra precisión con restricciones de rendimiento móvil.
 
-**Optimización en Dispositivo**: Convertí el modelo entrenado al formato Core ML con cuantización y optimización para despliegue móvil, asegurando inferencia rápida mientras mantengo la precisión.
+- **Optimización en Dispositivo**: Convertí el modelo entrenado al formato Core ML con cuantización y optimización para despliegue móvil, asegurando inferencia rápida mientras mantengo la precisión.
 
-**Aprendizaje Continuo**: Implementé mecanismos de retroalimentación para mejorar continuamente la precisión del modelo basado en interacciones de usuarios y resultados de validación.
+- **Aprendizaje Continuo**: Implementé mecanismos de retroalimentación para mejorar continuamente la precisión del modelo basado en interacciones de usuarios y resultados de validación.
 
 ## Desafíos de Desarrollo
 
 Construir BichosID presentó varios desafíos técnicos interesantes:
 
-**Similitud de Especies**: Muchas especies de insectos comparten características visuales similares, requiriendo extracción sofisticada de características para diferenciar entre especies estrechamente relacionadas.
+- **Similitud de Especies**: Muchas especies de insectos comparten características visuales similares, requiriendo extracción sofisticada de características para diferenciar entre especies estrechamente relacionadas.
 
-**Varianza en Calidad de Imagen**: Los usuarios capturan fotos en varias condiciones de iluminación, ángulos y distancias. La app necesitaba manejar todo desde fotografía macro hasta instantáneas borrosas.
+- **Varianza en Calidad de Imagen**: Los usuarios capturan fotos en varias condiciones de iluminación, ángulos y distancias. La app necesitaba manejar todo desde fotografía macro hasta instantáneas borrosas.
 
-**Optimización de Rendimiento**: Equilibrar la complejidad del modelo con requisitos de rendimiento móvil mientras se asegura que la app permanezca responsiva y no agote la batería.
+- **Optimización de Rendimiento**: Equilibrar la complejidad del modelo con requisitos de rendimiento móvil mientras se asegura que la app permanezca responsiva y no agote la batería.
 
-**Funcionalidad Offline**: Asegurar que la app funcione confiablemente sin conectividad a internet, lo que significaba implementar almacenamiento local eficiente e inferencia de AI en el dispositivo.
+- **Funcionalidad Offline**: Asegurar que la app funcione confiablemente sin conectividad a internet, lo que significaba implementar almacenamiento local eficiente e inferencia de AI en el dispositivo.
 
 ## Impacto y Recepción
 
@@ -87,27 +87,27 @@ Desde su lanzamiento en la App Store, BichosID ha ayudado a innumerables usuario
 
 Desarrollar BichosID me enseñó lecciones valiosas sobre el desarrollo de AI móvil:
 
-**Diseño Centrado en el Usuario**: La importancia de diseñar para escenarios de uso del mundo real en lugar de condiciones ideales. Los usuarios no siempre tienen iluminación perfecta o manos firmes.
+- **Diseño Centrado en el Usuario**: La importancia de diseñar para escenarios de uso del mundo real en lugar de condiciones ideales. Los usuarios no siempre tienen iluminación perfecta o manos firmes.
 
-**AI con Privacidad Primero**: Implementar machine learning en el dispositivo no solo mejora la privacidad sino que también proporciona respuestas más rápidas y funciona offline, mejorando significativamente la experiencia del usuario.
+- **AI con Privacidad Primero**: Implementar machine learning en el dispositivo no solo mejora la privacidad sino que también proporciona respuestas más rápidas y funciona offline, mejorando significativamente la experiencia del usuario.
 
-**Mejora Iterativa**: Construir bucles de retroalimentación en la arquitectura de la app desde el primer día permite mejora continua del modelo basada en datos reales de usuarios.
+- **Mejora Iterativa**: Construir bucles de retroalimentación en la arquitectura de la app desde el primer día permite mejora continua del modelo basada en datos reales de usuarios.
 
-**Consideraciones Multi-Plataforma**: Aunque enfocarse en iOS primero permitió una integración más profunda con la plataforma, planificar para futuro desarrollo Android influyó en decisiones arquitectónicas.
+- **Consideraciones Multi-Plataforma**: Aunque enfocarse en iOS primero permitió una integración más profunda con la plataforma, planificar para futuro desarrollo Android influyó en decisiones arquitectónicas.
 
 ## Desarrollo Futuro
 
 La hoja de ruta para BichosID incluye varias mejoras emocionantes:
 
-**Cobertura Regional Mejorada**: Expandir el modelo para reconocer mejor insectos específicos a diferentes regiones geográficas, comenzando con especies comunes en América Latina y América del Norte.
+- **Cobertura Regional Mejorada**: Expandir el modelo para reconocer mejor insectos específicos a diferentes regiones geográficas, comenzando con especies comunes en América Latina y América del Norte.
 
-**Características de Realidad Aumentada**: Implementar capacidades de AR para proporcionar superposiciones de identificación en tiempo real al apuntar la cámara a insectos en su hábitat natural.
+- **Características de Realidad Aumentada**: Implementar capacidades de AR para proporcionar superposiciones de identificación en tiempo real al apuntar la cámara a insectos en su hábitat natural.
 
-**Características Comunitarias**: Agregar capacidades de contenido generado por usuarios donde entomólogos experimentados pueden contribuir a la verificación de especies e información adicional.
+- **Características Comunitarias**: Agregar capacidades de contenido generado por usuarios donde entomólogos experimentados pueden contribuir a la verificación de especies e información adicional.
 
-**Contenido Educativo**: Integrar módulos de aprendizaje interactivos sobre biología, ecología y conservación de insectos para transformar la app de un simple identificador a una herramienta educativa comprensiva.
+- **Contenido Educativo**: Integrar módulos de aprendizaje interactivos sobre biología, ecología y conservación de insectos para transformar la app de un simple identificador a una herramienta educativa comprensiva.
 
-**Análisis Avanzados**: Proporcionar a los usuarios insights sobre tendencias de biodiversidad local y patrones estacionales basados en su historial de identificación.
+- **Análisis Avanzados**: Proporcionar a los usuarios insights sobre tendencias de biodiversidad local y patrones estacionales basados en su historial de identificación.
 
 ## Impacto de Código Abierto
 

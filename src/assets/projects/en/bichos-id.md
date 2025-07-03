@@ -54,25 +54,25 @@ The app is built natively for iOS using Swift, taking full advantage of Apple's 
 
 The machine learning pipeline involved several key phases:
 
-**Data Collection & Preparation**: Curated a comprehensive dataset of insect images from various sources, ensuring diverse representation across species, environments, and image qualities.
+- **Data Collection & Preparation**: Curated a comprehensive dataset of insect images from various sources, ensuring diverse representation across species, environments, and image qualities.
 
-**Model Training**: Utilized transfer learning with a pre-trained image classification model, fine-tuned specifically for insect recognition. The model architecture balances accuracy with mobile performance constraints.
+- **Model Training**: Utilized transfer learning with a pre-trained image classification model, fine-tuned specifically for insect recognition. The model architecture balances accuracy with mobile performance constraints.
 
-**On-Device Optimization**: Converted the trained model to Core ML format with quantization and optimization for mobile deployment, ensuring fast inference while maintaining accuracy.
+- **On-Device Optimization**: Converted the trained model to Core ML format with quantization and optimization for mobile deployment, ensuring fast inference while maintaining accuracy.
 
-**Continuous Learning**: Implemented feedback mechanisms to continuously improve model accuracy based on user interactions and validation results.
+- **Continuous Learning**: Implemented feedback mechanisms to continuously improve model accuracy based on user interactions and validation results.
 
 ## Development Challenges
 
 Building BichosID presented several interesting technical challenges:
 
-**Species Similarity**: Many insect species share similar visual characteristics, requiring sophisticated feature extraction to differentiate between closely related species.
+- **Species Similarity**: Many insect species share similar visual characteristics, requiring sophisticated feature extraction to differentiate between closely related species.
 
-**Image Quality Variance**: Users capture photos in various lighting conditions, angles, and distances. The app needed to handle everything from macro photography to blurry snapshots.
+- **Image Quality Variance**: Users capture photos in various lighting conditions, angles, and distances. The app needed to handle everything from macro photography to blurry snapshots.
 
-**Performance Optimization**: Balancing model complexity with mobile performance requirements while ensuring the app remains responsive and doesn't drain battery life.
+- **Performance Optimization**: Balancing model complexity with mobile performance requirements while ensuring the app remains responsive and doesn't drain battery life.
 
-**Offline Functionality**: Ensuring the app works reliably without internet connectivity, which meant implementing efficient local storage and on-device AI inference.
+- **Offline Functionality**: Ensuring the app works reliably without internet connectivity, which meant implementing efficient local storage and on-device AI inference.
 
 ## Impact and Reception
 
@@ -87,27 +87,27 @@ Since its launch on the App Store, BichosID has helped countless users satisfy t
 
 Developing BichosID taught me valuable lessons about mobile AI development:
 
-**User-Centric Design**: The importance of designing for real-world usage scenarios rather than ideal conditions. Users don't always have perfect lighting or steady hands.
+- **User-Centric Design**: The importance of designing for real-world usage scenarios rather than ideal conditions. Users don't always have perfect lighting or steady hands.
 
-**Privacy-First AI**: Implementing on-device machine learning not only improves privacy but also provides faster responses and works offline, significantly enhancing user experience.
+- **Privacy-First AI**: Implementing on-device machine learning not only improves privacy but also provides faster responses and works offline, significantly enhancing user experience.
 
-**Iterative Improvement**: Building feedback loops into the app architecture from day one allows for continuous model improvement based on real user data.
+- **Iterative Improvement**: Building feedback loops into the app architecture from day one allows for continuous model improvement based on real user data.
 
-**Cross-Platform Considerations**: While focusing on iOS first allowed for deeper platform integration, planning for future Android development influenced architectural decisions.
+- **Cross-Platform Considerations**: While focusing on iOS first allowed for deeper platform integration, planning for future Android development influenced architectural decisions.
 
 ## Future Development
 
 The roadmap for BichosID includes several exciting enhancements:
 
-**Enhanced Regional Coverage**: Expanding the model to better recognize insects specific to different geographical regions, starting with common species in Latin America and North America.
+- **Enhanced Regional Coverage**: Expanding the model to better recognize insects specific to different geographical regions, starting with common species in Latin America and North America.
 
-**Augmented Reality Features**: Implementing AR capabilities to provide real-time identification overlays when pointing the camera at insects in their natural habitat.
+- **Augmented Reality Features**: Implementing AR capabilities to provide real-time identification overlays when pointing the camera at insects in their natural habitat.
 
-**Community Features**: Adding user-generated content capabilities where experienced entomologists can contribute to species verification and additional information.
+- **Community Features**: Adding user-generated content capabilities where experienced entomologists can contribute to species verification and additional information.
 
-**Educational Content**: Integrating interactive learning modules about insect biology, ecology, and conservation to transform the app from a simple identifier to a comprehensive educational tool.
+- **Educational Content**: Integrating interactive learning modules about insect biology, ecology, and conservation to transform the app from a simple identifier to a comprehensive educational tool.
 
-**Advanced Analytics**: Providing users with insights about local biodiversity trends and seasonal patterns based on their identification history.
+- **Advanced Analytics**: Providing users with insights about local biodiversity trends and seasonal patterns based on their identification history.
 
 ## Open Source Impact
 
