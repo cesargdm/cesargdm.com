@@ -171,46 +171,29 @@ export const navLink = style({
 	position: 'relative',
 	overflow: 'hidden',
 	
-	// Glass hover effect
-	'::before': {
-		content: '""',
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
-		opacity: 0,
-		transition: 'opacity 300ms',
-		borderRadius: 'inherit',
-		pointerEvents: 'none',
-	},
-	
+	// Glass hover effect (simplified for vanilla-extract compatibility)
 	':hover': {
 		textDecoration: 'none',
 		transform: 'translateY(-1px)',
 		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-	},
-	
-	':hover::before': {
-		opacity: 1,
+		background: 'rgba(255, 255, 255, 0.1)',
 	},
 	
 	':focus': {
 		outline: 'none',
 		transform: 'translateY(-1px)',
 		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-	},
-	
-	':focus::before': {
-		opacity: 1,
+		background: 'rgba(255, 255, 255, 0.1)',
 	},
 	
 	// Dark mode hover adjustments
 	'@media': {
 		'(prefers-color-scheme: dark)': {
-			'::before': {
-				background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+			':hover': {
+				background: 'rgba(255, 255, 255, 0.05)',
+			},
+			':focus': {
+				background: 'rgba(255, 255, 255, 0.05)',
 			},
 		},
 	},
@@ -218,6 +201,7 @@ export const navLink = style({
 
 export const navLinkActive = style({
 	color: vars.colors.text.regular,
+	position: 'relative',
 	
 	// Enhanced glass effect for active state
 	background: 'rgba(255, 255, 255, 0.95)',
@@ -304,7 +288,7 @@ export const navToggleThemeItem = style({
 		transform: 'scale(0.9)',
 	},
 	
-	// Dark mode adjustments
+	// Dark mode and responsive adjustments
 	'@media': {
 		'(prefers-color-scheme: dark)': {
 			background: 'rgba(0, 0, 0, 0.8)',
