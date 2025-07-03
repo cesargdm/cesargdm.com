@@ -22,6 +22,7 @@ This is cesargdm.com - a high-performance personal website built with modern web
 - **Deployment**: Vercel
 - **Search**: Algolia
 - **AI**: OpenAI integration
+- **Bun**: JavaScript package manager and runtime
 
 ## Quality & Build Verification (MANDATORY)
 
