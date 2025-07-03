@@ -2,25 +2,19 @@ import { vars } from '@/app/theme.css'
 
 import { style } from '@vanilla-extract/css'
 
+const stravaOrange = '#fc4c02'
+
 export const stravaContainer = style({
 	display: 'flex',
 	flexDirection: 'column',
 	height: '100%',
-	padding: vars.space.large,
 	gap: vars.space.medium,
 })
 
 export const stravaIcon = style({
 	width: 24,
 	height: 24,
-	color: '#fc4c02', // Strava orange
-})
-
-export const statsGrid = style({
-	display: 'grid',
-	gridTemplateColumns: '1fr 1fr',
-	gap: vars.space.medium,
-	flex: 1,
+	color: stravaOrange,
 })
 
 export const statItem = style({
@@ -28,13 +22,15 @@ export const statItem = style({
 	flexDirection: 'column',
 	alignItems: 'center',
 	textAlign: 'center',
-	gap: vars.space.small,
+	gap: vars.space.medium,
+	flex: 1,
+	justifyContent: 'center',
 })
 
 export const statValue = style({
-	fontSize: vars.fontSize.xlarge,
+	fontSize: vars.fontSize.xxlarge,
 	fontWeight: 'bold',
-	color: '#fc4c02', // Strava orange
+	color: stravaOrange,
 })
 
 export const statLabel = style({
@@ -49,7 +45,7 @@ export const viewProfileButton = style({
 	alignItems: 'center',
 	justifyContent: 'center',
 	minHeight: vars.sizes.button,
-	backgroundColor: '#fc4c02', // Strava orange
+	backgroundColor: stravaOrange,
 	color: 'white',
 	borderRadius: vars.borderRadius.large,
 	fontWeight: 'bold',

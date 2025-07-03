@@ -25,7 +25,7 @@ async function LastTweet() {
 	const result = await getData()
 
 	const tweetText = result?.includes?.tweets.text as string
-	const description = result?.data.description as string
+	const description = result?.data?.description as string
 
 	const readMore = (
 		<a
