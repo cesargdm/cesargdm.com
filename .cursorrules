@@ -126,6 +126,15 @@ bun dev
 # Verify localhost:3000 loads correctly
 ```
 
+### After Each Agent Session (MANDATORY)
+```bash
+# ALWAYS run after agent completes any changes
+bun run format
+
+# Optional: Run full quality verification
+bun run typecheck && bun run lint && bun run build
+```
+
 ### Before Pushing Changes
 1. Run full quality checks: `bun run typecheck && bun run lint && bun run build`
 2. Verify Lighthouse score remains perfect (if UI changes)

@@ -10,8 +10,7 @@
 		"lint": "eslint --max-warnings=0 .",
 		"start": "next start",
 		"typecheck": "tsc --noEmit",
-		"clean": "rm -rf node_modules bun.lockb .next .vercel",
-		"post-agent": "bun run format && bun run typecheck && bun run lint"
+		"clean": "rm -rf node_modules bun.lockb .next .vercel"
 	},
 	"dependencies": {
 		"@formatjs/intl-localematcher": "0.6.1",
