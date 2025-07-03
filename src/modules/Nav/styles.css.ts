@@ -29,7 +29,7 @@ export const floatingList = style({
 	position: 'relative',
 	
 	// Enhanced glass effect for floating elements
-	background: 'rgba(255, 255, 255, 0.9)',
+	background: 'rgba(255, 255, 255, 0.3)',
 	backdropFilter: 'blur(16px) saturate(180%)',
 	WebkitBackdropFilter: 'blur(16px) saturate(180%)',
 	border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -38,23 +38,10 @@ export const floatingList = style({
 		0 1px 0 rgba(255, 255, 255, 0.6) inset
 	`,
 	
-	// Light refraction highlight
-	'::before': {
-		content: '""',
-		position: 'absolute',
-		top: '1px',
-		left: '1px',
-		right: '1px',
-		height: '50%',
-		background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent)',
-		borderRadius: 'inherit',
-		pointerEvents: 'none',
-	},
-	
 	// Dark mode adjustments
 	'@media': {
 		'(prefers-color-scheme: dark)': {
-			background: 'rgba(0, 0, 0, 0.8)',
+			background: 'rgba(0, 0, 0, 0.3)',
 			border: '1px solid rgba(255, 255, 255, 0.15)',
 			boxShadow: `
 				0 4px 16px rgba(0, 0, 0, 0.4),
@@ -85,7 +72,7 @@ export const searchList = style([
 		maxHeight: 'var(--radix-popover-content-available-height)',
 		
 		// Enhanced glass effect for search list
-		background: 'rgba(255, 255, 255, 0.95)',
+		background: 'rgba(255, 255, 255, 0.3)',
 		backdropFilter: 'blur(24px) saturate(180%)',
 		WebkitBackdropFilter: 'blur(24px) saturate(180%)',
 		border: '1px solid rgba(255, 255, 255, 0.4)',
@@ -97,7 +84,7 @@ export const searchList = style([
 		// Dark mode for search list
 		'@media': {
 			'(prefers-color-scheme: dark)': {
-				background: 'rgba(0, 0, 0, 0.9)',
+				background: 'rgba(0, 0, 0, 0.3)',
 				border: '1px solid rgba(255, 255, 255, 0.2)',
 				boxShadow: `
 					0 8px 32px rgba(0, 0, 0, 0.6),
@@ -169,7 +156,7 @@ export const navLinkActive = style({
 	position: 'relative',
 	
 	// Enhanced glass effect for active state
-	background: 'rgba(255, 255, 255, 0.95)',
+	background: 'rgba(255, 255, 255, 0.3)',
 	backdropFilter: 'blur(12px)',
 	WebkitBackdropFilter: 'blur(12px)',
 	border: '1px solid rgba(255, 255, 255, 0.4)',
@@ -179,23 +166,10 @@ export const navLinkActive = style({
 		0 -1px 0 rgba(0, 0, 0, 0.05) inset
 	`,
 	
-	// Light refraction effect for active state
-	'::after': {
-		content: '""',
-		position: 'absolute',
-		top: '1px',
-		left: '1px',
-		right: '1px',
-		height: '40%',
-		background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent)',
-		borderRadius: 'inherit',
-		pointerEvents: 'none',
-	},
-	
 	// Dark mode active state
 	'@media': {
 		'(prefers-color-scheme: dark)': {
-			background: 'rgba(0, 0, 0, 0.9)',
+			background: 'rgba(0, 0, 0, 0.3)',
 			border: '1px solid rgba(255, 255, 255, 0.2)',
 			boxShadow: `
 				0 2px 8px rgba(0, 0, 0, 0.3),
@@ -213,7 +187,7 @@ export const navToggleThemeItem = style({
 	position: 'relative',
 	
 	// Enhanced glass effect
-	background: 'rgba(255, 255, 255, 0.9)',
+	background: 'rgba(255, 255, 255, 0.3)',
 	backdropFilter: 'blur(16px) saturate(180%)',
 	WebkitBackdropFilter: 'blur(16px) saturate(180%)',
 	border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -222,19 +196,6 @@ export const navToggleThemeItem = style({
 		0 4px 16px rgba(0, 0, 0, 0.1),
 		0 1px 0 rgba(255, 255, 255, 0.6) inset
 	`,
-	
-	// Light refraction highlight
-	'::before': {
-		content: '""',
-		position: 'absolute',
-		top: '1px',
-		left: '1px',
-		right: '1px',
-		height: '50%',
-		background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent)',
-		borderRadius: 'inherit',
-		pointerEvents: 'none',
-	},
 	
 	':hover': {
 		transform: 'scale(0.95) translateY(-1px)',
@@ -256,7 +217,7 @@ export const navToggleThemeItem = style({
 	// Dark mode and responsive adjustments
 	'@media': {
 		'(prefers-color-scheme: dark)': {
-			background: 'rgba(0, 0, 0, 0.8)',
+			background: 'rgba(0, 0, 0, 0.3)',
 			border: '1px solid rgba(255, 255, 255, 0.15)',
 			boxShadow: `
 				0 4px 16px rgba(0, 0, 0, 0.4),
