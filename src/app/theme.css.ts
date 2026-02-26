@@ -8,8 +8,8 @@ import {
 
 export const root = createGlobalTheme(':root', {
 	font: {
-		heading: 'Georgia, Times, Times New Roman, serif',
-		body: 'system-ui',
+		heading: 'Sora, Inter Tight, Inter, system-ui, sans-serif',
+		body: 'Inter, system-ui, -apple-system, Segoe UI, sans-serif',
 	},
 	boxShadow: {
 		medium: `0 3.9px 4.6px rgba(0, 0, 0, 0.04),
@@ -65,34 +65,34 @@ const colors = createThemeContract({
 })
 
 const lightColors = {
-	primary: 'rgb(0, 122, 255)',
+	primary: '#3B82F6',
 	background: {
-		regular: '#fff',
-		content: '#f8f8f8',
-		gray: '#eee',
+		regular: '#F5F7FA',
+		content: '#FFFFFF',
+		gray: '#E5EAF0',
 	},
-	border: '#ccc',
+	border: '#D4DCE6',
 	text: {
-		regular: '#000',
-		secondary: '#444',
-		tertiary: '#999',
-		decorative: '#aaa',
+		regular: '#111318',
+		secondary: '#374151',
+		tertiary: '#6B7280',
+		decorative: '#A5AFBD',
 	},
 } as const
 
 const darkColors = {
-	primary: 'rgb(10, 132, 255)',
+	primary: '#3B82F6',
 	background: {
-		regular: '#000',
-		content: '#111',
-		gray: '#222',
+		regular: '#0B0E14',
+		content: '#111318',
+		gray: '#1A202C',
 	},
-	border: '#333',
+	border: '#2A3442',
 	text: {
-		regular: '#fff',
-		secondary: '#ccc',
-		tertiary: '#999',
-		decorative: '#aaa',
+		regular: '#F5F7FA',
+		secondary: '#CBD5E1',
+		tertiary: '#94A3B8',
+		decorative: '#64748B',
 	},
 } as const
 

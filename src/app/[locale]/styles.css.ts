@@ -69,17 +69,49 @@ export const twoColumnCard = style({
 })
 
 export const introParagraph = style({
-	lineHeight: 1.5,
+	lineHeight: 1.6,
 	marginTop: vars.space.medium,
 	fontSize: vars.fontSize.large,
+	maxWidth: 760,
+	color: vars.colors.text.secondary,
+})
+
+export const introCtaRow = style({
+	display: 'flex',
+	gap: vars.space.large,
+	marginTop: vars.space.large,
+	fontWeight: 600,
+})
+
+export const introTrustBar = style({
+	marginTop: vars.space.large,
+	color: vars.colors.text.tertiary,
+	fontSize: vars.fontSize.medium,
 })
 
 export const introContainer = style({
-	maxWidth: 800,
+	maxWidth: 860,
 	margin: '0 auto',
-	minHeight: '80svh',
+	minHeight: '56svh',
 	display: 'flex',
 	flexDirection: 'column',
 	justifyContent: 'center',
-	paddingBottom: vars.sizes.navBar,
+	paddingBottom: vars.space.xxlarge,
+})
+
+export const homeSection = style({
+	maxWidth: 860,
+	margin: '0 auto',
+	paddingBottom: vars.space.xxlarge,
+})
+
+export const homeSectionTitle = style({
+	fontSize: vars.fontSize.xxlarge,
+	lineHeight: 1.25,
+})
+
+export const homeSectionBody = style({
+	marginTop: vars.space.medium,
+	color: vars.colors.text.secondary,
+	lineHeight: 1.6,
 })
