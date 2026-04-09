@@ -21,21 +21,26 @@ bun run format:check && bun run lint && bun run typecheck && bun run build
 **Next.js 15 App Router** with all routes under `src/app/[locale]/` for i18n (en, es). The middleware (`src/middleware.ts`) auto-redirects bare paths to the user's preferred locale.
 
 ### Content Pipeline
+
 Blog posts and projects are **Markdown files with gray-matter frontmatter**, read from the filesystem at build time:
+
 - `src/assets/posts/{en,es}/*.md` - Blog posts
 - `src/assets/projects/{en,es}/*.md` - Project pages
 - Parsed by `src/lib/blog.ts` and `src/lib/projects.ts` using `gray-matter` + `remark` + `remark-html`
 - Posts with `isDraft: true` in frontmatter are excluded in production
 
 ### I18n
+
 - Locales defined in `src/lib/i18n.ts` as `['en', 'es']`
 - Translation dictionaries: `src/lib/dictionaries/{en,es}.json`
 - Middleware uses `negotiator` + `@formatjs/intl-localematcher` for locale detection
 
 ### Styling
+
 **Vanilla Extract** (zero-runtime CSS-in-TypeScript). Styles live in `*.css.ts` files co-located with components. Design tokens and theme contract defined in `src/app/theme.css.ts` with light/dark/responsive themes via `createThemeContract`.
 
 ### Key Patterns
+
 - **`src/lib/metadata.ts`**: `getMetadata()` higher-order function wraps page-level `generateMetadata` to apply consistent SEO defaults (OG images, Twitter cards, canonical URLs)
 - **`src/lib/types.ts`**: `PageProps<T>` type used by all page components - includes `params.locale`
 - **`src/app/[locale]/[...dynamic]/page.tsx`**: Catch-all route that redirects social links (github, linkedin, x, cv, email) via `src/lib/social.json`, otherwise shows 404
@@ -44,6 +49,7 @@ Blog posts and projects are **Markdown files with gray-matter frontmatter**, rea
 - **`src/app/api/crons/search/`**: Algolia index sync endpoint (requires `ALGOLIA_APP_ID`, `ALGOLIA_API_KEY`); index names follow pattern `cesargdm_{locale}_{env}`
 
 ### Directory Layout
+
 - `src/modules/` - Feature-level components (Nav, Footer, Chat, etc.)
 - `src/components/` - Shared reusable components
 - `src/lib/` - Utilities, configs, data fetching

@@ -51,14 +51,11 @@ function getPostsSitemapEntry(post: {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const [projectsEn, postsEn, projectsEs, postsEs, nfts = []] =
-		await Promise.all([
-			getProjects('en'),
-			getPosts('en'),
-			getProjects('es'),
-			getPosts('es'),
-			getNfts(),
-		])
+	const projectsEn = getProjects('en')
+	const postsEn = getPosts('en')
+	const projectsEs = getProjects('es')
+	const postsEs = getPosts('es')
+	const nfts = (await getNfts()) ?? []
 
 	return urls
 		.map((url) => ({

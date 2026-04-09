@@ -29,22 +29,20 @@ export default async function Image({
 	const asset = data.posts.find((asset) => asset.slug === slug)
 
 	return new ImageResponse(
-		(
-			<div style={styles.container}>
-				<div style={styles.textContainer}>
-					<p style={styles.heading}>cesargdm - Blog</p>
-					<p style={styles.title}>{asset?.data?.title}</p>
-					<p style={styles.extract}>{asset?.data.extract}</p>
-				</div>
-				<img
-					width={290}
-					height={290}
-					style={styles.rightImage}
-					src={`${BASE_URL}/android-chrome-512x512.png`}
-					alt=""
-				/>
+		<div style={styles.container}>
+			<div style={styles.textContainer}>
+				<p style={styles.heading}>cesargdm - Blog</p>
+				<p style={styles.title}>{asset?.data?.title}</p>
+				<p style={styles.extract}>{asset?.data.extract}</p>
 			</div>
-		),
+			<img
+				width={290}
+				height={290}
+				style={styles.rightImage}
+				src={`${BASE_URL}/android-chrome-512x512.png`}
+				alt=""
+			/>
+		</div>,
 		{ ...size, fonts },
 	)
 }

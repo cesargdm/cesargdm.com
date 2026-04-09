@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 		const indexName = getAlgoliaIndexName(locale)
 
 		const [[pagesIndex], [projectsIndex], [postsIndex]] = await Promise.all([
-			await client.saveObjects({
+			client.saveObjects({
 				indexName,
 				objects: WEBSITE_PAGES.map((page) => ({
 					type: 'page',
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
 					url: `/${locale}${page.url}`,
 				})),
 			}),
-			await client.saveObjects({
+			client.saveObjects({
 				indexName,
 				objects: projects.map((project) => ({
 					type: 'project',
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
 					date: project.data.date as string,
 				})),
 			}),
-			await client.saveObjects({
+			client.saveObjects({
 				indexName,
 				objects: posts.map((post) => ({
 					type: 'post',

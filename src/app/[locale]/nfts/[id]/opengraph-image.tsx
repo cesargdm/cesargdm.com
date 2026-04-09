@@ -33,22 +33,20 @@ export default async function Image({
 	const fonts = await getDefaultFonts()
 
 	return new ImageResponse(
-		(
-			<div style={styles.container}>
-				<div style={{ ...styles.textContainer, marginBottom: 470 }}>
-					<p style={styles.heading}>cesargdm - NFTs</p>
-					<p style={styles.title}>{nft?.name}</p>
-				</div>
-
-				<img
-					width={450}
-					height={450}
-					style={styles.nftImage}
-					src={nft.image_url}
-					alt=""
-				/>
+		<div style={styles.container}>
+			<div style={{ ...styles.textContainer, marginBottom: 470 }}>
+				<p style={styles.heading}>cesargdm - NFTs</p>
+				<p style={styles.title}>{nft?.name}</p>
 			</div>
-		),
+
+			<img
+				width={450}
+				height={450}
+				style={styles.nftImage}
+				src={nft.image_url}
+				alt=""
+			/>
+		</div>,
 		{ ...size, fonts },
 	)
 }

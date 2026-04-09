@@ -91,7 +91,9 @@ export async function PATCH(request: Request) {
 		if (!run) throw new Error('Run not created')
 
 		while (run?.status === 'queued' || run?.status === 'in_progress') {
-			run = await openai?.beta.threads.runs.retrieve(threadId, run.id)
+			run = await openai?.beta.threads.runs.retrieve(run.id, {
+				thread_id: threadId,
+			})
 		}
 
 		const messages = await openai?.beta.threads.messages.list(threadId)

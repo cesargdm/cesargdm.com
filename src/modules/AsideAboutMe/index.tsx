@@ -62,8 +62,8 @@ export default function SideAboutMe() {
 			</ul>
 			{Boolean(
 				typeof navigator === 'object' &&
-					url &&
-					typeof navigator.share === 'function',
+				url &&
+				typeof navigator.share === 'function',
 			) && <button onClick={handleShare}>Share</button>}
 		</aside>
 	)
