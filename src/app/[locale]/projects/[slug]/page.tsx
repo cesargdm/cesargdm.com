@@ -30,8 +30,9 @@ export const generateMetadata = getMetadata<{ params: { slug: string } }>(
 )
 
 export default async function BlogPostPage({
-	params,
+	params: paramsPromise,
 }: PageProps<{ params: Params }>) {
+	const params = await paramsPromise
 	const post = await getProject(params.locale, params.slug)
 
 	if (!post) {

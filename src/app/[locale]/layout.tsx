@@ -43,7 +43,12 @@ type Props = PageProps<{
 
 export const generateMetadata = getMetadata()
 
-export default async function RootLayout({ children, modal, params }: Props) {
+export default async function RootLayout({
+	children,
+	modal,
+	params: paramsPromise,
+}: Props) {
+	const params = await paramsPromise
 	const cookieStore = await cookies()
 	const theme = cookieStore.get(ThemeCookieName)?.value
 

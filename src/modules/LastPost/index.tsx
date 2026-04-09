@@ -4,7 +4,7 @@ import X from '@/assets/icons/X'
 
 import { readTweetsButton, tweetParagraph } from './styles.css'
 
-function getData(): Promise<
+async function getData(): Promise<
 	| {
 			data: { description: string }
 			includes?: { tweets: { text: string } }
@@ -14,18 +14,21 @@ function getData(): Promise<
 	// eslint-disable-next-line no-magic-numbers
 	const ONE_DAY = 60 * 60 * 24
 
-	return fetch(`${BASE_URL}/api/x/me`, {
-		next: { revalidate: ONE_DAY },
-	})
-		.then((response) => response.json())
-		.catch(() => undefined)
+	try {
+		const response = await fetch(`${BASE_URL}/api/x/me`, {
+			next: { revalidate: ONE_DAY },
+		})
+		return (await response.json()) as Awaited<ReturnType<typeof getData>>
+	} catch {
+		return undefined
+	}
 }
 
 async function LastTweet() {
 	const result = await getData()
 
 	const tweetText = result?.includes?.tweets.text as string
-	const description = result?.data.description as string
+	const description = result?.data?.description as string
 
 	const readMore = (
 		<a

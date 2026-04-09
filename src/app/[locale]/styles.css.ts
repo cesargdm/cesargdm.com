@@ -76,19 +76,6 @@ export const introParagraph = style({
 	color: vars.colors.text.secondary,
 })
 
-export const introCtaRow = style({
-	display: 'flex',
-	gap: vars.space.large,
-	marginTop: vars.space.large,
-	fontWeight: 600,
-})
-
-export const introTrustBar = style({
-	marginTop: vars.space.large,
-	color: vars.colors.text.tertiary,
-	fontSize: vars.fontSize.medium,
-})
-
 export const introContainer = style({
 	maxWidth: 860,
 	margin: '0 auto',
@@ -97,21 +84,4 @@ export const introContainer = style({
 	flexDirection: 'column',
 	justifyContent: 'center',
 	paddingBottom: vars.space.xxlarge,
-})
-
-export const homeSection = style({
-	maxWidth: 860,
-	margin: '0 auto',
-	paddingBottom: vars.space.xxlarge,
-})
-
-export const homeSectionTitle = style({
-	fontSize: vars.fontSize.xxlarge,
-	lineHeight: 1.25,
-})
-
-export const homeSectionBody = style({
-	marginTop: vars.space.medium,
-	color: vars.colors.text.secondary,
-	lineHeight: 1.6,
 })

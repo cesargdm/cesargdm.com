@@ -30,7 +30,8 @@ function getReadingTime(content: string) {
 	return readTime
 }
 
-export default function Blog({ params }: PageProps) {
+export default async function Blog({ params: paramsPromise }: PageProps) {
+	const params = await paramsPromise
 	const entries = getPosts(params.locale)
 
 	return (

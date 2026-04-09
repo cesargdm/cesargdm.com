@@ -1,57 +1,50 @@
 import { Suspense } from 'react'
 import classNames from 'classnames'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
 
 import Chat from '@/modules/Chat'
+import HoverCompany from '@/modules/HoverCompany'
 import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastPost'
 import Nfts from '@/modules/Nfts'
 import Reading from '@/modules/Reading'
 
+import { getCheerFromVisitsCount } from '@/lib/cheer'
 import type { PageProps } from '@/lib/types'
 
 import {
 	card,
 	cardsList,
-	homeSection,
-	homeSectionBody,
-	homeSectionTitle,
 	introContainer,
-	introCtaRow,
 	introParagraph,
-	introTrustBar,
 	twoColumnCard,
 } from './styles.css'
 
-export default function Home({ params }: PageProps) {
+export default async function Home({ params: paramsPromise }: PageProps) {
+	const params = await paramsPromise
+	const cookieStore = await cookies()
+	const visitsCount = cookieStore.get('visits-count')?.value || '1'
+
 	return (
 		<div>
 			<div className={introContainer}>
-				<h1>Your strategy is only as good as what gets shipped.</h1>
+				<h1>Hi {getCheerFromVisitsCount(visitsCount)}!</h1>
 				<p className={introParagraph}>
-					We turn briefs into delivered outcomes across design, marketing, and
-					engineering—with clear ownership, cadence, and quality control.
-				</p>
-				<div className={introCtaRow}>
-					<Link href="/contact">Start a project</Link>
-					<Link href="/projects">See how we work</Link>
-				</div>
-				<p className={introTrustBar}>
-					Trusted by growth-stage teams that need execution certainty.
+					I&apos;m a dedicated Product Engineer with a passion for creating
+					delightful and functional user experiences. On a daily basis, I work
+					my magic 🪄 with TypeScript, crafting seamless user interfaces using
+					React, while powering the backend with Node, GraphQL, and MongoDB.
+					I&apos;m working in the awesome startup{' '}
+					<HoverCompany>OCHO</HoverCompany> and my side project{' '}
+					<HoverCompany>Cretia</HoverCompany>; before that I&apos;ve been part
+					of amazing teams such as <HoverCompany>Tesorio</HoverCompany>,{' '}
+					<HoverCompany>Aura</HoverCompany>,{' '}
+					<HoverCompany>Covalto</HoverCompany> and{' '}
+					<HoverCompany>IBM</HoverCompany>. And since I cannot sit still,
+					I&apos;ve created some cool <Link href="/projects">projects</Link>.
 				</p>
 			</div>
-
-			<section className={homeSection}>
-				<h2 className={homeSectionTitle}>
-					Cross-functional delivery, one accountable team.
-				</h2>
-				<p className={homeSectionBody}>
-					From brand systems and campaigns to product experiences and technical
-					implementation, we coordinate specialists and ship work that moves
-					business metrics.
-				</p>
-			</section>
-
 			<Suspense
 				fallback={
 					<ul className={cardsList}>

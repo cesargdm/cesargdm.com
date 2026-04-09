@@ -6,12 +6,12 @@ import type { PageProps } from '@/lib/types'
 
 import { notFoundContainer } from '@/app/[locale]/blog/[slug]/styles.css'
 
-export default function Path(
+export default async function Path(
 	props: PageProps<{
 		params: { dynamic: string }
 	}>,
 ) {
-	const { dynamic } = props.params
+	const { dynamic } = await props.params
 
 	if (dynamic in social) {
 		redirect(social[dynamic as keyof typeof social].url)

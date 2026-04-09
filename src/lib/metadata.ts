@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { BASE_URL } from './constants'
+import type { Locale } from './i18n'
 import type { PageProps } from './types'
 
 type MetadataParams = Omit<Partial<Metadata>, 'keywords'> & {
@@ -57,14 +58,20 @@ const defaultMetadata = {
 	],
 } as const
 
-type GenerateMetadataFunction<T = object> = (
-	props: PageProps<T>,
-) => MetadataParams | Promise<MetadataParams>
+type ResolvedParams<T = object> = {
+	locale: Locale
+} & (T extends { params: infer P } ? P : object)
+
+type GenerateMetadataFunction<T = object> = (props: {
+	params: ResolvedParams<T>
+}) => MetadataParams | Promise<MetadataParams>
 
 export function getMetadata<T = object>(
 	generateMetadataFn: GenerateMetadataFunction<T> = () => ({}),
 ) {
 	return async (pageProps: PageProps<T>): Promise<Metadata> => {
+		const params = await pageProps.params
+
 		const {
 			title = defaultMetadata.title,
 			images,
@@ -72,7 +79,9 @@ export function getMetadata<T = object>(
 			description = defaultMetadata.description,
 			type = 'website',
 			...props
-		} = await generateMetadataFn(pageProps)
+		} = await generateMetadataFn({
+			params: params as ResolvedParams<T>,
+		})
 
 		return {
 			...props,
@@ -100,7 +109,7 @@ export function getMetadata<T = object>(
 			},
 			alternates: {
 				...props.alternates,
-				canonical: `${host}/${pageProps.params?.locale}${typeof props.alternates?.canonical === 'string' ? props.alternates.canonical : ''}`,
+				canonical: `${host}/${params.locale}${typeof props.alternates?.canonical === 'string' ? props.alternates.canonical : ''}`,
 			},
 		}
 	}

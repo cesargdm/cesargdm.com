@@ -36,10 +36,11 @@ export const generateMetadata = getMetadata<{ params: { slug: string } }>(
 )
 
 export default async function BlogPostPage({
-	params,
+	params: paramsPromise,
 }: PageProps<{
 	params: { slug: string }
 }>) {
+	const params = await paramsPromise
 	const post = await getPost(params.locale, params.slug)
 
 	if (!post) {
