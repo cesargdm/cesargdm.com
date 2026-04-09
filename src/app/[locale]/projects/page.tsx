@@ -56,6 +56,7 @@ export default function Blog({ params }: PageProps) {
 						>
 							{typeof entry.data.highlight === 'object' ? (
 								<Image
+									unoptimized
 									width={100}
 									height={100}
 									style={{ borderRadius: 20 }}

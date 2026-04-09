@@ -63,7 +63,6 @@ export const highlightedEntryItem = style([
 		'@media': {
 			'(min-width: 768px)': {
 				gridColumn: 'span 2',
-				gridRow: 'span 2',
 			},
 		},
 	},
