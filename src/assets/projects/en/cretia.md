@@ -4,7 +4,7 @@ date: 2017
 description: ERP for small and medium sized companies in Mexico, expenses, sales, inventory, payments and more.
 url: https://www.cretia.app
 highlight:
-  logoUrl: 'https://web.cretia.app/maskable-icon.png'
+  logoUrl: 'https://cretia.app/assets/maskable-icon.png'
   color: '#dddddd'
 tags: [react-native, nodejs, graphql, mongodb]
 ---

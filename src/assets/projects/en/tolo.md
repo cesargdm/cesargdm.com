@@ -3,6 +3,9 @@ title: TOLO
 description: Specialty coffee shop in Mexico City, with a custom-built platform for operations, analytics, and online ordering.
 date: 2024
 url: https://tolo.cafe
+highlight:
+  logoUrl: 'https://www.tolo.cafe/icon.png'
+  color: '#3D6039'
 tags: [nextjs, nodejs, posthog]
 ---
 
