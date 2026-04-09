@@ -29,12 +29,12 @@ export default function Home({ params }: PageProps) {
 			<div className={introContainer}>
 				<h1>Your strategy is only as good as what gets shipped.</h1>
 				<p className={introParagraph}>
-					We turn briefs into delivered outcomes across design, marketing,
-					and engineering—with clear ownership, cadence, and quality control.
+					We turn briefs into delivered outcomes across design, marketing, and
+					engineering—with clear ownership, cadence, and quality control.
 				</p>
 				<div className={introCtaRow}>
-					<Link href='/contact'>Start a project</Link>
-					<Link href='/projects'>See how we work</Link>
+					<Link href="/contact">Start a project</Link>
+					<Link href="/projects">See how we work</Link>
 				</div>
 				<p className={introTrustBar}>
 					Trusted by growth-stage teams that need execution certainty.
@@ -46,9 +46,9 @@ export default function Home({ params }: PageProps) {
 					Cross-functional delivery, one accountable team.
 				</h2>
 				<p className={homeSectionBody}>
-					From brand systems and campaigns to product experiences and
-					technical implementation, we coordinate specialists and ship
-					work that moves business metrics.
+					From brand systems and campaigns to product experiences and technical
+					implementation, we coordinate specialists and ship work that moves
+					business metrics.
 				</p>
 			</section>
 
