@@ -7,6 +7,7 @@ import LastPhoto from '@/modules/LastPhoto'
 import LastTweet from '@/modules/LastPost'
 import Nfts from '@/modules/Nfts'
 import Reading from '@/modules/Reading'
+import Strava from '@/modules/Strava'
 
 import type { PageProps } from '@/lib/types'
 
@@ -79,6 +80,11 @@ export default function Home({ params }: PageProps) {
 					<li style={{ padding: 0 }} className={card}>
 						<Suspense fallback={null}>
 							<LastPhoto />
+						</Suspense>
+					</li>
+					<li style={{ aspectRatio: '1 / 1' }} className={card}>
+						<Suspense fallback={null}>
+							<Strava />
 						</Suspense>
 					</li>
 					<li style={{ padding: 0, aspectRatio: '1 / 1' }} className={card}>
