@@ -45,7 +45,7 @@ export default async function Reading() {
 							className={bookAnchor}
 							rel="noopener noreferrer"
 						>
-							<img className={bookImage} src={book.image} alt="" />
+							<img className={bookImage} src={book.image} alt={book.title} />
 							<div
 								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}
 							>

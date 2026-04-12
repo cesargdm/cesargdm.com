@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -35,7 +35,9 @@ export default function Modal(props: Props) {
 			}}
 		>
 			<div>
-				<button onClick={handleOnClose}>Close</button>
+				<button type="button" onClick={handleOnClose} aria-label="Close modal">
+					Close
+				</button>
 			</div>
 			{children}
 		</div>

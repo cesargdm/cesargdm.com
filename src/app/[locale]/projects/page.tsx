@@ -33,7 +33,7 @@ export const generateMetadata = getMetadata(() => ({
 	alternates: { canonical: `/projects` },
 }))
 
-export default async function Blog({ params: paramsPromise }: PageProps) {
+export default async function Projects({ params: paramsPromise }: PageProps) {
 	const params = await paramsPromise
 	const entries = getProjects(params.locale)
 

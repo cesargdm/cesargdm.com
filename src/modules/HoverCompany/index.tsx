@@ -49,7 +49,12 @@ export default function HoverCompany({ children }: { children: string }) {
 
 	return (
 		<span style={{ position: 'relative', display: 'inline' }}>
-			<a href={metadata.url} className={dropdownText}>
+			<a
+				href={metadata.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				className={dropdownText}
+			>
 				{children}
 				{Boolean(metadata.outOfBusiness) && (
 					<span
