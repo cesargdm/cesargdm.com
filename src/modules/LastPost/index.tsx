@@ -35,8 +35,8 @@ async function LastTweet() {
 			target="_blank"
 			rel="noopener noreferrer"
 			className={readTweetsButton}
-			href="https://twitter.com/cesargdm"
-			aria-label="Visit my Twitter profile"
+			href="https://x.com/cesargdm"
+			aria-label="Visit my X profile"
 		>
 			Read more posts
 		</a>

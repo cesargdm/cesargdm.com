@@ -204,7 +204,7 @@ function Chat({ locale }: { locale: Locale }) {
 					/>
 					<button
 						type="submit"
-						disabled={state.isLoading || !prompt || !state.content}
+						disabled={state.isLoading || !state.content}
 						aria-label="Send message"
 						className={submitButton}
 					>

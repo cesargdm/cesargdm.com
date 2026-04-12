@@ -11,7 +11,7 @@ import { getProject } from '@/lib/projects'
 import type { PageProps } from '@/lib/types'
 
 type Params = {
-	slug: 'string'
+	slug: string
 }
 
 export const generateMetadata = getMetadata<{ params: { slug: string } }>(
@@ -53,7 +53,7 @@ export default async function BlogPostPage({
 				objectId={`project-${params.slug}`}
 			/>
 			<article dangerouslySetInnerHTML={{ __html: post?.contentHtml ?? '' }} />
-			<EditPageBanner type="projects" lang="en" slug={params.slug} />
+			<EditPageBanner type="projects" lang={params.locale} slug={params.slug} />
 		</>
 	)
 }

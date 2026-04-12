@@ -58,7 +58,7 @@ export default async function BlogPostPage({
 						[merriweather.className]: !post.data.technical,
 					})}
 				/>
-				<EditPageBanner type="posts" lang="en" slug={params.slug} />
+				<EditPageBanner type="posts" lang={params.locale} slug={params.slug} />
 
 				<hr />
 
