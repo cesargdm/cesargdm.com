@@ -18,13 +18,37 @@ export const navContainer = style({
 	paddingRight: `max(${vars.space.large}, env(safe-area-inset-right))`,
 	paddingLeft: `max(${vars.space.large}, env(safe-area-inset-left))`,
 	paddingTop: `max(${vars.space.medium}, env(safe-area-inset-top))`,
+	
+	// Minimal container styling - no glass effect here
+	background: 'transparent',
 })
 
 export const floatingList = style({
 	padding: vars.space.small,
-	boxShadow: vars.boxShadow.medium,
 	borderRadius: vars.borderRadius.full,
-	backgroundColor: vars.colors.background.content,
+	position: 'relative',
+	
+	// Enhanced glass effect for floating elements
+	background: 'rgba(255, 255, 255, 0.3)',
+	backdropFilter: 'blur(16px) saturate(180%)',
+	WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+	border: '1px solid rgba(255, 255, 255, 0.3)',
+	boxShadow: `
+		0 4px 16px rgba(0, 0, 0, 0.1),
+		0 1px 0 rgba(255, 255, 255, 0.6) inset
+	`,
+	
+	// Dark mode adjustments
+	'@media': {
+		'(prefers-color-scheme: dark)': {
+			background: 'rgba(0, 0, 0, 0.3)',
+			border: '1px solid rgba(255, 255, 255, 0.15)',
+			boxShadow: `
+				0 4px 16px rgba(0, 0, 0, 0.4),
+				0 1px 0 rgba(255, 255, 255, 0.1) inset
+			`,
+		},
+	},
 })
 
 export const navList = style([
@@ -43,10 +67,31 @@ export const searchList = style([
 	{
 		paddingTop: vars.space.medium,
 		paddingBottom: vars.space.medium,
-		backgroundColor: vars.colors.background.regular,
 		borderRadius: vars.borderRadius.xlarge,
 		width: 'min(var(--radix-popover-content-available-height), 800px)',
 		maxHeight: 'var(--radix-popover-content-available-height)',
+		
+		// Enhanced glass effect for search list
+		background: 'rgba(255, 255, 255, 0.3)',
+		backdropFilter: 'blur(24px) saturate(180%)',
+		WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+		border: '1px solid rgba(255, 255, 255, 0.4)',
+		boxShadow: `
+			0 8px 32px rgba(0, 0, 0, 0.12),
+			0 1px 0 rgba(255, 255, 255, 0.7) inset
+		`,
+		
+		// Dark mode for search list
+		'@media': {
+			'(prefers-color-scheme: dark)': {
+				background: 'rgba(0, 0, 0, 0.3)',
+				border: '1px solid rgba(255, 255, 255, 0.2)',
+				boxShadow: `
+					0 8px 32px rgba(0, 0, 0, 0.6),
+					0 1px 0 rgba(255, 255, 255, 0.15) inset
+				`,
+			},
+		},
 	},
 ])
 
@@ -74,38 +119,119 @@ export const navLink = style({
 	color: vars.colors.text.secondary,
 	cursor: 'pointer',
 	opacity: 1,
-	transition: 'opacity 300ms',
+	transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+	position: 'relative',
+	overflow: 'hidden',
+	
+	// Glass hover effect (simplified for vanilla-extract compatibility)
 	':hover': {
 		textDecoration: 'none',
-		opacity: 0.8,
+		transform: 'translateY(-1px)',
+		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+		background: 'rgba(255, 255, 255, 0.1)',
 	},
+	
 	':focus': {
-		opacity: 0.8,
+		outline: 'none',
+		transform: 'translateY(-1px)',
+		boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+		background: 'rgba(255, 255, 255, 0.1)',
+	},
+	
+	// Dark mode hover adjustments
+	'@media': {
+		'(prefers-color-scheme: dark)': {
+			':hover': {
+				background: 'rgba(255, 255, 255, 0.05)',
+			},
+			':focus': {
+				background: 'rgba(255, 255, 255, 0.05)',
+			},
+		},
 	},
 })
 
 export const navLinkActive = style({
 	color: vars.colors.text.regular,
-	backgroundColor: vars.colors.background.regular,
-	boxShadow: `0 2px 5px rgba(0, 0, 0, 0.05)`,
+	position: 'relative',
+	
+	// Enhanced glass effect for active state
+	background: 'rgba(255, 255, 255, 0.3)',
+	backdropFilter: 'blur(12px)',
+	WebkitBackdropFilter: 'blur(12px)',
+	border: '1px solid rgba(255, 255, 255, 0.4)',
+	boxShadow: `
+		0 2px 8px rgba(0, 0, 0, 0.1),
+		0 1px 0 rgba(255, 255, 255, 0.8) inset,
+		0 -1px 0 rgba(0, 0, 0, 0.05) inset
+	`,
+	
+	// Dark mode active state
+	'@media': {
+		'(prefers-color-scheme: dark)': {
+			background: 'rgba(0, 0, 0, 0.3)',
+			border: '1px solid rgba(255, 255, 255, 0.2)',
+			boxShadow: `
+				0 2px 8px rgba(0, 0, 0, 0.3),
+				0 1px 0 rgba(255, 255, 255, 0.1) inset
+			`,
+		},
+	},
 })
 
 export const navToggleThemeItem = style({
-	transition: 'transform 300ms',
-	backgroundColor: vars.colors.background.regular,
+	transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 	transform: 'scale(1)',
 	display: 'none',
 	padding: 0,
+	position: 'relative',
+	
+	// Enhanced glass effect
+	background: 'rgba(255, 255, 255, 0.3)',
+	backdropFilter: 'blur(16px) saturate(180%)',
+	WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+	border: '1px solid rgba(255, 255, 255, 0.3)',
+	borderRadius: vars.borderRadius.full,
+	boxShadow: `
+		0 4px 16px rgba(0, 0, 0, 0.1),
+		0 1px 0 rgba(255, 255, 255, 0.6) inset
+	`,
+	
 	':hover': {
-		transform: 'scale(0.9)',
+		transform: 'scale(0.95) translateY(-1px)',
+		boxShadow: `
+			0 6px 20px rgba(0, 0, 0, 0.15),
+			0 1px 0 rgba(255, 255, 255, 0.8) inset
+		`,
 	},
+	
 	':focus': {
+		transform: 'scale(0.95) translateY(-1px)',
+		outline: 'none',
+	},
+	
+	':active': {
 		transform: 'scale(0.9)',
 	},
-	':active': {
-		transform: 'scale(1)',
-	},
+	
+	// Dark mode and responsive adjustments
 	'@media': {
+		'(prefers-color-scheme: dark)': {
+			background: 'rgba(0, 0, 0, 0.3)',
+			border: '1px solid rgba(255, 255, 255, 0.15)',
+			boxShadow: `
+				0 4px 16px rgba(0, 0, 0, 0.4),
+				0 1px 0 rgba(255, 255, 255, 0.1) inset
+			`,
+			
+			':hover': {
+				boxShadow: `
+					0 6px 20px rgba(0, 0, 0, 0.6),
+					0 1px 0 rgba(255, 255, 255, 0.15) inset
+				`,
+			},
+		},
+		
 		'(min-width: 768px)': {
 			display: 'inherit',
 		},
