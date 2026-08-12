@@ -1,0 +1,32 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import social from '@/lib/social.json'
+
+import { notFoundContainer } from '@/styles/blog-post.css'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const dynamic = Astro.params.dynamic ?? ''
+
+if (dynamic in social) {
+	return Astro.redirect(social[dynamic as keyof typeof social].url)
+}
+
+Astro.response.status = 404
+
+const meta = getMetadata({ locale, title: 'Not Found' })
+---
+
+<Layout locale={locale} meta={meta}>
+	<div class={notFoundContainer}>
+		<h1>🙈 Not Found</h1>
+		<p>
+			You just hit a page that doesn't exist... the sadness.
+			<a href={`/${locale}`}>Go back home</a>
+		</p>
+	</div>
+</Layout>

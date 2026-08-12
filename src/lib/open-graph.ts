@@ -1,4 +1,8 @@
-import type { FontWeight } from 'next/dist/compiled/@vercel/og/satori'
+import { Resvg } from '@resvg/resvg-js'
+import satori from 'satori'
+import type { ReactNode } from 'react'
+
+type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
 export const styles = {
 	container: {
@@ -20,7 +24,7 @@ export const styles = {
 		fontSize: 20,
 		lineHeight: 0.8,
 		marginBottom: 0,
-		fontWeight: '600',
+		fontWeight: 600,
 	},
 	rightImage: {
 		bottom: 0,
@@ -39,18 +43,25 @@ export const styles = {
 		fontSize: 80,
 		width: '100%',
 		lineHeight: 0.85,
-		fontWeight: '600',
+		fontWeight: 600,
 	},
 } as const
 
-export function fetchFont(name: string, weight: FontWeight, url: string) {
+export type OgFont = {
+	name: string
+	weight: FontWeight
+	style: 'normal'
+	data: ArrayBuffer
+}
+
+export function fetchFont(
+	name: string,
+	weight: FontWeight,
+	url: string,
+): Promise<OgFont> {
 	return fetch(url)
 		.then((res) => res.arrayBuffer())
-		.then((arrayBuffer) => ({
-			name,
-			weight,
-			data: arrayBuffer,
-		}))
+		.then((data) => ({ name, weight, style: 'normal' as const, data }))
 }
 
 export function fetchFonts(
@@ -64,12 +75,42 @@ export function fetchFonts(
 
 export const getDefaultFonts = () =>
 	fetchFonts('Inter', [
-		{
-			weight: 400,
-			url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
-		},
-		{
-			weight: 600,
-			url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
-		},
+		{ weight: 400, url: 'https://rsms.me/inter/font-files/Inter-Regular.woff' },
+		{ weight: 600, url: 'https://rsms.me/inter/font-files/Inter-Black.woff' },
 	])
+
+/** Fetch a remote image and inline it as a data URI (satori does not fetch). */
+export async function fetchImageAsDataUri(url: string) {
+	try {
+		const response = await fetch(url)
+		const contentType = response.headers.get('content-type') ?? 'image/png'
+		const buffer = Buffer.from(await response.arrayBuffer())
+		return `data:${contentType};base64,${buffer.toString('base64')}`
+	} catch {
+		return undefined
+	}
+}
+
+export const OG_SIZE = { width: 1200, height: 630 }
+
+export async function renderOgImage(
+	element: ReactNode,
+	{ width, height, fonts }: { width: number; height: number; fonts: OgFont[] },
+) {
+	const svg = await satori(element, {
+		width,
+		height,
+		fonts: fonts.map((font) => ({
+			name: font.name,
+			data: font.data,
+			weight: font.weight,
+			style: font.style,
+		})),
+	})
+
+	const resvg = new Resvg(svg, {
+		fitTo: { mode: 'width', value: width },
+	})
+
+	return resvg.render().asPng()
+}

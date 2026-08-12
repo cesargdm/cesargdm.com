@@ -1,0 +1,107 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+import AsideAboutMe from '@/modules/AsideAboutMe'
+import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
+
+import PageAnalytics from '@/components/PageAnalytics'
+
+import { getPost } from '@/lib/blog'
+import { BASE_URL } from '@/lib/constants'
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+
+import {
+	articleContainer,
+	entryContainer,
+	nonTechnicalEntry,
+	notFoundContainer,
+} from '@/styles/blog-post.css'
+
+import '@fontsource/merriweather/400.css'
+import '@fontsource/merriweather/900.css'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const slug = Astro.params.slug as string
+const post = await getPost(locale, slug)
+
+if (!post) {
+	Astro.response.status = 404
+}
+
+const isTechnical = Boolean(post?.data.technical)
+
+const meta = post
+	? getMetadata({
+			locale,
+			type: 'article',
+			title: `${post.data.title as string} - Blog`,
+			description: post.data.extract as string,
+			canonicalPath: `/blog/${post.slug}`,
+			images: [`${BASE_URL}/${locale}/blog/${post.slug}/opengraph-image.png`],
+		})
+	: getMetadata({ locale, title: 'Not Found' })
+---
+
+<Layout locale={locale} meta={meta}>
+	{
+		post ? (
+			<>
+				<div class={entryContainer}>
+					<div>
+						<PageAnalytics
+							client:load
+							locale={locale}
+							objectId={`post-${slug}`}
+						/>
+						<article
+							set:html={post.contentHtml}
+							class:list={[articleContainer, !isTechnical && nonTechnicalEntry]}
+							style={
+								!isTechnical
+									? { fontFamily: '"Merriweather", serif' }
+									: undefined
+							}
+						/>
+						<EditPageBanner type="posts" lang={locale} slug={slug} />
+
+						<hr />
+
+						<div class="giscus" />
+					</div>
+					<AsideAboutMe client:visible />
+				</div>
+
+				<script
+					is:inline
+					src="https://giscus.app/client.js"
+					data-repo="cesargdm/cesargdm.com"
+					data-repo-id="MDEwOlJlcG9zaXRvcnkyMDM4MjI1MjY="
+					data-category="Announcements"
+					data-category-id="DIC_kwDODCYVvs4CZztS"
+					data-mapping="pathname"
+					data-strict="0"
+					data-reactions-enabled="1"
+					data-emit-metadata="0"
+					data-input-position="top"
+					data-theme="preferred_color_scheme"
+					data-lang="en"
+					data-loading="lazy"
+					crossorigin="anonymous"
+					async
+				/>
+			</>
+		) : (
+			<div class={notFoundContainer}>
+				<h1>🙈 Not Found</h1>
+				<p>
+					You just hit a post that doesn't exist, or existed and now its gone...
+					the sadness.
+					<a href={`/${locale}`}>Go back home</a>
+				</p>
+			</div>
+		)
+	}
+</Layout>

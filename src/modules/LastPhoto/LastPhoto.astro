@@ -1,0 +1,60 @@
+---
+import { IconBrandUnsplash } from '@tabler/icons-react'
+
+import { BASE_URL } from '@/lib/constants'
+
+import { vars } from '@/styles/theme.css'
+
+import {
+	image,
+	morePhotosButton,
+	photoContainer,
+	photosWrapper,
+} from './styles.css'
+
+type Photo = { id: string; urls: { regular: string }; alt_description: string }
+
+const data = await fetch(`${BASE_URL}/api/unsplash/last-photos`, {
+	method: 'GET',
+})
+	.then((response) => response.json() as Promise<Photo[]>)
+	.catch(() => undefined)
+---
+
+<div class={photosWrapper}>
+	{
+		data?.map((photo) => (
+			<div class={photoContainer}>
+				<img
+					width={500}
+					height={500}
+					class={image}
+					src={photo.urls.regular}
+					alt={photo.alt_description ?? ''}
+				/>
+			</div>
+		))
+	}
+</div>
+<a
+	target="_blank"
+	rel="noopener noreferrer"
+	class={morePhotosButton}
+	href="https://unsplash.com/@cesargdm"
+>
+	View more photos
+</a>
+<div
+	style={{
+		color: 'white',
+		display: 'flex',
+		position: 'absolute',
+		top: vars.space.large,
+		gap: vars.space.small,
+		textDecoration: 'none',
+		left: vars.space.large,
+	}}
+>
+	<IconBrandUnsplash fill="white" strokeWidth={0} aria-hidden />
+	<h2>Unsplash</h2>
+</div>

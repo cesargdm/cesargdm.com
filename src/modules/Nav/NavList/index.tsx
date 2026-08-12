@@ -1,5 +1,3 @@
-'use client'
-
 import {
 	useCallback,
 	useDeferredValue,
@@ -9,9 +7,6 @@ import {
 } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import type { SearchResponse } from 'algoliasearch'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
 import type { ChangeEvent, MouseEvent } from 'react'
 import aa from 'search-insights'
 
@@ -35,16 +30,38 @@ type SuperType = {
 	title: string
 }
 
-const replaceOptions = { scroll: false } as const
+function getInitialQuery() {
+	if (typeof window === 'undefined') return null
+	return new URLSearchParams(window.location.search).get('query')
+}
 
-export default function NavList({ locale }: { locale: Locale }) {
-	const params = useSearchParams()
-	const router = useRouter()
+function updateQueryParam(value: string | null) {
+	if (typeof window === 'undefined') return
+
+	const url = new URL(window.location.href)
+
+	if (value === null) {
+		url.searchParams.delete('query')
+	} else {
+		url.searchParams.set('query', value)
+	}
+
+	window.history.replaceState(window.history.state, '', url.toString())
+}
+
+export default function NavList({
+	locale,
+	pathname,
+}: {
+	locale: Locale
+	pathname: string
+}) {
 	const navList = useRef<HTMLOListElement>(null)
 
-	const query = params.get('query')
+	const [query, setQuery] = useState<string | null>(getInitialQuery)
+	const [isOpen, setIsOpen] = useState(() => getInitialQuery() !== null)
+
 	const deferredQuery = useDeferredValue(query)
-	const isOpen = params.has('query')
 
 	const [results, setResults] = useState<null | SearchResponse<SuperType>>(null)
 
@@ -60,21 +77,26 @@ export default function NavList({ locale }: { locale: Locale }) {
 				setResults(response)
 			})
 			.catch(() => undefined)
-	}, [deferredQuery])
+	}, [deferredQuery, locale])
 
 	const handleOnSearch = useCallback(() => {
 		if (isOpen) {
-			router.replace('?', replaceOptions)
+			setIsOpen(false)
+			setQuery(null)
+			updateQueryParam(null)
 		} else {
-			router.replace(`?query=${query || ''}`, replaceOptions)
+			setIsOpen(true)
+			setQuery((current) => current ?? '')
+			updateQueryParam(query ?? '')
 		}
-	}, [router, isOpen, query])
+	}, [isOpen, query])
 
 	const handleOnSearchChange = useCallback(
 		({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-			router.replace(`?query=${value}`, replaceOptions)
+			setQuery(value)
+			updateQueryParam(value)
 		},
-		[router],
+		[],
 	)
 
 	const handleLinkClick = useCallback(
@@ -91,7 +113,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 				positions: [0],
 			})
 		},
-		[results],
+		[results, locale],
 	)
 
 	const handleOnInteractOutside = useCallback(
@@ -99,9 +121,11 @@ export default function NavList({ locale }: { locale: Locale }) {
 			// Ignore clicks in the nav list
 			if (navList.current?.contains(event.target as Node)) return
 
-			router.replace('?', replaceOptions)
+			setIsOpen(false)
+			setQuery(null)
+			updateQueryParam(null)
 		},
-		[navList, router],
+		[navList],
 	)
 
 	return (
@@ -117,7 +141,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 							value={query as string}
 						/>
 					) : (
-						<StaticNavList locale={locale} />
+						<StaticNavList locale={locale} pathname={pathname} />
 					)}
 
 					<li className={navItem}>
@@ -139,7 +163,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 						<ol className={searchList}>
 							{results.hits.map((hit) => (
 								<li style={{ padding: 16 }} key={hit.objectID}>
-									<Link
+									<a
 										style={{
 											display: 'inline-flex',
 											height: '100%',
@@ -177,7 +201,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 											</span>
 										</p>
 										{hit.description ? <p>{hit.description}</p> : null}
-									</Link>
+									</a>
 								</li>
 							))}
 						</ol>

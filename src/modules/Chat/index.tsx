@@ -14,7 +14,6 @@ import {
 	IconDots,
 	IconMessage,
 } from '@tabler/icons-react'
-import Link from 'next/link'
 import type { ChangeEvent, FormEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
@@ -22,7 +21,7 @@ import TextInput from '@/components/TextInput'
 import { BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 
-import { vars } from '@/app/theme.css'
+import { vars } from '@/styles/theme.css'
 
 import {
 	chatContainer,
@@ -183,13 +182,13 @@ function Chat({ locale }: { locale: Locale }) {
 
 	return (
 		<>
-			<Link className={headingLink} href={`/${locale}/chat`}>
+			<a className={headingLink} href={`/${locale}/chat`}>
 				<h2>
 					<IconMessage aria-hidden />
 					AI Chat
 				</h2>
 				<IconArrowUpRight />
-			</Link>
+			</a>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>
 					{messages}

@@ -1,0 +1,40 @@
+---
+import { IconArrowUpRight, IconArtboard } from '@tabler/icons-react'
+
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
+
+import NftList from './NftsList'
+
+import { headingLink, listContainer } from './styles.css'
+
+type Props = {
+	locale: Locale
+}
+
+const { locale } = Astro.props
+
+const data = await fetch(`${BASE_URL}/api/nfts`, { method: 'GET' })
+	.then(
+		(response) =>
+			response.json() as Promise<{ name: string; image_url: string }[]>,
+	)
+	.catch(() => undefined)
+---
+
+{
+	data?.length ? (
+		<>
+			<a class={headingLink} href={`/${locale}/nfts`}>
+				<h2>
+					<IconArtboard aria-hidden />
+					NFTs
+				</h2>
+				<IconArrowUpRight />
+			</a>
+			<div class={listContainer}>
+				<NftList client:visible data={data} />
+			</div>
+		</>
+	) : null
+}

@@ -1,0 +1,76 @@
+---
+import { IconChevronLeft } from '@tabler/icons-react'
+
+import Layout from '@/layouts/Layout.astro'
+
+import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
+
+import PageAnalytics from '@/components/PageAnalytics'
+
+import { BASE_URL } from '@/lib/constants'
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import { getProject } from '@/lib/projects'
+
+import { entryContainer } from '@/styles/project-post.css'
+import { notFoundContainer } from '@/styles/blog-post.css'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const slug = Astro.params.slug as string
+const post = await getProject(locale, slug)
+
+if (!post) {
+	Astro.response.status = 404
+}
+
+const meta = post
+	? getMetadata({
+			locale,
+			title: `${post.data.title as string} - Projects`,
+			description: post.data.description as string,
+			keywords: post.data.keywords as string[] | undefined,
+			canonicalPath: `/projects/${post.slug}`,
+			images: [
+				`${BASE_URL}/${locale}/projects/${post.slug}/opengraph-image.png`,
+			],
+		})
+	: getMetadata({ locale, title: 'Not Found' })
+---
+
+<Layout locale={locale} meta={meta}>
+	{
+		post ? (
+			<div class={entryContainer}>
+				<a
+					href={`/${locale}/projects`}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						marginBottom: '16px',
+					}}
+				>
+					<IconChevronLeft />
+					Projects
+				</a>
+				<PageAnalytics
+					client:load
+					locale={locale}
+					objectId={`project-${slug}`}
+				/>
+				<article set:html={post.contentHtml} />
+				<EditPageBanner type="projects" lang={locale} slug={slug} />
+			</div>
+		) : (
+			<div class={notFoundContainer}>
+				<h1>🙈 Not Found</h1>
+				<p>
+					You just hit a project that doesn't exist, or existed and now its
+					dead... the sadness.
+					<a href={`/${locale}`}>Go back home</a>
+				</p>
+			</div>
+		)
+	}
+</Layout>

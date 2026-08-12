@@ -1,0 +1,46 @@
+---
+import { IconBook } from '@tabler/icons-react'
+
+import { BASE_URL } from '@/lib/constants'
+
+import { vars } from '@/styles/theme.css'
+
+import {
+	bookAnchor,
+	bookImage,
+	bookItem,
+	bookList,
+	titleText,
+} from './styles.css'
+
+type Book = { title: string; url: string; author: string; image: string }
+
+const data = await fetch(`${BASE_URL}/api/goodreads/currently-reading`)
+	.then((response) => response.json() as Promise<Book[]>)
+	.catch(() => null)
+---
+
+<h2 style={{ padding: vars.space.large }}>
+	<IconBook aria-hidden />
+	Reading
+</h2>
+<ul class={bookList}>
+	{
+		data?.map((book) => (
+			<li class={bookItem}>
+				<a
+					href={book.url}
+					target="_blank"
+					class={bookAnchor}
+					rel="noopener noreferrer"
+				>
+					<img class={bookImage} src={book.image} alt={book.title} />
+					<div style={{ textAlign: 'center', marginTop: '16px', height: '3rem' }}>
+						<p class={titleText}>{book.title}</p>
+						<p>{book.author}</p>
+					</div>
+				</a>
+			</li>
+		))
+	}
+</ul>

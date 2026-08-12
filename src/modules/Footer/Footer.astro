@@ -1,0 +1,55 @@
+---
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+
+import LocalTime from './LocalTime'
+
+import { footerContainer, footerList, footerParagraph } from './styles.css'
+
+type Props = {
+	locale: Locale
+}
+
+const { locale } = Astro.props
+
+/**
+ * This api call returns the time zone set on my Slack profile. Since I always
+ * open Slack on my computer, this is the most accurate way to get my local time.
+ */
+const result = await fetch(`${BASE_URL}/api/slack/users-info`)
+	.then((response) => response.json() as Promise<{ tz: string }>)
+	.catch(() => undefined)
+
+const date = new Date(
+	new Date().toLocaleString('en-US', { timeZone: result?.tz }),
+)
+
+const alternateLocale = LOCALES.find((l) => l !== locale)
+---
+
+<footer class={footerContainer}>
+	<ul class={footerList}>
+		<li class={footerParagraph}>
+			<b>Copyright</b>
+			{date.getFullYear()} &copy; César Guadarrama
+		</li>
+
+		<li class={footerParagraph}>
+			<b>Source</b>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://github.com/cesargdm/cesargdm.com"
+			>
+				GitHub
+			</a>
+		</li>
+
+		{result?.tz ? <LocalTime client:idle timeZone={result.tz} /> : null}
+	</ul>
+
+	<p>
+		<a href={`/${alternateLocale}`}>{alternateLocale}</a>
+	</p>
+</footer>

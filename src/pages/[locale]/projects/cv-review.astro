@@ -1,0 +1,17 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+import CvReview from '@/modules/CvReview'
+
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const meta = getMetadata({ locale })
+---
+
+<Layout locale={locale} meta={meta}>
+	<CvReview client:load />
+</Layout>

@@ -1,0 +1,34 @@
+---
+import { BASE_URL } from '@/lib/constants'
+
+import X from '@/assets/icons/X'
+
+import { readTweetsButton, tweetParagraph } from './styles.css'
+
+const result = (await fetch(`${BASE_URL}/api/x/me`)
+	.then((response) => response.json())
+	.catch(() => undefined)) as
+	| {
+			data?: { description?: string }
+			includes?: { tweets?: { text?: string } }
+	  }
+	| undefined
+
+const tweetText = result?.includes?.tweets?.text
+const description = result?.data?.description
+---
+
+<h2>
+	<X style={{ width: 24, height: 24 }} aria-hidden />
+	{tweetText ? 'Posts' : null}
+</h2>
+<p class={tweetParagraph}>{tweetText || description || '@cesargdm'}</p>
+<a
+	target="_blank"
+	rel="noopener noreferrer"
+	class={readTweetsButton}
+	href="https://x.com/cesargdm"
+	aria-label="Visit my X profile"
+>
+	Read more posts
+</a>

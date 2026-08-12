@@ -1,0 +1,65 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+import Chat from '@/modules/Chat'
+import HoverCompany from '@/modules/HoverCompany/HoverCompany.astro'
+import LastPhoto from '@/modules/LastPhoto/LastPhoto.astro'
+import LastTweet from '@/modules/LastPost/LastPost.astro'
+import Nfts from '@/modules/Nfts/Nfts.astro'
+import Reading from '@/modules/Reading/Reading.astro'
+
+import { getCheerFromVisitsCount } from '@/lib/cheer'
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+
+import {
+	card,
+	cardsList,
+	introContainer,
+	introParagraph,
+	twoColumnCard,
+} from '@/styles/layout.css'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const meta = getMetadata({ locale })
+const visitsCount = Astro.cookies.get('visits-count')?.value || '1'
+---
+
+<Layout locale={locale} meta={meta}>
+	<div>
+		<div class={introContainer}>
+			<h1>Hi {getCheerFromVisitsCount(visitsCount)}!</h1>
+			<p class={introParagraph}>
+				I'm a dedicated Product Engineer with a passion for creating delightful
+				and functional user experiences. On a daily basis, I work my magic 🪄
+				with TypeScript, crafting seamless user interfaces using React, while
+				powering the backend with Node, GraphQL, and MongoDB. I'm working in the
+				awesome startup <HoverCompany name="OCHO" /> and my side project{' '}
+				<HoverCompany name="Cretia" />; before that I've been part of amazing
+				teams such as <HoverCompany name="Tesorio" />,{' '}
+				<HoverCompany name="Aura" />, <HoverCompany name="Covalto" /> and{' '}
+				<HoverCompany name="IBM" />. And since I cannot sit still, I've created
+				some cool <a href={`/${locale}/projects`}>projects</a>.
+			</p>
+		</div>
+		<ul class={cardsList}>
+			<li class:list={[card, twoColumnCard]} style={{ height: '100%' }}>
+				<Chat client:visible locale={locale} />
+			</li>
+			<li style={{ aspectRatio: '1 / 1' }} class={card}>
+				<LastTweet />
+			</li>
+			<li style={{ padding: 0 }} class={card}>
+				<LastPhoto />
+			</li>
+			<li style={{ padding: 0, aspectRatio: '1 / 1' }} class={card}>
+				<Nfts locale={locale} />
+			</li>
+			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
+				<Reading />
+			</li>
+		</ul>
+	</div>
+</Layout>

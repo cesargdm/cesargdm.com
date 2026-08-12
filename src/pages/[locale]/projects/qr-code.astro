@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const meta = getMetadata({ locale })
+---
+
+<Layout locale={locale} meta={meta}>
+	<h1>QR Code Generation</h1>
+</Layout>
