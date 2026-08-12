@@ -12,7 +12,7 @@
 		"lint": "eslint --max-warnings=0 .",
 		"start": "astro preview",
 		"typecheck": "astro check",
-		"clean": "rm -rf node_modules bun.lockb dist .vercel .astro"
+		"clean": "rm -rf node_modules bun.lockb dist .vercel .astro .wrangler"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.2.1",

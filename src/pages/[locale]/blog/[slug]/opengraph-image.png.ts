@@ -7,7 +7,7 @@ import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
 import {
 	fetchImageAsDataUri,
-	getDefaultFonts,
+	getFonts,
 	OG_SIZE,
 	ogResponse,
 	styles,
@@ -23,7 +23,7 @@ export const GET: APIRoute = async ({ params }) => {
 		const asset = getPosts(locale).find((post) => post.slug === slug)
 
 		const [fonts, logo] = await Promise.all([
-			getDefaultFonts(),
+			getFonts(),
 			fetchImageAsDataUri(`${BASE_URL}/android-chrome-512x512.png`),
 		])
 

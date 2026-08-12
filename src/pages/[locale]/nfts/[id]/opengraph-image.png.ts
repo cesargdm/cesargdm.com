@@ -4,7 +4,7 @@ import { ImageResponse } from 'workers-og'
 
 import {
 	fetchImageAsDataUri,
-	getDefaultFonts,
+	getFonts,
 	OG_SIZE,
 	ogResponse,
 	styles,
@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ params }) => {
 
 		const nft = await getNft(id)
 
-		const fonts = await getDefaultFonts()
+		const fonts = await getFonts()
 
 		if (!nft) {
 			const empty = h('div', { style: styles.container })

@@ -1,13 +1,13 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with this repository.
 
 ## Commands
 
 ```bash
-bun dev              # Start dev server (localhost:4321)
-bun run build        # Production build (Astro + Vercel adapter)
-bun run preview      # Preview the production build locally
+bun dev              # Start workerd-backed Astro dev server (localhost:4321)
+bun run build        # Production build (Astro + Cloudflare adapter)
+bun run preview      # Preview the production build locally (also workerd)
 bun run typecheck    # Type checking (astro check)
 bun run lint         # ESLint with zero warnings (--max-warnings=0)
 bun run format:check # Prettier check
@@ -17,20 +17,39 @@ bun run format       # Prettier auto-fix
 bun run format:check && bun run lint && bun run typecheck && bun run build
 ```
 
+Without Cloudflare credentials, Workers AI remote bindings will try to open a Wrangler OAuth
+login. Use `ASTRO_CF_NO_REMOTE=1 bun run preview` (after `bun run build`) to run the site on
+workerd without that login. Chat (`/api/assistant`) will 500 until the `AI` binding is available.
+
+With Cloudflare auth (`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`, or `wrangler login`):
+
+```bash
+bun dev              # workerd + remote Workers AI
+bunx wrangler types  # regenerate worker-configuration.d.ts after wrangler.jsonc changes
+bunx wrangler deploy # deploy the Worker (run bun run build first)
+```
+
 ## Architecture
 
-**Astro 7 (SSR)** deployed to Vercel via `@astrojs/vercel` (`output: 'server'` in `astro.config.mjs`). All pages live under `src/pages/[locale]/` for i18n (en, es). Astro middleware (`src/middleware.ts`) redirects bare paths to the user's preferred locale and reads the theme cookie into `Astro.locals`.
+**Astro 7 (SSR)** deployed to **Cloudflare Workers** via `@astrojs/cloudflare` (`output: 'server'`
+in `astro.config.mjs`, config in `wrangler.jsonc`). All pages live under `src/pages/[locale]/` for
+i18n (en, es). Astro middleware (`src/middleware.ts`) redirects bare paths to the user's preferred
+locale, reads the theme cookie into `Astro.locals`, and sets security headers (formerly in
+`vercel.json`).
 
-Interactive UI is built with **React islands** via `@astrojs/react` (hydrated with `client:*` directives); everything else is static `.astro`.
+Interactive UI is built with **React islands** via `@astrojs/react` (hydrated with `client:*`
+directives); everything else is static `.astro`.
 
 ### Content Pipeline
 
-Blog posts and projects are **Markdown files with gray-matter frontmatter**, read from the filesystem at request time:
+Blog posts and projects are **Markdown files with gray-matter frontmatter**, bundled at build time
+with `import.meta.glob(..., { query: '?raw', eager: true })` so they work on workerd (no
+`node:fs` at request time):
 
 - `src/assets/posts/{en,es}/*.md` - Blog posts
 - `src/assets/projects/{en,es}/*.md` - Project pages
 - Parsed by `src/lib/blog.ts` and `src/lib/projects.ts` using `gray-matter` + `remark` + `remark-html`
-- Posts with `isDraft: true` in frontmatter are excluded in production
+- Posts with `isDraft: true` in frontmatter are excluded in production (`import.meta.env.PROD`)
 
 ### I18n
 
@@ -47,10 +66,11 @@ Blog posts and projects are **Markdown files with gray-matter frontmatter**, rea
 
 - **`src/lib/metadata.ts`**: `getMetadata({ locale, ... })` returns resolved SEO fields (title, OG/Twitter, canonical, images); `Layout.astro` renders the `<head>` from it
 - **`src/pages/[locale]/[...dynamic].astro`**: Catch-all that redirects social links (github, linkedin, x, cv, email) via `src/lib/social.json`, otherwise renders a 404
-- **`src/modules/NftModal/NftModal.tsx`**: React island reimplementing the former Next.js parallel/intercepting-route modal — intercepts in-app clicks to `/{locale}/nfts/{id}` and shows an overlay; direct visits fall through to `src/pages/[locale]/nfts/[id].astro`
-- **API endpoints** live in `src/pages/api/**.ts` (Astro endpoints). `assistant.ts` needs `OPENAI_API_KEY`/`OPENAI_ASSISTANT_ID`; `crons/search.ts` needs `ALGOLIA_APP_ID`/`ALGOLIA_API_KEY` (index names `cesargdm_{locale}_{mode}`)
-- **OG images**: `src/pages/[locale]/**/opengraph-image.png.ts` generate PNGs with `satori` + `@resvg/resvg-js` (helpers in `src/lib/open-graph.ts`)
+- **`src/modules/NftModal/NftModal.tsx`**: React island that intercepts in-app clicks to `/{locale}/nfts/{id}` and shows an overlay; direct visits fall through to `src/pages/[locale]/nfts/[id].astro`
+- **API endpoints** live in `src/pages/api/**.ts` (Astro endpoints). Server secrets come from `import { env } from 'cloudflare:workers'` (not `process.env`). Chat uses Workers AI (`env.AI.run`, model `@cf/meta/llama-3.1-8b-instruct`) with the persona Q&A in `src/lib/assistant-training.json`. Algolia cron needs `ALGOLIA_APP_ID`/`ALGOLIA_API_KEY` (index names `cesargdm_{locale}_{mode}`)
+- **OG images**: `src/pages/[locale]/**/opengraph-image.png.ts` generate PNGs with `workers-og` (`ImageResponse` + `loadGoogleFont`). Helpers in `src/lib/open-graph.ts`
 - **Sitemap**: `src/pages/sitemap.xml.ts`
+- **`src/lib/json.ts`**: `readJson<T>()` — `Request`/`Response.json()` is `unknown`; keep the cast here so lint autofix does not strip it at call sites
 
 ### Directory Layout
 
@@ -72,13 +92,14 @@ Blog posts and projects are **Markdown files with gray-matter frontmatter**, rea
 - No `console.log` (ESLint warns)
 - Strict accessibility: `jsx-a11y/strict` config (TS/TSX); `.astro` linted with `eslint-plugin-astro`
 - Prettier config: `prettier.config.cjs` (extends `prettier-config-cretia` + `prettier-plugin-astro`)
-- Deploy target: **Vercel**
+- Deploy target: **Cloudflare Workers** (`wrangler.jsonc`, `compatibility_date` + `nodejs_compat`)
+- After changing `wrangler.jsonc`, run `bunx wrangler types` and commit `worker-configuration.d.ts`. Do not hand-write the generated `Env`; add secret names only via the `Cloudflare.Env` augmentation in `src/env.d.ts`
 
 ## Cursor Cloud specific instructions
 
-This is a single frontend service (the Astro web app); there is no separate backend or database to
-run. Standard commands are listed under [Commands](#commands) above — use those rather than
-duplicating them.
+This is a single frontend service (the Astro web app on Cloudflare Workers); there is no separate
+backend or database to run. Standard commands are listed under [Commands](#commands) above — use
+those rather than duplicating them.
 
 Non-obvious notes for developing here:
 
@@ -86,19 +107,23 @@ Non-obvious notes for developing here:
   shells (via `~/.bashrc`). If you invoke it from a non-interactive script and `bun` is not found,
   call it as `~/.bun/bin/bun`. Use `bun install` (matches `bun.lockb` and CI), not `npm`, even
   though a `package-lock.json` is also committed.
-- **Dev server:** `bun dev` serves on `http://localhost:4321` (Astro's default). The root path `/`
-  returns a 302 redirect to a locale prefix (`/en/` or `/es/`) via `src/middleware.ts`, so hit
-  `/en` (or `/es`) directly when checking pages.
+- **Dev / preview is workerd, not Node.** `bun dev` and `bun run preview` both run the Cloudflare
+  adapter. The root path `/` returns a 302 redirect to a locale prefix (`/en` or `/es`) via
+  `src/middleware.ts`, so hit `/en` (or `/es`) directly when checking pages. Port is **4321**.
 - **`astro check` is the type checker** (`bun run typecheck`), not `tsc`. Run `bunx astro sync`
   after changing routes/config if editor types get stale.
-- **Environment variables are all optional for local dev.** The site and dev server run with no
-  `.env` file. Client-exposed Algolia keys must use the Astro `PUBLIC_` prefix
-  (`PUBLIC_ALGOLIA_APP_ID`, `PUBLIC_ALGOLIA_SEARCH_API_KEY`), read via `import.meta.env`.
-  Server-only integrations use `process.env`: the AI chat assistant (`OPENAI_API_KEY`,
-  `OPENAI_ASSISTANT_ID`), Algolia admin (`ALGOLIA_APP_ID`, `ALGOLIA_API_KEY`), and misc API routes
-  (`OPENSEA_API_KEY`, `UNSPLASH_ACCESS_KEY`, `SLACK_TOKEN`/`SLACK_USER_ID`, `X_*`). Pages/cards that
-  depend on these degrade gracefully (render empty / return null) without the keys — expected
-  locally, not a broken setup.
+- **Workers AI is always a remote binding.** Without Cloudflare credentials, `bun dev` will try to
+  open a Wrangler OAuth login and hang. For unauthenticated local runs, set
+  `ASTRO_CF_NO_REMOTE=1` and use **preview** (`bun run build` then
+  `ASTRO_CF_NO_REMOTE=1 bun run preview`). Do not rely on `astro dev` in that mode — Vite's
+  dep-optimizer can race and 500 on missing `route-cache-*.js`. Chat will return
+  `{ error: "An error occurred" }` until `env.AI` is bound.
+- **Secrets live in Wrangler, not `process.env`.** Put them in `.dev.vars` locally or
+  `wrangler secret put NAME` in production. Client-exposed Algolia keys still use the Astro
+  `PUBLIC_` prefix (`PUBLIC_ALGOLIA_APP_ID`, `PUBLIC_ALGOLIA_SEARCH_API_KEY`) via `import.meta.env`.
+  Server-only keys (`ALGOLIA_APP_ID`/`ALGOLIA_API_KEY`, `OPENSEA_API_KEY`, `UNSPLASH_ACCESS_KEY`,
+  `SLACK_TOKEN`/`SLACK_USER_ID`, `X_*`) are read from `cloudflare:workers` `env`. Pages/cards that
+  depend on these degrade gracefully without the keys — expected locally, not a broken setup.
 - **Home-page cards and the footer clock fetch from the production API** (`BASE_URL` in
   `src/lib/constants.ts` is hardcoded to `https://cesargdm.com`). Locally they show production data
   when reachable, or nothing when offline — this is the original behavior. Test the local API

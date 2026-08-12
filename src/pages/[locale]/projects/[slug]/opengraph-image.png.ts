@@ -5,8 +5,8 @@ import { ImageResponse } from 'workers-og'
 import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
 import {
-	fetchFonts,
 	fetchImageAsDataUri,
+	getFonts,
 	OG_SIZE,
 	ogResponse,
 	styles,
@@ -23,16 +23,7 @@ export const GET: APIRoute = async ({ params }) => {
 		const asset = getProjects(locale).find((project) => project.slug === slug)
 
 		const [fonts, logo] = await Promise.all([
-			fetchFonts('Inter', [
-				{
-					weight: 400,
-					url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
-				},
-				{
-					weight: 600,
-					url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
-				},
-			]),
+			getFonts(),
 			fetchImageAsDataUri(`${BASE_URL}/android-chrome-512x512.png`),
 		])
 

@@ -44,6 +44,8 @@ export const styles = {
 	},
 } as const
 
+import { loadGoogleFont } from 'workers-og'
+
 export type OgFont = {
 	name: string
 	weight: FontWeight
@@ -51,32 +53,23 @@ export type OgFont = {
 	data: ArrayBuffer
 }
 
-export function fetchFont(
-	name: string,
-	weight: FontWeight,
-	url: string,
-): Promise<OgFont> {
-	return fetch(url)
-		.then((res) => res.arrayBuffer())
-		.then((data) => ({ name, weight, style: 'normal' as const, data }))
-}
-
-export function fetchFonts(
-	name: string,
-	weights: { url: string; weight: FontWeight }[],
-) {
-	return Promise.all(
-		weights.map((weight) => fetchFont(name, weight.weight, weight.url)),
-	)
-}
-
-export const getDefaultFonts = () =>
-	fetchFonts('Inter', [
-		{ weight: 400, url: 'https://rsms.me/inter/font-files/Inter-Regular.woff' },
-		{ weight: 600, url: 'https://rsms.me/inter/font-files/Inter-Black.woff' },
+/**
+ * Loads the Inter font (400 + 600) via Google Fonts. `loadGoogleFont` returns an
+ * ArrayBuffer that `workers-og` can embed on the Workers runtime.
+ */
+export async function getFonts(): Promise<OgFont[]> {
+	const [regular, bold] = await Promise.all([
+		loadGoogleFont({ family: 'Inter', weight: 400 }),
+		loadGoogleFont({ family: 'Inter', weight: 600 }),
 	])
 
-/** Fetch a remote image and inline it as a data URI (satori does not fetch). */
+	return [
+		{ name: 'Inter', weight: 400, style: 'normal', data: regular },
+		{ name: 'Inter', weight: 600, style: 'normal', data: bold },
+	]
+}
+
+/** Fetch a remote image and inline it as a data URI (workers-og does not fetch). */
 export async function fetchImageAsDataUri(url: string) {
 	try {
 		const response = await fetch(url)
@@ -93,8 +86,6 @@ export async function fetchImageAsDataUri(url: string) {
 export const OG_SIZE = { width: 1200, height: 630 }
 
 export function ogResponse(image: Response) {
-	const headers = new Headers(image.headers)
-	headers.set('content-type', 'image/png')
-	headers.set('cache-control', 'public, max-age=3600, s-maxage=86400')
-	return new Response(image.body, { status: image.status, headers })
+	image.headers.set('cache-control', 'public, max-age=3600, s-maxage=86400')
+	return image
 }

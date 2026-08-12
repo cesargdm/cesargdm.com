@@ -12,7 +12,7 @@ Welcome to the repository for my personal website, [cesargdm.com](https://cesarg
 - 🔍 **Algolia Search Integration**: The site is fully searchable, thanks to Algolia, providing fast and relevant search results.
 - 🧑‍⚖️ **MIT License**: This project is open-source under the MIT License, encouraging community contributions.
 - 🏆 **Perfect Lighthouse Score**: Achieved a perfect score on Google's Lighthouse performance test, ensuring optimal speed, accessibility, and SEO.
-- 🤖 **Custom OpenAI Agent**: A custom-built AI agent provides intelligent interactions, enhancing user engagement.
+- 🤖 **Workers AI assistant**: An on-site chat powered by Cloudflare Workers AI, answering in César's voice.
 - 💅 **Zero Runtime CSS**: The site is styled with vanilla CSS, with no runtime dependencies, ensuring fast load times.
 
 ## Getting Started
@@ -25,16 +25,28 @@ To start the development server, run:
 bun dev
 ```
 
-Then, open http://localhost:3000 in your browser to view the site.
+Then, open http://localhost:4321 in your browser to view the site. The root path redirects to `/en` or `/es`.
 
-Build
+Without Cloudflare credentials, use a local preview that skips remote bindings (Workers AI chat will not work):
+
+```bash
+bun run build
+ASTRO_CF_NO_REMOTE=1 bun run preview
+```
+
+### Build
+
 To build the project for production, use:
 
 ```bash
 bun run build
 ```
 
-This will generate the static assets ready for deployment.
+This produces the Worker and static assets in `dist/`. Deploy with:
+
+```bash
+bunx wrangler deploy
+```
 
 ## Benchmarks
 
@@ -54,7 +66,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ## Acknowledgments
 
-- Vercel for hosting.
-- Next.js for the React framework.
+- Cloudflare Workers for hosting and Workers AI.
+- Astro for the web framework (React islands for interactivity).
 - Algolia for search capabilities.
-- OpenAI for AI-powered interactions.

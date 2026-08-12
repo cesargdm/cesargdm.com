@@ -64,7 +64,7 @@ const customRules = {
 export default [
 	includeIgnoreFile(gitignorePath),
 	{
-		ignores: ['dist/', '.astro/', '.vercel/', '**/*.d.ts'],
+		ignores: ['dist/', '.astro/', '.vercel/', '.wrangler/', '**/*.d.ts'],
 	},
 	eslint.configs.recommended,
 	...tseslint.configs.recommendedTypeChecked.map((config) => ({

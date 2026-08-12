@@ -9,5 +9,5 @@
 		}
 	},
 	"include": [".astro/types.d.ts", "**/*"],
-	"exclude": ["node_modules", "dist", ".vercel"]
+	"exclude": ["node_modules", "dist", ".vercel", ".wrangler"]
 }
