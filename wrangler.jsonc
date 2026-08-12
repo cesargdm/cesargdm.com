@@ -1,0 +1,20 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "cesargdm-com",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"compatibility_date": "2026-08-12",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+	},
+	// Workers AI powers the /api/assistant chat endpoint. Always runs remotely and
+	// requires Cloudflare account credentials (even in local dev).
+	"ai": {
+		"binding": "AI",
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+	},
+}

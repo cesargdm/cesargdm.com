@@ -22,15 +22,31 @@ function getLocale(request: Request): string {
 
 const FILE_EXTENSION = /\.[a-zA-Z0-9]+$/
 
-export const onRequest = defineMiddleware((context, next) => {
+// Security headers previously configured in vercel.json.
+const SECURITY_HEADERS: Record<string, string> = {
+	'X-Content-Type-Options': 'nosniff',
+	'Feature-Policy': "geolocation 'self'; microphone 'none'",
+	'Referrer-Policy': 'strict-origin-when-cross-origin',
+	'X-Frame-Options': 'DENY',
+	'X-XSS-Protection': '1; mode=block',
+}
+
+function withSecurityHeaders(response: Response) {
+	for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+		response.headers.set(key, value)
+	}
+	return response
+}
+
+export const onRequest = defineMiddleware(async (context, next) => {
 	const { url, request, cookies, locals } = context
 	const pathname = url.pathname
 
 	locals.theme = (cookies.get(ThemeCookieName)?.value ?? '') as Theme
 
-	// Skip API routes and static assets (images, sitemap.xml, favicon, etc.)
+	// Skip locale handling for API routes and static assets, but still render.
 	if (pathname.startsWith('/api') || FILE_EXTENSION.test(pathname)) {
-		return next()
+		return withSecurityHeaders(await next())
 	}
 
 	// Redirect if there is no locale prefix in the pathname
@@ -45,5 +61,5 @@ export const onRequest = defineMiddleware((context, next) => {
 		return context.redirect(`/${locale}${pathname}`)
 	}
 
-	return next()
+	return withSecurityHeaders(await next())
 })

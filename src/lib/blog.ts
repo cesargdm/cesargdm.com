@@ -1,46 +1,54 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
-const postsDirectory = path.join(process.cwd(), './src/assets/posts')
+import type { Locale } from '@/lib/i18n'
 
-export function getPosts(language: 'en' | 'es' = 'en') {
-	const languagePostsDirectory = path.join(postsDirectory, language)
+// Markdown is bundled at build time via import.meta.glob so it works on the
+// Cloudflare Workers runtime (no filesystem access at request time).
+const rawPosts = import.meta.glob('../assets/posts/*/*.md', {
+	query: '?raw',
+	import: 'default',
+	eager: true,
+})
 
-	const fileNames = fs.readdirSync(languagePostsDirectory)
+type Entry = {
+	slug: string
+	data: Record<string, unknown>
+	content: string
+}
 
-	let allEntries = fileNames.map((fileName) => {
-		const slug = fileName.replace(/\.mdx?$/, '')
+function parseEntries(language: Locale): Entry[] {
+	return Object.entries(rawPosts)
+		.filter(([path]) => path.includes(`/posts/${language}/`))
+		.map(([path, raw]) => {
+			const slug = (path.split('/').pop() ?? '').replace(/\.mdx?$/, '')
+			const { data, content } = grayMatter(raw)
+			return { slug, data, content }
+		})
+}
 
-		const fullPath = path.join(languagePostsDirectory, fileName)
-		const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-		const grayMatterResult = grayMatter(fileContents)
-
-		return { slug, ...grayMatterResult }
-	})
+export function getPosts(language: Locale = 'en') {
+	let allEntries = parseEntries(language)
 
 	// Sort by date
 	allEntries = allEntries.sort((a, b) => {
-		if (a.data.date < b.data.date) return 1
-		if (a.data.date > b.data.date) return -1
+		const aDate = a.data.date as string
+		const bDate = b.data.date as string
+		if (aDate < bDate) return 1
+		if (aDate > bDate) return -1
 		return 0
 	})
 
 	// Remove draft posts in production
-	if (process.env.NODE_ENV === 'production') {
+	if (import.meta.env.PROD) {
 		allEntries = allEntries.filter((post) => !post.data.isDraft)
 	}
 
 	return allEntries
 }
 
-export async function getPost(
-	language: Parameters<typeof getPosts>[0],
-	slug: string,
-) {
+export async function getPost(language: Locale, slug: string) {
 	const posts = getPosts(language)
 
 	const post = posts.find((post) => post.slug === slug)

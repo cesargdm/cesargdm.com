@@ -1,11 +1,12 @@
 import { createElement as h } from 'react'
 import type { APIRoute } from 'astro'
+import { ImageResponse } from 'workers-og'
 
 import {
 	fetchImageAsDataUri,
 	getDefaultFonts,
 	OG_SIZE,
-	renderOgImage,
+	ogResponse,
 	styles,
 } from '@/lib/open-graph'
 import { getNft } from '@/lib/open-sea'
@@ -18,19 +19,14 @@ export const GET: APIRoute = async ({ params }) => {
 
 		const nft = await getNft(id)
 
+		const fonts = await getDefaultFonts()
+
 		if (!nft) {
-			const fonts = await getDefaultFonts()
 			const empty = h('div', { style: styles.container })
-			const png = await renderOgImage(empty, { ...OG_SIZE, fonts })
-			return new Response(new Uint8Array(png), {
-				headers: { 'content-type': 'image/png' },
-			})
+			return ogResponse(new ImageResponse(empty, { ...OG_SIZE, fonts }))
 		}
 
-		const [fonts, image] = await Promise.all([
-			getDefaultFonts(),
-			fetchImageAsDataUri(nft.image_url),
-		])
+		const image = await fetchImageAsDataUri(nft.image_url)
 
 		const element = h(
 			'div',
@@ -51,14 +47,7 @@ export const GET: APIRoute = async ({ params }) => {
 				: null,
 		)
 
-		const png = await renderOgImage(element, { ...OG_SIZE, fonts })
-
-		return new Response(new Uint8Array(png), {
-			headers: {
-				'content-type': 'image/png',
-				'cache-control': 'public, max-age=3600, s-maxage=86400',
-			},
-		})
+		return ogResponse(new ImageResponse(element, { ...OG_SIZE, fonts }))
 	} catch {
 		return new Response('Failed to generate image', { status: 500 })
 	}

@@ -1,17 +1,15 @@
 import type { APIRoute } from 'astro'
-import OpenAI from 'openai'
+import { env } from 'cloudflare:workers'
+
+import type { ChatMessage } from '@/lib/assistant'
+import { AI_MODEL, buildSystemPrompt } from '@/lib/assistant'
+import { readJson } from '@/lib/json'
 
 export const prerender = false
 
-const { OPENAI_API_KEY } = process.env
-
-const openai = OPENAI_API_KEY
-	? new OpenAI({ apiKey: OPENAI_API_KEY })
-	: undefined
-
-const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID as string
-
-const CONTENT_MAX_LENGTH = 4096
+const MAX_HISTORY = 20
+const MAX_TOKENS = 512
+const TEMPERATURE = 0.7
 
 function json(data: unknown, init?: ResponseInit) {
 	return new Response(JSON.stringify(data), {
@@ -23,90 +21,37 @@ function json(data: unknown, init?: ResponseInit) {
 	})
 }
 
-export const GET: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
 	try {
-		if (!openai) {
-			throw new Error('OpenAI API key not provided')
+		if (!env.AI) {
+			return json({ error: 'AI binding is not available' }, { status: 500 })
 		}
 
-		const threadId = new URL(request.url).searchParams.get('threadId')
+		const body = await readJson<{ messages?: ChatMessage[] }>(request)
 
-		if (!threadId?.length) {
-			return json({ error: 'Thread ID is required' }, { status: 400 })
-		}
-
-		const messages = await openai.beta.threads.messages.list(threadId)
-
-		return json({
-			messages: messages.data.sort((a, b) => a.created_at - b.created_at),
-			threadId,
-		})
-	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.error(error)
-
-		return json({ error: 'An error occurred' }, { status: 500 })
-	}
-}
-
-export const PATCH: APIRoute = async ({ request }) => {
-	try {
-		if (!openai) {
-			throw new Error('OpenAI API key not provided')
-		}
-
-		if (!request.body) {
-			return json({ error: 'Request body is required' }, { status: 400 })
-		}
-
-		let threadId
-		const { content, threadId: existingThreadId } = (await request.json()) as {
-			content: string
-			threadId?: string
-		}
-
-		if (!content?.length) {
-			return json({ error: 'Content is required' }, { status: 400 })
-		}
-
-		if (content.length > CONTENT_MAX_LENGTH) {
-			return json(
-				{ error: 'Content must be less than 4096 characters' },
-				{ status: 400 },
+		const history = (body.messages ?? [])
+			.filter(
+				(message) =>
+					(message.role === 'user' || message.role === 'assistant') &&
+					typeof message.content === 'string' &&
+					message.content.trim().length > 0,
 			)
+			.slice(-MAX_HISTORY)
+
+		if (!history.length) {
+			return json({ error: 'messages are required' }, { status: 400 })
 		}
 
-		if (!existingThreadId?.length) {
-			const thread = await openai.beta.threads.create()
-			threadId = thread.id
-		} else {
-			threadId = existingThreadId
-		}
-
-		await openai.beta.threads.messages.create(threadId, {
-			role: 'user',
-			content,
+		const result = await env.AI.run(AI_MODEL, {
+			messages: [{ role: 'system', content: buildSystemPrompt() }, ...history],
+			max_tokens: MAX_TOKENS,
+			temperature: TEMPERATURE,
 		})
 
-		let run = await openai.beta.threads.runs.create(threadId, {
-			assistant_id: ASSISTANT_ID,
-			stream: false,
-		})
+		const response = (result as { response?: string }).response
+		const reply = typeof response === 'string' ? response : ''
 
-		if (!run) throw new Error('Run not created')
-
-		while (run.status === 'queued' || run.status === 'in_progress') {
-			run = await openai.beta.threads.runs.retrieve(run.id, {
-				thread_id: threadId,
-			})
-		}
-
-		const messages = await openai.beta.threads.messages.list(threadId)
-
-		return json({
-			threadId,
-			messages: messages.data.sort((a, b) => a.created_at - b.created_at),
-		})
+		return json({ reply })
 	} catch (error) {
 		// eslint-disable-next-line no-console
 		console.error(error)

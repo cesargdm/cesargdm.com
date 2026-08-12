@@ -1,7 +1,3 @@
-import { Resvg } from '@resvg/resvg-js'
-import type { ReactNode } from 'react'
-import satori from 'satori'
-
 // eslint-disable-next-line no-magic-numbers
 type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
@@ -85,8 +81,10 @@ export async function fetchImageAsDataUri(url: string) {
 	try {
 		const response = await fetch(url)
 		const contentType = response.headers.get('content-type') ?? 'image/png'
-		const buffer = Buffer.from(await response.arrayBuffer())
-		return `data:${contentType};base64,${buffer.toString('base64')}`
+		const bytes = new Uint8Array(await response.arrayBuffer())
+		let binary = ''
+		for (const byte of bytes) binary += String.fromCharCode(byte)
+		return `data:${contentType};base64,${btoa(binary)}`
 	} catch {
 		return undefined
 	}
@@ -94,24 +92,9 @@ export async function fetchImageAsDataUri(url: string) {
 
 export const OG_SIZE = { width: 1200, height: 630 }
 
-export async function renderOgImage(
-	element: ReactNode,
-	{ width, height, fonts }: { width: number; height: number; fonts: OgFont[] },
-) {
-	const svg = await satori(element, {
-		width,
-		height,
-		fonts: fonts.map((font) => ({
-			name: font.name,
-			data: font.data,
-			weight: font.weight,
-			style: font.style,
-		})),
-	})
-
-	const resvg = new Resvg(svg, {
-		fitTo: { mode: 'width', value: width },
-	})
-
-	return resvg.render().asPng()
+export function ogResponse(image: Response) {
+	const headers = new Headers(image.headers)
+	headers.set('content-type', 'image/png')
+	headers.set('cache-control', 'public, max-age=3600, s-maxage=86400')
+	return new Response(image.body, { status: image.status, headers })
 }

@@ -1,5 +1,6 @@
 import { createElement as h } from 'react'
 import type { APIRoute } from 'astro'
+import { ImageResponse } from 'workers-og'
 
 import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
@@ -7,7 +8,7 @@ import {
 	fetchFonts,
 	fetchImageAsDataUri,
 	OG_SIZE,
-	renderOgImage,
+	ogResponse,
 	styles,
 } from '@/lib/open-graph'
 import { getProjects } from '@/lib/projects'
@@ -55,14 +56,7 @@ export const GET: APIRoute = async ({ params }) => {
 				: null,
 		)
 
-		const png = await renderOgImage(element, { ...OG_SIZE, fonts })
-
-		return new Response(new Uint8Array(png), {
-			headers: {
-				'content-type': 'image/png',
-				'cache-control': 'public, max-age=3600, s-maxage=86400',
-			},
-		})
+		return ogResponse(new ImageResponse(element, { ...OG_SIZE, fonts }))
 	} catch {
 		return new Response('Failed to generate image', { status: 500 })
 	}

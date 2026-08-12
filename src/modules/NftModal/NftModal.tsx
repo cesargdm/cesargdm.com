@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Modal from '@/components/Modal'
 import NftInfo from '@/components/Nft'
 
+import { readJson } from '@/lib/json'
 import type { Nft } from '@/lib/open-sea'
 
 const NFT_PATH = /^\/(?:en|es)\/nfts\/([^/]+)\/?$/
@@ -18,13 +19,14 @@ export default function NftModal() {
 	const [nft, setNft] = useState<Nft | null>(null)
 
 	const loadNft = useCallback(async (id: string) => {
-		const data = await fetch(`/api/nfts/${id}`)
-			.then((response) =>
-				response.ok ? (response.json() as Promise<Nft>) : null,
-			)
-			.catch(() => null)
-
-		if (data) setNft(data)
+		try {
+			const response = await fetch(`/api/nfts/${id}`)
+			if (!response.ok) return
+			const data = await readJson<Nft>(response)
+			setNft(data)
+		} catch {
+			// ignore
+		}
 	}, [])
 
 	useEffect(() => {

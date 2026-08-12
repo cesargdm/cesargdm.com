@@ -1,5 +1,6 @@
 import { algoliasearch } from 'algoliasearch'
 import type { APIRoute } from 'astro'
+import { env } from 'cloudflare:workers'
 
 import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import { getPosts } from '@/lib/blog'
@@ -7,11 +8,6 @@ import type { Locale } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
 
 export const prerender = false
-
-const APP_ID = process.env.ALGOLIA_APP_ID as string
-const API_KEY = process.env.ALGOLIA_API_KEY as string
-
-const client = APP_ID && API_KEY ? algoliasearch(APP_ID, API_KEY) : undefined
 
 const WEBSITE_PAGES = [
 	{ title: 'Projects', url: '/projects', slug: 'projects' },
@@ -37,6 +33,12 @@ function json(data: unknown, init?: ResponseInit) {
 
 export const GET: APIRoute = async ({ url }) => {
 	try {
+		const APP_ID = env.ALGOLIA_APP_ID
+		const API_KEY = env.ALGOLIA_API_KEY
+
+		const client =
+			APP_ID && API_KEY ? algoliasearch(APP_ID, API_KEY) : undefined
+
 		if (!client) {
 			throw new Error('Algolia client not initialized')
 		}

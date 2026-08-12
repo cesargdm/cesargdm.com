@@ -15,17 +15,15 @@
 		"clean": "rm -rf node_modules bun.lockb dist .vercel .astro"
 	},
 	"dependencies": {
+		"@astrojs/cloudflare": "^14.2.1",
 		"@astrojs/react": "^6.0.2",
-		"@astrojs/vercel": "^11.0.5",
 		"@fontsource/inter": "^5.3.0",
 		"@fontsource/merriweather": "^5.3.0",
 		"@formatjs/intl-localematcher": "0.8.2",
 		"@radix-ui/react-dialog": "1.1.15",
 		"@radix-ui/react-popover": "1.1.15",
-		"@resvg/resvg-js": "^2.6.2",
 		"@tabler/icons-react": "3.41.1",
 		"@types/node": "25.5.2",
-		"@types/oauth": "0.9.6",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "19.2.3",
 		"@vanilla-extract/css": "1.20.1",
@@ -39,16 +37,14 @@
 		"gray-matter": "4.0.3",
 		"js-cookie": "3.0.5",
 		"negotiator": "1.0.0",
-		"oauth": "0.10.2",
-		"openai": "6.34.0",
 		"react": "19.2.5",
 		"react-dom": "19.2.5",
 		"remark": "15.0.1",
 		"remark-html": "16.0.1",
-		"satori": "^0.29.0",
 		"search-insights": "2.17.3",
 		"typescript": "6.0.2",
-		"unsplash-js": "7.0.20"
+		"unsplash-js": "7.0.20",
+		"workers-og": "^0.0.27"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",
@@ -66,6 +62,7 @@
 		"prettier": "~3.8.1",
 		"prettier-config-cretia": "~3.0.0",
 		"prettier-plugin-astro": "^0.14.1",
-		"typescript-eslint": "~8.58.1"
+		"typescript-eslint": "~8.58.1",
+		"wrangler": "^4.122.0"
 	}
 }

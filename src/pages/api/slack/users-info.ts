@@ -1,14 +1,17 @@
 import type { APIRoute } from 'astro'
+import { env } from 'cloudflare:workers'
+
+import { readJson } from '@/lib/json'
 
 export const prerender = false
 
 // 24 hours
 const REVALIDATE = 86400
 
-const slackToken = process.env.SLACK_TOKEN as string
-const userId = process.env.SLACK_USER_ID as string
-
 export const GET: APIRoute = async () => {
+	const slackToken = env.SLACK_TOKEN
+	const userId = env.SLACK_USER_ID
+
 	if (!slackToken || !userId) {
 		return new Response(JSON.stringify({ message: 'Server error' }), {
 			status: 500,
@@ -16,10 +19,12 @@ export const GET: APIRoute = async () => {
 		})
 	}
 
-	const data = await fetch(
+	const response = await fetch(
 		`https://slack.com/api/users.info?user=${userId}&pretty=1`,
 		{ headers: { Authorization: `Bearer ${slackToken}` } },
-	).then((response) => response.json() as Promise<{ user: object }>)
+	)
+
+	const data = await readJson<{ user: object }>(response)
 
 	return new Response(JSON.stringify(data.user), {
 		headers: {
