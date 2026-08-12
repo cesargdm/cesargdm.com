@@ -1,0 +1,83 @@
+---
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
+
+import Footer from '@/modules/Footer/Footer.astro'
+import Nav from '@/modules/Nav/Nav.astro'
+import NftModal from '@/modules/NftModal/NftModal.tsx'
+
+import type { Locale } from '@/lib/i18n'
+import type { ResolvedMetadata } from '@/lib/metadata'
+
+import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
+import { body, content } from '@/styles/layout.css'
+
+import '@fontsource/inter/100.css'
+import '@fontsource/inter/400.css'
+import '@fontsource/inter/700.css'
+import '@fontsource/inter/900.css'
+import '@/styles/global.css'
+
+type Props = {
+	locale: Locale
+	meta: ResolvedMetadata
+}
+
+const { locale, meta } = Astro.props
+const { theme } = Astro.locals
+
+const themeClass = !theme
+	? responsiveTheme
+	: theme === 'dark'
+		? darkTheme
+		: lightTheme
+---
+
+<!doctype html>
+<html lang={locale} class={themeClass}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="canonical" href={meta.canonical} />
+
+		<title>{meta.title}</title>
+		<meta name="description" content={meta.description} />
+		<meta name="keywords" content={meta.keywords.join(', ')} />
+		<meta name="creator" content={meta.creator} />
+		<meta name="author" content={meta.creator} />
+
+		<meta property="og:type" content={meta.type} />
+		<meta property="og:title" content={meta.title} />
+		<meta property="og:description" content={meta.description} />
+		<meta property="og:url" content={meta.canonical} />
+		{meta.images.map((image) => <meta property="og:image" content={image} />)}
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content={meta.twitterUsername} />
+		<meta name="twitter:creator" content={meta.twitterUsername} />
+		<meta name="twitter:title" content={meta.title} />
+		<meta name="twitter:description" content={meta.description} />
+		{
+			meta.images.map((image) => (
+				<meta name="twitter:image" content={image} />
+			))
+		}
+	</head>
+	<body class={body}>
+		<Nav locale={locale} />
+
+		<main class={content}>
+			<slot />
+		</main>
+
+		<NftModal client:idle />
+
+		<Footer locale={locale} />
+
+		<Analytics />
+		<SpeedInsights />
+	</body>
+</html>

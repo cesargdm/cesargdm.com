@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
 import ThemeButton, { CookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
-import { darkTheme, lightTheme, responsiveTheme } from '@/app/theme.css'
+import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
 function ToggleTheme({
 	initialTheme = Cookies.get(CookieName) as Theme,
