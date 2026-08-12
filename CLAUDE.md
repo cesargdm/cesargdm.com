@@ -111,7 +111,9 @@ Non-obvious notes for developing here:
   adapter. The root path `/` returns a 302 redirect to a locale prefix (`/en` or `/es`) via
   `src/middleware.ts`, so hit `/en` (or `/es`) directly when checking pages. Port is **4321**.
 - **`astro check` is the type checker** (`bun run typecheck`), not `tsc`. Run `bunx astro sync`
-  after changing routes/config if editor types get stale.
+  after changing routes/config if editor types get stale. `bun run lint` runs `astro sync` first
+  because type-aware ESLint needs `.astro/types.d.ts` (that file is gitignored; CI lint runs
+  before `astro check`).
 - **Workers AI is always a remote binding.** Without Cloudflare credentials, `bun dev` will try to
   open a Wrangler OAuth login and hang. For unauthenticated local runs, set
   `ASTRO_CF_NO_REMOTE=1` and use **preview** (`bun run build` then

@@ -9,7 +9,7 @@
 		"astro": "astro",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"lint": "eslint --max-warnings=0 .",
+		"lint": "astro sync && eslint --max-warnings=0 .",
 		"start": "astro preview",
 		"typecheck": "astro check",
 		"clean": "rm -rf node_modules bun.lockb dist .vercel .astro .wrangler"
