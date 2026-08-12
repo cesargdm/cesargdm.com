@@ -19,7 +19,9 @@ export default function NftModal() {
 
 	const loadNft = useCallback(async (id: string) => {
 		const data = await fetch(`/api/nfts/${id}`)
-			.then((response) => (response.ok ? (response.json() as Promise<Nft>) : null))
+			.then((response) =>
+				response.ok ? (response.json() as Promise<Nft>) : null,
+			)
 			.catch(() => null)
 
 		if (data) setNft(data)

@@ -1,8 +1,8 @@
 ---
-import Layout from '@/layouts/Layout.astro'
-
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
+
+import Layout from '@/layouts/Layout.astro'
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')

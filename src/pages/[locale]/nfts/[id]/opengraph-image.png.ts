@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro'
 import { createElement as h } from 'react'
+import type { APIRoute } from 'astro'
 
 import {
 	fetchImageAsDataUri,
@@ -42,7 +42,12 @@ export const GET: APIRoute = async ({ params }) => {
 				h('p', { style: styles.title }, nft.name),
 			),
 			image
-				? h('img', { width: 450, height: 450, style: styles.nftImage, src: image })
+				? h('img', {
+						width: 450,
+						height: 450,
+						style: styles.nftImage,
+						src: image,
+					})
 				: null,
 		)
 

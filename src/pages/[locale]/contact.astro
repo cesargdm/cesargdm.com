@@ -7,12 +7,11 @@ import {
 	IconMail,
 } from '@tabler/icons-react'
 
-import Layout from '@/layouts/Layout.astro'
-
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
 
+import Layout from '@/layouts/Layout.astro'
 import { contactHeading, contactList } from '@/styles/contact.css'
 
 const locale = Astro.params.locale

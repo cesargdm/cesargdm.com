@@ -28,7 +28,7 @@ export default function SideAboutMe() {
 				src="/apple-touch-icon.png"
 				width={40}
 				height={40}
-				alt="César Guadarrama profile picture"
+				alt="César Guadarrama"
 			/>
 			<p className={sitename}>cesargdm</p>
 			<p className={smallDescription}>

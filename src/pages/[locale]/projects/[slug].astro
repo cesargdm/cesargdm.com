@@ -1,8 +1,6 @@
 ---
 import { IconChevronLeft } from '@tabler/icons-react'
 
-import Layout from '@/layouts/Layout.astro'
-
 import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
 
 import PageAnalytics from '@/components/PageAnalytics'
@@ -12,8 +10,9 @@ import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getProject } from '@/lib/projects'
 
-import { entryContainer } from '@/styles/project-post.css'
+import Layout from '@/layouts/Layout.astro'
 import { notFoundContainer } from '@/styles/blog-post.css'
+import { entryContainer } from '@/styles/project-post.css'
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')

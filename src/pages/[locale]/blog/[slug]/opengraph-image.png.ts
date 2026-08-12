@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro'
 import { createElement as h } from 'react'
+import type { APIRoute } from 'astro'
 
 import { getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
@@ -37,7 +37,12 @@ export const GET: APIRoute = async ({ params }) => {
 				h('p', { style: styles.extract }, asset?.data?.extract as string),
 			),
 			logo
-				? h('img', { width: 290, height: 290, style: styles.rightImage, src: logo })
+				? h('img', {
+						width: 290,
+						height: 290,
+						style: styles.rightImage,
+						src: logo,
+					})
 				: null,
 		)
 

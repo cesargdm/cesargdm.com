@@ -1,7 +1,8 @@
 import { Resvg } from '@resvg/resvg-js'
-import satori from 'satori'
 import type { ReactNode } from 'react'
+import satori from 'satori'
 
+// eslint-disable-next-line no-magic-numbers
 type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
 export const styles = {

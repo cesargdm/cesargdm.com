@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { includeIgnoreFile } from '@eslint/compat'
 import eslint from '@eslint/js'
+import eslintPluginAstro from 'eslint-plugin-astro'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import pluginReact from 'eslint-plugin-react'
 import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort'
@@ -38,14 +37,44 @@ const importSortConfig = [
 	},
 ]
 
+const customRules = {
+	'no-magic-numbers': ['warn', { ignore: [-1, 0, 1, 2] }],
+	'no-console': 'warn',
+	'react/jsx-no-useless-fragment': 'warn',
+	'react/jsx-key': 'error',
+	'react/jsx-boolean-value': ['warn', 'never'],
+	'react/jsx-no-leaked-render': 'error',
+	'react/function-component-definition': [
+		'warn',
+		{ namedComponents: 'function-declaration' },
+	],
+	'@typescript-eslint/no-misused-promises': [
+		'error',
+		{ checksVoidReturn: false },
+	],
+	'@typescript-eslint/no-import-type-side-effects': 'error',
+	'@typescript-eslint/consistent-type-imports': [
+		'error',
+		{ fixStyle: 'separate-type-imports' },
+	],
+	'simple-import-sort/imports': importSortConfig,
+}
+
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
 export default [
 	includeIgnoreFile(gitignorePath),
-	eslint.configs.recommended,
-	...tseslint.configs.recommendedTypeChecked,
 	{
+		ignores: ['dist/', '.astro/', '.vercel/', '**/*.d.ts'],
+	},
+	eslint.configs.recommended,
+	...tseslint.configs.recommendedTypeChecked.map((config) => ({
+		...config,
+		files: ['**/*.{ts,tsx}'],
+	})),
+	{
+		files: ['**/*.{ts,tsx}'],
 		languageOptions: {
-			globals: globals.browser,
+			globals: { ...globals.browser, ...globals.node },
 			parserOptions: {
 				projectService: true,
 				ecmaFeatures: { jsx: true },
@@ -53,34 +82,28 @@ export default [
 			},
 		},
 		settings: {
-			react: {
-				version: 'detect',
-			},
+			react: { version: 'detect' },
 		},
 	},
-	jsxA11y.flatConfigs.strict,
-	pluginReact.configs.flat['jsx-runtime'],
 	{
+		...jsxA11y.flatConfigs.strict,
+		files: ['**/*.{ts,tsx}'],
+	},
+	{
+		...pluginReact.configs.flat['jsx-runtime'],
+		files: ['**/*.{ts,tsx}'],
+	},
+	{
+		files: ['**/*.{ts,tsx}'],
+		rules: customRules,
+		plugins: {
+			'simple-import-sort': pluginSimpleImportSort,
+		},
+	},
+	...eslintPluginAstro.configs.recommended,
+	{
+		files: ['**/*.astro'],
 		rules: {
-			'no-magic-numbers': ['warn', { ignore: [-1, 0, 1, 2] }],
-			'no-console': 'warn',
-			'react/jsx-no-useless-fragment': 'warn',
-			'react/jsx-key': 'error',
-			'react/jsx-boolean-value': ['warn', 'never'],
-			'react/jsx-no-leaked-render': 'error',
-			'react/function-component-definition': [
-				'warn',
-				{ namedComponents: 'function-declaration' },
-			],
-			'@typescript-eslint/no-misused-promises': [
-				'error',
-				{ checksVoidReturn: false },
-			],
-			'@typescript-eslint/no-import-type-side-effects': 'error',
-			'@typescript-eslint/consistent-type-imports': [
-				'error',
-				{ fixStyle: 'separate-type-imports' },
-			],
 			'simple-import-sort/imports': importSortConfig,
 		},
 		plugins: {

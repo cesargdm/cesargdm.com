@@ -1,14 +1,12 @@
 ---
 import { IconBrandGithub, IconStar } from '@tabler/icons-react'
 
-import Layout from '@/layouts/Layout.astro'
-
 import { getHumanReadableDate } from '@/lib/date'
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getProjects } from '@/lib/projects'
 
-import { vars } from '@/styles/theme.css'
+import Layout from '@/layouts/Layout.astro'
 import {
 	entriesList,
 	entryDate,
@@ -23,6 +21,7 @@ import {
 	projectTechnologies,
 	projectTechnologyItem,
 } from '@/styles/blog.css'
+import { vars } from '@/styles/theme.css'
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')
@@ -89,7 +88,14 @@ const meta = getMetadata({
 						</a>
 
 						{repository ? (
-							<div style={{ position: 'absolute', bottom: 0, right: 0, padding: '16px' }}>
+							<div
+								style={{
+									position: 'absolute',
+									bottom: 0,
+									right: 0,
+									padding: '16px',
+								}}
+							>
 								<a
 									style={{
 										display: 'flex',
@@ -106,7 +112,9 @@ const meta = getMetadata({
 									href={repository.url}
 								>
 									{repository.stars ? (
-										<span style={{ fontSize: '0.7rem' }}>{repository.stars}</span>
+										<span style={{ fontSize: '0.7rem' }}>
+											{repository.stars}
+										</span>
 									) : null}
 									{repository.stars ? (
 										<IconStar size={12} />

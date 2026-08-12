@@ -9,8 +9,8 @@ import NftModal from '@/modules/NftModal/NftModal.tsx'
 import type { Locale } from '@/lib/i18n'
 import type { ResolvedMetadata } from '@/lib/metadata'
 
-import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 import { body, content } from '@/styles/layout.css'
+import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
 import '@fontsource/inter/100.css'
 import '@fontsource/inter/400.css'
@@ -60,11 +60,7 @@ const themeClass = !theme
 		<meta name="twitter:creator" content={meta.twitterUsername} />
 		<meta name="twitter:title" content={meta.title} />
 		<meta name="twitter:description" content={meta.description} />
-		{
-			meta.images.map((image) => (
-				<meta name="twitter:image" content={image} />
-			))
-		}
+		{meta.images.map((image) => <meta name="twitter:image" content={image} />)}
 	</head>
 	<body class={body}>
 		<Nav locale={locale} />

@@ -2,8 +2,12 @@
 
 import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
-declare namespace App {
-	interface Locals {
-		theme: Theme
+declare global {
+	namespace App {
+		interface Locals {
+			theme: Theme
+		}
 	}
 }
+
+export {}

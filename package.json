@@ -16,7 +16,6 @@
 	},
 	"dependencies": {
 		"@astrojs/react": "^6.0.2",
-		"@astrojs/sitemap": "^3.7.3",
 		"@astrojs/vercel": "^11.0.5",
 		"@fontsource/inter": "^5.3.0",
 		"@fontsource/merriweather": "^5.3.0",
@@ -32,8 +31,6 @@
 		"@vanilla-extract/css": "1.20.1",
 		"@vanilla-extract/vite-plugin": "^5.2.6",
 		"@vercel/analytics": "2.0.1",
-		"@vercel/edge": "1.2.2",
-		"@vercel/postgres": "0.10.0",
 		"@vercel/speed-insights": "2.0.0",
 		"algoliasearch": "5.50.1",
 		"astro": "^7.2.1",
@@ -42,7 +39,6 @@
 		"gray-matter": "4.0.3",
 		"js-cookie": "3.0.5",
 		"negotiator": "1.0.0",
-		"next": "16.2.3",
 		"oauth": "0.10.2",
 		"openai": "6.34.0",
 		"react": "19.2.5",
@@ -60,7 +56,6 @@
 		"@eslint/js": "~9.30.0",
 		"@types/js-cookie": "~3.0.6",
 		"@types/negotiator": "~0.6.4",
-		"@vanilla-extract/next-plugin": "~2.5.1",
 		"astro-eslint-parser": "^3.0.0",
 		"eslint": "~9.30.0",
 		"eslint-config-cretia": "~0.4.14",
@@ -70,6 +65,7 @@
 		"globals": "~17.4.0",
 		"prettier": "~3.8.1",
 		"prettier-config-cretia": "~3.0.0",
+		"prettier-plugin-astro": "^0.14.1",
 		"typescript-eslint": "~8.58.1"
 	}
 }

@@ -36,7 +36,7 @@
 			]
 		},
 		{
-			"source": "/(static|_next|pwa|fonts)/(.*)",
+			"source": "/(_astro|fonts)/(.*)",
 			"headers": [
 				{
 					"key": "Cache-Control",

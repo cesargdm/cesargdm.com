@@ -1,10 +1,10 @@
 ---
-import Layout from '@/layouts/Layout.astro'
-
 import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getNft } from '@/lib/open-sea'
+
+import Layout from '@/layouts/Layout.astro'
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')

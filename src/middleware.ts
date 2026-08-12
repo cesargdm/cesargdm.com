@@ -2,9 +2,10 @@ import { match as matchLocale } from '@formatjs/intl-localematcher'
 import { defineMiddleware } from 'astro:middleware'
 import Negotiator from 'negotiator'
 
-import { LOCALES } from '@/lib/i18n'
 import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
 import { CookieName as ThemeCookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
+
+import { LOCALES } from '@/lib/i18n'
 
 function getLocale(request: Request): string {
 	const negotiatorHeaders: Record<string, string> = {}

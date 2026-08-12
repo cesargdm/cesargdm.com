@@ -13,10 +13,13 @@ const ASSISTANT_ID = process.env.OPENAI_ASSISTANT_ID as string
 
 const CONTENT_MAX_LENGTH = 4096
 
-function json(data: unknown, status = 200) {
+function json(data: unknown, init?: ResponseInit) {
 	return new Response(JSON.stringify(data), {
-		status,
-		headers: { 'content-type': 'application/json; charset=utf-8' },
+		...init,
+		headers: {
+			'content-type': 'application/json; charset=utf-8',
+			...init?.headers,
+		},
 	})
 }
 
@@ -29,7 +32,7 @@ export const GET: APIRoute = async ({ request }) => {
 		const threadId = new URL(request.url).searchParams.get('threadId')
 
 		if (!threadId?.length) {
-			return json({ error: 'Thread ID is required' }, 400)
+			return json({ error: 'Thread ID is required' }, { status: 400 })
 		}
 
 		const messages = await openai.beta.threads.messages.list(threadId)
@@ -42,7 +45,7 @@ export const GET: APIRoute = async ({ request }) => {
 		// eslint-disable-next-line no-console
 		console.error(error)
 
-		return json({ error: 'An error occurred' }, 500)
+		return json({ error: 'An error occurred' }, { status: 500 })
 	}
 }
 
@@ -53,7 +56,7 @@ export const PATCH: APIRoute = async ({ request }) => {
 		}
 
 		if (!request.body) {
-			return json({ error: 'Request body is required' }, 400)
+			return json({ error: 'Request body is required' }, { status: 400 })
 		}
 
 		let threadId
@@ -63,11 +66,14 @@ export const PATCH: APIRoute = async ({ request }) => {
 		}
 
 		if (!content?.length) {
-			return json({ error: 'Content is required' }, 400)
+			return json({ error: 'Content is required' }, { status: 400 })
 		}
 
 		if (content.length > CONTENT_MAX_LENGTH) {
-			return json({ error: 'Content must be less than 4096 characters' }, 400)
+			return json(
+				{ error: 'Content must be less than 4096 characters' },
+				{ status: 400 },
+			)
 		}
 
 		if (!existingThreadId?.length) {
@@ -105,6 +111,6 @@ export const PATCH: APIRoute = async ({ request }) => {
 		// eslint-disable-next-line no-console
 		console.error(error)
 
-		return json({ error: 'An error occurred' }, 500)
+		return json({ error: 'An error occurred' }, { status: 500 })
 	}
 }

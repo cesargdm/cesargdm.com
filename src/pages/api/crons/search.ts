@@ -25,10 +25,13 @@ const WEBSITE_PAGES = [
 	{ title: 'X', url: '/x', slug: 'x' },
 ] as const
 
-function json(data: unknown, status = 200) {
+function json(data: unknown, init?: ResponseInit) {
 	return new Response(JSON.stringify(data), {
-		status,
-		headers: { 'content-type': 'application/json; charset=utf-8' },
+		...init,
+		headers: {
+			'content-type': 'application/json; charset=utf-8',
+			...init?.headers,
+		},
 	})
 }
 
@@ -88,6 +91,6 @@ export const GET: APIRoute = async ({ url }) => {
 
 		return json({ result, indexes })
 	} catch {
-		return json({ message: 'Error updating Algolia indexes' }, 500)
+		return json({ message: 'Error updating Algolia indexes' }, { status: 500 })
 	}
 }

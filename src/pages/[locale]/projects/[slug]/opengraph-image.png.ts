@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro'
 import { createElement as h } from 'react'
+import type { APIRoute } from 'astro'
 
 import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
@@ -46,7 +46,12 @@ export const GET: APIRoute = async ({ params }) => {
 				h('p', { style: styles.extract }, asset?.data?.description as string),
 			),
 			logo
-				? h('img', { width: 290, height: 290, style: styles.rightImage, src: logo })
+				? h('img', {
+						width: 290,
+						height: 290,
+						style: styles.rightImage,
+						src: logo,
+					})
 				: null,
 		)
 
