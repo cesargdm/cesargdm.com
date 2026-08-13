@@ -123,6 +123,9 @@ Non-obvious notes for developing here:
   dep-optimizer can race and 500 on missing `route-cache-*.js`. Chat will return
   `{ error: "An error occurred" }` until `env.AI` is bound. The Wrangler "Edit Cloudflare
   Workers" token template covers Scripts; add **Account → Workers AI → Edit** as well.
+- **Algolia index refresh** is `.github/workflows/algolia-search.yml` (daily + `workflow_dispatch`),
+  not a Cloudflare Cron Trigger. Hashed `/_astro` and `/fonts` cache headers live in
+  `public/_headers`.
 - **Secrets live in Wrangler, not `process.env`.** Put them in `.dev.vars` locally or
   `wrangler secret put NAME` in production. Client-exposed Algolia keys still use the Astro
   `PUBLIC_` prefix (`PUBLIC_ALGOLIA_APP_ID`, `PUBLIC_ALGOLIA_SEARCH_API_KEY`) via `import.meta.env`.

@@ -10,6 +10,7 @@ export const prerender = false
 const MAX_HISTORY = 20
 const MAX_TOKENS = 512
 const TEMPERATURE = 0.7
+const MAX_CONTENT_LENGTH = 4096
 
 function json(data: unknown, init?: ResponseInit) {
 	return new Response(JSON.stringify(data), {
@@ -40,6 +41,12 @@ export const POST: APIRoute = async ({ request }) => {
 
 		if (!history.length) {
 			return json({ error: 'messages are required' }, { status: 400 })
+		}
+
+		if (
+			history.some((message) => message.content.length > MAX_CONTENT_LENGTH)
+		) {
+			return json({ error: 'message too long' }, { status: 400 })
 		}
 
 		const result = await env.AI.run(AI_MODEL, {

@@ -1,7 +1,4 @@
 ---
-import Analytics from '@vercel/analytics/astro'
-import SpeedInsights from '@vercel/speed-insights/astro'
-
 import Footer from '@/modules/Footer/Footer.astro'
 import Nav from '@/modules/Nav/Nav.astro'
 import NftModal from '@/modules/NftModal/NftModal.tsx'
@@ -72,8 +69,5 @@ const themeClass = !theme
 		<NftModal client:idle />
 
 		<Footer locale={locale} />
-
-		<Analytics />
-		<SpeedInsights />
 	</body>
 </html>
