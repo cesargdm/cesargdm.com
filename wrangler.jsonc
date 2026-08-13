@@ -8,10 +8,12 @@
 		"directory": "./dist",
 		"binding": "ASSETS",
 	},
-	// Workers AI powers the /api/assistant chat endpoint. Always runs remotely and
-	// requires Cloudflare account credentials (even in local dev).
+	// Workers AI powers the /api/assistant chat endpoint. There is no local
+	// simulation; `remote: true` is required (omitting it still connects remotely
+	// but Wrangler warns). Needs a token with Workers AI + Workers Scripts.
 	"ai": {
 		"binding": "AI",
+		"remote": true,
 	},
 	"observability": {
 		"enabled": true,

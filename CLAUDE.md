@@ -114,12 +114,15 @@ Non-obvious notes for developing here:
   after changing routes/config if editor types get stale. `bun run lint` runs `astro sync` first
   because type-aware ESLint needs `.astro/types.d.ts` (that file is gitignored; CI lint runs
   before `astro check`).
-- **Workers AI is always a remote binding.** Without Cloudflare credentials, `bun dev` will try to
-  open a Wrangler OAuth login and hang. For unauthenticated local runs, set
-  `ASTRO_CF_NO_REMOTE=1` and use **preview** (`bun run build` then
+- **Workers AI is always a remote binding.** `bun dev` needs Cloudflare auth with **Workers
+  Scripts Edit** (for Wrangler's `workers/subdomain/edge-preview` session) and **Workers AI
+  Read/Edit** (for `env.AI.run`). A token that can only call `wrangler whoami` is not enough —
+  `/accounts/:id/workers/*` and `/accounts/:id/ai/*` will 403. For unauthenticated local runs,
+  set `ASTRO_CF_NO_REMOTE=1` and use **preview** (`bun run build` then
   `ASTRO_CF_NO_REMOTE=1 bun run preview`). Do not rely on `astro dev` in that mode — Vite's
   dep-optimizer can race and 500 on missing `route-cache-*.js`. Chat will return
-  `{ error: "An error occurred" }` until `env.AI` is bound.
+  `{ error: "An error occurred" }` until `env.AI` is bound. The Wrangler "Edit Cloudflare
+  Workers" token template covers Scripts; add **Account → Workers AI → Edit** as well.
 - **Secrets live in Wrangler, not `process.env`.** Put them in `.dev.vars` locally or
   `wrangler secret put NAME` in production. Client-exposed Algolia keys still use the Astro
   `PUBLIC_` prefix (`PUBLIC_ALGOLIA_APP_ID`, `PUBLIC_ALGOLIA_SEARCH_API_KEY`) via `import.meta.env`.
