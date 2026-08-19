@@ -1,12 +1,9 @@
 import { ImageResponse } from 'next/og'
 
 import { getDefaultFonts, styles } from '@/lib/open-graph'
-import { getNfts } from '@/lib/open-sea'
+import { getNft } from '@/lib/open-sea'
 
-// Route segment config
-export const runtime = 'edge'
-
-export const alt = 'About Acme'
+export const alt = 'cesargdm NFT'
 
 export const size = {
 	width: 1200,
@@ -16,27 +13,25 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image({
-	params: { id },
+	params,
 }: {
-	params: { id: string }
+	params: Promise<{ id: string }>
 }) {
-	const data = await getNfts()
+	const { id } = await params
 
-	if (!data) return new ImageResponse(<div />, { ...size })
-
-	const nft = data.find(
-		(nft) => `ethereum_${nft.asset_contract.address}_${nft.token_id}` === id,
-	)
+	// Previously matched on `asset_contract.address`/`token_id`, which are
+	// OpenSea v1 fields the v2 API no longer returns — so this never matched.
+	const nft = await getNft(id)
 
 	if (!nft) return new ImageResponse(<div />, { ...size })
 
-	const fonts = await getDefaultFonts()
+	const fonts = getDefaultFonts()
 
 	return new ImageResponse(
 		<div style={styles.container}>
 			<div style={{ ...styles.textContainer, marginBottom: 470 }}>
 				<p style={styles.heading}>cesargdm - NFTs</p>
-				<p style={styles.title}>{nft?.name}</p>
+				<p style={styles.title}>{nft.name}</p>
 			</div>
 
 			<img

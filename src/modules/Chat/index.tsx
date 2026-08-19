@@ -19,7 +19,6 @@ import type { ChangeEvent, FormEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 
-import { BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 
 import { vars } from '@/app/theme.css'
@@ -75,9 +74,7 @@ function Chat({ locale }: { locale: Locale }) {
 			let data: Partial<State> | null = null
 
 			if (state.threadId) {
-				data = await fetch(
-					`${BASE_URL}/api/assistant?threadId=${state.threadId}`,
-				)
+				data = await fetch(`/api/assistant?threadId=${state.threadId}`)
 					.then((response) => response.json() as Promise<AssistantResponseData>)
 					.catch(() => null)
 			}

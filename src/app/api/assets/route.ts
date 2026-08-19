@@ -1,13 +1,16 @@
+import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import { getPosts } from '@/lib/blog'
-import { getProjects } from '@/lib/projects'
+import { getAssets } from '@/lib/assets'
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
 
-export function GET() {
-	const language = undefined
+export function GET(request: NextRequest) {
+	const requested = request.nextUrl.searchParams.get('locale')
 
-	const projects = getProjects(language, { content: false })
-	const posts = getPosts(language)
+	const locale = LOCALES.includes(requested as Locale)
+		? (requested as Locale)
+		: LOCALES[0]
 
-	return NextResponse.json({ projects, posts })
+	return NextResponse.json(getAssets(locale))
 }

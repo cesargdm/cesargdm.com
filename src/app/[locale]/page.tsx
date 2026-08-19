@@ -3,12 +3,13 @@ import classNames from 'classnames'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 
+import Bluesky from '@/modules/Bluesky'
 import Chat from '@/modules/Chat'
 import HoverCompany from '@/modules/HoverCompany'
 import LastPhoto from '@/modules/LastPhoto'
-import LastTweet from '@/modules/LastPost'
 import Nfts from '@/modules/Nfts'
 import Reading from '@/modules/Reading'
+import Strava from '@/modules/Strava'
 
 import { getCheerFromVisitsCount } from '@/lib/cheer'
 import type { PageProps } from '@/lib/types'
@@ -66,7 +67,12 @@ export default async function Home({ params: paramsPromise }: PageProps) {
 					</li>
 					<li style={{ aspectRatio: '1 / 1' }} className={card}>
 						<Suspense fallback={null}>
-							<LastTweet />
+							<Bluesky />
+						</Suspense>
+					</li>
+					<li style={{ aspectRatio: '1 / 1' }} className={card}>
+						<Suspense fallback={null}>
+							<Strava locale={params.locale} />
 						</Suspense>
 					</li>
 					<li style={{ padding: 0 }} className={card}>

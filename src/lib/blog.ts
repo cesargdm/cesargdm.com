@@ -4,6 +4,8 @@ import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
+import { byDateDescending } from '@/lib/date'
+
 const postsDirectory = path.join(process.cwd(), './src/assets/posts')
 
 export function getPosts(language: 'en' | 'es' = 'en') {
@@ -22,12 +24,7 @@ export function getPosts(language: 'en' | 'es' = 'en') {
 		return { slug, ...grayMatterResult }
 	})
 
-	// Sort by date
-	allEntries = allEntries.sort((a, b) => {
-		if (a.data.date < b.data.date) return 1
-		if (a.data.date > b.data.date) return -1
-		return 0
-	})
+	allEntries = allEntries.sort(byDateDescending)
 
 	// Remove draft posts in production
 	if (process.env.NODE_ENV === 'production') {

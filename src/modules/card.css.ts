@@ -2,6 +2,10 @@ import { vars } from '@/app/theme.css'
 
 import { style } from '@vanilla-extract/css'
 
+/**
+ * Shared call-to-action button for the home page cards. Lived in the X/Post
+ * card until that card was replaced, which made unrelated cards depend on it.
+ */
 export const cardButton = style({
 	display: 'flex',
 	fontWeight: 'bold',
@@ -18,24 +22,4 @@ export const cardButton = style({
 		backgroundColor: 'rgba(0, 0, 0, 0.6)',
 		boxShadow: 'inset 0 0 0 2px rgba(255, 255, 255, 0.8)',
 	},
-})
-
-export const readTweetsButton = style([
-	cardButton,
-	{
-		color: 'white',
-		boxShadow: 'none',
-		backgroundColor: '#222',
-		':hover': {
-			boxShadow: 'none',
-			backgroundColor: '#000',
-		},
-	},
-])
-
-export const tweetParagraph = style({
-	fontSize: vars.fontSize.xlarge,
-	padding: `${vars.space.large} 0`,
-	margin: 'auto',
-	textAlign: 'center',
 })

@@ -1,6 +1,7 @@
+import { cardButton } from '@/modules/card.css'
+
 import { vars } from '@/app/theme.css'
 
-import { cardButton } from '../LastPost/styles.css'
 import {
 	globalStyle,
 	keyframes,

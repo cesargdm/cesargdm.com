@@ -5,29 +5,28 @@ import NftInfo from '@/components/Nft'
 
 import { getMetadata } from '@/lib/metadata'
 import { getNft } from '@/lib/open-sea'
+import type { PageProps } from '@/lib/types'
 
-type Params = {
-	id: string
-}
+type NftParams = { params: { id: string } }
 
-export const generateMetadata = getMetadata<{ params: { id: string } }>(
-	async (options) => {
-		const nft = await getNft(options.params.id)
+export const generateMetadata = getMetadata<NftParams>(async (options) => {
+	const nft = await getNft(options.params.id)
 
-		if (!nft) notFound()
+	if (!nft) notFound()
 
-		return {
-			type: 'article',
-			title: `${nft.name} - NFTs`,
-			alternates: {
-				canonical: `/nfts/ethereum_${nft.contract}_${nft.identifier}`,
-			},
-		}
-	},
-)
+	return {
+		type: 'article',
+		title: `${nft.name} - NFTs`,
+		alternates: {
+			canonical: `/nfts/ethereum_${nft.contract}_${nft.identifier}`,
+		},
+	}
+})
 
-export default async function Nft({ params }: { params: Params }) {
-	const nft = await getNft(params.id)
+export default async function Nft({ params }: PageProps<NftParams>) {
+	const { id, locale } = await params
+
+	const nft = await getNft(id)
 
 	if (!nft) {
 		notFound()
@@ -36,7 +35,7 @@ export default async function Nft({ params }: { params: Params }) {
 	return (
 		<div>
 			<div>
-				<Link href="/nfts">Back</Link>
+				<Link href={`/${locale}/nfts`}>Back</Link>
 			</div>
 			<NftInfo {...nft} />
 		</div>
