@@ -13,8 +13,6 @@ tags: [web3, react]
 
 While planning the creation of [They Xolo](https://theyxolo.art) I scoped around multiple generative art engines, I came up with a popular library named [Hashlips](https://github.com/HashLips) while it was an amazing open sourced tool it was terribly slow, at first I navigated thru it's source code to understand how it worked, after some iterations I came up with some simple optimizations, serialization with [NodeJS Worker Threads](https://nodejs.org/api/worker_threads.html), using a better optimized library for image manipulation [Sharp](https://sharp.pixelplumbing.com/) instead of [NodeJS canvas](https://www.npmjs.com/package/canvas), just with that, I came up with 3x faster times for a +2,000 item generation.
 
-> Some image benchmark will be here anytime soon
-
 So with these optimizations, I wanted to create a simple JSON to set the configuration for the collection generation, the collection PFPs where ready.
 
 ...

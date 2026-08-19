@@ -6,6 +6,7 @@ url: https://cesargdm.com
 repository:
   url: https://github.com/cesargdm/cesargdm.com
   stars: 1
+isDraft: true
 tags: [nextjs, react, algolia]
 ---
 

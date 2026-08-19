@@ -11,7 +11,7 @@ tags: [react-native, nodejs, graphql, mongodb]
 
 # Cretia
 
-Creatia ha sido mi proyecto más grande de todos, he aprendido en este proyecto como en ningún otro.
+Cretia ha sido mi proyecto más grande de todos, he aprendido en este proyecto como en ningún otro.
 
 ## Aplicación Web
 

@@ -11,7 +11,7 @@ tags: [react-native, nodejs, graphql, mongodb]
 
 # Cretia
 
-Creatia has been my biggest baby of them all, I've learned in this project like in no other.
+Cretia has been my biggest baby of them all, I've learned in this project like in no other.
 
 ## Web App
 

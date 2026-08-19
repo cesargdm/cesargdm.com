@@ -11,9 +11,9 @@ Welcome to the repository for my personal website, [cesargdm.com](https://cesarg
 - 📄 **Markdown-Driven Content**: All content is sourced from Markdown files, making it easy to update and manage.
 - 🔍 **Algolia Search Integration**: The site is fully searchable, thanks to Algolia, providing fast and relevant search results.
 - 🧑‍⚖️ **MIT License**: This project is open-source under the MIT License, encouraging community contributions.
-- 🏆 **Perfect Lighthouse Score**: Achieved a perfect score on Google's Lighthouse performance test, ensuring optimal speed, accessibility, and SEO.
+- 🏆 **Lighthouse**: 100 on accessibility, best practices and SEO. Performance is being worked on — see [Benchmarks](#benchmarks).
 - 🤖 **Custom OpenAI Agent**: A custom-built AI agent provides intelligent interactions, enhancing user engagement.
-- 💅 **Zero Runtime CSS**: The site is styled with vanilla CSS, with no runtime dependencies, ensuring fast load times.
+- 💅 **Zero Runtime CSS**: Styled with Vanilla Extract — CSS authored in TypeScript and compiled away at build time, so no styling runtime ships to the browser.
 
 ## Getting Started
 
@@ -40,9 +40,20 @@ This will generate the static assets ready for deployment.
 
 ### Lighthouse
 
-The site has achieved a perfect score on Lighthouse, a tool by Google that audits performance, accessibility, best practices, and SEO.
+Measured on `https://cesargdm.com/en`, mobile preset:
 
-<img width="400" alt="Screenshot 2024-08-20 at 11 54 26 p m" src="https://github.com/user-attachments/assets/c27abfdc-3d68-4276-9ffe-676c0019b7a4">
+| Category       | Score |
+| -------------- | ----- |
+| Performance    | 86    |
+| Accessibility  | 100   |
+| Best Practices | 100   |
+| SEO            | 100   |
+
+Reproduce with:
+
+```bash
+bunx lighthouse https://cesargdm.com/en --output=json --output-path=./lighthouse.json
+```
 
 ## License
 
