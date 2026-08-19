@@ -1,13 +1,10 @@
 import { ImageResponse } from 'next/og'
 
 import { getAssets } from '@/lib/assets'
-import { BASE_URL } from '@/lib/constants'
-import { getDefaultFonts, styles } from '@/lib/open-graph'
+import type { Locale } from '@/lib/i18n'
+import { getAvatarDataUri, getDefaultFonts, styles } from '@/lib/open-graph'
 
-// Route segment config
-export const runtime = 'edge'
-
-export const alt = 'cesargdm project'
+export const alt = 'cesargdm blog post'
 
 export const size = {
 	width: 1200,
@@ -16,15 +13,15 @@ export const size = {
 
 export const contentType = 'image/png'
 
-// Image generation
 export default async function Image({
-	params: { slug },
+	params,
 }: {
-	params: { slug: string }
+	params: Promise<{ locale: Locale; slug: string }>
 }) {
-	const data = await getAssets()
+	const { locale, slug } = await params
 
-	const fonts = await getDefaultFonts()
+	const data = getAssets(locale)
+	const fonts = getDefaultFonts()
 
 	const asset = data.posts.find((asset) => asset.slug === slug)
 
@@ -32,14 +29,14 @@ export default async function Image({
 		<div style={styles.container}>
 			<div style={styles.textContainer}>
 				<p style={styles.heading}>cesargdm - Blog</p>
-				<p style={styles.title}>{asset?.data?.title}</p>
-				<p style={styles.extract}>{asset?.data.extract}</p>
+				<p style={styles.title}>{asset?.data?.title as string}</p>
+				<p style={styles.extract}>{asset?.data?.extract as string}</p>
 			</div>
 			<img
 				width={290}
 				height={290}
 				style={styles.rightImage}
-				src={`${BASE_URL}/android-chrome-512x512.png`}
+				src={getAvatarDataUri()}
 				alt=""
 			/>
 		</div>,

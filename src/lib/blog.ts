@@ -4,10 +4,16 @@ import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
+import { byDateDescending } from '@/lib/date'
+import { resolveLocaleDirectory } from '@/lib/locale-directory'
+
 const postsDirectory = path.join(process.cwd(), './src/assets/posts')
 
 export function getPosts(language: 'en' | 'es' = 'en') {
-	const languagePostsDirectory = path.join(postsDirectory, language)
+	const languagePostsDirectory = resolveLocaleDirectory(
+		postsDirectory,
+		language,
+	)
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
 
@@ -22,12 +28,7 @@ export function getPosts(language: 'en' | 'es' = 'en') {
 		return { slug, ...grayMatterResult }
 	})
 
-	// Sort by date
-	allEntries = allEntries.sort((a, b) => {
-		if (a.data.date < b.data.date) return 1
-		if (a.data.date > b.data.date) return -1
-		return 0
-	})
+	allEntries = allEntries.sort(byDateDescending)
 
 	// Remove draft posts in production
 	if (process.env.NODE_ENV === 'production') {

@@ -1,10 +1,8 @@
 import { ImageResponse } from 'next/og'
 
 import { getAssets } from '@/lib/assets'
-import { BASE_URL } from '@/lib/constants'
-import { fetchFonts, styles } from '@/lib/open-graph'
-
-export const runtime = 'edge'
+import type { Locale } from '@/lib/i18n'
+import { getAvatarDataUri, getDefaultFonts, styles } from '@/lib/open-graph'
 
 export const alt = 'cesargdm project'
 
@@ -15,24 +13,15 @@ export const size = {
 
 export const contentType = 'image/png'
 
-// Image generation
 export default async function Image({
-	params: { slug },
+	params,
 }: {
-	params: { slug: string }
+	params: Promise<{ locale: Locale; slug: string }>
 }) {
-	const data = await getAssets()
+	const { locale, slug } = await params
 
-	const fonts = await fetchFonts('Inter', [
-		{
-			weight: 400,
-			url: 'https://rsms.me/inter/font-files/Inter-Regular.woff',
-		},
-		{
-			weight: 600,
-			url: 'https://rsms.me/inter/font-files/Inter-Black.woff',
-		},
-	])
+	const data = getAssets(locale)
+	const fonts = getDefaultFonts()
 
 	const asset = data.projects.find((asset) => asset.slug === slug)
 
@@ -41,13 +30,13 @@ export default async function Image({
 			<div style={styles.textContainer}>
 				<p style={styles.heading}>cesargdm - Projects</p>
 				<p style={styles.title}>{asset?.data?.title}</p>
-				<p style={styles.extract}>{asset?.data.description}</p>
+				<p style={styles.extract}>{asset?.data?.description}</p>
 			</div>
 			<img
 				width={290}
 				height={290}
 				style={styles.rightImage}
-				src={`${BASE_URL}/android-chrome-512x512.png`}
+				src={getAvatarDataUri()}
 				alt=""
 			/>
 		</div>,

@@ -1,6 +1,6 @@
 import { IconBook } from '@tabler/icons-react'
 
-import { BASE_URL } from '@/lib/constants'
+import { getCurrentlyReading } from '@/lib/goodreads'
 
 import { vars } from '@/app/theme.css'
 
@@ -12,23 +12,10 @@ import {
 	titleText,
 } from './styles.css'
 
-type Book = { title: string; url: string; author: string; image: string }
-
-async function getData() {
-	// eslint-disable-next-line no-magic-numbers
-	const ONE_DAY = 60 * 60 * 24
-
-	const result = await fetch(`${BASE_URL}/api/goodreads/currently-reading`, {
-		next: { revalidate: ONE_DAY },
-	})
-		.then((response) => response.json() as Promise<Book[]>)
-		.catch(() => null)
-
-	return result
-}
-
 export default async function Reading() {
-	const data = await getData()
+	const books = await getCurrentlyReading()
+
+	if (!books.length) return null
 
 	return (
 		<>
@@ -37,15 +24,23 @@ export default async function Reading() {
 				Reading
 			</h2>
 			<ul className={bookList}>
-				{data?.map((book) => (
-					<li key={book.title} className={bookItem}>
+				{books.map((book) => (
+					<li key={book.url} className={bookItem}>
 						<a
 							href={book.url}
 							target="_blank"
 							className={bookAnchor}
 							rel="noopener noreferrer"
 						>
-							<img className={bookImage} src={book.image} alt={book.title} />
+							<img
+								width={98}
+								height={147}
+								loading="lazy"
+								decoding="async"
+								className={bookImage}
+								src={book.image}
+								alt=""
+							/>
 							<div
 								style={{ textAlign: 'center', marginTop: 16, height: '3rem' }}
 							>

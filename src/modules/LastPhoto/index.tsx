@@ -1,7 +1,7 @@
 import { IconBrandUnsplash } from '@tabler/icons-react'
 import Image from 'next/image'
 
-import { BASE_URL } from '@/lib/constants'
+import { getLastPhotos } from '@/lib/unsplash'
 
 import { vars } from '@/app/theme.css'
 
@@ -12,34 +12,20 @@ import {
 	photosWrapper,
 } from './styles.css'
 
-type Photo = { id: string; urls: { regular: string }; alt_description: string }
-
-function getData() {
-	// eslint-disable-next-line no-magic-numbers
-	const ONE_DAY = 60 * 60 * 24
-
-	return fetch(`${BASE_URL}/api/unsplash/last-photos`, {
-		method: 'GET',
-		next: { revalidate: ONE_DAY },
-	})
-		.then((response) => response.json() as Promise<Photo[]>)
-		.catch(() => undefined)
-}
-
 async function LastPhoto() {
-	const data = await getData()
+	const photos = await getLastPhotos()
 
 	return (
 		<>
 			<div className={photosWrapper}>
-				{data?.map((photo) => (
+				{photos.map((photo) => (
 					<div key={photo.id} className={photoContainer}>
 						<Image
-							width={500}
-							height={500}
+							width={photo.width}
+							height={photo.height}
 							className={image}
-							src={photo.urls.regular}
-							alt={photo.alt_description ?? ''}
+							src={photo.url}
+							alt={photo.alt}
 						/>
 					</div>
 				))}
