@@ -14,8 +14,6 @@ declare global {
 	// wrangler.jsonc, so declare them here for typing `cloudflare:workers` env.
 	namespace Cloudflare {
 		interface Env {
-			ALGOLIA_APP_ID?: string
-			ALGOLIA_API_KEY?: string
 			OPENSEA_API_KEY?: string
 			UNSPLASH_ACCESS_KEY?: string
 			SLACK_TOKEN?: string

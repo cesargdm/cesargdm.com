@@ -1,34 +1,17 @@
-import {
-	useCallback,
-	useDeferredValue,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import { useCallback, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
-import type { SearchResponse } from 'algoliasearch'
-import type { ChangeEvent, MouseEvent } from 'react'
-import aa from 'search-insights'
+import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 
-import { algoliaSearchClient } from '@/lib/algolia/client'
-import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import type { Locale } from '@/lib/i18n'
+import { useSiteSearch } from '@/lib/use-site-search'
 
 import Search from '../Search'
 
 import StaticNavList from './StaticNavList'
 
 import { centerNavList, navItem, searchList } from '../styles.css'
-
-type SuperType = {
-	objectID: string
-	url: string
-	description: string
-	type: string
-	title: string
-}
 
 function getInitialQuery() {
 	if (typeof window === 'undefined') return null
@@ -61,23 +44,7 @@ export default function NavList({
 	const [query, setQuery] = useState<string | null>(getInitialQuery)
 	const [isOpen, setIsOpen] = useState(() => getInitialQuery() !== null)
 
-	const deferredQuery = useDeferredValue(query)
-
-	const [results, setResults] = useState<null | SearchResponse<SuperType>>(null)
-
-	useEffect(() => {
-		if (!deferredQuery) return
-
-		algoliaSearchClient
-			?.searchSingleIndex<SuperType>({
-				indexName: getAlgoliaIndexName(locale),
-				searchParams: { query: deferredQuery, clickAnalytics: true },
-			})
-			.then((response) => {
-				setResults(response)
-			})
-			.catch(() => undefined)
-	}, [deferredQuery, locale])
+	const { results } = useSiteSearch(locale, query)
 
 	const handleOnSearch = useCallback(() => {
 		if (isOpen) {
@@ -97,23 +64,6 @@ export default function NavList({
 			updateQueryParam(value)
 		},
 		[],
-	)
-
-	const handleLinkClick = useCallback(
-		(event: MouseEvent<HTMLAnchorElement>) => {
-			const objectId = event.currentTarget.getAttribute('data-object-id')
-
-			if (!objectId) return
-
-			void aa('clickedObjectIDsAfterSearch', {
-				index: getAlgoliaIndexName(locale),
-				eventName: 'Item Clicked',
-				queryID: results?.queryID as string,
-				objectIDs: [objectId],
-				positions: [0],
-			})
-		},
-		[results, locale],
 	)
 
 	const handleOnInteractOutside = useCallback(
@@ -159,10 +109,10 @@ export default function NavList({
 					autoFocus={false}
 					asChild
 				>
-					{Array.isArray(results?.hits) ? (
-						<ol className={searchList}>
-							{results.hits.map((hit) => (
-								<li style={{ padding: 16 }} key={hit.objectID}>
+					{results.length ? (
+						<ol className={searchList} aria-live="polite">
+							{results.map((result) => (
+								<li style={{ padding: 16 }} key={result.id}>
 									<a
 										style={{
 											display: 'inline-flex',
@@ -173,9 +123,7 @@ export default function NavList({
 											gap: 4,
 											minWidth: 200,
 										}}
-										data-object-id={hit.objectID}
-										onClick={handleLinkClick}
-										href={hit.url}
+										href={result.url}
 									>
 										<p
 											style={{
@@ -184,7 +132,7 @@ export default function NavList({
 												gap: 16,
 											}}
 										>
-											<b>{hit.title}</b>
+											<b>{result.title}</b>
 											<span
 												style={{
 													display: 'inline-flex',
@@ -197,17 +145,17 @@ export default function NavList({
 													alignItems: 'center',
 												}}
 											>
-												{hit.type}
+												{result.type}
 											</span>
 										</p>
-										{hit.description ? <p>{hit.description}</p> : null}
+										{result.description ? <p>{result.description}</p> : null}
 									</a>
 								</li>
 							))}
 						</ol>
 					) : (
 						<div>
-							<p>Start typing to see suggestions</p>
+							<p>{query ? 'No results' : 'Start typing to see suggestions'}</p>
 						</div>
 					)}
 				</Popover.Content>

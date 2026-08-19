@@ -2,8 +2,6 @@
 import AsideAboutMe from '@/modules/AsideAboutMe'
 import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
 
-import PageAnalytics from '@/components/PageAnalytics'
-
 import { getPost, getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
@@ -60,11 +58,6 @@ const meta = post
 			<>
 				<div class={entryContainer}>
 					<div>
-						<PageAnalytics
-							client:load
-							locale={locale}
-							objectId={`post-${slug}`}
-						/>
 						<article
 							set:html={post.contentHtml}
 							class:list={[articleContainer, !isTechnical && nonTechnicalEntry]}

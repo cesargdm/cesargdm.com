@@ -28,7 +28,6 @@
 		"@types/react-dom": "19.2.3",
 		"@vanilla-extract/css": "1.20.1",
 		"@vanilla-extract/vite-plugin": "^5.2.6",
-		"algoliasearch": "5.50.1",
 		"astro": "^7.2.1",
 		"cheerio": "1.2.0",
 		"classnames": "2.5.1",
@@ -39,7 +38,6 @@
 		"react-dom": "19.2.5",
 		"remark": "15.0.1",
 		"remark-html": "16.0.1",
-		"search-insights": "2.17.3",
 		"typescript": "6.0.2",
 		"unsplash-js": "7.0.20",
 		"workers-og": "^0.0.27"

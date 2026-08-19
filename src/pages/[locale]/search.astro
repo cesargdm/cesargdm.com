@@ -1,13 +1,29 @@
 ---
-import { isLocale } from '@/lib/i18n'
+import SiteSearch from '@/modules/SiteSearch'
+
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 
 import Layout from '@/layouts/Layout.astro'
 
-const locale = Astro.params.locale
-if (!isLocale(locale)) return Astro.rewrite('/404')
+export const prerender = true
 
-const meta = getMetadata({ locale })
+export function getStaticPaths() {
+	return LOCALES.map((locale) => ({ params: { locale } }))
+}
+
+const locale = Astro.params.locale as Locale
+
+const meta = getMetadata({
+	locale,
+	title: 'Search',
+	description: 'Search posts, projects and pages on cesargdm.com',
+	canonicalPath: '/search',
+})
 ---
 
-<Layout locale={locale} meta={meta} />
+<Layout locale={locale} meta={meta}>
+	<h1>Search</h1>
+	<SiteSearch client:load locale={locale} />
+</Layout>
