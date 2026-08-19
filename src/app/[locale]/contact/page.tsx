@@ -1,4 +1,5 @@
 import {
+	IconBrandBluesky,
 	IconBrandGithub,
 	IconBrandLinkedin,
 	IconBrandX,
@@ -19,6 +20,10 @@ export const generateMetadata = getMetadata(() => ({
 }))
 
 const socialLinks = [
+	{
+		...social.bluesky,
+		icon: <IconBrandBluesky aria-hidden />,
+	},
 	{
 		...social.x,
 		icon: <IconBrandX aria-hidden />,

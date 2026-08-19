@@ -9,7 +9,7 @@ export default function Error() {
 	return (
 		<div className={errorPageContainer}>
 			<h1>🔥 This is fine</h1>
-			<Image height={144} width={300} src="/images/this-is-fine.png" alt="" />
+			<Image height={144} width={300} src="/images/this-is-fine.webp" alt="" />
 			<p>
 				{`Well you just broke the page, or maybe it was already broken. Either way, it's not working.`}
 				<Link

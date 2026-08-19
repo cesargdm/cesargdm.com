@@ -59,11 +59,11 @@ Working with a large project with different contributors, a large history of com
 
 We always know when our code stinks, but CodeMetrics will make it clear when we are not following the best practices.
 
-![Complexity 20](/images/complexity-20.png)
+![Complexity 20](/images/complexity-20.webp)
 
 > We can see that this component is too complex, and we should refactor it.
 
-![Complexity 20](/images/complexity-6.png)
+![Complexity 20](/images/complexity-6.webp)
 
 > Ahh, much better. Smaller components, easier to read and understand.
 

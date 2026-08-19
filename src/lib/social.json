@@ -3,6 +3,10 @@
 		"name": "LinkedIn",
 		"url": "https://linkedin.com/in/cesargdm"
 	},
+	"bluesky": {
+		"name": "Bluesky",
+		"url": "https://bsky.app/profile/cesargdm.com"
+	},
 	"x": {
 		"name": "X",
 		"url": "https://x.com/cesargdm"
@@ -13,7 +17,7 @@
 	},
 	"cv": {
 		"name": "CV",
-		"url": "https://read.cv/cesargdm"
+		"url": "https://linkedin.com/in/cesargdm"
 	},
 	"github": {
 		"name": "GitHub",

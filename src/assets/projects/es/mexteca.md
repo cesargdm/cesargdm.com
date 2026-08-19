@@ -1,6 +1,6 @@
 ---
 title: Mexteca
-description: Aplicación web y scraper web para listados de cines locales.
+description: Aplicación web y scraper para la cartelera de cines locales.
 date: 2022-10-01T00:00:00.000
 repository:
   url: https://github.com/cesargdm/mexteca

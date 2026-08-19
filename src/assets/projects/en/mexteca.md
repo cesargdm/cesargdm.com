@@ -1,6 +1,6 @@
 ---
 title: Mexteca
-description: Web scrapper and web app app for local cinema listings.
+description: Web scraper and web app for local cinema listings.
 date: 2022-10-01T00:00:00.000
 repository:
   url: https://github.com/cesargdm/mexteca
