@@ -1,7 +1,7 @@
+import { cached, ONE_DAY_SECONDS } from '@/lib/fetch-cache'
 import { logIntegrationFailure } from '@/lib/log'
 
 const GOODREADS_USER_ID = '119995387'
-const ONE_DAY_SECONDS = 86400
 
 export type Book = {
 	title: string
@@ -27,7 +27,12 @@ export async function getCurrentlyReading(): Promise<Book[]> {
 	try {
 		const response = await fetch(
 			`https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}?shelf=currently-reading`,
-			{ next: { revalidate: ONE_DAY_SECONDS } },
+			{
+				...cached(ONE_DAY_SECONDS),
+				// Goodreads answers 403 to requests without a User-Agent, which is
+				// what the build-time runtime sends by default.
+				headers: { 'user-agent': 'cesargdm.com (+https://cesargdm.com)' },
+			},
 		)
 
 		if (!response.ok) {

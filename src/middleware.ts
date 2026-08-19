@@ -1,65 +1,72 @@
 import { match as matchLocale } from '@formatjs/intl-localematcher'
+import { defineMiddleware } from 'astro:middleware'
 import Negotiator from 'negotiator'
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+
+import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
+import { CookieName as ThemeCookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
 import { LOCALES } from '@/lib/i18n'
 
-function getLocale(request: NextRequest): string | undefined {
-	// Negotiator expects plain object so we need to transform headers
+function getLocale(request: Request): string {
 	const negotiatorHeaders: Record<string, string> = {}
 	request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
 
-	const locales = LOCALES
+	const locales = LOCALES as unknown as string[]
 
-	// Use negotiator and intl-localematcher to get best locale
 	const languages = new Negotiator({ headers: negotiatorHeaders }).languages(
-		locales as unknown as string[],
+		locales,
 	)
 
-	const locale = matchLocale(languages, locales, LOCALES[0])
-
-	return locale
+	return matchLocale(languages, locales, LOCALES[0])
 }
-export function middleware(request: NextRequest) {
-	const pathname = request.nextUrl.pathname
 
-	if (
-		pathname.endsWith('.png') ||
-		pathname.endsWith('.jpg') ||
-		pathname.endsWith('.jpeg') ||
-		pathname.endsWith('.webp') ||
-		pathname.endsWith('.svg') ||
-		pathname.endsWith('.gif') ||
-		pathname.endsWith('.json') ||
-		pathname.endsWith('.xml') ||
-		pathname.endsWith('.ico')
-	) {
-		return
+const FILE_EXTENSION = /\.[a-zA-Z0-9]+$/
+
+/**
+ * Mirrors public/_headers, which covers prerendered pages and static assets —
+ * middleware does not run for those. These apply to the on-demand routes.
+ *
+ * `Feature-Policy` and `X-XSS-Protection` from the old vercel.json are dropped:
+ * the first is superseded by `Permissions-Policy`, and the second enables a
+ * legacy auditor that is itself an XSS vector and is gone from modern browsers.
+ */
+const SECURITY_HEADERS: Record<string, string> = {
+	'X-Content-Type-Options': 'nosniff',
+	'X-Frame-Options': 'DENY',
+	'Referrer-Policy': 'strict-origin-when-cross-origin',
+	'Permissions-Policy': 'geolocation=(self), microphone=()',
+	'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+}
+
+function withSecurityHeaders(response: Response) {
+	for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+		response.headers.set(key, value)
+	}
+	return response
+}
+
+export const onRequest = defineMiddleware(async (context, next) => {
+	const { url, request, cookies, locals } = context
+	const pathname = url.pathname
+
+	locals.theme = (cookies.get(ThemeCookieName)?.value ?? '') as Theme
+
+	// Skip locale handling for API routes and static assets, but still render.
+	if (pathname.startsWith('/api') || FILE_EXTENSION.test(pathname)) {
+		return withSecurityHeaders(await next())
 	}
 
-	// Check if there is any supported locale in the pathname
+	// Redirect if there is no locale prefix in the pathname
 	const pathnameIsMissingLocale = LOCALES.every(
 		(locale) =>
 			!pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
 	)
 
-	// Redirect if there is no locale
 	if (pathnameIsMissingLocale) {
 		const locale = getLocale(request)
 
-		// e.g. incoming request is /products
-		// The new URL is now /en-US/products
-		return NextResponse.redirect(
-			new URL(
-				`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`,
-				request.url,
-			),
-		)
+		return context.redirect(`/${locale}${pathname}`)
 	}
-}
 
-export const config = {
-	matcher:
-		'/((?!api|_next/static|_next/image|robots.txt|sitemap.xml|images|favicon.ico).*)',
-}
+	return withSecurityHeaders(await next())
+})

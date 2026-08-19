@@ -3,28 +3,28 @@
 ## Project Overview
 This is cesargdm.com - a high-performance personal website built with modern web technologies. The site features:
 - 🌍 **Internationalization support**
-- 🖼️ **Dynamic OG Image Generation**  
+- 🖼️ **Dynamic OG Image Generation**
 - 📄 **Markdown-driven content**
 - 🔍 **Algolia Search Integration**
 - 🏆 **Perfect Lighthouse Score** (Performance, Accessibility, SEO)
-- 🤖 **Custom OpenAI Agent**
+- 🤖 **Workers AI chat assistant**
 - 💅 **Zero Runtime CSS** with Vanilla Extract
 
 ## Tech Stack
-- **Framework**: Next.js 15.3.4 (App Router)
-- **React**: 19.1.0 
-- **TypeScript**: 5.8.3
-- **Styling**: Vanilla Extract CSS (@vanilla-extract/css)
+- **Framework**: Astro 7 (SSR, `output: 'server'`)
+- **React**: 19 islands via `@astrojs/react`
+- **TypeScript**: strict (`astro check`)
+- **Styling**: Vanilla Extract CSS (`@vanilla-extract/css`)
 - **Package Manager**: Bun (preferred)
-- **Deployment**: Vercel
+- **Deployment**: Cloudflare Workers (`@astrojs/cloudflare` + Wrangler)
 - **Search**: Algolia
-- **AI**: OpenAI integration
+- **AI**: Cloudflare Workers AI (`@cf/meta/llama-3.1-8b-instruct`)
 
 ## Quality & Build Verification (MANDATORY)
 
 ### Always Run These Checks Before Any Code Changes
 ```bash
-# 1. TypeScript type checking
+# 1. Type checking (astro check, not tsc)
 bun run typecheck
 
 # 2. ESLint with zero warnings policy
@@ -46,22 +46,21 @@ bun run format
 bun run typecheck && bun run lint && bun run build
 ```
 
-## Modern Next.js 15 & React 19 Best Practices
+## Astro 7 & React 19 Best Practices
 
-### App Router Patterns
-- Use the `app/` directory structure (already implemented)
-- Prefer Server Components by default, use Client Components only when needed
-- Use `loading.tsx`, `error.tsx`, and `not-found.tsx` for UI states
-- Implement proper metadata API for SEO
+### Routing & rendering
+- Pages live under `src/pages/[locale]/` (en, es). Do not enable Astro's built-in i18n routing.
+- Prefer `.astro` (server-rendered) by default; use React islands (`client:*`) only for interactivity.
+- API routes are `src/pages/api/**.ts` (`APIRoute`). Read secrets from `import { env } from 'cloudflare:workers'`, not `process.env`.
+- Markdown content is bundled with `import.meta.glob(..., { query: '?raw', eager: true })` — never `node:fs` at request time.
 
 ### React 19 Best Practices
-- Use the new `use()` hook for async operations in components
-- Leverage React Server Actions for form handling
-- Use React.lazy() with Suspense for code splitting
 - Prefer function declarations for named components (enforced by ESLint)
+- Keep islands small; pass serializable props from Astro
+- Use `readJson<T>()` from `src/lib/json.ts` instead of casting `.json()` at call sites
 
 ### Performance Optimization
-- Always implement proper image optimization with `next/image`
+- Use native `<img>` / workers-og for OG PNGs (passthrough image service; no Cloudflare Images binding)
 - Use dynamic imports for large dependencies
 - Implement proper caching strategies
 - Maintain the perfect Lighthouse score standard
@@ -70,7 +69,7 @@ bun run typecheck && bun run lint && bun run build
 - Use strict TypeScript configuration (already configured)
 - Implement proper type imports (`import type`) as enforced by ESLint
 - Use the `satisfies` operator for type assertion when appropriate
-- Define proper interfaces for API responses and data structures
+- After `wrangler.jsonc` changes, run `bunx wrangler types`. Secret names go in `src/env.d.ts` (`Cloudflare.Env`), not the generated file.
 
 ## Styling Guidelines (Vanilla Extract CSS)
 
@@ -83,11 +82,13 @@ bun run typecheck && bun run lint && bun run build
 ### File Organization
 ```
 src/
-├── components/     # Reusable UI components
-├── modules/        # Feature-specific modules  
-├── app/           # Next.js App Router pages
-├── lib/           # Utilities and configurations
-└── assets/        # Static assets
+├── pages/      # Astro routes + API endpoints
+├── layouts/    # Layout.astro
+├── modules/    # Feature-level components / islands
+├── components/ # Shared reusable components
+├── lib/        # Utilities and configurations
+├── styles/     # Theme + global + page-level Vanilla Extract
+└── assets/     # Markdown content and static icons
 ```
 
 ## Code Quality Rules
@@ -100,7 +101,7 @@ src/
 
 ### Import Organization (Automated)
 1. Node.js and React packages
-2. Internal screens/navigation/containers  
+2. Internal screens/navigation/containers
 3. Modules
 4. Components
 5. Library/utility functions
@@ -120,10 +121,11 @@ src/
 
 ### Starting Development
 ```bash
-# Preferred package manager
+# Preferred package manager — workerd on localhost:4321
 bun dev
 
-# Verify localhost:3000 loads correctly
+# Without Cloudflare login (no Workers AI):
+# bun run build && ASTRO_CF_NO_REMOTE=1 bun run preview
 ```
 
 ### Before Pushing Changes
@@ -134,20 +136,19 @@ bun dev
 
 ## Internationalization Guidelines
 - Use proper i18n patterns for multi-language support
-- Implement locale-aware routing
+- Implement locale-aware routing via `[locale]` + `src/middleware.ts`
 - Ensure proper metadata for each language variant
 
 ## API & Data Handling
 - Use TypeScript for all API interfaces
 - Implement proper error handling
-- Use React Server Actions for mutations when possible
-- Maintain OpenAI integration patterns for the custom agent
+- Chat: POST `/api/assistant` with `{ messages }` → Workers AI (`src/lib/assistant.ts`)
+- Secrets: `.dev.vars` locally, `wrangler secret put` in production
 
 ## Security & Performance
-- Implement proper Content Security Policy
-- Use Next.js Image optimization for all images
+- Security headers are set in `src/middleware.ts`
 - Maintain zero runtime CSS requirement
-- Follow Vercel deployment best practices
+- Follow Cloudflare Workers + Wrangler deployment practices (`nodejs_compat` is on; still avoid `node:fs` at request time)
 
 ## Emergency Override
 If any of these rules prevent urgent fixes, document the reason and create a follow-up task to address the rule compliance.

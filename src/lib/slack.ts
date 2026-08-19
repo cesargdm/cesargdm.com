@@ -1,6 +1,8 @@
-import { logIntegrationFailure } from '@/lib/log'
+import { env } from 'cloudflare:workers'
 
-const ONE_DAY_SECONDS = 86400
+import { cached, ONE_DAY_SECONDS } from '@/lib/fetch-cache'
+import { readJson } from '@/lib/json'
+import { logIntegrationFailure } from '@/lib/log'
 
 /**
  * Used when Slack is unreachable or unconfigured. The footer renders a clock,
@@ -14,28 +16,25 @@ export const FALLBACK_TIME_ZONE = 'America/Mexico_City'
  * actually working on, which makes it a better source than a hardcoded zone.
  */
 export async function getTimeZone(): Promise<string> {
-	const token = process.env.SLACK_TOKEN
-	const userId = process.env.SLACK_USER_ID
-
-	if (!token || !userId) {
+	if (!env.SLACK_TOKEN || !env.SLACK_USER_ID) {
 		logIntegrationFailure('slack', 'SLACK_TOKEN or SLACK_USER_ID is not set')
 		return FALLBACK_TIME_ZONE
 	}
 
 	try {
 		const response = await fetch(
-			`https://slack.com/api/users.info?user=${userId}`,
+			`https://slack.com/api/users.info?user=${env.SLACK_USER_ID}`,
 			{
-				headers: { Authorization: `Bearer ${token}` },
-				next: { revalidate: ONE_DAY_SECONDS },
+				...cached(ONE_DAY_SECONDS),
+				headers: { Authorization: `Bearer ${env.SLACK_TOKEN}` },
 			},
 		)
 
-		const data = (await response.json()) as {
+		const data = await readJson<{
 			ok: boolean
 			error?: string
 			user?: { tz?: string }
-		}
+		}>(response)
 
 		// Slack answers 200 with `ok: false` on auth failure, so the HTTP status
 		// alone is not enough to tell success from a revoked token.

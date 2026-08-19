@@ -1,6 +1,9 @@
+import { env } from 'cloudflare:workers'
+
+import { cached, ONE_HOUR_SECONDS } from '@/lib/fetch-cache'
+import { readJson } from '@/lib/json'
 import { logIntegrationFailure } from '@/lib/log'
 
-const ONE_HOUR_SECONDS = 3600
 const METERS_PER_KILOMETER = 1000
 const SECONDS_PER_MINUTE = 60
 const MILLISECONDS_PER_SECOND = 1000
@@ -42,19 +45,16 @@ let cachedToken: { value: string; expiresAt: number } | undefined
  *
  * The exchanged token is cached until shortly before it expires. Besides saving
  * a round-trip per render, this minimises how often the refresh token is
- * presented: Strava may rotate it, and a serverless request has nowhere to
- * persist a new one.
+ * presented: Strava may rotate it, and there is nowhere to persist a new one.
  */
 async function getAccessToken() {
 	if (cachedToken && cachedToken.expiresAt > Date.now()) {
 		return cachedToken.value
 	}
 
-	const clientId = process.env.STRAVA_CLIENT_ID
-	const clientSecret = process.env.STRAVA_CLIENT_SECRET
-	const refreshToken = process.env.STRAVA_REFRESH_TOKEN
+	const { STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_REFRESH_TOKEN } = env
 
-	if (!clientId || !clientSecret || !refreshToken) {
+	if (!STRAVA_CLIENT_ID || !STRAVA_CLIENT_SECRET || !STRAVA_REFRESH_TOKEN) {
 		throw new Error(
 			'STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET or STRAVA_REFRESH_TOKEN is not set',
 		)
@@ -64,32 +64,30 @@ async function getAccessToken() {
 		method: 'POST',
 		headers: { 'content-type': 'application/json' },
 		body: JSON.stringify({
-			client_id: clientId,
-			client_secret: clientSecret,
+			client_id: STRAVA_CLIENT_ID,
+			client_secret: STRAVA_CLIENT_SECRET,
 			grant_type: 'refresh_token',
-			refresh_token: refreshToken,
+			refresh_token: STRAVA_REFRESH_TOKEN,
 		}),
-		cache: 'no-store',
 	})
 
 	if (!response.ok) {
 		throw new Error(`Strava token exchange responded ${response.status}`)
 	}
 
-	const data = (await response.json()) as {
+	const data = await readJson<{
 		access_token?: string
 		expires_in?: number
 		refresh_token?: string
-	}
+	}>(response)
 
 	if (!data.access_token) {
 		throw new Error('Strava token exchange returned no access_token')
 	}
 
-	// A rotated refresh token invalidates the configured one. There is nowhere
-	// to persist it from a serverless request, so say so explicitly — the card
-	// will disappear until STRAVA_REFRESH_TOKEN is updated.
-	if (data.refresh_token && data.refresh_token !== refreshToken) {
+	// A rotated refresh token invalidates the configured one. Say so explicitly —
+	// the card will disappear until STRAVA_REFRESH_TOKEN is updated.
+	if (data.refresh_token && data.refresh_token !== STRAVA_REFRESH_TOKEN) {
 		logIntegrationFailure(
 			'strava',
 			'refresh token was rotated — update STRAVA_REFRESH_TOKEN or the card will stop working',
@@ -115,8 +113,8 @@ export async function getLastRun(): Promise<Run | undefined> {
 		const response = await fetch(
 			`https://www.strava.com/api/v3/athlete/activities?per_page=${ACTIVITY_PAGE_SIZE}`,
 			{
+				...cached(ONE_HOUR_SECONDS),
 				headers: { Authorization: `Bearer ${accessToken}` },
-				next: { revalidate: ONE_HOUR_SECONDS },
 			},
 		)
 
@@ -124,7 +122,7 @@ export async function getLastRun(): Promise<Run | undefined> {
 			throw new Error(`Strava activities responded ${response.status}`)
 		}
 
-		const activities = (await response.json()) as StravaActivity[]
+		const activities = await readJson<StravaActivity[]>(response)
 
 		// Activities come back newest-first across every sport, so filter rather
 		// than taking the first entry.

@@ -1,0 +1,25 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "cesargdm-com",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"compatibility_date": "2026-08-12",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+	},
+	// Workers AI powers the /api/assistant chat endpoint. There is no local
+	// simulation; `remote: true` is required (omitting it still connects remotely
+	// but Wrangler warns). Needs a token with Workers AI + Workers Scripts.
+	"ai": {
+		"binding": "AI",
+		"remote": true,
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+	},
+	// Daily Algolia refresh is a GitHub Actions cron (see
+	// .github/workflows/algolia-search.yml). Cloudflare Cron Triggers need a
+	// Worker `scheduled` handler; Astro's default entrypoint is fetch-only.
+}

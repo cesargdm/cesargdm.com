@@ -1,8 +1,9 @@
+import { cached, ONE_DAY_SECONDS } from '@/lib/fetch-cache'
+import { readJson } from '@/lib/json'
 import { logIntegrationFailure } from '@/lib/log'
 
 const BLUESKY_HANDLE = 'cesargdm.com'
 const PUBLIC_API = 'https://public.api.bsky.app/xrpc'
-const ONE_DAY_SECONDS = 86400
 
 export type BlueskyProfile = {
 	handle: string
@@ -29,15 +30,16 @@ export type BlueskyFeed = {
 async function fetchPublic<T>(path: string, params: Record<string, string>) {
 	const query = new URLSearchParams(params).toString()
 
-	const response = await fetch(`${PUBLIC_API}/${path}?${query}`, {
-		next: { revalidate: ONE_DAY_SECONDS },
-	})
+	const response = await fetch(
+		`${PUBLIC_API}/${path}?${query}`,
+		cached(ONE_DAY_SECONDS),
+	)
 
 	if (!response.ok) {
 		throw new Error(`Bluesky ${path} responded ${response.status}`)
 	}
 
-	return response.json() as Promise<T>
+	return readJson<T>(response)
 }
 
 function toPostUrl(uri: string, handle: string) {

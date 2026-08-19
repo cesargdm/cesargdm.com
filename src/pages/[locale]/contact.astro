@@ -1,0 +1,56 @@
+---
+import {
+	IconBrandGithub,
+	IconBrandLinkedin,
+	IconBrandX,
+	IconFile,
+	IconMail,
+} from '@tabler/icons-react'
+
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import social from '@/lib/social.json'
+
+import Layout from '@/layouts/Layout.astro'
+import { contactHeading, contactList } from '@/styles/contact.css'
+
+export const prerender = true
+
+export function getStaticPaths() {
+	return LOCALES.map((locale) => ({ params: { locale } }))
+}
+
+const locale = Astro.params.locale as Locale
+
+const meta = getMetadata({
+	locale,
+	title: 'Contact',
+	description: 'Social links and contact information for César Guadarrama',
+	canonicalPath: '/contact',
+})
+
+const socialLinks = [
+	{ ...social.x, Icon: IconBrandX },
+	{ ...social.cv, Icon: IconFile },
+	{ ...social.github, Icon: IconBrandGithub },
+	{ ...social.linkedin, Icon: IconBrandLinkedin },
+	{ ...social.email, Icon: IconMail },
+]
+---
+
+<Layout locale={locale} meta={meta}>
+	<h1 class={contactHeading}>Contact</h1>
+	<ul class={contactList}>
+		{
+			socialLinks.map(({ name, url, Icon }) => (
+				<li>
+					<a target="_blank" rel="noopener noreferrer" href={url}>
+						<Icon aria-hidden />
+						{name}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</Layout>

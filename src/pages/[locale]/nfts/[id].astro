@@ -1,0 +1,52 @@
+---
+import { BASE_URL } from '@/lib/constants'
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import { getNft } from '@/lib/open-sea'
+
+import Layout from '@/layouts/Layout.astro'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const id = Astro.params.id as string
+const nft = await getNft(id)
+
+if (!nft) {
+	Astro.response.status = 404
+}
+
+const meta = nft
+	? getMetadata({
+			locale,
+			type: 'article',
+			title: `${nft.name} - NFTs`,
+			canonicalPath: `/nfts/ethereum_${nft.contract}_${nft.identifier}`,
+			images: [`${BASE_URL}/${locale}/nfts/${id}/opengraph-image.png`],
+		})
+	: getMetadata({ locale, title: 'Not Found' })
+---
+
+<Layout locale={locale} meta={meta}>
+	{
+		nft ? (
+			<div>
+				<div>
+					<a href={`/${locale}/nfts`}>Back</a>
+				</div>
+				<div>
+					<h1>{nft.name}</h1>
+					<p>{nft.description}</p>
+					<img src={nft.image_url} alt={nft.name} width={500} height={500} />
+				</div>
+			</div>
+		) : (
+			<div>
+				<h1>🙈 Not Found</h1>
+				<p>
+					<a href={`/${locale}/nfts`}>Back to NFTs</a>
+				</p>
+			</div>
+		)
+	}
+</Layout>

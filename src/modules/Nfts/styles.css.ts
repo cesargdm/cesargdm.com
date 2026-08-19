@@ -1,6 +1,6 @@
 import { cardButton } from '@/modules/card.css'
 
-import { vars } from '@/app/theme.css'
+import { vars } from '@/styles/theme.css'
 
 import {
 	globalStyle,

@@ -1,0 +1,63 @@
+---
+import { isLocale } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import { getNfts } from '@/lib/open-sea'
+
+import Layout from '@/layouts/Layout.astro'
+import {
+	nftDescription,
+	nftImageWrapper,
+	nftItem,
+	nftLink,
+	nftName,
+	nftsList,
+	nftTextWrapper,
+} from '@/styles/nfts.css'
+
+const locale = Astro.params.locale
+if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const data = await getNfts({ chain: 'ethereum' })
+
+const meta = getMetadata({
+	locale,
+	title: 'NFTs',
+	description: 'César Guadarrama Cantú - Product engineer - NFTs',
+	canonicalPath: '/nfts',
+})
+---
+
+<Layout locale={locale} meta={meta}>
+	<ul class={nftsList}>
+		{
+			data?.map((nft) => {
+				if (!nft.image_url) return null
+
+				return (
+					<li class={nftItem}>
+						<a
+							href={`/${locale}/nfts/ethereum_${nft.contract}_${nft.identifier}`}
+							class={nftLink}
+						>
+							<div class={nftImageWrapper}>
+								<img
+									src={nft.image_url}
+									alt=""
+									style={{
+										width: '100%',
+										height: '100%',
+										objectFit: 'cover',
+									}}
+								/>
+							</div>
+							<div class={nftTextWrapper}>
+								<p class={nftName}>{nft.name}</p>
+								<p class={nftDescription}>{nft.description}</p>
+							</div>
+						</a>
+					</li>
+				)
+			})
+		}
+	</ul>
+</Layout>

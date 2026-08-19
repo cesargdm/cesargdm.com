@@ -1,23 +1,17 @@
-'use client'
-
 import { useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import type { ReactNode } from 'react'
 
 type Props = {
-	onClose?: () => undefined
+	onClose?: () => void
 	children: ReactNode
 }
 
 export default function Modal(props: Props) {
 	const { children, onClose } = props
 
-	const router = useRouter()
-
 	const handleOnClose = useCallback(() => {
-		router.back()
 		onClose?.()
-	}, [])
+	}, [onClose])
 
 	return (
 		<div

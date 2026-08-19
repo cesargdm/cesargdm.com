@@ -1,0 +1,35 @@
+---
+import { IconArrowUpRight, IconArtboard } from '@tabler/icons-react'
+
+import type { Locale } from '@/lib/i18n'
+import { getNfts } from '@/lib/open-sea'
+
+import NftList from './NftsList'
+
+import { headingLink, listContainer } from './styles.css'
+
+type Props = {
+	locale: Locale
+}
+
+const { locale } = Astro.props
+
+const data = await getNfts()
+---
+
+{
+	data.length ? (
+		<>
+			<a class={headingLink} href={`/${locale}/nfts`}>
+				<h2>
+					<IconArtboard aria-hidden />
+					NFTs
+				</h2>
+				<IconArrowUpRight />
+			</a>
+			<div class={listContainer}>
+				<NftList client:visible data={data} />
+			</div>
+		</>
+	) : null
+}

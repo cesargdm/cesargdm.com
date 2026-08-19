@@ -1,7 +1,9 @@
 /node_modules
 
-/.next
-next-env.d.ts
+/dist
+/.astro
+/.vercel
 
 pnpm-lock.yaml
-
+bun.lockb
+worker-configuration.d.ts

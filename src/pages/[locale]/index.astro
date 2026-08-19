@@ -1,0 +1,95 @@
+---
+import Bluesky from '@/modules/Bluesky/Bluesky.astro'
+import Chat from '@/modules/Chat'
+import HoverCompany from '@/modules/HoverCompany/HoverCompany.astro'
+import LastPhoto from '@/modules/LastPhoto/LastPhoto.astro'
+import Nfts from '@/modules/Nfts/Nfts.astro'
+import Reading from '@/modules/Reading/Reading.astro'
+import Strava from '@/modules/Strava/Strava.astro'
+
+import { getCheerFromVisitsCount } from '@/lib/cheer'
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+
+import Layout from '@/layouts/Layout.astro'
+import {
+	card,
+	cardsList,
+	introContainer,
+	introParagraph,
+	twoColumnCard,
+} from '@/styles/layout.css'
+
+export const prerender = true
+
+export function getStaticPaths() {
+	return LOCALES.map((locale) => ({ params: { locale } }))
+}
+
+const locale = Astro.params.locale as Locale
+const meta = getMetadata({ locale })
+---
+
+<Layout locale={locale} meta={meta}>
+	<div>
+		<div class={introContainer}>
+			<h1>Hi <span id="cheer">{getCheerFromVisitsCount('1')}</span>!</h1>
+			<p class={introParagraph}>
+				I'm a product engineer who likes owning the whole thing — from the
+				database to the pixels. Right now I'm building <HoverCompany
+					name="TOLO"
+				/>, a specialty coffee company where I also wrote the platform that runs
+				it: point-of-sale integration, mobile ordering, and an MCP server that
+				lets AI agents query the business directly — all on Cloudflare Workers.
+				Alongside it I keep building <HoverCompany name="Cretia" />, an ERP for
+				Mexican SMEs. Before that I was part of <HoverCompany name="OCHO" />,{
+					' '
+				}
+				<HoverCompany name="Tesorio" />, <HoverCompany name="Aura" />,{' '}
+				<HoverCompany name="Covalto" /> and <HoverCompany name="IBM" />. I also
+				contribute upstream — <a
+					href="https://github.com/expo/expo/pulls?q=author%3Acesargdm"
+					target="_blank"
+					rel="noopener noreferrer">Expo</a
+				>, <a
+					href="https://github.com/wevm/wagmi/pulls?q=author%3Acesargdm"
+					target="_blank"
+					rel="noopener noreferrer">wagmi</a
+				> and React Native Skia among others. Since I cannot sit still, here are some
+				<a href={`/${locale}/projects`}>projects</a>.
+			</p>
+		</div>
+		<ul class={cardsList}>
+			<li class:list={[card, twoColumnCard]} style={{ height: '100%' }}>
+				<Chat client:visible locale={locale} />
+			</li>
+			<li style={{ aspectRatio: '1 / 1' }} class={card}>
+				<Bluesky />
+			</li>
+			<li style={{ aspectRatio: '1 / 1' }} class={card}>
+				<Strava locale={locale} />
+			</li>
+			<li style={{ padding: 0 }} class={card}>
+				<LastPhoto />
+			</li>
+			<li style={{ padding: 0, aspectRatio: '1 / 1' }} class={card}>
+				<Nfts locale={locale} />
+			</li>
+			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
+				<Reading />
+			</li>
+		</ul>
+	</div>
+</Layout>
+
+<script>
+	// The greeting depends on a visit counter kept in a cookie. Reading it on the
+	// server would make this page dynamic, so it is swapped in on the client.
+	import { getCheerFromVisitsCount } from '@/lib/cheer'
+
+	const match = document.cookie.match(/(?:^|;\s*)visits-count=([^;]*)/)
+	const node = document.getElementById('cheer')
+
+	if (node && match) node.textContent = getCheerFromVisitsCount(match[1])
+</script>
