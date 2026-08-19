@@ -10,10 +10,13 @@ export default async function Strava({ locale }: { locale: Locale }) {
 
 	if (!run) return null
 
+	// `startDateLocal` is already the athlete's wall-clock time, so it must be
+	// formatted as UTC — formatting in the server's zone would shift it again.
 	const formattedDate = new Intl.DateTimeFormat(locale, {
 		day: 'numeric',
 		month: 'long',
-	}).format(new Date(run.startDate))
+		timeZone: 'UTC',
+	}).format(new Date(run.startDateLocal))
 
 	return (
 		<>

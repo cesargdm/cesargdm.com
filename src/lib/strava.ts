@@ -3,7 +3,15 @@ import { logIntegrationFailure } from '@/lib/log'
 const ONE_HOUR_SECONDS = 3600
 const METERS_PER_KILOMETER = 1000
 const SECONDS_PER_MINUTE = 60
-const ACTIVITY_PAGE_SIZE = 30
+const MILLISECONDS_PER_SECOND = 1000
+const ACTIVITY_PAGE_SIZE = 100
+const TOKEN_EXPIRY_MARGIN_SECONDS = 60
+
+/**
+ * Strava classifies runs under several sport types; matching only `Run` hides
+ * a trail or treadmill run and surfaces an older activity instead.
+ */
+const RUN_SPORT_TYPES = new Set(['Run', 'TrailRun', 'VirtualRun'])
 
 export type Run = {
 	id: number
@@ -11,7 +19,8 @@ export type Run = {
 	url: string
 	distanceKm: number
 	movingTimeMinutes: number
-	startDate: string
+	/** Local wall-clock time of the activity, expressed as a UTC instant. */
+	startDateLocal: string
 }
 
 type StravaActivity = {
@@ -20,16 +29,27 @@ type StravaActivity = {
 	distance: number
 	moving_time: number
 	start_date: string
+	start_date_local?: string
 	sport_type?: string
 	type?: string
 }
 
+let cachedToken: { value: string; expiresAt: number } | undefined
+
 /**
  * Strava access tokens expire after six hours, so a stored access token is
- * never viable — only the refresh token is long-lived. Every request exchanges
- * the refresh token for a fresh access token.
+ * never viable — only the refresh token is long-lived.
+ *
+ * The exchanged token is cached until shortly before it expires. Besides saving
+ * a round-trip per render, this minimises how often the refresh token is
+ * presented: Strava may rotate it, and a serverless request has nowhere to
+ * persist a new one.
  */
 async function getAccessToken() {
+	if (cachedToken && cachedToken.expiresAt > Date.now()) {
+		return cachedToken.value
+	}
+
 	const clientId = process.env.STRAVA_CLIENT_ID
 	const clientSecret = process.env.STRAVA_CLIENT_SECRET
 	const refreshToken = process.env.STRAVA_REFRESH_TOKEN
@@ -58,6 +78,7 @@ async function getAccessToken() {
 
 	const data = (await response.json()) as {
 		access_token?: string
+		expires_in?: number
 		refresh_token?: string
 	}
 
@@ -65,16 +86,26 @@ async function getAccessToken() {
 		throw new Error('Strava token exchange returned no access_token')
 	}
 
-	// Strava may rotate the refresh token. There is nowhere to persist it from a
-	// stateless request, so surface it loudly rather than failing silently later.
+	// A rotated refresh token invalidates the configured one. There is nowhere
+	// to persist it from a serverless request, so say so explicitly — the card
+	// will disappear until STRAVA_REFRESH_TOKEN is updated.
 	if (data.refresh_token && data.refresh_token !== refreshToken) {
 		logIntegrationFailure(
 			'strava',
-			'refresh token was rotated — update STRAVA_REFRESH_TOKEN',
+			'refresh token was rotated — update STRAVA_REFRESH_TOKEN or the card will stop working',
 		)
 	}
 
-	return data.access_token
+	const lifetime = data.expires_in ?? ONE_HOUR_SECONDS
+
+	cachedToken = {
+		value: data.access_token,
+		expiresAt:
+			Date.now() +
+			(lifetime - TOKEN_EXPIRY_MARGIN_SECONDS) * MILLISECONDS_PER_SECOND,
+	}
+
+	return cachedToken.value
 }
 
 export async function getLastRun(): Promise<Run | undefined> {
@@ -97,8 +128,8 @@ export async function getLastRun(): Promise<Run | undefined> {
 
 		// Activities come back newest-first across every sport, so filter rather
 		// than taking the first entry.
-		const run = activities.find(
-			(activity) => (activity.sport_type ?? activity.type) === 'Run',
+		const run = activities.find((activity) =>
+			RUN_SPORT_TYPES.has(activity.sport_type ?? activity.type ?? ''),
 		)
 
 		if (!run) return undefined
@@ -109,7 +140,7 @@ export async function getLastRun(): Promise<Run | undefined> {
 			url: `https://www.strava.com/activities/${run.id}`,
 			distanceKm: run.distance / METERS_PER_KILOMETER,
 			movingTimeMinutes: run.moving_time / SECONDS_PER_MINUTE,
-			startDate: run.start_date,
+			startDateLocal: run.start_date_local ?? run.start_date,
 		}
 	} catch (error) {
 		logIntegrationFailure('strava', error)

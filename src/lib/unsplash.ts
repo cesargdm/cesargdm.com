@@ -4,6 +4,7 @@ import { logIntegrationFailure } from '@/lib/log'
 
 const UNSPLASH_USERNAME = 'cesargdm'
 const PHOTO_COUNT = 3
+const ONE_DAY_SECONDS = 86400
 
 export type Photo = {
 	id: string
@@ -11,6 +12,15 @@ export type Photo = {
 	alt: string
 	width: number
 	height: number
+}
+
+/**
+ * The SDK takes its own fetch, so the revalidation that used to come from the
+ * wrapping route handler has to be reapplied here — otherwise every render
+ * spends an Unsplash request against a modest hourly quota.
+ */
+function cachedFetch(input: RequestInfo | URL, init?: RequestInit) {
+	return fetch(input, { ...init, next: { revalidate: ONE_DAY_SECONDS } })
 }
 
 export async function getLastPhotos(): Promise<Photo[]> {
@@ -22,7 +32,10 @@ export async function getLastPhotos(): Promise<Photo[]> {
 	}
 
 	try {
-		const result = await createApi({ accessKey, fetch }).users.getPhotos({
+		const result = await createApi({
+			accessKey,
+			fetch: cachedFetch,
+		}).users.getPhotos({
 			username: UNSPLASH_USERNAME,
 			perPage: PHOTO_COUNT,
 		})
