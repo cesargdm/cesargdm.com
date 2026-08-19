@@ -5,11 +5,15 @@ import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
 import { byDateDescending } from '@/lib/date'
+import { resolveLocaleDirectory } from '@/lib/locale-directory'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/posts')
 
 export function getPosts(language: 'en' | 'es' = 'en') {
-	const languagePostsDirectory = path.join(postsDirectory, language)
+	const languagePostsDirectory = resolveLocaleDirectory(
+		postsDirectory,
+		language,
+	)
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
 

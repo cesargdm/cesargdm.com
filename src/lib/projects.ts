@@ -6,6 +6,7 @@ import remarkHtml from 'remark-html'
 
 import { byDateDescending } from '@/lib/date'
 import type { Locale } from '@/lib/i18n'
+import { resolveLocaleDirectory } from '@/lib/locale-directory'
 
 const postsDirectory = path.join(process.cwd(), './src/assets/projects')
 
@@ -13,7 +14,10 @@ export function getProjects(
 	language: Locale = 'en',
 	options: { content: boolean } = { content: true },
 ) {
-	const languagePostsDirectory = path.join(postsDirectory, language)
+	const languagePostsDirectory = resolveLocaleDirectory(
+		postsDirectory,
+		language,
+	)
 
 	const fileNames = fs.readdirSync(languagePostsDirectory)
 
