@@ -65,7 +65,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 	if (pathnameIsMissingLocale) {
 		const locale = getLocale(request)
 
-		return context.redirect(`/${locale}${pathname}`)
+		// Carry the query string across. Dropping it silently broke anything that
+		// round-trips through a bare path — an OAuth callback to `/?code=…` lost
+		// its code, and `/?query=…` lost the search term.
+		return context.redirect(`/${locale}${pathname}${url.search}`)
 	}
 
 	return withSecurityHeaders(await next())
