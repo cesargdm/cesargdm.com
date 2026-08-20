@@ -1,116 +1,66 @@
-import type { Metadata } from 'next'
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
 
-import { BASE_URL } from './constants'
-import type { Locale } from './i18n'
-import type { PageProps } from './types'
+const DEFAULT_TITLE = 'César Guadarrama C. - Product engineer'
 
-type MetadataParams = Omit<Partial<Metadata>, 'keywords'> & {
-	title?: string
-	type?: 'article' | 'website'
-	images?: string[]
-	description?: string
-	keywords?: string[]
-}
-
-const title = 'César Guadarrama C. - Product engineer'
-
-const description =
+const DEFAULT_DESCRIPTION =
 	'César Guadarrama - Product engineer - Blog, portfolio and more'
 
-const images = [`${BASE_URL}/opengraph-image.png`]
+const DEFAULT_IMAGES = [`${BASE_URL}/opengraph-image.png`]
 
-const openGraph: Metadata['openGraph'] = {
-	title,
-	images,
-	description,
-}
+const DEFAULT_KEYWORDS = [
+	'César Guadarrama Cantú',
+	DEFAULT_TITLE,
+	'software',
+	'engineer',
+	'javascript',
+]
 
-const twitterUsername = '@cesargdm'
+export const TWITTER_USERNAME = '@cesargdm'
 
-const host = BASE_URL
-
-const twitter: Metadata['twitter'] = {
-	title,
-	images,
-	description,
-	site: twitterUsername,
-	creator: twitterUsername,
-	card: 'summary_large_image',
-}
-
-const defaultMetadata = {
-	title,
-	metadataBase: new URL(BASE_URL),
-	creator: 'cesargdm',
-	category: 'technology',
-	alternates: {
-		canonical: host,
-	},
-	twitter,
-	openGraph,
-	description,
-	keywords: [
-		'César Guadarrama Cantú',
-		title,
-		'software',
-		'engineer',
-		'javascript',
-	],
-} as const
-
-type ResolvedParams<T = object> = {
+export type MetadataInput = {
 	locale: Locale
-} & (T extends { params: infer P } ? P : object)
+	title?: string
+	description?: string
+	keywords?: string[]
+	images?: string[]
+	type?: 'article' | 'website'
+	/** Path appended after the locale for the canonical URL, e.g. "/blog". */
+	canonicalPath?: string
+}
 
-type GenerateMetadataFunction<T = object> = (props: {
-	params: ResolvedParams<T>
-}) => MetadataParams | Promise<MetadataParams>
+export type ResolvedMetadata = {
+	title: string
+	description: string
+	keywords: string[]
+	images: string[]
+	type: 'article' | 'website'
+	canonical: string
+	creator: string
+	twitterUsername: string
+}
 
-export function getMetadata<T = object>(
-	generateMetadataFn: GenerateMetadataFunction<T> = () => ({}),
-) {
-	return async (pageProps: PageProps<T>): Promise<Metadata> => {
-		const params = await pageProps.params
+export function getMetadata(input: MetadataInput): ResolvedMetadata {
+	const {
+		locale,
+		title,
+		description = DEFAULT_DESCRIPTION,
+		keywords = DEFAULT_KEYWORDS,
+		images = DEFAULT_IMAGES,
+		type = 'website',
+		canonicalPath = '',
+	} = input
 
-		const {
-			title = defaultMetadata.title,
-			images,
-			keywords = defaultMetadata.keywords,
-			description = defaultMetadata.description,
-			type = 'website',
-			...props
-		} = await generateMetadataFn({
-			params: params as ResolvedParams<T>,
-		})
+	const resolvedTitle = title ? `${title} - ${DEFAULT_TITLE}` : DEFAULT_TITLE
 
-		return {
-			...props,
-			title: {
-				default: title as string,
-				template: `%s - ${title}`,
-			},
-			creator: defaultMetadata.creator,
-			keywords: keywords as string[],
-			description,
-			openGraph: {
-				...props.openGraph,
-				...openGraph,
-				type,
-				title,
-				images,
-				description,
-			},
-			twitter: {
-				...props.twitter,
-				...twitter,
-				title,
-				images,
-				description,
-			},
-			alternates: {
-				...props.alternates,
-				canonical: `${host}/${params.locale}${typeof props.alternates?.canonical === 'string' ? props.alternates.canonical : ''}`,
-			},
-		}
+	return {
+		title: resolvedTitle,
+		description,
+		keywords,
+		images,
+		type,
+		canonical: `${BASE_URL}/${locale}${canonicalPath}`,
+		creator: 'cesargdm',
+		twitterUsername: TWITTER_USERNAME,
 	}
 }

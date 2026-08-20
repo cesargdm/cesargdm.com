@@ -1,0 +1,54 @@
+---
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+import { getTimeZone } from '@/lib/slack'
+
+import LocalTime from './LocalTime'
+
+import { footerContainer, footerList, footerParagraph } from './styles.css'
+
+type Props = {
+	locale: Locale
+}
+
+const { locale } = Astro.props
+
+/**
+ * The time zone comes from my Slack profile — Slack follows the machine I am
+ * actually working on, which makes it a better source than a hardcoded zone.
+ */
+const timeZone = await getTimeZone()
+
+const date = new Date(new Date().toLocaleString('en-US', { timeZone }))
+
+const alternateLocale = LOCALES.find((l) => l !== locale)
+---
+
+<footer class={footerContainer}>
+	<ul class={footerList}>
+		<li class={footerParagraph}>
+			<b>Copyright</b>
+			{date.getFullYear()} &copy; César Guadarrama
+		</li>
+
+		<li class={footerParagraph}>
+			<b>Source</b>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://github.com/cesargdm/cesargdm.com"
+			>
+				GitHub
+			</a>
+		</li>
+
+		<li class={footerParagraph}>
+			<b>Local time</b>
+			<LocalTime client:only="react" timeZone={timeZone} />
+		</li>
+	</ul>
+
+	<p>
+		<a href={`/${alternateLocale}`}>{alternateLocale}</a>
+	</p>
+</footer>

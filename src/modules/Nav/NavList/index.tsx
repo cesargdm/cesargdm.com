@@ -1,25 +1,11 @@
-'use client'
-
-import {
-	useCallback,
-	useDeferredValue,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import { useCallback, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
-import type { SearchResponse } from 'algoliasearch'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import type { ChangeEvent, MouseEvent } from 'react'
-import aa from 'search-insights'
+import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 
-import { algoliaSearchClient } from '@/lib/algolia/client'
-import { getAlgoliaIndexName } from '@/lib/algolia/utils'
 import type { Locale } from '@/lib/i18n'
+import { useSiteSearch } from '@/lib/use-site-search'
 
 import Search from '../Search'
 
@@ -27,71 +13,57 @@ import StaticNavList from './StaticNavList'
 
 import { centerNavList, navItem, searchList } from '../styles.css'
 
-type SuperType = {
-	objectID: string
-	url: string
-	description: string
-	type: string
-	title: string
+function getInitialQuery() {
+	if (typeof window === 'undefined') return null
+	return new URLSearchParams(window.location.search).get('query')
 }
 
-const replaceOptions = { scroll: false } as const
+function updateQueryParam(value: string | null) {
+	if (typeof window === 'undefined') return
 
-export default function NavList({ locale }: { locale: Locale }) {
-	const params = useSearchParams()
-	const router = useRouter()
+	const url = new URL(window.location.href)
+
+	if (value === null) {
+		url.searchParams.delete('query')
+	} else {
+		url.searchParams.set('query', value)
+	}
+
+	window.history.replaceState(window.history.state, '', url.toString())
+}
+
+export default function NavList({
+	locale,
+	pathname,
+}: {
+	locale: Locale
+	pathname: string
+}) {
 	const navList = useRef<HTMLOListElement>(null)
 
-	const query = params.get('query')
-	const deferredQuery = useDeferredValue(query)
-	const isOpen = params.has('query')
+	const [query, setQuery] = useState<string | null>(getInitialQuery)
+	const [isOpen, setIsOpen] = useState(() => getInitialQuery() !== null)
 
-	const [results, setResults] = useState<null | SearchResponse<SuperType>>(null)
-
-	useEffect(() => {
-		if (!deferredQuery) return
-
-		algoliaSearchClient
-			?.searchSingleIndex<SuperType>({
-				indexName: getAlgoliaIndexName(locale),
-				searchParams: { query: deferredQuery, clickAnalytics: true },
-			})
-			.then((response) => {
-				setResults(response)
-			})
-			.catch(() => undefined)
-	}, [deferredQuery])
+	const { results } = useSiteSearch(locale, query)
 
 	const handleOnSearch = useCallback(() => {
 		if (isOpen) {
-			router.replace('?', replaceOptions)
+			setIsOpen(false)
+			setQuery(null)
+			updateQueryParam(null)
 		} else {
-			router.replace(`?query=${query || ''}`, replaceOptions)
+			setIsOpen(true)
+			setQuery((current) => current ?? '')
+			updateQueryParam(query ?? '')
 		}
-	}, [router, isOpen, query])
+	}, [isOpen, query])
 
 	const handleOnSearchChange = useCallback(
 		({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-			router.replace(`?query=${value}`, replaceOptions)
+			setQuery(value)
+			updateQueryParam(value)
 		},
-		[router],
-	)
-
-	const handleLinkClick = useCallback(
-		(event: MouseEvent<HTMLAnchorElement>) => {
-			const objectId = event.currentTarget.getAttribute('data-object-id')
-
-			if (!objectId) return
-
-			void aa('clickedObjectIDsAfterSearch', {
-				index: getAlgoliaIndexName(locale),
-				eventName: 'Item Clicked',
-				queryID: results?.queryID as string,
-				objectIDs: [objectId],
-				positions: [0],
-			})
-		},
-		[results],
+		[],
 	)
 
 	const handleOnInteractOutside = useCallback(
@@ -99,9 +71,11 @@ export default function NavList({ locale }: { locale: Locale }) {
 			// Ignore clicks in the nav list
 			if (navList.current?.contains(event.target as Node)) return
 
-			router.replace('?', replaceOptions)
+			setIsOpen(false)
+			setQuery(null)
+			updateQueryParam(null)
 		},
-		[navList, router],
+		[navList],
 	)
 
 	return (
@@ -117,7 +91,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 							value={query as string}
 						/>
 					) : (
-						<StaticNavList locale={locale} />
+						<StaticNavList locale={locale} pathname={pathname} />
 					)}
 
 					<li className={navItem}>
@@ -135,11 +109,11 @@ export default function NavList({ locale }: { locale: Locale }) {
 					autoFocus={false}
 					asChild
 				>
-					{Array.isArray(results?.hits) ? (
-						<ol className={searchList}>
-							{results.hits.map((hit) => (
-								<li style={{ padding: 16 }} key={hit.objectID}>
-									<Link
+					{results.length ? (
+						<ol className={searchList} aria-live="polite">
+							{results.map((result) => (
+								<li style={{ padding: 16 }} key={result.id}>
+									<a
 										style={{
 											display: 'inline-flex',
 											height: '100%',
@@ -149,9 +123,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 											gap: 4,
 											minWidth: 200,
 										}}
-										data-object-id={hit.objectID}
-										onClick={handleLinkClick}
-										href={hit.url}
+										href={result.url}
 									>
 										<p
 											style={{
@@ -160,7 +132,7 @@ export default function NavList({ locale }: { locale: Locale }) {
 												gap: 16,
 											}}
 										>
-											<b>{hit.title}</b>
+											<b>{result.title}</b>
 											<span
 												style={{
 													display: 'inline-flex',
@@ -173,17 +145,17 @@ export default function NavList({ locale }: { locale: Locale }) {
 													alignItems: 'center',
 												}}
 											>
-												{hit.type}
+												{result.type}
 											</span>
 										</p>
-										{hit.description ? <p>{hit.description}</p> : null}
-									</Link>
+										{result.description ? <p>{result.description}</p> : null}
+									</a>
 								</li>
 							))}
 						</ol>
 					) : (
 						<div>
-							<p>Start typing to see suggestions</p>
+							<p>{query ? 'No results' : 'Start typing to see suggestions'}</p>
 						</div>
 					)}
 				</Popover.Content>

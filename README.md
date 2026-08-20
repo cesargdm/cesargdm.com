@@ -11,8 +11,8 @@ Welcome to the repository for my personal website, [cesargdm.com](https://cesarg
 - 📄 **Markdown-Driven Content**: All content is sourced from Markdown files, making it easy to update and manage.
 - 🔍 **Algolia Search Integration**: The site is fully searchable, thanks to Algolia, providing fast and relevant search results.
 - 🧑‍⚖️ **MIT License**: This project is open-source under the MIT License, encouraging community contributions.
-- 🏆 **Lighthouse**: 100 on accessibility, best practices and SEO. Performance is being worked on — see [Benchmarks](#benchmarks).
-- 🤖 **Custom OpenAI Agent**: A custom-built AI agent provides intelligent interactions, enhancing user engagement.
+- 🏆 **Lighthouse**: see [Benchmarks](#benchmarks) for current measured scores.
+- 🤖 **Workers AI assistant**: An on-site chat powered by Cloudflare Workers AI, answering in César's voice.
 - 💅 **Zero Runtime CSS**: Styled with Vanilla Extract — CSS authored in TypeScript and compiled away at build time, so no styling runtime ships to the browser.
 
 ## Getting Started
@@ -25,16 +25,28 @@ To start the development server, run:
 bun dev
 ```
 
-Then, open http://localhost:3000 in your browser to view the site.
+Then, open http://localhost:4321 in your browser to view the site. The root path redirects to `/en` or `/es`.
 
-Build
+Building needs no Cloudflare credentials. To exercise the Workers AI chat locally, opt in to
+remote bindings with a Cloudflare token:
+
+```bash
+ASTRO_CF_REMOTE=1 bun dev
+```
+
+### Build
+
 To build the project for production, use:
 
 ```bash
 bun run build
 ```
 
-This will generate the static assets ready for deployment.
+This produces the Worker and static assets in `dist/`. Deploy with:
+
+```bash
+bunx wrangler deploy
+```
 
 ## Benchmarks
 
@@ -42,12 +54,20 @@ This will generate the static assets ready for deployment.
 
 Measured on `https://cesargdm.com/en`, mobile preset:
 
-| Category       | Score |
-| -------------- | ----- |
-| Performance    | 86    |
-| Accessibility  | 100   |
-| Best Practices | 100   |
-| SEO            | 100   |
+| Category       | Before (Vercel/Next) | After (Cloudflare/Astro) |
+| -------------- | -------------------- | ------------------------ |
+| Performance    | 86                   | 98                       |
+| Accessibility  | 100                  | 100                      |
+| Best Practices | 100                  | 100                      |
+| SEO            | 100                  | 100                      |
+
+| Metric                   | Before  | After   |
+| ------------------------ | ------- | ------- |
+| Largest Contentful Paint | 3.3 s   | 2.0 s   |
+| Speed Index              | 5.3 s   | 2.7 s   |
+| Cumulative Layout Shift  | 0.088   | 0       |
+| Total Blocking Time      | 20 ms   | 0 ms    |
+| Page weight              | 628 KiB | 487 KiB |
 
 Reproduce with:
 
@@ -65,7 +85,6 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ## Acknowledgments
 
-- Vercel for hosting.
-- Next.js for the React framework.
+- Cloudflare Workers for hosting and Workers AI.
+- Astro for the web framework (React islands for interactivity).
 - Algolia for search capabilities.
-- OpenAI for AI-powered interactions.

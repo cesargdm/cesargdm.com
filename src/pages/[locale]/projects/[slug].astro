@@ -1,0 +1,78 @@
+---
+import { IconChevronLeft } from '@tabler/icons-react'
+
+import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
+
+import { BASE_URL } from '@/lib/constants'
+import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
+import { getMetadata } from '@/lib/metadata'
+import { getProject, getProjects } from '@/lib/projects'
+
+import Layout from '@/layouts/Layout.astro'
+import { notFoundContainer } from '@/styles/blog-post.css'
+import { entryContainer } from '@/styles/project-post.css'
+
+export const prerender = true
+
+export function getStaticPaths() {
+	return LOCALES.flatMap((locale) =>
+		getProjects(locale).map((entry) => ({
+			params: { locale, slug: entry.slug },
+		})),
+	)
+}
+
+const locale = Astro.params.locale as Locale
+
+const slug = Astro.params.slug as string
+const post = await getProject(locale, slug)
+
+if (!post) {
+	Astro.response.status = 404
+}
+
+const meta = post
+	? getMetadata({
+			locale,
+			title: `${post.data.title as string} - Projects`,
+			description: post.data.description as string,
+			keywords: post.data.keywords as string[] | undefined,
+			canonicalPath: `/projects/${post.slug}`,
+			images: [
+				`${BASE_URL}/${locale}/projects/${post.slug}/opengraph-image.png`,
+			],
+		})
+	: getMetadata({ locale, title: 'Not Found' })
+---
+
+<Layout locale={locale} meta={meta}>
+	{
+		post ? (
+			<div class={entryContainer}>
+				<a
+					href={`/${locale}/projects`}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						marginBottom: '16px',
+					}}
+				>
+					<IconChevronLeft />
+					Projects
+				</a>
+				<article set:html={post.contentHtml} />
+				<EditPageBanner type="projects" lang={locale} slug={slug} />
+			</div>
+		) : (
+			<div class={notFoundContainer}>
+				<h1>🙈 Not Found</h1>
+				<p>
+					You just hit a project that doesn't exist, or existed and now its
+					dead... the sadness.
+					<a href={`/${locale}`}>Go back home</a>
+				</p>
+			</div>
+		)
+	}
+</Layout>

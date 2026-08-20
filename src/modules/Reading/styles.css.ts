@@ -1,4 +1,4 @@
-import { vars } from '@/app/theme.css'
+import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
 
@@ -38,6 +38,12 @@ export const bookItem = style({
 export const bookImage = style({
 	marginTop: 'auto',
 	maxHeight: '30vh',
+	// Covers come back at assorted sizes. Reserving a fixed ratio keeps CLS at
+	// zero without asserting intrinsic dimensions the image does not have.
+	width: '98px',
+	height: 'auto',
+	aspectRatio: '2 / 3',
+	objectFit: 'cover',
 	boxShadow: vars.boxShadow.medium,
 	borderRadius: `0 ${vars.borderRadius.medium} ${vars.borderRadius.medium} 0`,
 })

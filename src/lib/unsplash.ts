@@ -1,10 +1,11 @@
+import { env } from 'cloudflare:workers'
 import { createApi } from 'unsplash-js'
 
+import { cached, ONE_DAY_SECONDS } from '@/lib/fetch-cache'
 import { logIntegrationFailure } from '@/lib/log'
 
 const UNSPLASH_USERNAME = 'cesargdm'
 const PHOTO_COUNT = 3
-const ONE_DAY_SECONDS = 86400
 
 export type Photo = {
 	id: string
@@ -15,25 +16,22 @@ export type Photo = {
 }
 
 /**
- * The SDK takes its own fetch, so the revalidation that used to come from the
- * wrapping route handler has to be reapplied here — otherwise every render
- * spends an Unsplash request against a modest hourly quota.
+ * The SDK takes its own fetch, so caching has to be reapplied here — otherwise
+ * every render spends an Unsplash request against a modest hourly quota.
  */
 function cachedFetch(input: RequestInfo | URL, init?: RequestInit) {
-	return fetch(input, { ...init, next: { revalidate: ONE_DAY_SECONDS } })
+	return fetch(input, { ...init, ...cached(ONE_DAY_SECONDS) })
 }
 
 export async function getLastPhotos(): Promise<Photo[]> {
-	const accessKey = process.env.UNSPLASH_ACCESS_KEY
-
-	if (!accessKey) {
+	if (!env.UNSPLASH_ACCESS_KEY) {
 		logIntegrationFailure('unsplash', 'UNSPLASH_ACCESS_KEY is not set')
 		return []
 	}
 
 	try {
 		const result = await createApi({
-			accessKey,
+			accessKey: env.UNSPLASH_ACCESS_KEY,
 			fetch: cachedFetch,
 		}).users.getPhotos({
 			username: UNSPLASH_USERNAME,

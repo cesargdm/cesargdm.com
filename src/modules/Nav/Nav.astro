@@ -1,0 +1,28 @@
+---
+import type { Locale } from '@/lib/i18n'
+
+import NavList from './NavList'
+import ToggleTheme from './ToggleTheme'
+
+import { navContainer, navList, navToggleThemeItem } from './styles.css'
+
+type Props = {
+	locale: Locale
+}
+
+const { locale } = Astro.props
+const pathname = Astro.url.pathname
+const { theme } = Astro.locals
+---
+
+<nav class={navContainer}>
+	<i aria-hidden></i>
+
+	<NavList client:load locale={locale} pathname={pathname} />
+
+	<ul class:list={[navList, navToggleThemeItem]}>
+		<li>
+			<ToggleTheme client:load initialTheme={theme} />
+		</li>
+	</ul>
+</nav>

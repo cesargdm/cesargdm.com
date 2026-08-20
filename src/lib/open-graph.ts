@@ -1,5 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
+// eslint-disable-next-line no-magic-numbers
+type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
 export const styles = {
 	container: {
@@ -21,7 +21,7 @@ export const styles = {
 		fontSize: 20,
 		lineHeight: 0.8,
 		marginBottom: 0,
-		fontWeight: '600',
+		fontWeight: 600,
 	},
 	rightImage: {
 		bottom: 0,
@@ -40,61 +40,87 @@ export const styles = {
 		fontSize: 80,
 		width: '100%',
 		lineHeight: 0.85,
-		fontWeight: '600',
+		fontWeight: 600,
 	},
 } as const
 
-/**
- * Fonts are vendored from @fontsource/inter and read from disk. They used to be
- * fetched from rsms.me/inter/font-files, which now 404s — satori then received
- * an HTML error page as font data and every OG image rendered as an empty 200.
- */
-/* eslint-disable no-magic-numbers -- CSS font weights */
-const FONT_FILES = [
-	{ weight: 400 as const, file: 'inter-latin-400-normal.woff' },
-	{ weight: 600 as const, file: 'inter-latin-600-normal.woff' },
-]
-/* eslint-enable no-magic-numbers */
+import avatarDataUri from '@/assets/avatar.png?inline'
+import interRegular from '@/assets/fonts/inter-latin-400-normal.woff?inline'
+import interSemiBold from '@/assets/fonts/inter-latin-600-normal.woff?inline'
 
-const fontsDirectory = path.join(process.cwd(), './src/assets/fonts')
-
-function readFonts() {
-	return FONT_FILES.map(({ weight, file }) => {
-		const buffer = fs.readFileSync(path.join(fontsDirectory, file))
-
-		return {
-			name: 'Inter',
-			weight,
-			data: buffer.buffer.slice(
-				buffer.byteOffset,
-				buffer.byteOffset + buffer.byteLength,
-			),
-		}
-	})
+export type OgFont = {
+	name: string
+	weight: FontWeight
+	style: 'normal'
+	data: ArrayBuffer
 }
 
-// Read once per process; the files never change at runtime.
-let cachedFonts: ReturnType<typeof readFonts> | undefined
+function decodeDataUri(dataUri: string): ArrayBuffer {
+	const base64 = dataUri.slice(dataUri.indexOf(',') + 1)
+	const binary = atob(base64)
+	const bytes = new Uint8Array(binary.length)
 
-export function getDefaultFonts() {
-	cachedFonts ??= readFonts()
+	for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
+
+	return bytes.buffer
+}
+
+let cachedFonts: OgFont[] | undefined
+
+/**
+ * Fonts are bundled, not fetched. Loading them from Google Fonts cost two
+ * network round-trips on every OG render, and the previous source
+ * (rsms.me/inter/font-files) started returning 404 — which made satori receive
+ * an HTML error page as font data and emit an empty image.
+ */
+export function getFonts(): OgFont[] {
+	cachedFonts ??= [
+		{
+			name: 'Inter',
+			weight: 400,
+			style: 'normal',
+			data: decodeDataUri(interRegular),
+		},
+		{
+			name: 'Inter',
+			weight: 600,
+			style: 'normal',
+			data: decodeDataUri(interSemiBold),
+		},
+	]
 
 	return cachedFonts
 }
 
 /**
- * Inlined rather than referenced by URL: satori fetches remote images, and the
- * only absolute URL available is production — so previews and local builds
- * rendered by pulling an asset from the live site.
+ * The avatar is bundled too. It used to be fetched from the production origin,
+ * so previews and local builds rendered by pulling an asset off the live site.
  */
-let cachedAvatar: string | undefined
-
 export function getAvatarDataUri() {
-	cachedAvatar ??= `data:image/png;base64,${fs
-		.readFileSync(
-			path.join(process.cwd(), './public/android-chrome-512x512.png'),
-		)
-		.toString('base64')}`
+	return avatarDataUri
+}
 
-	return cachedAvatar
+/**
+ * Inlines a genuinely remote image (e.g. an NFT artwork) — workers-og does not
+ * fetch images itself.
+ */
+export async function fetchImageAsDataUri(url: string) {
+	try {
+		const response = await fetch(url)
+		const contentType = response.headers.get('content-type') ?? 'image/png'
+		const bytes = new Uint8Array(await response.arrayBuffer())
+		let binary = ''
+		for (const byte of bytes) binary += String.fromCharCode(byte)
+
+		return `data:${contentType};base64,${btoa(binary)}`
+	} catch {
+		return undefined
+	}
+}
+
+export const OG_SIZE = { width: 1200, height: 630 }
+
+export function ogResponse(image: Response) {
+	image.headers.set('cache-control', 'public, max-age=3600, s-maxage=86400')
+	return image
 }

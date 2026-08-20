@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { IconBrandLinkedin, IconBrandX } from '@tabler/icons-react'
-import Image from 'next/image'
 
 import {
 	sitename,
@@ -24,12 +23,12 @@ export default function SideAboutMe() {
 
 	return (
 		<aside>
-			<Image
+			<img
 				style={{ borderRadius: 9999 }}
 				src="/apple-touch-icon.png"
 				width={40}
 				height={40}
-				alt="César Guadarrama profile picture"
+				alt="César Guadarrama"
 			/>
 			<p className={sitename}>cesargdm</p>
 			<p className={smallDescription}>

@@ -1,0 +1,19 @@
+---
+import { editFunctionality } from './styles.css'
+
+type Props = {
+	type: 'posts' | 'projects'
+	lang: string
+	slug: string
+}
+
+const { type, lang, slug } = Astro.props
+---
+
+<div class={editFunctionality}>
+	<a
+		href={`https://github.com/cesargdm/cesargdm.com/edit/main/src/assets/${type}/${lang}/${slug}.md`}
+	>
+		Edit on GitHub
+	</a>
+</div>

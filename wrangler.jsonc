@@ -1,0 +1,38 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "cesargdm-com",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"compatibility_date": "2026-08-12",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+	},
+	// Workers AI powers the /api/assistant chat endpoint. There is no local
+	// simulation; `remote: true` is required (omitting it still connects remotely
+	// but Wrangler warns). Needs a token with Workers AI + Workers Scripts.
+	"ai": {
+		"binding": "AI",
+		"remote": true,
+	},
+	// Must be explicit: `wrangler triggers deploy` disables workers.dev when this
+	// key is absent, which takes the deployment offline.
+	"workers_dev": true,
+	"preview_urls": true,
+	// Custom Domains, not routes: Cloudflare provisions the certificate and owns
+	// the DNS records, which replaces the A records that pointed at Vercel.
+	//
+	// Attaching these requires deleting the existing apex A records and the www
+	// CNAME first — Cloudflare refuses with code 100117 while they exist. Note
+	// that @astrojs/cloudflare generates its own dist/server/wrangler.json and
+	// drops `routes`, so `wrangler deploy` ignores this; apply it with
+	// `wrangler triggers deploy --config wrangler.jsonc`.
+	// Apex only. `www` and every other subdomain resolve through a wildcard
+	// CNAME to Vercel that other projects rely on (music.cesargdm.com among
+	// them), so that record stays until those are moved.
+	"routes": [{ "pattern": "cesargdm.com", "custom_domain": true }],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1,
+	},
+}

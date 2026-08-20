@@ -1,57 +1,53 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import grayMatter from 'gray-matter'
 import { remark } from 'remark'
 import remarkHtml from 'remark-html'
 
 import { byDateDescending } from '@/lib/date'
 import type { Locale } from '@/lib/i18n'
-import { resolveLocaleDirectory } from '@/lib/locale-directory'
 
-const postsDirectory = path.join(process.cwd(), './src/assets/projects')
+// Markdown is bundled at build time via import.meta.glob so it works on the
+// Cloudflare Workers runtime (no filesystem access at request time).
+const rawProjects = import.meta.glob('../assets/projects/*/*.md', {
+	query: '?raw',
+	import: 'default',
+	eager: true,
+})
+
+type Entry = {
+	slug: string
+	data: Record<string, unknown>
+	content: string
+}
+
+function parseEntries(language: Locale): Entry[] {
+	return Object.entries(rawProjects)
+		.filter(([path]) => path.includes(`/projects/${language}/`))
+		.map(([path, raw]) => {
+			const slug = (path.split('/').pop() ?? '').replace(/\.mdx?$/, '')
+			const { data, content } = grayMatter(raw)
+			return { slug, data, content }
+		})
+}
 
 export function getProjects(
 	language: Locale = 'en',
 	options: { content: boolean } = { content: true },
 ) {
-	const languagePostsDirectory = resolveLocaleDirectory(
-		postsDirectory,
-		language,
+	let allEntries = parseEntries(language).map((entry) =>
+		options.content ? entry : { ...entry, content: '' },
 	)
-
-	const fileNames = fs.readdirSync(languagePostsDirectory)
-
-	let allEntries = fileNames.map((fileName) => {
-		const slug = fileName.replace(/\.mdx?$/, '')
-
-		const fullPath = path.join(languagePostsDirectory, fileName)
-		const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-		const grayMatterResult = grayMatter(fileContents)
-
-		if (!options.content && grayMatterResult.content) {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			delete grayMatterResult.content
-		}
-
-		return { slug, ...grayMatterResult } as const
-	})
 
 	allEntries = allEntries.sort(byDateDescending)
 
 	// Remove draft posts in production
-	if (process.env.NODE_ENV === 'production') {
+	if (import.meta.env.PROD) {
 		allEntries = allEntries.filter((post) => !post.data.isDraft)
 	}
 
 	return allEntries
 }
 
-export async function getProject(
-	language: Parameters<typeof getProjects>[0],
-	slug: string,
-) {
+export async function getProject(language: Locale, slug: string) {
 	const posts = getProjects(language)
 
 	const post = posts.find((post) => post.slug === slug)
