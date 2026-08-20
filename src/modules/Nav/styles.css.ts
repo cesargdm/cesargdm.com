@@ -1,4 +1,5 @@
 import { glass } from '@/styles/glass.css'
+import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -93,21 +94,15 @@ export const navLinkActive = style({
 	boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
 })
 
+/*
+ * The wrapper used to shrink on hover and spring back to full size on press,
+ * which is the press metaphor backwards. The button inside is glass and already
+ * presses in; the wrapper only has to stop fighting it — and stop painting an
+ * opaque background over the glass.
+ */
 export const navToggleThemeItem = style({
-	transition: 'transform 300ms',
-	backgroundColor: vars.colors.background.regular,
-	transform: 'scale(1)',
 	display: 'none',
 	padding: 0,
-	':hover': {
-		transform: 'scale(0.9)',
-	},
-	':focus': {
-		transform: 'scale(0.9)',
-	},
-	':active': {
-		transform: 'scale(1)',
-	},
 	'@media': {
 		'(min-width: 768px)': {
 			display: 'inherit',
@@ -117,6 +112,7 @@ export const navToggleThemeItem = style({
 
 export const backButton = style([
 	glass,
+	press,
 	{
 		alignItems: 'center',
 		gap: vars.space.small,

@@ -45,7 +45,8 @@ export const glass = style({
 	backgroundColor: vars.colors.background.glass,
 	backdropFilter: BACKDROP,
 	boxShadow: BEVEL,
-	transition: 'backdrop-filter 300ms, background-color 300ms',
+	transition:
+		'backdrop-filter 300ms, background-color 300ms, transform 260ms cubic-bezier(0.2, 0.8, 0.3, 1)',
 
 	'@supports': {
 		// Firefox shipped backdrop-filter late and it is still disabled in some
@@ -67,7 +68,8 @@ export const glassOverImage = style({
 	backgroundColor: 'rgba(0, 0, 0, 0.22)',
 	backdropFilter: BACKDROP,
 	boxShadow: BEVEL,
-	transition: 'backdrop-filter 300ms, background-color 300ms',
+	transition:
+		'backdrop-filter 300ms, background-color 300ms, transform 260ms cubic-bezier(0.2, 0.8, 0.3, 1)',
 	':hover': {
 		backgroundColor: 'rgba(0, 0, 0, 0.42)',
 		backdropFilter: BACKDROP_HOVER,
@@ -91,7 +93,8 @@ export function glassTint(color: string, hoverColor: string) {
 		backgroundColor: color,
 		backdropFilter: BACKDROP,
 		boxShadow: BEVEL,
-		transition: 'backdrop-filter 300ms, background-color 300ms',
+		transition:
+			'backdrop-filter 300ms, background-color 300ms, transform 260ms cubic-bezier(0.2, 0.8, 0.3, 1)',
 		':hover': {
 			backgroundColor: hoverColor,
 			backdropFilter: BACKDROP_HOVER,

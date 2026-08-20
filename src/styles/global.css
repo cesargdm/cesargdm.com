@@ -116,6 +116,38 @@ input {
 	background-color: initial;
 }
 
+/*
+ * Everything you can press gives a little under the finger. The ease-out on the
+ * way down and the slower spring on the way back is what separates it from a
+ * flat resize: a physical control yields quickly and recovers more slowly.
+ *
+ * `:active` covers touch as well as mouse. This handles every native button;
+ * links that act as buttons compose the `press` style from press.css.ts, since
+ * their class names are hashed and cannot be matched by a selector here.
+ */
+button,
+[role='button'] {
+	transition: transform 260ms cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+button:active,
+[role='button']:active {
+	transform: scale(0.94);
+	transition-duration: 90ms;
+	transition-timing-function: ease-out;
+}
+
+/* A vestibular-safe build should not have things jumping under the cursor. */
+@media (prefers-reduced-motion: reduce) {
+	button,
+	[role='button'],
+	button:active,
+	[role='button']:active {
+		transform: none;
+		transition: none;
+	}
+}
+
 @media screen and (min-width: 768px) {
 	html {
 		font-size: calc(1rem);
