@@ -29,22 +29,11 @@ export const field = style({
 
 export const textarea = style({
 	width: '100%',
-	padding: vars.space.large,
-	borderRadius: vars.borderRadius.medium,
-	border: `1px solid ${vars.colors.border}`,
-	backgroundColor: vars.colors.background.content,
-	color: vars.colors.text.regular,
 	resize: 'vertical',
 })
 
 export const select = style({
 	width: '100%',
-	minHeight: vars.sizes.button,
-	padding: `0 ${vars.space.large}`,
-	borderRadius: vars.borderRadius.medium,
-	border: `1px solid ${vars.colors.border}`,
-	backgroundColor: vars.colors.background.content,
-	color: vars.colors.text.regular,
 })
 
 export const preview = style({
