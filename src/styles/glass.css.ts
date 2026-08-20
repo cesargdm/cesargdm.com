@@ -29,13 +29,16 @@ const BACKDROP_HOVER = 'blur(2px) saturate(250%)'
 const REFRACTED = `${BACKDROP} url(#glass-refraction)`
 const REFRACTED_HOVER = `${BACKDROP_HOVER} url(#glass-refraction)`
 
+/*
+ * Inset only. A drop shadow reads as an opaque object sitting above the page,
+ * which is the opposite of what a pane you can see through should do — the
+ * refracted edge already separates it from the backdrop.
+ */
 const BEVEL = [
 	// The lit edge, where light catches the top of the pane.
 	'inset 0 1px 0 0 rgba(255, 255, 255, 0.5)',
 	// A hairline rim so the shape stays legible against a busy backdrop.
 	'inset 0 0 0 1px rgba(255, 255, 255, 0.16)',
-	// The pane's own shadow, which is what lifts it off the page.
-	'0 8px 24px rgba(0, 0, 0, 0.12)',
 ].join(', ')
 
 export const glass = style({
