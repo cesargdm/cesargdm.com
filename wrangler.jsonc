@@ -15,8 +15,18 @@
 		"binding": "AI",
 		"remote": true,
 	},
+	// Must be explicit: `wrangler triggers deploy` disables workers.dev when this
+	// key is absent, which takes the deployment offline.
+	"workers_dev": true,
+	"preview_urls": true,
 	// Custom Domains, not routes: Cloudflare provisions the certificate and owns
 	// the DNS records, which replaces the A records that pointed at Vercel.
+	//
+	// Attaching these requires deleting the existing apex A records and the www
+	// CNAME first — Cloudflare refuses with code 100117 while they exist. Note
+	// that @astrojs/cloudflare generates its own dist/server/wrangler.json and
+	// drops `routes`, so `wrangler deploy` ignores this; apply it with
+	// `wrangler triggers deploy --config wrangler.jsonc`.
 	"routes": [
 		{ "pattern": "cesargdm.com", "custom_domain": true },
 		{ "pattern": "www.cesargdm.com", "custom_domain": true },
