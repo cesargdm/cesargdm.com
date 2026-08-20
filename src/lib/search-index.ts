@@ -27,6 +27,12 @@ const PAGES: Record<
 		},
 		{ path: 'contact', title: 'Contact', description: 'Where to find me.' },
 		{ path: 'chat', title: 'AI Chat', description: 'Ask me anything.' },
+		{
+			path: 'projects/qr-code-generator',
+			title: 'QR Code Generator',
+			description:
+				'Generate a QR code from any text and download it as SVG or PNG.',
+		},
 	],
 	es: [
 		{ path: '', title: 'Acerca de', description: 'Quién soy y qué construyo.' },
@@ -41,6 +47,12 @@ const PAGES: Record<
 			path: 'chat',
 			title: 'Chat IA',
 			description: 'Pregúntame lo que quieras.',
+		},
+		{
+			path: 'projects/qr-code-generator',
+			title: 'Generador de códigos QR',
+			description:
+				'Genera un código QR desde cualquier texto y descárgalo en SVG o PNG.',
 		},
 	],
 }

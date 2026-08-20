@@ -1,9 +1,6 @@
 ---
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
-import { getMetadata } from '@/lib/metadata'
-
-import Layout from '@/layouts/Layout.astro'
 
 export const prerender = true
 
@@ -13,9 +10,7 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as Locale
 
-const meta = getMetadata({ locale })
+// This URL shipped as an empty stub before the tool existed. Redirecting rather
+// than deleting keeps anything already indexed pointing somewhere useful.
+return Astro.redirect(`/${locale}/projects/qr-code-generator`, 301)
 ---
-
-<Layout locale={locale} meta={meta}>
-	<h1>QR Code Generation</h1>
-</Layout>
