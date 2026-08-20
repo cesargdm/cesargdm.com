@@ -48,6 +48,8 @@ export type YearTotal = {
 	activityCount: number
 	/** The most recent activity of this kind, for the card's subtitle. */
 	latest?: Run
+	/** The athlete's profile, which is where the card's link goes. */
+	profileUrl: string
 }
 
 type StravaActivity = {
@@ -56,6 +58,7 @@ type StravaActivity = {
 	distance: number
 	moving_time: number
 	total_elevation_gain?: number
+	athlete?: { id: number }
 	start_date: string
 	start_date_local?: string
 	sport_type?: string
@@ -190,6 +193,19 @@ async function fetchActivitiesThisYear(): Promise<StravaActivity[]> {
 	return activities
 }
 
+const STRAVA_ATHLETES_URL = 'https://www.strava.com/athletes'
+
+/*
+ * Every activity carries the athlete's id, so the profile link comes from the
+ * data already fetched rather than from a second request or a hardcoded number
+ * that would rot if the account changed.
+ */
+function profileUrl(activities: StravaActivity[]) {
+	const id = activities.find((activity) => activity.athlete?.id)?.athlete?.id
+
+	return id ? `${STRAVA_ATHLETES_URL}/${id}` : STRAVA_ATHLETES_URL
+}
+
 function summarise(
 	activities: StravaActivity[],
 	sportTypes: Set<string>,
@@ -213,6 +229,7 @@ function summarise(
 		),
 		activityCount: matching.length,
 		latest: latest ? toRun(latest) : undefined,
+		profileUrl: profileUrl(activities),
 	}
 }
 
