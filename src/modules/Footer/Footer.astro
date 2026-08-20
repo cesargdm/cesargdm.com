@@ -42,7 +42,10 @@ const alternateLocale = LOCALES.find((l) => l !== locale)
 			</a>
 		</li>
 
-		<LocalTime client:idle timeZone={timeZone} />
+		<li class={footerParagraph}>
+			<b>Local time</b>
+			<LocalTime client:only="react" timeZone={timeZone} />
+		</li>
 	</ul>
 
 	<p>

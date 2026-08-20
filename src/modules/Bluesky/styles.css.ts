@@ -9,10 +9,10 @@ export const profileButton = style([
 	{
 		color: 'white',
 		boxShadow: 'none',
-		backgroundColor: '#1185fe',
+		backgroundColor: '#0f6fd6',
 		':hover': {
 			boxShadow: 'none',
-			backgroundColor: '#0d6efd',
+			backgroundColor: '#0b57a8',
 		},
 	},
 ])

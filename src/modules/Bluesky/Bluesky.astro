@@ -28,7 +28,6 @@ const profileUrl = `https://bsky.app/profile/${feed?.profile.handle ?? 'cesargdm
 	rel="noopener noreferrer"
 	class={profileButton}
 	href={feed?.latestPost?.url ?? profileUrl}
-	aria-label="Visit my Bluesky profile"
 >
 	{feed?.latestPost ? 'Read the post' : 'Follow me on Bluesky'}
 </a>

@@ -32,11 +32,11 @@ export const stravaButton = style({
 	gap: vars.space.small,
 	justifyContent: 'center',
 	minHeight: vars.sizes.button,
-	backgroundColor: '#fc4c02',
+	backgroundColor: '#b03c00',
 	borderRadius: `calc(${vars.borderRadius.large} + ${vars.space.large})`,
 	transition: '300ms',
 	':hover': {
 		textDecoration: 'none',
-		backgroundColor: '#e34402',
+		backgroundColor: '#8c3000',
 	},
 })

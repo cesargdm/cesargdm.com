@@ -54,12 +54,20 @@ bunx wrangler deploy
 
 Measured on `https://cesargdm.com/en`, mobile preset:
 
-| Category       | Score |
-| -------------- | ----- |
-| Performance    | 86    |
-| Accessibility  | 100   |
-| Best Practices | 100   |
-| SEO            | 100   |
+| Category       | Before (Vercel/Next) | After (Cloudflare/Astro) |
+| -------------- | -------------------- | ------------------------ |
+| Performance    | 86                   | 98                       |
+| Accessibility  | 100                  | 100                      |
+| Best Practices | 100                  | 100                      |
+| SEO            | 100                  | 100                      |
+
+| Metric                   | Before  | After   |
+| ------------------------ | ------- | ------- |
+| Largest Contentful Paint | 3.3 s   | 2.0 s   |
+| Speed Index              | 5.3 s   | 2.7 s   |
+| Cumulative Layout Shift  | 0.088   | 0       |
+| Total Blocking Time      | 20 ms   | 0 ms    |
+| Page weight              | 628 KiB | 487 KiB |
 
 Reproduce with:
 
