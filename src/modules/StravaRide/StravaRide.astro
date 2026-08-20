@@ -21,19 +21,21 @@ const { locale } = Astro.props
 const total = await getRideTotal()
 
 const COPY = {
-	en: { heading: 'MTB', unit: 'm climbed this year', rides: 'rides' },
-	es: { heading: 'MTB', unit: 'm escalados este año', rides: 'salidas' },
+	en: {
+		heading: 'MTB',
+		unit: 'm',
+		period: 'climbed this year',
+		cta: 'View more',
+	},
+	es: {
+		heading: 'MTB',
+		unit: 'm',
+		period: 'escalados este año',
+		cta: 'Ver más',
+	},
 } as const
 
 const copy = COPY[locale]
-
-const latestDate = total?.latest
-	? new Intl.DateTimeFormat(locale, {
-			day: 'numeric',
-			month: 'long',
-			timeZone: 'UTC',
-		}).format(new Date(total.latest.startDateLocal))
-	: ''
 ---
 
 {
@@ -49,16 +51,7 @@ const latestDate = total?.latest
 					{Math.round(total.elevationM).toLocaleString(locale)}
 					<span class={distanceUnit}> {copy.unit}</span>
 				</p>
-				<p class={runName}>
-					{total.activityCount} {copy.rides} · {Math.round(total.distanceKm)} km
-				</p>
-				{total.latest ? (
-					<p>
-						<small>
-							{total.latest.name} · {latestDate}
-						</small>
-					</p>
-				) : null}
+				<p class={runName}>{copy.period}</p>
 			</div>
 
 			<a
@@ -67,7 +60,7 @@ const latestDate = total?.latest
 				class={stravaButton}
 				href={total.latest?.url ?? 'https://www.strava.com/athletes'}
 			>
-				View on Strava
+				{copy.cta}
 			</a>
 		</>
 	) : null
