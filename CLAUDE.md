@@ -129,6 +129,12 @@ Non-obvious notes for developing here:
 - **Security headers live in two places** — `src/middleware.ts` for on-demand routes and
   `public/_headers` for prerendered pages and static assets. Middleware does not run for static
   assets, so a header added to only one of them ships half the site bare.
+- **Prerendered cards need their keys at BUILD time, not just on the Worker.** The keyed
+  cards (Unsplash, OpenSea, Slack, Strava) are rendered during `astro build`, which runs on your
+  machine or in CI — it cannot see `wrangler secret put` values. Wrangler reads `.dev.vars` during
+  the build, so the keys must be there too (and in CI, as repository secrets written to `.dev.vars`
+  before `bun run build` — see `.github/workflows/deploy.yml`). Setting only the Worker secret
+  leaves the card blank in the HTML while the API route works, which looks like a broken card.
 - **Secrets live in Wrangler, not `process.env`.** Put them in `.dev.vars` locally or
   `wrangler secret put NAME` in production, and declare them in the `Cloudflare.Env` augmentation in
   `src/env.d.ts`. Current set: `OPENSEA_API_KEY`, `UNSPLASH_ACCESS_KEY`, `SLACK_TOKEN`/

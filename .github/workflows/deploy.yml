@@ -34,6 +34,31 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # The prerender runs here, not on the deployed Worker, so it cannot see
+      # Worker secrets — `wrangler secret put` alone leaves the keyed cards
+      # (Unsplash, OpenSea, Slack, Strava) blank in the built HTML. Wrangler
+      # reads .dev.vars during the build, so the same values have to exist here
+      # as repository secrets. Missing ones just leave their card hidden.
+      - name: Provide build-time secrets
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          OPENSEA_API_KEY: ${{ secrets.OPENSEA_API_KEY }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_USER_ID: ${{ secrets.SLACK_USER_ID }}
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+        run: |
+          for name in UNSPLASH_ACCESS_KEY OPENSEA_API_KEY SLACK_TOKEN SLACK_USER_ID \
+                      STRAVA_CLIENT_ID STRAVA_CLIENT_SECRET STRAVA_REFRESH_TOKEN; do
+            value="${!name}"
+            if [ -n "$value" ]; then
+              printf '%s=%s\n' "$name" "$value" >> .dev.vars
+            else
+              echo "::warning::$name is not set — its card will be blank in this build"
+            fi
+          done
+
       # Prerendering reads the content at build time, so the deployed HTML is
       # only as fresh as this step.
       - run: bun run build
