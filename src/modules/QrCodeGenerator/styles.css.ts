@@ -1,3 +1,4 @@
+import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -62,23 +63,26 @@ export const actions = style({
 	justifyContent: 'center',
 })
 
-export const download = style({
-	minHeight: vars.sizes.button,
-	display: 'flex',
-	alignItems: 'center',
-	padding: `0 ${vars.space.xlarge}`,
-	borderRadius: vars.borderRadius.full,
-	// Deliberately not white-on-primary: #3B82F6 against white is about 3.7:1,
-	// short of the 4.5:1 needed for body-sized text.
-	border: `1px solid ${vars.colors.border}`,
-	backgroundColor: vars.colors.background.content,
-	color: vars.colors.text.regular,
-	fontWeight: vars.fontWeight.medium,
-	':hover': {
-		textDecoration: 'none',
-		backgroundColor: vars.colors.background.gray,
+export const download = style([
+	press,
+	{
+		minHeight: vars.sizes.button,
+		display: 'flex',
+		alignItems: 'center',
+		padding: `0 ${vars.space.xlarge}`,
+		borderRadius: vars.borderRadius.full,
+		// Deliberately not white-on-primary: #3B82F6 against white is about 3.7:1,
+		// short of the 4.5:1 needed for body-sized text.
+		border: `1px solid ${vars.colors.border}`,
+		backgroundColor: vars.colors.background.content,
+		color: vars.colors.text.regular,
+		fontWeight: vars.fontWeight.medium,
+		':hover': {
+			textDecoration: 'none',
+			backgroundColor: vars.colors.background.gray,
+		},
 	},
-})
+])
 
 export const errorText = style({
 	color: vars.colors.text.secondary,

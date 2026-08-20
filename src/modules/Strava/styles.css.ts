@@ -1,4 +1,5 @@
 import { glassTint } from '@/styles/glass.css'
+import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -31,6 +32,7 @@ export const runName = style({
 
 export const stravaButton = style([
 	glassTint('rgba(176, 60, 0, 0.88)', 'rgba(140, 48, 0, 0.94)'),
+	press,
 	{
 		display: 'flex',
 		color: 'white',
