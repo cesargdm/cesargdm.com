@@ -1,7 +1,8 @@
 ---
 import { IconBrandGithub } from '@tabler/icons-react'
 
-import { getContributions } from '@/lib/github'
+import type { ContributionDay } from '@/lib/github'
+import { getContributions, YEARS_SHOWN } from '@/lib/github'
 
 import {
 	cell,
@@ -9,21 +10,75 @@ import {
 	githubButton,
 	grid,
 	gridContainer,
+	legend,
+	legendCell,
+	legendLabel,
 	totalText,
+	yearAxis,
+	yearLabel,
 } from './styles.css'
 
 const GITHUB_PROFILE_URL = 'https://github.com/cesargdm'
+const DAYS_PER_WEEK = 7
+const SHORT_YEAR_DIGITS = -2
+
+type Level = 0 | 1 | 2 | 3 | 4
+
+// Derived from the palette so the legend cannot fall out of step with it.
+const LEVELS = Object.keys(cellLevels).map(Number) as Level[]
 
 const contributions = await getContributions()
 
-/**
- * `grid-auto-flow: column` places each cell in the next column that has its
- * `grid-row` free, scanning forward — so an explicit row per weekday is
- * enough to stack days into weekly columns; no column index needs computing.
- */
-function toRow(date: string): number {
-	return new Date(`${date}T00:00:00Z`).getUTCDay() + 1
+function weekday(date: string): number {
+	return new Date(`${date}T00:00:00Z`).getUTCDay()
 }
+
+/**
+ * Splits the run of days into the columns the calendar renders, breaking on
+ * Sunday. Columns are built explicitly rather than left to `grid-auto-flow`
+ * because the year axis has to line up with them, and that needs a count.
+ */
+function toColumns(days: ContributionDay[]): ContributionDay[][] {
+	const columns: ContributionDay[][] = []
+	let current: ContributionDay[] = []
+
+	for (const day of days) {
+		if (weekday(day.date) === 0 && current.length) {
+			columns.push(current)
+			current = []
+		}
+		current.push(day)
+	}
+
+	if (current.length) columns.push(current)
+
+	return columns
+}
+
+/** One entry per year, with the span it occupies in the reversed column order. */
+function toYearSpans(columns: ContributionDay[][]) {
+	const spans: { year: string; start: number; span: number }[] = []
+
+	columns.forEach((column, index) => {
+		const year = column[0].date.slice(0, 4)
+		const last = spans.at(-1)
+
+		if (last?.year === year) {
+			last.span += 1
+
+			return
+		}
+
+		spans.push({ year, start: index + 1, span: 1 })
+	})
+
+	return spans
+}
+
+// Newest first: the axis reads 26 25 24, so the most recent work is what you
+// see without scrolling.
+const columns = contributions ? toColumns(contributions.days).reverse() : []
+const yearSpans = toYearSpans(columns)
 ---
 
 {
@@ -34,31 +89,59 @@ function toRow(date: string): number {
 				GitHub
 			</h2>
 			<p class={totalText}>
-				{contributions.total.toLocaleString()} contributions in the last year
+				{contributions.total.toLocaleString()} contributions in the last{' '}
+				{YEARS_SHOWN} years
 			</p>
 			<div class={gridContainer}>
 				<div
 					role="img"
 					class={grid}
-					aria-label={`GitHub contribution graph: ${contributions.total.toLocaleString()} contributions in the last year`}
+					style={{ '--columns': columns.length }}
+					aria-label={`GitHub contribution graph: ${contributions.total.toLocaleString()} contributions over the last ${YEARS_SHOWN} years`}
 				>
-					{contributions.days.map((day) => (
+					{columns.map((column, index) =>
+						column.map((day) => (
+							<span
+								class:list={[cell, cellLevels[day.level as Level]]}
+								style={{
+									gridColumn: index + 1,
+									gridRow: weekday(day.date) + 1,
+								}}
+								title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
+							/>
+						)),
+					)}
+				</div>
+				<div class={yearAxis} style={{ '--columns': columns.length }}>
+					{yearSpans.map(({ year, start, span }) => (
 						<span
-							class:list={[cell, cellLevels[day.level as 0 | 1 | 2 | 3 | 4]]}
-							style={{ gridRow: toRow(day.date) }}
-							title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
-						/>
+							class={yearLabel}
+							style={{ gridColumn: `${start} / span ${span}` }}
+						>
+							{span * DAYS_PER_WEEK > DAYS_PER_WEEK
+								? year.slice(SHORT_YEAR_DIGITS)
+								: ''}
+						</span>
 					))}
 				</div>
 			</div>
+			<p class={legend}>
+				<span class={legendLabel}>Less</span>
+				{LEVELS.map((level) => (
+					<span
+						class:list={[cell, legendCell, cellLevels[level]]}
+						aria-hidden
+					/>
+				))}
+				<span class={legendLabel}>More</span>
+			</p>
 			<a
 				target="_blank"
 				rel="noopener noreferrer"
 				class={githubButton}
 				href={GITHUB_PROFILE_URL}
 			>
-				<IconBrandGithub aria-hidden />
-				View on GitHub
+				View profile
 			</a>
 		</>
 	) : null
