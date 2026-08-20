@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions'
+
 import Footer from '@/modules/Footer/Footer.astro'
 import Nav from '@/modules/Nav/Nav.astro'
 import NftModal from '@/modules/NftModal/NftModal.tsx'
@@ -37,19 +39,29 @@ const themeClasses = {
 <html lang={locale} class={themeClasses.responsive}>
 	<head>
 		<script is:inline define:vars={{ themeClasses }}>
-			try {
-				const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/)
-				const theme = match ? decodeURIComponent(match[1]) : ''
-				const next = themeClasses[theme]
+			function applyTheme() {
+				try {
+					const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/)
+					const theme = match ? decodeURIComponent(match[1]) : ''
+					const next = themeClasses[theme]
 
-				if (next) {
-					document.documentElement.classList.remove(themeClasses.responsive)
-					document.documentElement.classList.add(next)
+					if (next) {
+						document.documentElement.classList.remove(themeClasses.responsive)
+						document.documentElement.classList.add(next)
+					}
+				} catch {
+					// A blocked cookie jar just means the responsive default stays.
 				}
-			} catch {
-				// A blocked cookie jar just means the responsive default stays.
 			}
+
+			applyTheme()
+
+			// ClientRouter copies the incoming document's <html> attributes over the
+			// live ones, which resets the class back to the responsive default.
+			// Re-applying before the swap paints avoids a flash of the wrong theme.
+			document.addEventListener('astro:after-swap', applyTheme)
 		</script>
+		<ClientRouter />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />

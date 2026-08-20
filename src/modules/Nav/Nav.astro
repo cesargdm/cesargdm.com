@@ -12,7 +12,6 @@ type Props = {
 
 const { locale } = Astro.props
 const pathname = Astro.url.pathname
-const { theme } = Astro.locals
 ---
 
 <nav class={navContainer}>
@@ -22,7 +21,7 @@ const { theme } = Astro.locals
 
 	<ul class:list={[navList, navToggleThemeItem]}>
 		<li>
-			<ToggleTheme client:load initialTheme={theme} />
+			<ToggleTheme client:load />
 		</li>
 	</ul>
 </nav>

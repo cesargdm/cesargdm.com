@@ -95,8 +95,15 @@ const meta = getMetadata({ locale })
 	// server would make this page dynamic, so it is swapped in on the client.
 	import { getCheerFromVisitsCount } from '@/lib/cheer'
 
-	const match = document.cookie.match(/(?:^|;\s*)visits-count=([^;]*)/)
-	const node = document.getElementById('cheer')
+	function applyCheer() {
+		const match = document.cookie.match(/(?:^|;\s*)visits-count=([^;]*)/)
+		const node = document.getElementById('cheer')
 
-	if (node && match) node.textContent = getCheerFromVisitsCount(match[1])
+		if (node && match) node.textContent = getCheerFromVisitsCount(match[1])
+	}
+
+	// Module scripts run once per document. With ClientRouter, returning to this
+	// page is a swap rather than a load, so hook the navigation event too.
+	applyCheer()
+	document.addEventListener('astro:page-load', applyCheer)
 </script>

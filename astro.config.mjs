@@ -21,6 +21,9 @@ export default defineConfig({
 		remoteBindings: process.env.ASTRO_CF_REMOTE === '1',
 	}),
 	site: 'https://cesargdm.com',
+	// Nav links were doing full-document reloads. ClientRouter swaps the document
+	// instead; prefetching on hover means the swap usually has the page already.
+	prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
 	// Emit /en.html rather than /en/index.html so requests for the canonical,
 	// unslashed URLs the site links to are served directly instead of costing a
 	// redirect hop (Lighthouse measured ~900ms for that round trip).
