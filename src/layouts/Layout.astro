@@ -126,7 +126,11 @@ const Y_MAP = ramp(true)
 		  evenly, which reads as a wobble or a zoom rather than as glass. A real
 		  pane is optically neutral through the middle and bends hardest at the
 		  rim, so the map is a pair of ramps that sit flat at mid-grey across the
-		  centre and climb steeply over the last tenth at each edge.
+		  centre and climb steeply over the last fifth at each edge.
+
+		  Scale has to stay under the height of the shortest surface using it —
+		  the nav pill is about 40px tall, and displacing by more than that samples
+		  far outside the pane and tears into visible spikes.
 
 		  Red carries the horizontal displacement and green the vertical, built as
 		  two images and summed. Arithmetic compositing keeps each in its own
@@ -166,7 +170,7 @@ const Y_MAP = ramp(true)
 				<feDisplacementMap
 					in="SourceGraphic"
 					in2="map"
-					scale="72"
+					scale="22"
 					xChannelSelector="R"
 					yChannelSelector="G"></feDisplacementMap>
 			</filter>
