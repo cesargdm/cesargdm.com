@@ -12,9 +12,10 @@ bun run typecheck    # Type checking (astro check)
 bun run lint         # ESLint with zero warnings (--max-warnings=0)
 bun run format:check # Prettier check
 bun run format       # Prettier auto-fix
+bun run i18n:check   # Fail if src/locales/*.po and src/lib/message-ids.ts disagree
 
 # Full CI check (what integration.yml runs):
-bun run format:check && bun run lint && bun run typecheck && bun run build
+bun run format:check && bun run lint && bun run typecheck && bun run i18n:check && bun run build
 ```
 
 `bun run build` needs no Cloudflare credentials — remote bindings are opt-in (see below), so CI
@@ -53,13 +54,28 @@ with `import.meta.glob(..., { query: '?raw', eager: true })` so they work on wor
 ### I18n
 
 - Locales defined in `src/lib/i18n.ts` as `['en', 'es']` (plus an `isLocale` guard)
-- Translation dictionaries: `src/lib/dictionaries/{en,es}.json`
 - `src/middleware.ts` uses `negotiator` + `@formatjs/intl-localematcher` for locale detection and redirects
 - Astro's built-in i18n routing is intentionally NOT enabled; the `[locale]` param + middleware handle routing (avoids double-prefixing)
 
+Copy is translated with **Lingui**, driven from `getTranslate(locale)` in `src/lib/translate.ts`:
+
+- Catalogs are `src/locales/{en,es}.po`, compiled on import by `@lingui/vite-plugin`
+- `src/lib/message-ids.ts` declares every id, so `t()` takes a checked argument rather than any string
+- `bun run i18n:check` (in CI) fails on drift: an id with no translation, or a catalog entry whose id is gone
+- One `setupI18n` instance per locale, not a shared `activate()` — a build renders both locales in the same process
+- Islands take a `locale` prop and call `getTranslate` themselves; both catalogs ship in one ~10KB client chunk
+
+Three things about this setup fail **silently** — the page renders the id verbatim (`<h1>search.title</h1>`) with nothing thrown:
+
+- **Macros do not work in `.astro` files.** The Astro compiler consumes frontmatter before any Vite-level Babel transform sees it, so call sites use the runtime `t('id')` form. Do not "fix" a call site by reaching for `` t`...` ``
+- **`explicitIdAsDefault: true` on the PO formatter is load-bearing** (`lingui.config.ts`). Without it each `msgid` is read as source text and compiled to a content hash, so every lookup by key misses
+- **`.po` files must be imported by relative path**, not the `@/` alias — through the alias the id stops matching the plugin's `.po` filter and the named export comes back `undefined`
+
+Since the extractor cannot see runtime calls, `lingui extract` reports nothing; add new messages by hand to both `.po` files and to `message-ids.ts`, then run `bun run i18n:check`.
+
 ### Styling
 
-**Vanilla Extract** (zero-runtime CSS-in-TypeScript) via `@vanilla-extract/vite-plugin`. Shared design system lives in `src/styles/` (`theme.css.ts` tokens + light/dark/responsive themes, `global.css`, and page-level `*.css.ts`). Component-scoped styles are co-located `*.css.ts` files. Fonts come from `@fontsource/inter` and `@fontsource/merriweather`.
+**Vanilla Extract** (zero-runtime CSS-in-TypeScript) via `@vanilla-extract/vite-plugin`. Shared design system lives in `src/styles/` (`theme.css.ts` tokens + light/dark/responsive themes, `global.css`, and page-level `*.css.ts`). Component-scoped styles are co-located `*.css.ts` files. Fonts come from `@fontsource-variable/inter` and `@fontsource-variable/merriweather`.
 
 ### Key Patterns
 
