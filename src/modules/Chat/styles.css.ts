@@ -36,6 +36,9 @@ export const chatContainer = style({
 	display: 'flex',
 	flexDirection: 'column',
 	minHeight: 250,
+	// The composer is pinned over the bottom of this box rather than stacked
+	// under it, so messages pass behind its glass instead of stopping above it.
+	position: 'relative',
 })
 
 export const chatMessageUser = style([
@@ -69,6 +72,9 @@ export const chatMessagesList = style({
 	overflowY: 'auto',
 	gap: vars.space.medium,
 	padding: vars.space.small,
+	// Room for the composer sitting on top, so the newest message comes to rest
+	// clear of it rather than permanently half-hidden.
+	paddingBottom: `calc(${vars.sizes.button} + ${vars.space.xlarge})`,
 })
 
 export const submitButton = style([
@@ -89,6 +95,10 @@ export const submitButton = style([
 ])
 
 export const chatForm = style({
+	position: 'absolute',
+	left: 0,
+	right: 0,
+	bottom: 0,
 	display: 'flex',
 	flexDirection: 'row',
 	alignItems: 'center',

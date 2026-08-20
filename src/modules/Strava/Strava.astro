@@ -21,21 +21,16 @@ const { locale } = Astro.props
 const total = await getRunTotal()
 
 const COPY = {
-	en: { heading: 'Run', unit: 'km this year', activities: 'runs' },
-	es: { heading: 'Correr', unit: 'km este año', activities: 'carreras' },
+	en: { heading: 'Run', unit: 'km', period: 'ran this year', cta: 'View more' },
+	es: {
+		heading: 'Correr',
+		unit: 'km',
+		period: 'corridos este año',
+		cta: 'Ver más',
+	},
 } as const
 
 const copy = COPY[locale]
-
-// `startDateLocal` is already the athlete's wall-clock time, so it must be
-// formatted as UTC — formatting in the server's zone would shift it again.
-const latestDate = total?.latest
-	? new Intl.DateTimeFormat(locale, {
-			day: 'numeric',
-			month: 'long',
-			timeZone: 'UTC',
-		}).format(new Date(total.latest.startDateLocal))
-	: ''
 ---
 
 {
@@ -51,16 +46,7 @@ const latestDate = total?.latest
 					{Math.round(total.distanceKm)}
 					<span class={distanceUnit}> {copy.unit}</span>
 				</p>
-				<p class={runName}>
-					{total.activityCount} {copy.activities}
-				</p>
-				{total.latest ? (
-					<p>
-						<small>
-							{total.latest.name} · {latestDate}
-						</small>
-					</p>
-				) : null}
+				<p class={runName}>{copy.period}</p>
 			</div>
 
 			<a
@@ -69,7 +55,7 @@ const latestDate = total?.latest
 				class={stravaButton}
 				href={total.latest?.url ?? 'https://www.strava.com/athletes'}
 			>
-				View on Strava
+				{copy.cta}
 			</a>
 		</>
 	) : null
