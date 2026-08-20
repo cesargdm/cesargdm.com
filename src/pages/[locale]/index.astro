@@ -18,10 +18,10 @@ import Layout from '@/layouts/Layout.astro'
 import {
 	card,
 	cardsList,
-	fullWidthCard,
 	introContainer,
 	introParagraph,
 	twoColumnCard,
+	wideCard,
 } from '@/styles/layout.css'
 
 export const prerender = true
@@ -81,7 +81,7 @@ const meta = getMetadata({ locale })
 			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
 				<Reading />
 			</li>
-			<li class:list={[card, fullWidthCard]} style={{ padding: 0 }}>
+			<li class:list={[card, wideCard]} style={{ padding: 0 }}>
 				<GitHubContributions />
 			</li>
 		</ul>
