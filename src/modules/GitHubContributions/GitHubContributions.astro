@@ -7,6 +7,7 @@ import { getContributions, YEARS_SHOWN } from '@/lib/github'
 import {
 	cell,
 	cellLevels,
+	footer,
 	githubButton,
 	grid,
 	gridContainer,
@@ -88,10 +89,6 @@ const yearSpans = toYearSpans(columns)
 				<IconBrandGithub aria-hidden />
 				GitHub
 			</h2>
-			<p class={totalText}>
-				{contributions.total.toLocaleString()} contributions in the last{' '}
-				{YEARS_SHOWN} years
-			</p>
 			<div class={gridContainer}>
 				<div
 					role="img"
@@ -123,16 +120,22 @@ const yearSpans = toYearSpans(columns)
 					))}
 				</div>
 			</div>
-			<p class={legend}>
-				<span class={legendLabel}>Less</span>
-				{LEVELS.map((level) => (
-					<span
-						class:list={[cell, legendCell, cellLevels[level]]}
-						aria-hidden
-					/>
-				))}
-				<span class={legendLabel}>More</span>
-			</p>
+			<div class={footer}>
+				<p class={totalText}>
+					{contributions.total.toLocaleString()} contributions in the last{' '}
+					{YEARS_SHOWN} years
+				</p>
+				<p class={legend}>
+					<span class={legendLabel}>Less</span>
+					{LEVELS.map((level) => (
+						<span
+							class:list={[cell, legendCell, cellLevels[level]]}
+							aria-hidden
+						/>
+					))}
+					<span class={legendLabel}>More</span>
+				</p>
+			</div>
 			<a
 				target="_blank"
 				rel="noopener noreferrer"
