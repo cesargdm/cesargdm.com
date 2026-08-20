@@ -50,6 +50,10 @@ export const totalText = style({
 })
 
 export const gridContainer = style({
+	// A flex child defaults to min-width:auto, which is its content size — so the
+	// grid's fit-content width pushed the card wider than its track instead of
+	// scrolling inside it, and the page picked up a horizontal scrollbar.
+	minWidth: 0,
 	padding: `${vars.space.medium} 0`,
 	// On a phone the card is a few hundred pixels wide, and three years of fluid
 	// columns would put each day under two pixels — a smear rather than a

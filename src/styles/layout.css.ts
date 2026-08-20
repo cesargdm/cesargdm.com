@@ -36,6 +36,18 @@ export const dropdownText = style({
 })
 
 export const card = style({
+	// Same reason as the scroller inside it: a grid item defaults to a minimum
+	// of its content size, so a card whose content is wide would stretch its
+	// track rather than clipping.
+	minWidth: 0,
+	// A grid item's automatic minimum is its content height, which let a card
+	// taller than one track push its whole row and stretch the squares in it.
+	// The cards clip and scroll internally, so the row size stays authoritative.
+	minHeight: 0,
+	// A card is never wider than its track. Stretching sets a square card's
+	// height, and aspect-ratio then derives a width back from it — which burst
+	// the track by 28px and put a scrollbar on the page.
+	maxWidth: '100%',
 	display: 'flex',
 	overflow: 'hidden',
 	position: 'relative',
@@ -48,7 +60,15 @@ export const card = style({
 const CARD_MIN_WIDTH_PX = 260
 const CARD_MIN_WIDTH = `${CARD_MIN_WIDTH_PX}px`
 const GAP_PX = 16
-const MAX_TRACKED_COLUMNS = 6
+const MAX_COLUMNS = 4
+
+/*
+ * A quarter of the row, gaps discounted. Used as the track floor so `auto-fill`
+ * can never fit a fifth column: past four, the floor grows with the container
+ * instead of letting more tracks in. Below that the fixed minimum takes over and
+ * the count falls to three, two, one.
+ */
+const QUARTER_TRACK = `calc((100% - ${(MAX_COLUMNS - 1) * GAP_PX}px) / ${MAX_COLUMNS})`
 
 /**
  * The container width at which `columns` tracks first fit, gaps included.
@@ -61,68 +81,92 @@ function widthForColumns(columns: number) {
 	return `${columns * CARD_MIN_WIDTH_PX + (columns - 1) * GAP_PX}px`
 }
 
-/** Container queries assigning a span per column count, widest match winning. */
-function spanPerColumnCount(spanFor: (columns: number) => number) {
-	const queries: Record<string, { gridColumn: string }> = {}
-
-	for (let columns = 2; columns <= MAX_TRACKED_COLUMNS; columns++) {
-		queries[`bento (min-width: ${widthForColumns(columns)})`] = {
-			gridColumn: `span ${spanFor(columns)}`,
-		}
-	}
-
-	return queries
-}
-
-export const cardsList = style({
-	display: 'grid',
-	gap: `${GAP_PX}px`,
-	alignItems: 'flex-start',
-	/*
-	 * The column count comes from the width available rather than from two
-	 * hardcoded breakpoints, so a 1200px window and a 1600px one do not both get
-	 * four increasingly-stretched columns.
-	 *
-	 * `min(100%, …)` keeps the floor from ever exceeding the container, which is
-	 * what stops a narrow phone from overflowing instead of dropping to one
-	 * column.
-	 */
-	gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${CARD_MIN_WIDTH}), 1fr))`,
-	/*
-	 * Wide cards leave holes when they cannot fit on the current row. Dense
-	 * packing backfills those with whatever card comes next and fits — which is
-	 * the whole point of a bento layout, and why an empty slot used to sit next
-	 * to the reading shelf.
-	 */
-	gridAutoFlow: 'dense',
-	// Lets the cards below size their spans from this box's width.
+/**
+ * The bento's container. It sits on the wrapper rather than on the grid itself
+ * because an element cannot query its own container — putting it on the list
+ * meant the list's own `@container` rules silently never matched.
+ */
+export const cardsContainer = style({
 	containerType: 'inline-size',
 	containerName: 'bento',
 })
 
-/** Two columns once two exist; one below that. */
-export const twoColumnCard = style({
-	'@container': spanPerColumnCount(() => 2),
+/** One track's width at `columns`, read off the container. */
+function trackWidth(columns: number) {
+	return `calc((100cqw - ${(columns - 1) * GAP_PX}px) / ${columns})`
+}
+
+/*
+ * Rows are exactly one track tall, so a single-track card is square and a
+ * two-track card is a 2×1 tile. Left to itself a row took the height of its
+ * tallest card and stretched the squares in it — 280×308 in the row holding the
+ * chat.
+ */
+const squareRows = Object.fromEntries(
+	Array.from({ length: MAX_COLUMNS - 1 }, (unused, index) => {
+		const columns = index + 2
+
+		return [
+			`bento (min-width: ${widthForColumns(columns)})`,
+			{ gridAutoRows: trackWidth(columns) },
+		]
+	}),
+)
+
+export const cardsList = style({
+	display: 'grid',
+	gap: `${GAP_PX}px`,
+	// Every card takes the height of its row rather than of its own content, so a
+	// row reads as a row instead of a ragged set of boxes.
+	alignItems: 'stretch',
+	/*
+	 * The column count comes from the width available rather than from hardcoded
+	 * breakpoints — but caps at four, past which the cards stop being cards and
+	 * start being tiles.
+	 *
+	 * `min(100%, …)` keeps the floor from ever exceeding the container, which is
+	 * what stops a narrow phone from overflowing instead of dropping to one column.
+	 */
+	gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, max(${CARD_MIN_WIDTH}, ${QUARTER_TRACK})), 1fr))`,
+	/*
+	 * Wide cards leave holes when they cannot fit on the current row. Dense
+	 * packing backfills those with whatever card comes next and fits — the card
+	 * order is arranged so there is nothing left to backfill, but this keeps a
+	 * stray gap from appearing if a card is added or an integration goes quiet.
+	 */
+	gridAutoFlow: 'dense',
+	'@container': squareRows,
 })
 
 /**
- * For a card whose content is a wide series rather than a block — the
- * contribution graph is three years across, and in a single column its cells
- * are unreadable.
+ * Two tracks once two exist, one below that.
  *
- * The span is chosen to tile against the other wide cards, which are two tracks
- * each. On an even column count, two tracks pairs with them exactly and the row
- * fills; taking more would strand the shelf beside it with empty tracks. On an
- * odd count a single track is always left over regardless, so the card may as
- * well take everything but that one and let a small card fill the remainder.
- *
- * Measured at 1200px: at three tracks the reading shelf sat alone with two empty
- * columns and the graph below it with one; at two, the two cards tile the row.
+ * Four columns is the cap and the wide cards are all two tracks, so they tile
+ * against each other at every count — there is no width at which a card wants
+ * three.
  */
-export const wideCard = style({
-	'@container': spanPerColumnCount((columns) =>
-		columns % 2 === 0 ? 2 : Math.max(2, columns - 1),
-	),
+export const twoColumnCard = style({
+	'@container': {
+		[`bento (min-width: ${widthForColumns(2)})`]: {
+			gridColumn: 'span 2',
+		},
+	},
+})
+
+/**
+ * A single-track card is square. The ratio is what gives the grid its rhythm;
+ * without it a card with little content collapses to its text and the row
+ * becomes a letterbox.
+ *
+ * It only applies once there is more than one column — at one column the card is
+ * the full width of the page, and a square that tall is absurd.
+ */
+export const squareCard = style({
+	'@container': {
+		[`bento (min-width: ${widthForColumns(2)})`]: {
+			aspectRatio: '1 / 1',
+		},
+	},
 })
 
 export const introParagraph = style({

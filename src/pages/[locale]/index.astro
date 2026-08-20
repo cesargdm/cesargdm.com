@@ -17,11 +17,12 @@ import { getMetadata } from '@/lib/metadata'
 import Layout from '@/layouts/Layout.astro'
 import {
 	card,
+	cardsContainer,
 	cardsList,
 	introContainer,
 	introParagraph,
+	squareCard,
 	twoColumnCard,
-	wideCard,
 } from '@/styles/layout.css'
 
 export const prerender = true
@@ -59,32 +60,54 @@ const meta = getMetadata({ locale })
 				Mexican SMEs. More in <a href={`/${locale}/projects`}>projects</a>.
 			</p>
 		</div>
-		<ul class={cardsList}>
-			<li class:list={[card, twoColumnCard]} style={{ height: '100%' }}>
-				<Chat client:visible locale={locale} />
-			</li>
-			<li style={{ aspectRatio: '1 / 1' }} class={card}>
-				<Bluesky />
-			</li>
-			<li style={{ aspectRatio: '1 / 1' }} class={card}>
-				<Strava locale={locale} />
-			</li>
-			<li style={{ aspectRatio: '1 / 1' }} class={card}>
-				<StravaRide locale={locale} />
-			</li>
-			<li style={{ padding: 0 }} class={card}>
-				<LastPhoto />
-			</li>
-			<li style={{ padding: 0, aspectRatio: '1 / 1' }} class={card}>
-				<Nfts locale={locale} />
-			</li>
-			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
-				<Reading />
-			</li>
-			<li class:list={[card, wideCard]} style={{ padding: 0 }}>
-				<GitHubContributions />
-			</li>
-		</ul>
+		{
+			/*
+		  Widest first, single-track cards after. A wide card that cannot fit the
+		  space left on a row gets pushed down, and the tracks it skipped stay
+		  empty — so leading with the wide ones keeps every gap at the end of the
+		  grid instead of stranding one mid-layout.
+		*/
+		}
+		{
+			/*
+		  Order is load-bearing. A wide card that cannot fit the space left on a row
+		  is pushed down and the tracks it skipped stay empty, so the sequence decides
+		  whether gaps land mid-grid or trail at the end.
+		
+		  Wide cards are spaced out rather than clustered — two tracks, three singles,
+		  the graph, a single, two tracks — which both varies the rhythm and, at every
+		  column count from one to five, leaves the only empty tracks after the last
+		  card.
+		*/
+		}
+		<div class={cardsContainer}>
+			<ul class={cardsList}>
+				<li class:list={[card, twoColumnCard]} style={{ height: '100%' }}>
+					<Chat client:visible locale={locale} />
+				</li>
+				<li class:list={[card, squareCard]}>
+					<Bluesky />
+				</li>
+				<li class:list={[card, squareCard]}>
+					<Strava locale={locale} />
+				</li>
+				<li class:list={[card, squareCard]}>
+					<StravaRide locale={locale} />
+				</li>
+				<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
+					<GitHubContributions />
+				</li>
+				<li class:list={[card, squareCard]} style={{ padding: 0 }}>
+					<LastPhoto />
+				</li>
+				<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
+					<Reading />
+				</li>
+				<li class:list={[card, squareCard]} style={{ padding: 0 }}>
+					<Nfts locale={locale} />
+				</li>
+			</ul>
+		</div>
 	</div>
 </Layout>
 
