@@ -1,6 +1,4 @@
 ---
-import { IconChevronLeft } from '@tabler/icons-react'
-
 import ChessBoard from '@/modules/ChessBoard'
 import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
 
@@ -51,17 +49,7 @@ const meta = post
 	{
 		post ? (
 			<div class={entryContainer}>
-				<a
-					href={`/${locale}/projects`}
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						marginBottom: '16px',
-					}}
-				>
-					<IconChevronLeft />
-					Projects
-				</a>
+				{/* The back link lives in the nav bar now. */}
 				<article set:html={post.contentHtml} />
 				{slug === 'c-chess' ? <ChessBoard client:visible /> : null}
 				<EditPageBanner type="projects" lang={locale} slug={slug} />

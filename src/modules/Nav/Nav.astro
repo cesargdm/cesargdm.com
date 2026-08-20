@@ -1,10 +1,17 @@
 ---
+import { IconChevronLeft } from '@tabler/icons-react'
+
 import type { Locale } from '@/lib/i18n'
 
 import NavList from './NavList'
 import ToggleTheme from './ToggleTheme'
 
-import { navContainer, navList, navToggleThemeItem } from './styles.css'
+import {
+	backButton,
+	navContainer,
+	navList,
+	navToggleThemeItem,
+} from './styles.css'
 
 type Props = {
 	locale: Locale
@@ -12,10 +19,31 @@ type Props = {
 
 const { locale } = Astro.props
 const pathname = Astro.url.pathname
+
+const SECTIONS: Record<string, Record<Locale, string>> = {
+	blog: { en: 'Blog', es: 'Blog' },
+	projects: { en: 'Projects', es: 'Proyectos' },
+}
+
+/*
+ * Only an entry page gets a back button — a section index has nowhere to go
+ * back to that the nav does not already offer.
+ */
+const [, section, slug] = pathname.replace(/^\/|\/$/g, '').split('/')
+const back = slug && section && SECTIONS[section] ? section : undefined
 ---
 
 <nav class={navContainer}>
-	<i aria-hidden></i>
+	{
+		back ? (
+			<a class={backButton} href={`/${locale}/${back}`}>
+				<IconChevronLeft aria-hidden />
+				{SECTIONS[back][locale]}
+			</a>
+		) : (
+			<i aria-hidden />
+		)
+	}
 
 	<NavList client:load locale={locale} pathname={pathname} />
 

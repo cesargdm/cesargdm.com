@@ -33,6 +33,35 @@ const themeClasses = {
 	light: lightTheme,
 	responsive: responsiveTheme,
 }
+
+/*
+ * Ramps for the glass refraction, one per axis. Flat mid-grey across the middle
+ * so the centre of a pane displaces by nothing, steep over the last tenth so the
+ * bending concentrates at the rim the way it does in real glass.
+ */
+const EDGE = 0.22
+
+function ramp(vertical: boolean) {
+	const channel = vertical
+		? (v: number) => `rgb(0,${v},0)`
+		: (v: number) => `rgb(${v},0,0)`
+	const [x2, y2] = vertical ? [0, 1] : [1, 0]
+
+	const svg =
+		`<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' preserveAspectRatio='none'>` +
+		`<linearGradient id='g' x1='0' y1='0' x2='${x2}' y2='${y2}'>` +
+		`<stop offset='0' stop-color='${channel(0)}'/>` +
+		`<stop offset='${EDGE}' stop-color='${channel(128)}'/>` +
+		`<stop offset='${1 - EDGE}' stop-color='${channel(128)}'/>` +
+		`<stop offset='1' stop-color='${channel(255)}'/>` +
+		`</linearGradient>` +
+		`<rect width='100' height='100' fill='url(%23g)'/></svg>`
+
+	return `data:image/svg+xml,${svg.replaceAll('<', '%3C').replaceAll('>', '%3E').replaceAll('#', '%23')}`
+}
+
+const X_MAP = ramp(false)
+const Y_MAP = ramp(true)
 ---
 
 <!doctype html>
@@ -89,6 +118,60 @@ const themeClasses = {
 		{meta.images.map((image) => <meta name="twitter:image" content={image} />)}
 	</head>
 	<body class={body}>
+		{
+			/*
+		  The displacement map behind the glass refraction.
+
+		  Noise was the wrong shape for this: feTurbulence warps the whole surface
+		  evenly, which reads as a wobble or a zoom rather than as glass. A real
+		  pane is optically neutral through the middle and bends hardest at the
+		  rim, so the map is a pair of ramps that sit flat at mid-grey across the
+		  centre and climb steeply over the last tenth at each edge.
+
+		  Red carries the horizontal displacement and green the vertical, built as
+		  two images and summed. Arithmetic compositing keeps each in its own
+		  channel, so the centre lands on rgb(128,128,0) and displaces by nothing.
+
+		  It lives in the document because backdrop-filter can only reference a
+		  filter by id, and it is rendered once here rather than per surface.
+		*/
+		}
+		<svg
+			width="0"
+			height="0"
+			aria-hidden="true"
+			style={{ position: 'absolute' }}
+		>
+			<filter
+				id="glass-refraction"
+				filterUnits="objectBoundingBox"
+				x="0"
+				y="0"
+				width="1"
+				height="1"
+			>
+				<feImage href={X_MAP} preserveAspectRatio="none" result="xMap"
+				></feImage>
+				<feImage href={Y_MAP} preserveAspectRatio="none" result="yMap"
+				></feImage>
+				<feComposite
+					in="xMap"
+					in2="yMap"
+					operator="arithmetic"
+					k1="0"
+					k2="1"
+					k3="1"
+					k4="0"
+					result="map"></feComposite>
+				<feDisplacementMap
+					in="SourceGraphic"
+					in2="map"
+					scale="72"
+					xChannelSelector="R"
+					yChannelSelector="G"></feDisplacementMap>
+			</filter>
+		</svg>
+
 		<Nav locale={locale} />
 
 		<main class={content}>

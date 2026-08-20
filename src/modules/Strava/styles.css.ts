@@ -1,3 +1,4 @@
+import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -28,19 +29,19 @@ export const runName = style({
 	opacity: 0.8,
 })
 
-export const stravaButton = style({
-	display: 'flex',
-	color: 'white',
-	fontWeight: vars.fontWeight.bold,
-	alignItems: 'center',
-	gap: vars.space.small,
-	justifyContent: 'center',
-	minHeight: vars.sizes.button,
-	backgroundColor: '#b03c00',
-	borderRadius: `calc(${vars.borderRadius.large} + ${vars.space.large})`,
-	transition: '300ms',
-	':hover': {
-		textDecoration: 'none',
-		backgroundColor: '#8c3000',
+export const stravaButton = style([
+	glassTint('rgba(176, 60, 0, 0.88)', 'rgba(140, 48, 0, 0.94)'),
+	{
+		display: 'flex',
+		color: 'white',
+		fontWeight: vars.fontWeight.bold,
+		alignItems: 'center',
+		gap: vars.space.small,
+		justifyContent: 'center',
+		minHeight: vars.sizes.button,
+		borderRadius: `calc(${vars.borderRadius.large} + ${vars.space.large})`,
+		':hover': {
+			textDecoration: 'none',
+		},
 	},
-})
+])

@@ -1,5 +1,6 @@
 import { cardButton } from '@/modules/card.css'
 
+import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
 
 import { style, styleVariants } from '@vanilla-extract/css'
@@ -102,13 +103,5 @@ export const legendLabel = style({
 
 export const githubButton = style([
 	cardButton,
-	{
-		color: 'white',
-		boxShadow: 'none',
-		backgroundColor: '#24292f',
-		':hover': {
-			boxShadow: 'none',
-			backgroundColor: '#171515',
-		},
-	},
+	glassTint('rgba(36, 41, 47, 0.88)', 'rgba(23, 21, 21, 0.94)'),
 ])

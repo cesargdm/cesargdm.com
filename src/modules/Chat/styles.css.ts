@@ -1,3 +1,4 @@
+import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -70,18 +71,22 @@ export const chatMessagesList = style({
 	padding: vars.space.small,
 })
 
-export const submitButton = style({
-	border: 'none',
-	color: 'white',
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	backgroundColor: vars.colors.primary,
-	borderRadius: vars.borderRadius.full,
-	':disabled': {
-		backgroundColor: vars.colors.text.tertiary,
+export const submitButton = style([
+	// The literal is the primary token's value, which is the same in both
+	// themes; a var() cannot be given an alpha channel here.
+	glassTint('rgba(59, 130, 246, 0.85)', 'rgba(59, 130, 246, 0.95)'),
+	{
+		border: 'none',
+		color: 'white',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: vars.borderRadius.full,
+		':disabled': {
+			backgroundColor: 'rgba(148, 163, 184, 0.5)',
+		},
 	},
-})
+])
 
 export const chatForm = style({
 	display: 'flex',

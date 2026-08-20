@@ -61,6 +61,8 @@ const colors = createThemeContract({
 		regular: null,
 		content: null,
 		gray: null,
+		/** Translucent surface for the glass treatment. */
+		glass: null,
 	},
 	border: null,
 	text: {
@@ -77,6 +79,9 @@ const lightColors = {
 		regular: '#F5F7FA',
 		content: '#FFFFFF',
 		gray: '#E5EAF0',
+		// Opaque enough that text on it stays readable when what passes behind
+		// is high-contrast, which is the usual failure of a glass nav.
+		glass: 'rgba(255, 255, 255, 0.42)',
 	},
 	border: '#D4DCE6',
 	text: {
@@ -93,6 +98,7 @@ const darkColors = {
 		regular: '#0B0E14',
 		content: '#111318',
 		gray: '#1A202C',
+		glass: 'rgba(17, 19, 24, 0.38)',
 	},
 	border: '#2A3442',
 	text: {
