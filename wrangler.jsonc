@@ -27,10 +27,10 @@
 	// that @astrojs/cloudflare generates its own dist/server/wrangler.json and
 	// drops `routes`, so `wrangler deploy` ignores this; apply it with
 	// `wrangler triggers deploy --config wrangler.jsonc`.
-	"routes": [
-		{ "pattern": "cesargdm.com", "custom_domain": true },
-		{ "pattern": "www.cesargdm.com", "custom_domain": true },
-	],
+	// Apex only. `www` and every other subdomain resolve through a wildcard
+	// CNAME to Vercel that other projects rely on (music.cesargdm.com among
+	// them), so that record stays until those are moved.
+	"routes": [{ "pattern": "cesargdm.com", "custom_domain": true }],
 	"observability": {
 		"enabled": true,
 		"head_sampling_rate": 1,
