@@ -71,7 +71,7 @@ function parseDays(
 
 		days.push({
 			date,
-			count: (id && counts.get(id)) ?? 0,
+			count: id ? (counts.get(id) ?? 0) : 0,
 			level: toLevel(Number(level)),
 		})
 	}
