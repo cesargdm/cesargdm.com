@@ -5,5 +5,5 @@ import { style } from '@vanilla-extract/css'
 export const editFunctionality = style({
 	display: 'flex',
 	marginTop: vars.space.xlarge,
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 })

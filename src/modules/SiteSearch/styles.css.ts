@@ -28,8 +28,8 @@ export const typeBadge = style({
 	padding: '2px 8px',
 	borderRadius: 999,
 	backgroundColor: 'rgba(128, 128, 128, 0.2)',
-	fontSize: '0.6rem',
-	fontWeight: 'bold',
+	fontSize: vars.fontSize.xsmall,
+	fontWeight: vars.fontWeight.bold,
 	textTransform: 'uppercase',
 	alignItems: 'center',
 })

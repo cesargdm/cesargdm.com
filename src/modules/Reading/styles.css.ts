@@ -49,7 +49,7 @@ export const bookImage = style({
 })
 
 export const titleText = style({
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	overflow: 'hidden',
 	textOverflow: 'ellipsis',
 	lineClamp: 1,

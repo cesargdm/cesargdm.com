@@ -7,6 +7,8 @@ import TextInput from '@/components/TextInput'
 import type { Locale } from '@/lib/i18n'
 import { useSiteSearch } from '@/lib/use-site-search'
 
+import { vars } from '@/styles/theme.css'
+
 import Search from '../Search'
 
 import StaticNavList from './StaticNavList'
@@ -139,8 +141,8 @@ export default function NavList({
 													padding: '2px 8px',
 													borderRadius: 999,
 													backgroundColor: '#ddd',
-													fontSize: '0.6rem',
-													fontWeight: 'bold',
+													fontSize: vars.fontSize.xsmall,
+													fontWeight: vars.fontWeight.bold,
 													textTransform: 'uppercase',
 													alignItems: 'center',
 												}}

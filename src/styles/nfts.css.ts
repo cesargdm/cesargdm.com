@@ -51,7 +51,7 @@ export const nftTextWrapper = style({
 
 export const nftName = style({
 	lineClamp: 1,
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	WebkitLineClamp: 1,
 	display: '-webkit-box',
 	WebkitBoxOrient: 'vertical',

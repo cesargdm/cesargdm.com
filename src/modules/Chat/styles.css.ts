@@ -54,7 +54,7 @@ export const chatMessageUser = style([
 
 export const participantName = style({
 	justifySelf: 'start',
-	fontSize: '0.8rem',
+	fontSize: vars.fontSize.xsmall,
 	marginLeft: '8px',
 	opacity: 0.7,
 })

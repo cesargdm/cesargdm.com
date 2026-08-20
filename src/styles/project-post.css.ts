@@ -16,12 +16,12 @@ globalStyle(`${entryContainer} article`, {
 })
 
 globalStyle(`${entryContainer} article h1`, {
-	fontSize: vars.fontSize.xxxlarge,
+	fontSize: vars.fontSize.xlarge,
 	marginBottom: '1rem',
 })
 
 globalStyle(`${entryContainer} article h2`, {
-	fontSize: vars.fontSize.xxlarge,
+	fontSize: vars.fontSize.large,
 	marginBottom: '1rem',
 })
 

@@ -4,17 +4,18 @@ import { style } from '@vanilla-extract/css'
 
 export const entriesList = style({
 	display: 'grid',
-	gridTemplateColumns: '1fr',
+	// auto-fill + minmax replaces the fixed 1/2/3 breakpoints: columns are added
+	// whenever there is room for one, so the grid adapts to any width instead of
+	// jumping at two arbitrary points.
+	gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 17rem), 1fr))',
+	// Wide cards leave holes in the row they start on. `dense` backfills those
+	// with the next card that fits, which is what stops the layout looking
+	// ragged. It can pull a later card forward visually; DOM and tab order are
+	// unchanged, and the list is a gallery rather than a sequence.
+	gridAutoFlow: 'dense',
+	gridAutoRows: 'minmax(11rem, auto)',
 	margin: `${vars.space.large} 0`,
 	gap: vars.space.medium,
-	'@media': {
-		'(min-width: 768px)': {
-			gridTemplateColumns: 'repeat(2, 1fr)',
-		},
-		'(min-width: 1024px)': {
-			gridTemplateColumns: 'repeat(3, 1fr)',
-		},
-	},
 })
 
 export const pageDescription = style({
@@ -58,10 +59,10 @@ export const entryLink = style({
 export const highlightedEntryItem = style([
 	entryItem,
 	{
-		gridColumn: 'inherit',
-		gridRow: 'inherit',
+		// Only widen once two columns can actually exist — below that the span
+		// would overflow the single-column grid.
 		'@media': {
-			'(min-width: 768px)': {
+			'(min-width: 37rem)': {
 				gridColumn: 'span 2',
 			},
 		},
@@ -93,8 +94,8 @@ export const projectEntryLink = style([
 ])
 
 export const entryTitle = style({
-	fontSize: vars.fontSize.xlarge,
-	fontWeight: 'bold',
+	fontSize: vars.fontSize.large,
+	fontWeight: vars.fontWeight.bold,
 })
 
 export const entryText = style({
