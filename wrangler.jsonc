@@ -15,6 +15,12 @@
 		"binding": "AI",
 		"remote": true,
 	},
+	// Custom Domains, not routes: Cloudflare provisions the certificate and owns
+	// the DNS records, which replaces the A records that pointed at Vercel.
+	"routes": [
+		{ "pattern": "cesargdm.com", "custom_domain": true },
+		{ "pattern": "www.cesargdm.com", "custom_domain": true },
+	],
 	"observability": {
 		"enabled": true,
 		"head_sampling_rate": 1,
