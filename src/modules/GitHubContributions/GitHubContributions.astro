@@ -15,7 +15,6 @@ import {
 	legendCell,
 	legendLabel,
 	totalText,
-	yearAxis,
 	yearLabel,
 } from './styles.css'
 
@@ -112,8 +111,6 @@ const yearSpans = toYearSpans(columns)
 							/>
 						)),
 					)}
-				</div>
-				<div class={yearAxis} style={{ '--columns': columns.length }}>
 					{yearSpans.map(({ year, start, span }) => (
 						<span
 							class={yearLabel}

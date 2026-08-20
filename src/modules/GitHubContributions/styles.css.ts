@@ -23,11 +23,16 @@ const LEVEL_COLORS = [
 	'light-dark(#216e39, #39d353)',
 ]
 
-// Three years is roughly 160 columns, which does not fit a card at any fixed
-// cell size — so the cells are fluid and the whole span fits without scrolling.
-// The legend keeps a fixed size, since it is five cells rather than a year.
 const CELL_GAP = '2px'
+const GAP_PX = 2
+const WEEKDAYS = 7
 const LEGEND_CELL_SIZE = '11px'
+/*
+ * Cells grow with the card but stop here. Past roughly twice GitHub's own 11px
+ * they read as chunky tiles rather than a heatmap, and every pixel of cell is a
+ * week less history on screen before you have to scroll.
+ */
+const MAX_CELL_SIZE = '18px'
 
 /*
  * The card itself has no padding: the calendar runs to its edges the way the
@@ -54,50 +59,55 @@ export const gridContainer = style({
 	// grid's fit-content width pushed the card wider than its track instead of
 	// scrolling inside it, and the page picked up a horizontal scrollbar.
 	minWidth: 0,
+	minHeight: 0,
+	// Takes whatever vertical space the card has left, which is what the cells
+	// then size themselves from.
+	flex: 1,
 	padding: `${vars.space.medium} 0`,
-	// On a phone the card is a few hundred pixels wide, and three years of fluid
-	// columns would put each day under two pixels — a smear rather than a
-	// calendar. Below the tablet breakpoint the cells take a floor size and the
-	// graph scrolls instead, newest first so the recent months are what is in
-	// view. The scrollbar is hidden because it reads as chrome under a heatmap.
+	/*
+	 * Three years never fits a card at a readable cell size, so the calendar
+	 * scrolls — newest first, so the recent months are what is in view. The
+	 * scrollbar is hidden because it reads as chrome under a heatmap.
+	 */
 	overflowX: 'auto',
 	scrollbarWidth: 'none',
 	'::-webkit-scrollbar': { display: 'none' },
 })
 
-const MIN_CELL_SIZE = '7px'
-const GRID_COLUMNS = `repeat(var(--columns), minmax(${MIN_CELL_SIZE}, 1fr))`
-
 export const grid = style({
 	display: 'grid',
 	gap: CELL_GAP,
-	width: '100%',
-	// minmax() floors the cells, so past that point the grid outgrows the card
-	// and the container scrolls rather than squeezing the cells further.
-	minWidth: 'fit-content',
+	height: '100%',
+	width: 'fit-content',
 	padding: `0 ${INSET}`,
-	gridTemplateColumns: GRID_COLUMNS,
-})
-
-export const yearAxis = style({
-	display: 'grid',
-	gap: CELL_GAP,
-	width: '100%',
-	minWidth: 'fit-content',
-	padding: `0 ${INSET}`,
-	// Same template as the grid above, so each label sits under its own year.
-	gridTemplateColumns: GRID_COLUMNS,
-	marginTop: vars.space.small,
-	fontSize: vars.fontSize.xsmall,
-	color: vars.colors.text.tertiary,
+	/*
+	 * Seven weekday rows sized from the height available, capped, plus one auto
+	 * row for the year labels. Percentages here resolve against the grid's own
+	 * height, so the cells grow with the card instead of being fixed.
+	 *
+	 * The labels live in this grid rather than a second one below it: they have to
+	 * line up with the columns, and sharing the grid makes that structural instead
+	 * of two templates that must be kept identical.
+	 */
+	gridTemplateRows: `repeat(${WEEKDAYS}, min(calc((100% - ${(WEEKDAYS - 1) * GAP_PX}px) / ${WEEKDAYS}), ${MAX_CELL_SIZE})) auto`,
+	// Columns take their width from the cells, which are square.
+	gridAutoColumns: 'auto',
+	// Keeps the calendar centred in the leftover space once the cells hit the cap.
+	alignContent: 'center',
 })
 
 export const yearLabel = style({
+	gridRow: WEEKDAYS + 1,
 	textAlign: 'center',
+	paddingTop: vars.space.small,
+	fontSize: vars.fontSize.xsmall,
+	color: vars.colors.text.tertiary,
+	// Two years can be a handful of columns wide at the edges of the range.
+	overflow: 'hidden',
 })
 
 export const cell = style({
-	width: '100%',
+	height: '100%',
 	aspectRatio: '1',
 	borderRadius: '1px',
 	// GitHub outlines every cell, including empty ones, so the grid reads as a
@@ -117,6 +127,7 @@ export const cellLevels = styleVariants(
 
 export const legendCell = style({
 	width: LEGEND_CELL_SIZE,
+	height: LEGEND_CELL_SIZE,
 	aspectRatio: '1',
 })
 
@@ -138,5 +149,11 @@ export const legendLabel = style({
 export const githubButton = style([
 	cardButton,
 	glassTint('rgba(36, 41, 47, 0.88)', 'rgba(23, 21, 21, 0.94)'),
-	{ margin: `${vars.space.medium} ${INSET} ${INSET}` },
+	{
+		// Pinned to the bottom of the card rather than trailing the calendar, so
+		// it lines up with the call to action on every other card in the row.
+		marginTop: 'auto',
+		margin: `${vars.space.medium} ${INSET} ${INSET}`,
+		marginBlockStart: 'auto',
+	},
 ])
