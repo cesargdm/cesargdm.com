@@ -2,6 +2,7 @@
 title: Modern moderation
 date: 2021-04-21
 extract: Modern society promotes unlimited consumption, but moderation is necessary for balance and enjoyment, as excess leads to addiction and harmful habits.
+translationKey: moderation
 ---
 
 # Modern moderation
