@@ -1,0 +1,43 @@
+name: Deploy
+
+# Replaces Vercel's Git integration, which stopped applying when the site moved
+# to Cloudflare Workers. Requires a CLOUDFLARE_API_TOKEN repository secret with
+# Workers Scripts:Edit and Workers AI:Read.
+on:
+  push:
+    branches: [main]
+  # The home page is prerendered, so the Goodreads, Bluesky, Strava, Unsplash
+  # and NFT cards are baked in at build time. A daily rebuild keeps them fresh —
+  # they all cache for 24h anyway, so this matches their TTL.
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Workers
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Prerendering reads the content at build time, so the deployed HTML is
+      # only as fresh as this step.
+      - run: bun run build
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
