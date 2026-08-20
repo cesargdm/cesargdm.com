@@ -15,6 +15,11 @@
 		"binding": "AI",
 		"remote": true,
 	},
+	// Caches the short-lived OpenSea agent key so it is minted a few times a
+	// month rather than per request — key creation is itself rate limited.
+	"kv_namespaces": [
+		{ "binding": "CACHE", "id": "60694a18dd8543299ee7c0642e41e3b2" },
+	],
 	// Must be explicit: `wrangler triggers deploy` disables workers.dev when this
 	// key is absent, which takes the deployment offline.
 	"workers_dev": true,
