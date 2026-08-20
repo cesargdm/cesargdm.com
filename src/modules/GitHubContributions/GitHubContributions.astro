@@ -1,0 +1,65 @@
+---
+import { IconBrandGithub } from '@tabler/icons-react'
+
+import { getContributions } from '@/lib/github'
+
+import {
+	cell,
+	cellLevels,
+	githubButton,
+	grid,
+	gridContainer,
+	totalText,
+} from './styles.css'
+
+const GITHUB_PROFILE_URL = 'https://github.com/cesargdm'
+
+const contributions = await getContributions()
+
+/**
+ * `grid-auto-flow: column` places each cell in the next column that has its
+ * `grid-row` free, scanning forward — so an explicit row per weekday is
+ * enough to stack days into weekly columns; no column index needs computing.
+ */
+function toRow(date: string): number {
+	return new Date(`${date}T00:00:00Z`).getUTCDay() + 1
+}
+---
+
+{
+	contributions ? (
+		<>
+			<h2>
+				<IconBrandGithub aria-hidden />
+				GitHub
+			</h2>
+			<p class={totalText}>
+				{contributions.total.toLocaleString()} contributions in the last year
+			</p>
+			<div class={gridContainer}>
+				<div
+					role="img"
+					class={grid}
+					aria-label={`GitHub contribution graph: ${contributions.total.toLocaleString()} contributions in the last year`}
+				>
+					{contributions.days.map((day) => (
+						<span
+							class:list={[cell, cellLevels[day.level as 0 | 1 | 2 | 3 | 4]]}
+							style={{ gridRow: toRow(day.date) }}
+							title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
+						/>
+					))}
+				</div>
+			</div>
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				class={githubButton}
+				href={GITHUB_PROFILE_URL}
+			>
+				<IconBrandGithub aria-hidden />
+				View on GitHub
+			</a>
+		</>
+	) : null
+}

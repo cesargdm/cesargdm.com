@@ -1,6 +1,7 @@
 ---
 import Bluesky from '@/modules/Bluesky/Bluesky.astro'
 import Chat from '@/modules/Chat'
+import GitHubContributions from '@/modules/GitHubContributions/GitHubContributions.astro'
 import HoverCompany from '@/modules/HoverCompany/HoverCompany.astro'
 import LastPhoto from '@/modules/LastPhoto/LastPhoto.astro'
 import Nfts from '@/modules/Nfts/Nfts.astro'
@@ -74,6 +75,9 @@ const meta = getMetadata({ locale })
 			</li>
 			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
 				<Reading />
+			</li>
+			<li class:list={[card, twoColumnCard]}>
+				<GitHubContributions />
 			</li>
 		</ul>
 	</div>
