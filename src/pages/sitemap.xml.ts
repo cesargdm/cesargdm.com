@@ -2,81 +2,92 @@ import type { APIRoute } from 'astro'
 
 import { getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
+import { toTimestamp } from '@/lib/date'
+import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
+import { getAlternateLocalePath } from '@/lib/locale-path'
 import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
 
 export const prerender = false
 
-const STATIC_PATHS = ['', 'projects', 'blog', 'contact', 'nfts']
+const STATIC_PATHS = [
+	'',
+	'projects',
+	'blog',
+	'contact',
+	'nfts',
+	'chat',
+	'search',
+]
 
 type Entry = {
-	loc: string
+	path: string
+	locale: Locale
 	lastmod: string
-	pathForLocale: (locale: string) => string
 }
 
-function renderUrl({ loc, lastmod, pathForLocale }: Entry) {
-	const alternates = LOCALES.map(
-		(locale) =>
-			`<xhtml:link rel="alternate" hreflang="${locale}" href="${pathForLocale(locale)}" />`,
-	).join('')
+function render({ path, locale, lastmod }: Entry) {
+	const loc = `${BASE_URL}${path}`
+
+	// Only claim an alternate where one actually exists. The resolver falls back
+	// to a shorter path (the section index, or home) when a page has no
+	// translation, so an alternate with fewer segments means there isn't one —
+	// and advertising a translation that redirects is worse than advertising none.
+	const depth = path.split('/').length
+
+	const alternates = LOCALES.filter((other) => other !== locale)
+		.map((other) => ({
+			other,
+			alt: getAlternateLocalePath(locale, other, path),
+		}))
+		.filter(({ alt }) => alt.split('/').length === depth)
+		.map(
+			({ other, alt }) =>
+				`<xhtml:link rel="alternate" hreflang="${other}" href="${BASE_URL}${alt}" />`,
+		)
+		.join('')
 
 	return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod>${alternates}</url>`
 }
 
+function isoDate(value: unknown, fallback: string) {
+	const timestamp = toTimestamp(value)
+
+	return timestamp ? new Date(timestamp).toISOString() : fallback
+}
+
 export const GET: APIRoute = async () => {
-	const projects = [...getProjects('en'), ...getProjects('es')]
-	const posts = [...getPosts('en'), ...getPosts('es')]
-	const nfts = (await getNfts()) ?? []
-
 	const now = new Date().toISOString()
+	const nfts = await getNfts()
 
-	const entries: Entry[] = [
+	const entries: Entry[] = LOCALES.flatMap((locale) => [
+		// Every URL carries its locale prefix. The unprefixed forms this used to
+		// emit are redirects, and a sitemap should list the final URL.
 		...STATIC_PATHS.map((path) => ({
-			loc: `${BASE_URL}/${path}`,
+			path: path ? `/${locale}/${path}` : `/${locale}`,
+			locale,
 			lastmod: now,
-			pathForLocale: (locale: string) => `${BASE_URL}/${locale}/${path}`,
 		})),
-		...projects.map((project) => {
-			const date =
-				typeof project.data.date === 'string'
-					? new Date(project.data.date)
-					: new Date()
-
-			return {
-				loc: `${BASE_URL}/projects/${project.slug}`,
-				lastmod: date.toISOString(),
-				pathForLocale: (locale: string) =>
-					`${BASE_URL}/${locale}/projects/${project.slug}`,
-			}
-		}),
-		...posts.map((post) => {
-			const date =
-				typeof post.data.date === 'string'
-					? new Date(post.data.date)
-					: new Date()
-
-			return {
-				loc: `${BASE_URL}/blog/${post.slug}`,
-				lastmod: date.toISOString(),
-				pathForLocale: (locale: string) =>
-					`${BASE_URL}/${locale}/blog/${post.slug}`,
-			}
-		}),
-		...nfts.map((nft) => {
-			const id = `ethereum_${nft.contract}_${nft.identifier}`
-
-			return {
-				loc: `${BASE_URL}/nfts/${id}`,
-				lastmod: now,
-				pathForLocale: (locale: string) => `${BASE_URL}/${locale}/nfts/${id}`,
-			}
-		}),
-	]
+		...getProjects(locale).map((project) => ({
+			path: `/${locale}/projects/${project.slug}`,
+			locale,
+			lastmod: isoDate(project.data.date, now),
+		})),
+		...getPosts(locale).map((post) => ({
+			path: `/${locale}/blog/${post.slug}`,
+			locale,
+			lastmod: isoDate(post.data.date, now),
+		})),
+		...nfts.map((nft) => ({
+			path: `/${locale}/nfts/ethereum_${nft.contract}_${nft.identifier}`,
+			locale,
+			lastmod: now,
+		})),
+	])
 
 	const body = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries
-		.map(renderUrl)
+		.map(render)
 		.join('')}</urlset>`
 
 	return new Response(body, {
