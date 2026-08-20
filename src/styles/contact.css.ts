@@ -19,7 +19,7 @@ export const contactHeading = style({
 globalStyle(`${contactList} a`, {
 	display: 'flex',
 	alignItems: 'center',
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	gap: vars.space.small,
 	flexDirection: 'column',
 })

@@ -11,10 +11,10 @@ import type { ResolvedMetadata } from '@/lib/metadata'
 import { body, content } from '@/styles/layout.css'
 import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
-import '@fontsource/inter/100.css'
-import '@fontsource/inter/400.css'
-import '@fontsource/inter/700.css'
-import '@fontsource/inter/900.css'
+// One variable face covers every weight the scale uses, replacing four
+// static files — and the 100 and 900 weights nothing referenced.
+import '@fontsource-variable/inter'
+
 import '@/styles/global.css'
 
 type Props = {

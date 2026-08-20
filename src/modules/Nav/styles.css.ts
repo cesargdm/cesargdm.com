@@ -61,7 +61,7 @@ export const centerNavList = style([
 ])
 
 export const navItem = style({
-	fontWeight: 'bolder',
+	fontWeight: vars.fontWeight.bold,
 })
 
 export const navLink = style({

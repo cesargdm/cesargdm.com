@@ -17,8 +17,8 @@ export const smallDescription = style({
 })
 
 export const sitename = style({
-	fontSize: vars.fontSize.xlarge,
-	fontWeight: 'bold',
+	fontSize: vars.fontSize.large,
+	fontWeight: vars.fontWeight.bold,
 	marginBottom: vars.space.medium,
 })
 

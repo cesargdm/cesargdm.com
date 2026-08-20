@@ -3,6 +3,7 @@ import { getMetadata } from '@/lib/metadata'
 
 import Layout from '@/layouts/Layout.astro'
 import { errorPageContainer } from '@/styles/layout.css'
+import { vars } from '@/styles/theme.css'
 
 const meta = getMetadata({ locale: 'en', title: 'Not Found' })
 ---
@@ -14,7 +15,11 @@ const meta = getMetadata({ locale: 'en', title: 'Not Found' })
 		<p>
 			You just hit a page that doesn't exist... the sadness.
 			<a
-				style={{ fontWeight: 'bold', display: 'block', textAlign: 'center' }}
+				style={{
+					fontWeight: vars.fontWeight.bold,
+					display: 'block',
+					textAlign: 'center',
+				}}
 				href="/">Go back home</a
 			>
 		</p>

@@ -14,9 +14,13 @@ export const runContainer = style({
 })
 
 export const distanceText = style({
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	lineHeight: 1,
-	fontSize: '3rem',
+	fontSize: vars.fontSize.xlarge,
+})
+
+export const distanceUnit = style({
+	fontSize: vars.fontSize.large,
 })
 
 export const runName = style({
@@ -27,7 +31,7 @@ export const runName = style({
 export const stravaButton = style({
 	display: 'flex',
 	color: 'white',
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	alignItems: 'center',
 	gap: vars.space.small,
 	justifyContent: 'center',

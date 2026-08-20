@@ -25,15 +25,21 @@ export const root = createGlobalTheme(':root', {
 		xxlarge: '32px',
 		xxxlarge: '48px',
 	},
+	// Five steps, deliberately. The previous eight tokens plus six hardcoded
+	// values gave ten distinct sizes, which is more scale than a site this size
+	// can use consistently.
 	fontSize: {
-		xxsmall: '0.6rem',
-		xsmall: '0.8rem',
-		small: '0.92rem',
+		xsmall: '0.75rem',
+		small: '0.875rem',
 		medium: '1rem',
-		large: '1.1rem',
-		xlarge: '1.2rem',
-		xxlarge: '1.5rem',
-		xxxlarge: '2rem',
+		large: '1.25rem',
+		xlarge: '2rem',
+	},
+	// Three weights. Inter ships a variable face, so these cost one file.
+	fontWeight: {
+		regular: '400',
+		medium: '600',
+		bold: '700',
 	},
 	borderRadius: {
 		medium: '8px',

@@ -15,7 +15,7 @@ export const notFoundContainer = style({
 globalStyle(`${notFoundContainer} a`, {
 	display: 'block',
 	textAlign: 'center',
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 })
 
 export const entryContainer = style({
@@ -56,8 +56,8 @@ globalStyle(`${nonTechnicalEntry} > p:nth-child(2)::first-letter`, {
 })
 
 globalStyle(`${articleContainer} h1`, {
-	fontSize: vars.fontSize.xxxlarge,
-	marginBottom: vars.fontSize.xxlarge,
+	fontSize: vars.fontSize.xlarge,
+	marginBottom: vars.fontSize.large,
 })
 
 globalStyle(`${articleContainer} blockquote`, {
@@ -82,8 +82,8 @@ globalStyle(`${articleContainer} pre`, {
 })
 
 globalStyle(`${articleContainer} h2`, {
-	fontSize: vars.fontSize.xxlarge,
-	marginBottom: vars.fontSize.xxlarge,
+	fontSize: vars.fontSize.large,
+	marginBottom: vars.fontSize.large,
 })
 
 globalStyle(`${articleContainer} p`, {

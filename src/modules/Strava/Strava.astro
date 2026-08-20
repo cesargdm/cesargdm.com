@@ -4,7 +4,13 @@ import { IconBrandStrava } from '@tabler/icons-react'
 import type { Locale } from '@/lib/i18n'
 import { getLastRun } from '@/lib/strava'
 
-import { distanceText, runContainer, runName, stravaButton } from './styles.css'
+import {
+	distanceText,
+	distanceUnit,
+	runContainer,
+	runName,
+	stravaButton,
+} from './styles.css'
 
 type Props = {
 	locale: Locale
@@ -36,7 +42,7 @@ const formattedDate = run
 			<div class={runContainer}>
 				<p class={distanceText}>
 					{run.distanceKm.toFixed(1)}
-					<span style={{ fontSize: '1.5rem' }}> km</span>
+					<span class={distanceUnit}> km</span>
 				</p>
 				<p class={runName}>{run.name}</p>
 				<p>

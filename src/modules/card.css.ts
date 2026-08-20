@@ -8,7 +8,7 @@ import { style } from '@vanilla-extract/css'
  */
 export const cardButton = style({
 	display: 'flex',
-	fontWeight: 'bold',
+	fontWeight: vars.fontWeight.bold,
 	alignItems: 'center',
 	gap: vars.space.small,
 	justifyContent: 'center',

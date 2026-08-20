@@ -18,7 +18,7 @@ export const profileButton = style([
 ])
 
 export const postParagraph = style({
-	fontSize: vars.fontSize.xlarge,
+	fontSize: vars.fontSize.large,
 	padding: `${vars.space.large} 0`,
 	margin: 'auto',
 	textAlign: 'center',
