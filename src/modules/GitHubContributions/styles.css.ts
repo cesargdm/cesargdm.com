@@ -22,8 +22,11 @@ const LEVEL_COLORS = [
 	'light-dark(#216e39, #39d353)',
 ]
 
-const CELL_SIZE = '11px'
-const CELL_GAP = '3px'
+// Three years is roughly 160 columns, which does not fit a card at any fixed
+// cell size — so the cells are fluid and the whole span fits without scrolling.
+// The legend keeps a fixed size, since it is five cells rather than a year.
+const CELL_GAP = '2px'
+const LEGEND_CELL_SIZE = '11px'
 
 export const totalText = style({
 	margin: 0,
@@ -32,23 +35,37 @@ export const totalText = style({
 })
 
 export const gridContainer = style({
-	overflowX: 'auto',
 	padding: `${vars.space.medium} 0`,
 })
+
+const GRID_COLUMNS = 'repeat(var(--columns), minmax(0, 1fr))'
 
 export const grid = style({
 	display: 'grid',
 	gap: CELL_GAP,
-	width: 'fit-content',
-	gridAutoFlow: 'column',
-	gridAutoColumns: CELL_SIZE,
-	gridTemplateRows: `repeat(7, ${CELL_SIZE})`,
+	width: '100%',
+	gridTemplateColumns: GRID_COLUMNS,
+})
+
+export const yearAxis = style({
+	display: 'grid',
+	gap: CELL_GAP,
+	width: '100%',
+	// Same template as the grid above, so each label sits under its own year.
+	gridTemplateColumns: GRID_COLUMNS,
+	marginTop: vars.space.small,
+	fontSize: vars.fontSize.xsmall,
+	color: vars.colors.text.tertiary,
+})
+
+export const yearLabel = style({
+	textAlign: 'center',
 })
 
 export const cell = style({
-	width: CELL_SIZE,
-	height: CELL_SIZE,
-	borderRadius: '2px',
+	width: '100%',
+	aspectRatio: '1',
+	borderRadius: '1px',
 	// GitHub outlines every cell, including empty ones, so the grid reads as a
 	// grid rather than as scattered marks on the card background.
 	outline:
@@ -64,11 +81,16 @@ export const cellLevels = styleVariants(
 	),
 )
 
+export const legendCell = style({
+	width: LEGEND_CELL_SIZE,
+	aspectRatio: '1',
+})
+
 export const legend = style({
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'flex-end',
-	gap: CELL_GAP,
+	gap: '3px',
 	margin: 0,
 	fontSize: vars.fontSize.xsmall,
 	color: vars.colors.text.tertiary,

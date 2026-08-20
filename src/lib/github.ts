@@ -6,6 +6,8 @@ import { logIntegrationFailure } from '@/lib/log'
  * calendar shows their union rather than half the picture.
  */
 const GITHUB_USERNAMES = ['cesargdm', 'ocho-cesar']
+export const YEARS_SHOWN = 3
+const DATE_LENGTH = 10
 const MAX_CONTRIBUTION_LEVEL = 4
 // The boundaries between levels: three cut points for four non-zero buckets,
 // derived from the level count so the two stay in step.
@@ -100,10 +102,14 @@ function parseDays(
  */
 async function getProfileContributions(
 	username: string,
+	year: number,
 ): Promise<Contributions | undefined> {
 	try {
+		// `to` is accepted and then ignored — the fragment always returns the whole
+		// calendar year — so the current year's unreached days are dropped during
+		// the merge instead, not here.
 		const response = await fetch(
-			`https://github.com/users/${username}/contributions`,
+			`https://github.com/users/${username}/contributions?from=${year}-01-01&to=${year}-12-31`,
 			{
 				...cached(ONE_DAY_SECONDS),
 				headers: { 'user-agent': 'cesargdm.com (+https://cesargdm.com)' },
@@ -123,7 +129,7 @@ async function getProfileContributions(
 
 		return { total: parseTotal(html), days }
 	} catch (error) {
-		logIntegrationFailure(`github:${username}`, error)
+		logIntegrationFailure(`github:${username}:${year}`, error)
 		return undefined
 	}
 }
@@ -157,9 +163,23 @@ function toQuartileLevels(counts: Map<string, number>): ContributionDay[] {
 }
 
 export async function getContributions(): Promise<Contributions | undefined> {
-	const profiles = (
-		await Promise.all(GITHUB_USERNAMES.map(getProfileContributions))
-	).filter((profile): profile is Contributions => Boolean(profile))
+	const currentYear = new Date().getUTCFullYear()
+	const years = Array.from(
+		{ length: YEARS_SHOWN },
+		(unused, index) => currentYear - index,
+	)
+
+	// The header total on a ranged request describes that range, so the yearly
+	// responses sum to a real three-year total rather than double-counting.
+	const today = new Date().toISOString().slice(0, DATE_LENGTH)
+
+	const requests = years.flatMap((year) =>
+		GITHUB_USERNAMES.map((username) => getProfileContributions(username, year)),
+	)
+
+	const profiles = (await Promise.all(requests)).filter(
+		(profile): profile is Contributions => Boolean(profile),
+	)
 
 	// One profile failing should still leave a calendar rather than an empty card.
 	if (!profiles.length) return undefined
@@ -169,6 +189,10 @@ export async function getContributions(): Promise<Contributions | undefined> {
 
 	for (const profile of profiles) {
 		for (const day of profile.days) {
+			// Days that have not happened yet would render as four months of blank
+			// columns in front of the most recent work.
+			if (day.date > today) continue
+
 			counts.set(day.date, (counts.get(day.date) ?? 0) + day.count)
 			levels.set(day.date, Math.max(levels.get(day.date) ?? 0, day.level))
 		}

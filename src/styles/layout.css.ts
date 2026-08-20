@@ -68,6 +68,22 @@ export const twoColumnCard = style({
 	},
 })
 
+/**
+ * For a card whose content is a wide series rather than a block — the
+ * contribution graph is three years across, and at half a row its cells shrink
+ * to a couple of pixels.
+ */
+export const fullWidthCard = style({
+	'@media': {
+		'(min-width: 768px)': {
+			gridColumn: 'span 3',
+		},
+		'(min-width: 1024px)': {
+			gridColumn: 'span 4',
+		},
+	},
+})
+
 export const introParagraph = style({
 	lineHeight: 1.6,
 	marginTop: vars.space.medium,

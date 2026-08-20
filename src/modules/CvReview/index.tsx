@@ -71,15 +71,15 @@ export default function CvReview() {
 			return
 		}
 
-		if (!event.target.file.files || !Array.isArray(event.target.file.files)) {
-			return
-		}
+		// A FileList is array-like but not an Array, so the previous
+		// Array.isArray check was always false and the handler returned here
+		// every time — the form did nothing at all.
+		const files = event.target.file.files as FileList | null
+		const file = files?.item(0)
 
-		const pdfUrl = URL.createObjectURL(event.target.file.files[0] as Blob)
+		if (!file) return
 
-		if (!pdfUrl) {
-			alert('No pdf data')
-		}
+		const pdfUrl = URL.createObjectURL(file)
 
 		const pdfjsLib = window['pdfjs-dist/build/pdf']
 
@@ -96,12 +96,12 @@ export default function CvReview() {
 					new Promise((resolve, reject) => {
 						;(async () => {
 							const page = (await pdfDocumentProxy.getPage(pageIndex)) as {
-								getTextContent: () => TextContent
+								getTextContent: () => Promise<TextContent>
 							}
 
-							const text = page.getTextContent()
+							const text = await page.getTextContent()
 
-							resolve(text.items.map((s) => s.str).join(' '))
+							resolve(text.items.map((item) => item.str).join(' '))
 						})().catch(reject)
 					}),
 				)
@@ -115,6 +115,9 @@ export default function CvReview() {
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
+		} finally {
+			// The object URL pins the file in memory until it is released.
+			URL.revokeObjectURL(pdfUrl)
 		}
 	}
 
