@@ -47,13 +47,36 @@ export const card = style({
 
 const CARD_MIN_WIDTH_PX = 260
 const CARD_MIN_WIDTH = `${CARD_MIN_WIDTH_PX}px`
-// A media feature cannot take calc(), so the two-column threshold is computed
-// here and interpolated as a literal.
-const TWO_COLUMN_WIDTH = `${CARD_MIN_WIDTH_PX * 2}px`
+const GAP_PX = 16
+const MAX_TRACKED_COLUMNS = 6
+
+/**
+ * The container width at which `columns` tracks first fit, gaps included.
+ *
+ * Spans are keyed off the grid's own width rather than the viewport's: the list
+ * sits inside a padded, max-width page, so those two numbers are never the same
+ * and a viewport breakpoint would always be approximating.
+ */
+function widthForColumns(columns: number) {
+	return `${columns * CARD_MIN_WIDTH_PX + (columns - 1) * GAP_PX}px`
+}
+
+/** Container queries assigning a span per column count, widest match winning. */
+function spanPerColumnCount(spanFor: (columns: number) => number) {
+	const queries: Record<string, { gridColumn: string }> = {}
+
+	for (let columns = 2; columns <= MAX_TRACKED_COLUMNS; columns++) {
+		queries[`bento (min-width: ${widthForColumns(columns)})`] = {
+			gridColumn: `span ${spanFor(columns)}`,
+		}
+	}
+
+	return queries
+}
 
 export const cardsList = style({
 	display: 'grid',
-	gap: vars.space.large,
+	gap: `${GAP_PX}px`,
 	alignItems: 'flex-start',
 	/*
 	 * The column count comes from the width available rather than from two
@@ -72,26 +95,34 @@ export const cardsList = style({
 	 * to the reading shelf.
 	 */
 	gridAutoFlow: 'dense',
+	// Lets the cards below size their spans from this box's width.
+	containerType: 'inline-size',
+	containerName: 'bento',
 })
 
+/** Two columns once two exist; one below that. */
 export const twoColumnCard = style({
-	'@media': {
-		// Two columns only exist once the grid is wide enough for two tracks;
-		// below that the span would force an implicit column and overflow.
-		[`(min-width: ${TWO_COLUMN_WIDTH})`]: {
-			gridColumn: 'span 2',
-		},
-	},
+	'@container': spanPerColumnCount(() => 2),
 })
 
 /**
  * For a card whose content is a wide series rather than a block — the
- * contribution graph is three years across, and at half a row its cells shrink
- * to a couple of pixels.
+ * contribution graph is three years across, and in a single column its cells
+ * are unreadable.
+ *
+ * The span is chosen to tile against the other wide cards, which are two tracks
+ * each. On an even column count, two tracks pairs with them exactly and the row
+ * fills; taking more would strand the shelf beside it with empty tracks. On an
+ * odd count a single track is always left over regardless, so the card may as
+ * well take everything but that one and let a small card fill the remainder.
+ *
+ * Measured at 1200px: at three tracks the reading shelf sat alone with two empty
+ * columns and the graph below it with one; at two, the two cards tile the row.
  */
-export const fullWidthCard = style({
-	// Whatever the column count turns out to be — no breakpoint needs to know it.
-	gridColumn: '1 / -1',
+export const wideCard = style({
+	'@container': spanPerColumnCount((columns) =>
+		columns % 2 === 0 ? 2 : Math.max(2, columns - 1),
+	),
 })
 
 export const introParagraph = style({
