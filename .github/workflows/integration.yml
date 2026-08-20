@@ -31,6 +31,8 @@ jobs:
         run: bun run lint
       - name: ✅ Type Check Code
         run: bun run typecheck
+      - name: 🌍 Check Translations
+        run: bun run i18n:check
 
   build:
     name: Build Site
