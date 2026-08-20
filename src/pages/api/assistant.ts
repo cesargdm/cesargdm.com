@@ -3,6 +3,7 @@ import { env } from 'cloudflare:workers'
 
 import type { ChatMessage } from '@/lib/assistant'
 import { AI_MODEL, buildSystemPrompt } from '@/lib/assistant'
+import { isLocale } from '@/lib/i18n'
 import { readJson } from '@/lib/json'
 
 export const prerender = false
@@ -28,7 +29,11 @@ export const POST: APIRoute = async ({ request }) => {
 			return json({ error: 'AI binding is not available' }, { status: 500 })
 		}
 
-		const body = await readJson<{ messages?: ChatMessage[] }>(request)
+		const body = await readJson<{ messages?: ChatMessage[]; locale?: string }>(
+			request,
+		)
+
+		const locale = isLocale(body.locale) ? body.locale : 'en'
 
 		const history = (body.messages ?? [])
 			.filter(
@@ -50,7 +55,10 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		const result = await env.AI.run(AI_MODEL, {
-			messages: [{ role: 'system', content: buildSystemPrompt() }, ...history],
+			messages: [
+				{ role: 'system', content: buildSystemPrompt(locale) },
+				...history,
+			],
 			max_tokens: MAX_TOKENS,
 			temperature: TEMPERATURE,
 		})

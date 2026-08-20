@@ -79,7 +79,7 @@ function Chat({ locale }: { locale: Locale }) {
 				const response = await fetch('/api/assistant', {
 					method: 'POST',
 					headers: { 'content-type': 'application/json' },
-					body: JSON.stringify({ messages: apiMessages }),
+					body: JSON.stringify({ messages: apiMessages, locale }),
 				})
 
 				const data = await readJson<{ reply?: string; error?: string }>(

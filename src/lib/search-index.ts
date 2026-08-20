@@ -1,4 +1,5 @@
 import { getPosts } from '@/lib/blog'
+import { text } from '@/lib/frontmatter'
 import type { Locale } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
 
@@ -42,11 +43,6 @@ const PAGES: Record<
 			description: 'Pregúntame lo que quieras.',
 		},
 	],
-}
-
-/** Frontmatter is untyped, so coerce defensively rather than stringifying an object. */
-function text(value: unknown, fallback = ''): string {
-	return typeof value === 'string' ? value : fallback
 }
 
 const TITLE_WEIGHT = 10
