@@ -13,9 +13,12 @@ export default defineConfig({
 		// The site uses plain <img> plus workers-og for OG PNGs, not astro:assets,
 		// so we can skip the Cloudflare Images binding.
 		imageService: 'passthrough',
-		// Remote bindings (Workers AI) require Cloudflare auth. Toggle off locally
-		// via ASTRO_CF_NO_REMOTE=1 to run dev without a Cloudflare login.
-		remoteBindings: process.env.ASTRO_CF_NO_REMOTE !== '1',
+		// Off by default: enabling remote bindings starts a proxy session that
+		// needs Cloudflare auth, which would make `astro build` — and therefore
+		// CI — fail without a token. The deployed Worker gets the real AI binding
+		// from wrangler.jsonc regardless; this only affects local dev.
+		// Set ASTRO_CF_REMOTE=1 to exercise Workers AI from `astro dev`.
+		remoteBindings: process.env.ASTRO_CF_REMOTE === '1',
 	}),
 	site: 'https://cesargdm.com',
 	// Emit /en.html rather than /en/index.html so requests for the canonical,

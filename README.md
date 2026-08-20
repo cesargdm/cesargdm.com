@@ -27,11 +27,11 @@ bun dev
 
 Then, open http://localhost:4321 in your browser to view the site. The root path redirects to `/en` or `/es`.
 
-Without Cloudflare credentials, use a local preview that skips remote bindings (Workers AI chat will not work):
+Building needs no Cloudflare credentials. To exercise the Workers AI chat locally, opt in to
+remote bindings with a Cloudflare token:
 
 ```bash
-bun run build
-ASTRO_CF_NO_REMOTE=1 bun run preview
+ASTRO_CF_REMOTE=1 bun dev
 ```
 
 ### Build

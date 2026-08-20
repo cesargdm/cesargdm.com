@@ -17,9 +17,8 @@ bun run format       # Prettier auto-fix
 bun run format:check && bun run lint && bun run typecheck && bun run build
 ```
 
-Without Cloudflare credentials, Workers AI remote bindings will try to open a Wrangler OAuth
-login. Use `ASTRO_CF_NO_REMOTE=1 bun run preview` (after `bun run build`) to run the site on
-workerd without that login. Chat (`/api/assistant`) will 500 until the `AI` binding is available.
+`bun run build` needs no Cloudflare credentials — remote bindings are opt-in (see below), so CI
+builds without a token. Chat (`/api/assistant`) will 500 locally until the `AI` binding is bound.
 
 With Cloudflare auth (`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`, or `wrangler login`):
 
@@ -115,15 +114,14 @@ Non-obvious notes for developing here:
   after changing routes/config if editor types get stale. `bun run lint` runs `astro sync` first
   because type-aware ESLint needs `.astro/types.d.ts` (that file is gitignored; CI lint runs
   before `astro check`).
-- **Workers AI is always a remote binding.** `bun dev` needs Cloudflare auth with **Workers
-  Scripts Edit** (for Wrangler's `workers/subdomain/edge-preview` session) and **Workers AI
-  Read/Edit** (for `env.AI.run`). A token that can only call `wrangler whoami` is not enough —
-  `/accounts/:id/workers/*` and `/accounts/:id/ai/*` will 403. For unauthenticated local runs,
-  set `ASTRO_CF_NO_REMOTE=1` and use **preview** (`bun run build` then
-  `ASTRO_CF_NO_REMOTE=1 bun run preview`). Do not rely on `astro dev` in that mode — Vite's
-  dep-optimizer can race and 500 on missing `route-cache-*.js`. Chat will return
-  `{ error: "An error occurred" }` until `env.AI` is bound. The Wrangler "Edit Cloudflare
-  Workers" token template covers Scripts; add **Account → Workers AI → Edit** as well.
+- **Remote bindings are opt-in.** `remoteBindings` in `astro.config.mjs` is off unless
+  `ASTRO_CF_REMOTE=1`. Enabling it starts a proxy session that requires Cloudflare auth, which
+  made `astro build` — and therefore CI — fail without a token. The deployed Worker gets the real
+  `AI` binding from `wrangler.jsonc` regardless; the flag only affects local dev. To exercise
+  Workers AI from `astro dev`, run `ASTRO_CF_REMOTE=1 bun dev` with a token carrying **Workers
+  Scripts Edit** and **Workers AI Read/Edit** — `wrangler whoami` access alone 403s.
+- **Workers AI model IDs get retired.** `@cf/meta/llama-3.1-8b-instruct` vanished from the catalog
+  and the chat 500'd on every request. Check `wrangler ai models` before trusting one.
 - **Most pages are prerendered** (`export const prerender = true` + `getStaticPaths`), so they are
   served as static assets and never invoke the Worker. Keep it that way: reading a cookie or a
   request header in a page or the layout silently makes it dynamic. The theme and the visit-count
