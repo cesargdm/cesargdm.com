@@ -7,6 +7,7 @@ import LastPhoto from '@/modules/LastPhoto/LastPhoto.astro'
 import Nfts from '@/modules/Nfts/Nfts.astro'
 import Reading from '@/modules/Reading/Reading.astro'
 import Strava from '@/modules/Strava/Strava.astro'
+import StravaRide from '@/modules/StravaRide/StravaRide.astro'
 
 import { getCheerFromVisitsCount } from '@/lib/cheer'
 import type { Locale } from '@/lib/i18n'
@@ -68,6 +69,9 @@ const meta = getMetadata({ locale })
 			<li style={{ aspectRatio: '1 / 1' }} class={card}>
 				<Strava locale={locale} />
 			</li>
+			<li style={{ aspectRatio: '1 / 1' }} class={card}>
+				<StravaRide locale={locale} />
+			</li>
 			<li style={{ padding: 0 }} class={card}>
 				<LastPhoto />
 			</li>
@@ -77,7 +81,7 @@ const meta = getMetadata({ locale })
 			<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
 				<Reading />
 			</li>
-			<li class:list={[card, fullWidthCard]}>
+			<li class:list={[card, fullWidthCard]} style={{ padding: 0 }}>
 				<GitHubContributions />
 			</li>
 		</ul>

@@ -1,6 +1,6 @@
 import { vars } from '@/styles/theme.css'
 
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 export const content = style({
 	margin: '0 auto',
@@ -100,4 +100,13 @@ export const introContainer = style({
 	flexDirection: 'column',
 	justifyContent: 'center',
 	paddingBottom: vars.space.xxlarge,
+})
+
+/*
+ * An integration that has no data renders nothing, but its <li> still carried
+ * the card's padding and background — which showed up as a blank card. A card
+ * with no element children has nothing to show, so it does not get a slot.
+ */
+globalStyle(`.${cardsList} > .${card}:not(:has(*))`, {
+	display: 'none',
 })

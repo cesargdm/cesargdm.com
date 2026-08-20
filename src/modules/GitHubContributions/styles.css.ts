@@ -29,7 +29,21 @@ const LEVEL_COLORS = [
 const CELL_GAP = '2px'
 const LEGEND_CELL_SIZE = '11px'
 
+/*
+ * The card itself has no padding: the calendar runs to its edges the way the
+ * reading shelf does, so a scroll reads as content continuing past the boundary
+ * rather than stopping short of it. Everything that is not the scroller
+ * therefore supplies its own inset.
+ */
+const INSET = vars.space.large
+
+export const heading = style({
+	padding: `${INSET} ${INSET} 0`,
+	margin: 0,
+})
+
 export const totalText = style({
+	padding: `0 ${INSET}`,
 	margin: 0,
 	color: vars.colors.text.secondary,
 	fontSize: vars.fontSize.small,
@@ -37,14 +51,27 @@ export const totalText = style({
 
 export const gridContainer = style({
 	padding: `${vars.space.medium} 0`,
+	// On a phone the card is a few hundred pixels wide, and three years of fluid
+	// columns would put each day under two pixels — a smear rather than a
+	// calendar. Below the tablet breakpoint the cells take a floor size and the
+	// graph scrolls instead, newest first so the recent months are what is in
+	// view. The scrollbar is hidden because it reads as chrome under a heatmap.
+	overflowX: 'auto',
+	scrollbarWidth: 'none',
+	'::-webkit-scrollbar': { display: 'none' },
 })
 
-const GRID_COLUMNS = 'repeat(var(--columns), minmax(0, 1fr))'
+const MIN_CELL_SIZE = '7px'
+const GRID_COLUMNS = `repeat(var(--columns), minmax(${MIN_CELL_SIZE}, 1fr))`
 
 export const grid = style({
 	display: 'grid',
 	gap: CELL_GAP,
 	width: '100%',
+	// minmax() floors the cells, so past that point the grid outgrows the card
+	// and the container scrolls rather than squeezing the cells further.
+	minWidth: 'fit-content',
+	padding: `0 ${INSET}`,
 	gridTemplateColumns: GRID_COLUMNS,
 })
 
@@ -52,6 +79,8 @@ export const yearAxis = style({
 	display: 'grid',
 	gap: CELL_GAP,
 	width: '100%',
+	minWidth: 'fit-content',
+	padding: `0 ${INSET}`,
 	// Same template as the grid above, so each label sits under its own year.
 	gridTemplateColumns: GRID_COLUMNS,
 	marginTop: vars.space.small,
@@ -88,6 +117,7 @@ export const legendCell = style({
 })
 
 export const legend = style({
+	padding: `0 ${INSET}`,
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'flex-end',
@@ -104,4 +134,5 @@ export const legendLabel = style({
 export const githubButton = style([
 	cardButton,
 	glassTint('rgba(36, 41, 47, 0.88)', 'rgba(23, 21, 21, 0.94)'),
+	{ margin: `${vars.space.medium} ${INSET} ${INSET}` },
 ])

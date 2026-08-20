@@ -1,16 +1,16 @@
 ---
 import { IconBrandStrava } from '@tabler/icons-react'
 
-import type { Locale } from '@/lib/i18n'
-import { getRunTotal } from '@/lib/strava'
-
 import {
 	distanceText,
 	distanceUnit,
 	runContainer,
 	runName,
 	stravaButton,
-} from './styles.css'
+} from '@/modules/Strava/styles.css'
+
+import type { Locale } from '@/lib/i18n'
+import { getRideTotal } from '@/lib/strava'
 
 type Props = {
 	locale: Locale
@@ -18,17 +18,15 @@ type Props = {
 
 const { locale } = Astro.props
 
-const total = await getRunTotal()
+const total = await getRideTotal()
 
 const COPY = {
-	en: { heading: 'Run', unit: 'km this year', activities: 'runs' },
-	es: { heading: 'Correr', unit: 'km este año', activities: 'carreras' },
+	en: { heading: 'MTB', unit: 'm climbed this year', rides: 'rides' },
+	es: { heading: 'MTB', unit: 'm escalados este año', rides: 'salidas' },
 } as const
 
 const copy = COPY[locale]
 
-// `startDateLocal` is already the athlete's wall-clock time, so it must be
-// formatted as UTC — formatting in the server's zone would shift it again.
 const latestDate = total?.latest
 	? new Intl.DateTimeFormat(locale, {
 			day: 'numeric',
@@ -48,11 +46,11 @@ const latestDate = total?.latest
 
 			<div class={runContainer}>
 				<p class={distanceText}>
-					{Math.round(total.distanceKm)}
+					{Math.round(total.elevationM).toLocaleString(locale)}
 					<span class={distanceUnit}> {copy.unit}</span>
 				</p>
 				<p class={runName}>
-					{total.activityCount} {copy.activities}
+					{total.activityCount} {copy.rides} · {Math.round(total.distanceKm)} km
 				</p>
 				{total.latest ? (
 					<p>
