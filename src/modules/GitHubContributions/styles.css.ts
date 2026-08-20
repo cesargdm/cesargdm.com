@@ -47,8 +47,21 @@ export const heading = style({
 	margin: 0,
 })
 
+/**
+ * The total and the legend share a line: one is the figure the calendar adds up
+ * to, the other is how to read its colours, and both are captions for the same
+ * thing. Stacked separately they read as two unrelated asides.
+ */
+export const footer = style({
+	display: 'flex',
+	flexWrap: 'wrap',
+	alignItems: 'baseline',
+	justifyContent: 'space-between',
+	gap: vars.space.medium,
+	padding: `${vars.space.medium} ${INSET} 0`,
+})
+
 export const totalText = style({
-	padding: `0 ${INSET}`,
 	margin: 0,
 	color: vars.colors.text.secondary,
 	fontSize: vars.fontSize.small,
@@ -63,7 +76,7 @@ export const gridContainer = style({
 	// Takes whatever vertical space the card has left, which is what the cells
 	// then size themselves from.
 	flex: 1,
-	padding: `${vars.space.medium} 0`,
+	padding: `${vars.space.large} 0 0`,
 	/*
 	 * Three years never fits a card at a readable cell size, so the calendar
 	 * scrolls — newest first, so the recent months are what is in view. The
@@ -132,10 +145,8 @@ export const legendCell = style({
 })
 
 export const legend = style({
-	padding: `0 ${INSET}`,
 	display: 'flex',
 	alignItems: 'center',
-	justifyContent: 'flex-end',
 	gap: '3px',
 	margin: 0,
 	fontSize: vars.fontSize.xsmall,
@@ -152,8 +163,9 @@ export const githubButton = style([
 	{
 		// Pinned to the bottom of the card rather than trailing the calendar, so
 		// it lines up with the call to action on every other card in the row.
-		marginTop: 'auto',
-		margin: `${vars.space.medium} ${INSET} ${INSET}`,
+		margin: `${vars.space.large} ${INSET} ${INSET}`,
+		// Pinned to the bottom of the card rather than trailing the calendar, so
+		// it lines up with the call to action on every other card in the row.
 		marginBlockStart: 'auto',
 	},
 ])
