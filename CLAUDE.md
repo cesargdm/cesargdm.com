@@ -67,8 +67,9 @@ with `import.meta.glob(..., { query: '?raw', eager: true })` so they work on wor
 - **`src/lib/metadata.ts`**: `getMetadata({ locale, ... })` returns resolved SEO fields (title, OG/Twitter, canonical, images); `Layout.astro` renders the `<head>` from it
 - **`src/pages/[locale]/[...dynamic].astro`**: Catch-all that redirects social links (github, linkedin, x, cv, email) via `src/lib/social.json`, otherwise renders a 404
 - **`src/modules/NftModal/NftModal.tsx`**: React island that intercepts in-app clicks to `/{locale}/nfts/{id}` and shows an overlay; direct visits fall through to `src/pages/[locale]/nfts/[id].astro`
-- **API endpoints** live in `src/pages/api/**.ts` (Astro endpoints). Server secrets come from `import { env } from 'cloudflare:workers'` (not `process.env`). Chat uses Workers AI (`env.AI.run`, model `@cf/meta/llama-3.1-8b-instruct`) with the persona Q&A in `src/lib/assistant-training.json`. Algolia cron needs `ALGOLIA_APP_ID`/`ALGOLIA_API_KEY` (index names `cesargdm_{locale}_{mode}`)
-- **OG images**: `src/pages/[locale]/**/opengraph-image.png.ts` generate PNGs with `workers-og` (`ImageResponse` + `loadGoogleFont`). Helpers in `src/lib/open-graph.ts`
+- **API endpoints** live in `src/pages/api/**.ts` (Astro endpoints). Server secrets come from `import { env } from 'cloudflare:workers'` (not `process.env`). Chat uses Workers AI (`env.AI.run`, model in `src/lib/assistant.ts` — check it against `wrangler ai models`, IDs get retired). Its system prompt is generated from the site's own projects and posts, so it stays current as content changes
+- **Search** is a build-time JSON index (`src/lib/search-index.ts`, served from `/{locale}/search-index.json`) filtered in the browser. No search service, no cron, no keys
+- **OG images**: `src/pages/[locale]/**/opengraph-image.png.ts` generate PNGs with `workers-og`. Fonts and the avatar are bundled (`src/assets/fonts`, `src/assets/avatar.png`) and inlined, so rendering an OG image makes no network calls — they used to be fetched, and the font host started 404ing, which silently produced empty images
 - **Sitemap**: `src/pages/sitemap.xml.ts`
 - **`src/lib/json.ts`**: `readJson<T>()` — `Request`/`Response.json()` is `unknown`; keep the cast here so lint autofix does not strip it at call sites
 
@@ -123,19 +124,27 @@ Non-obvious notes for developing here:
   dep-optimizer can race and 500 on missing `route-cache-*.js`. Chat will return
   `{ error: "An error occurred" }` until `env.AI` is bound. The Wrangler "Edit Cloudflare
   Workers" token template covers Scripts; add **Account → Workers AI → Edit** as well.
-- **Algolia index refresh** is `.github/workflows/algolia-search.yml` (daily + `workflow_dispatch`),
-  not a Cloudflare Cron Trigger. Hashed `/_astro` and `/fonts` cache headers live in
-  `public/_headers`.
+- **Most pages are prerendered** (`export const prerender = true` + `getStaticPaths`), so they are
+  served as static assets and never invoke the Worker. Keep it that way: reading a cookie or a
+  request header in a page or the layout silently makes it dynamic. The theme and the visit-count
+  greeting are applied by inline scripts for exactly this reason.
+- **Security headers live in two places** — `src/middleware.ts` for on-demand routes and
+  `public/_headers` for prerendered pages and static assets. Middleware does not run for static
+  assets, so a header added to only one of them ships half the site bare.
 - **Secrets live in Wrangler, not `process.env`.** Put them in `.dev.vars` locally or
-  `wrangler secret put NAME` in production. Client-exposed Algolia keys still use the Astro
-  `PUBLIC_` prefix (`PUBLIC_ALGOLIA_APP_ID`, `PUBLIC_ALGOLIA_SEARCH_API_KEY`) via `import.meta.env`.
-  Server-only keys (`ALGOLIA_APP_ID`/`ALGOLIA_API_KEY`, `OPENSEA_API_KEY`, `UNSPLASH_ACCESS_KEY`,
-  `SLACK_TOKEN`/`SLACK_USER_ID`, `X_*`) are read from `cloudflare:workers` `env`. Pages/cards that
-  depend on these degrade gracefully without the keys — expected locally, not a broken setup.
-- **Home-page cards and the footer clock fetch from the production API** (`BASE_URL` in
-  `src/lib/constants.ts` is hardcoded to `https://cesargdm.com`). Locally they show production data
-  when reachable, or nothing when offline — this is the original behavior. Test the local API
-  endpoints directly (e.g. `curl localhost:4321/api/assets`).
+  `wrangler secret put NAME` in production, and declare them in the `Cloudflare.Env` augmentation in
+  `src/env.d.ts`. Current set: `OPENSEA_API_KEY`, `UNSPLASH_ACCESS_KEY`, `SLACK_TOKEN`/
+  `SLACK_USER_ID`, `STRAVA_CLIENT_ID`/`STRAVA_CLIENT_SECRET`/`STRAVA_REFRESH_TOKEN`. Cards degrade
+  to hidden without their keys — expected locally, not a broken setup.
+- **Integrations call their library directly, never the site's own API over HTTP.** Widgets import
+  from `src/lib/{goodreads,unsplash,slack,strava,bluesky,open-sea}.ts`; the `/api/*` routes are thin
+  wrappers over the same functions. Fetching `${BASE_URL}/api/...` from a component was the old
+  pattern and it meant previews read production and every render paid a round trip.
+- **Every integration failure must go through `logIntegrationFailure`.** These all degrade to empty
+  UI, so an unlogged failure is indistinguishable from "no data" — which is how four of them stayed
+  broken in production for months.
+- **Strava needs a refresh token, not an access token.** Strava access tokens expire after six
+  hours; the lib exchanges `STRAVA_REFRESH_TOKEN` per request and caches the result.
 - **NFT modal:** soft (in-app) navigation to `/{locale}/nfts/{id}` opens an overlay island; a direct
   visit or refresh renders the full page. Both paths need `OPENSEA_API_KEY` to show real data.
 - Some pages embed external content (a GitHub Giscus comments iframe on blog posts, Unsplash images).
