@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
+import { getAlternateLocalePath } from '@/lib/locale-path'
 import { getTimeZone } from '@/lib/slack'
 
 import LocalTime from './LocalTime'
@@ -21,7 +22,12 @@ const timeZone = await getTimeZone()
 
 const date = new Date(new Date().toLocaleString('en-US', { timeZone }))
 
-const alternateLocale = LOCALES.find((l) => l !== locale)
+const alternateLocale = LOCALES.find((l) => l !== locale) as Locale
+const alternatePath = getAlternateLocalePath(
+	locale,
+	alternateLocale,
+	Astro.url.pathname,
+)
 ---
 
 <footer class={footerContainer}>
@@ -49,6 +55,6 @@ const alternateLocale = LOCALES.find((l) => l !== locale)
 	</ul>
 
 	<p>
-		<a href={`/${alternateLocale}`}>{alternateLocale}</a>
+		<a href={alternatePath} hreflang={alternateLocale}>{alternateLocale}</a>
 	</p>
 </footer>
