@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 
 import type { Locale } from '@/lib/i18n'
+import { getTranslate } from '@/lib/translate'
 import { useSiteSearch } from '@/lib/use-site-search'
 
 import { resultItem, resultLink, resultList, typeBadge } from './styles.css'
@@ -14,6 +15,8 @@ function getInitialQuery() {
 }
 
 export default function SiteSearch({ locale }: { locale: Locale }) {
+	const t = useMemo(() => getTranslate(locale), [locale])
+
 	const [query, setQuery] = useState(getInitialQuery)
 
 	const { results } = useSiteSearch(locale, query)
@@ -35,21 +38,21 @@ export default function SiteSearch({ locale }: { locale: Locale }) {
 	return (
 		<>
 			<label htmlFor="site-search">
-				<span className="visually-hidden">Search this site</span>
+				<span className="visually-hidden">{t('search.label')}</span>
 			</label>
 			<TextInput
 				id="site-search"
 				type="search"
 				value={query}
 				onChange={handleChange}
-				placeholder="Search posts, projects and pages..."
+				placeholder={t('search.placeholder')}
 				style={{ width: '100%' }}
 			/>
 
 			<p aria-live="polite">
 				{query
-					? `${results.length} result${results.length === 1 ? '' : 's'}`
-					: 'Type to search.'}
+					? t('search.results', { count: results.length })
+					: t('search.hint')}
 			</p>
 
 			<ol className={resultList}>

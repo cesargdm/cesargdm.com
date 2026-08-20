@@ -108,6 +108,12 @@ export default [
 			'simple-import-sort': pluginSimpleImportSort,
 		},
 	},
+	{
+		// Build scripts run in Node, outside the ts/tsx block above that supplies
+		// the Node globals.
+		files: ['scripts/**/*.mjs'],
+		languageOptions: { globals: globals.node },
+	},
 	...eslintPluginAstro.configs.recommended,
 	// Most of the markup lives in .astro files, so the a11y rules have to cover
 	// them too — scoping jsx-a11y to ts/tsx alone leaves the markup unchecked.

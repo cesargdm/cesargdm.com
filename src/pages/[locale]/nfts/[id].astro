@@ -3,11 +3,14 @@ import { BASE_URL } from '@/lib/constants'
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getNft } from '@/lib/open-sea'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')
+
+const t = getTranslate(locale)
 
 const id = Astro.params.id as string
 const nft = await getNft(id)
@@ -42,9 +45,9 @@ const meta = nft
 			</div>
 		) : (
 			<div>
-				<h1>🙈 Not Found</h1>
+				<h1>🙈 {t('notFound.title')}</h1>
 				<p>
-					<a href={`/${locale}/nfts`}>Back to NFTs</a>
+					<a href={`/${locale}/nfts`}>{t('notFound.backToNfts')}</a>
 				</p>
 			</div>
 		)

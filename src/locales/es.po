@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "nav.blog"
+msgstr "Blog"
+
+msgid "nav.projects"
+msgstr "Proyectos"
+
+msgid "nav.search.label"
+msgstr "Buscar"
+
+msgid "nav.search.close"
+msgstr "Cerrar"
+
+msgid "nav.search.placeholder"
+msgstr "Escribe para buscar..."
+
+msgid "nav.search.empty"
+msgstr "Sin resultados"
+
+msgid "nav.search.hint"
+msgstr "Escribe para ver sugerencias"
+
+msgid "nav.theme.toggle"
+msgstr "Cambiar tema"
+
+msgid "footer.copyright"
+msgstr "Derechos"
+
+msgid "footer.source"
+msgstr "Código"
+
+msgid "footer.localTime"
+msgstr "Hora local"
+
+msgid "blog.title"
+msgstr "Blog"
+
+msgid "blog.description"
+msgstr "Consejos de programación, tutoriales, configuraciones, reflexiones, ideas y más"
+
+msgid "blog.readingTime"
+msgstr "{minutes} minutos de lectura"
+
+msgid "projects.title"
+msgstr "Proyectos"
+
+msgid "projects.description"
+msgstr "Estos son algunos de los proyectos en los que he trabajado. Puedes ver más información de cada uno."
+
+msgid "projects.metaDescription"
+msgstr "Proyectos de ingeniería de software, sitios web, aplicaciones web, apps nativas para iOS y Android y más"
+
+msgid "projects.tools"
+msgstr "Herramientas"
+
+msgid "chat.title"
+msgstr "Chat con IA"
+
+msgid "chat.description"
+msgstr "Pregunta sobre mi trabajo, mis proyectos o mi trayectoria. Las respuestas vienen de un modelo que corre en Cloudflare Workers AI, basado en lo que este sitio dice de mí."
+
+msgid "chat.metaDescription"
+msgstr "Pregúntale a un asistente de IA sobre César Guadarrama — su trabajo, sus proyectos y su trayectoria."
+
+msgid "chat.greeting"
+msgstr "¡Hola! ¿qué tal?"
+
+msgid "chat.placeholder"
+msgstr "Mensaje..."
+
+msgid "chat.loading"
+msgstr "Cargando..."
+
+msgid "chat.send"
+msgstr "Enviar mensaje"
+
+msgid "chat.empty"
+msgstr "Lo siento, no pude responder en este momento."
+
+msgid "chat.error"
+msgstr "Lo siento, algo salió mal. Inténtalo de nuevo."
+
+msgid "search.title"
+msgstr "Buscar"
+
+msgid "search.metaDescription"
+msgstr "Busca publicaciones, proyectos y páginas en cesargdm.com"
+
+msgid "search.label"
+msgstr "Buscar en este sitio"
+
+msgid "search.placeholder"
+msgstr "Busca publicaciones, proyectos y páginas..."
+
+msgid "search.hint"
+msgstr "Escribe para buscar."
+
+msgid "nfts.title"
+msgstr "NFTs"
+
+msgid "nfts.metaDescription"
+msgstr "César Guadarrama Cantú - Ingeniero de producto - NFTs"
+
+msgid "nfts.empty"
+msgstr "Ahora mismo no hay nada que mostrar. Puedes ver la colección en"
+
+msgid "notFound.title"
+msgstr "No encontrado"
+
+msgid "notFound.description"
+msgstr "Acabas de llegar a una página que no existe... qué tristeza."
+
+msgid "notFound.home"
+msgstr "Volver al inicio"
+
+msgid "notFound.post"
+msgstr "Acabas de llegar a una publicación que no existe, o que existió y ya no está... qué tristeza."
+
+msgid "notFound.project"
+msgstr "Acabas de llegar a un proyecto que no existe, o que existió y ya murió... qué tristeza."
+
+msgid "notFound.backToNfts"
+msgstr "Volver a los NFTs"
+
+msgid "share.x"
+msgstr "Compartir en X"
+
+msgid "share.linkedin"
+msgstr "Compartir en LinkedIn"
+
+msgid "search.results"
+msgstr "{count, plural, one {# resultado} other {# resultados}}"
+
+msgid "aside.description"
+msgstr "Ingeniero de producto que construye interfaces con las tecnologías más recientes. He contribuido al éxito de varias empresas destacadas."
+
+msgid "aside.share"
+msgstr "Compartir"
+
+msgid "aside.avatarAlt"
+msgstr "César Guadarrama"
+

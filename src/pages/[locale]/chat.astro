@@ -4,6 +4,7 @@ import Chat from '@/modules/Chat'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 
@@ -14,22 +15,19 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+const t = getTranslate(locale)
 
 const meta = getMetadata({
 	locale,
-	title: 'AI Chat',
-	description:
-		'Ask an AI assistant about César Guadarrama — his work, projects and background.',
+	title: t('chat.title'),
+	description: t('chat.metaDescription'),
 	canonicalPath: '/chat',
 })
 ---
 
 <Layout locale={locale} meta={meta}>
-	<h1>AI Chat</h1>
-	<p>
-		Ask about my work, projects or background. Answers come from a model running
-		on Cloudflare Workers AI, grounded in what this site says about me.
-	</p>
+	<h1>{t('chat.title')}</h1>
+	<p>{t('chat.description')}</p>
 	<div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column' }}>
 		<Chat client:load locale={locale} />
 	</div>

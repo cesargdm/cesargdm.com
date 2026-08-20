@@ -7,6 +7,7 @@ import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getProjects } from '@/lib/projects'
 import { getTools } from '@/lib/tools'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 import {
@@ -32,27 +33,22 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+const t = getTranslate(locale)
 
 const entries = getProjects(locale)
 const tools = getTools(locale)
 
-const TOOLS_HEADING = { en: 'Tools', es: 'Herramientas' }
-
 const meta = getMetadata({
 	locale,
-	title: 'Projects',
-	description:
-		'Software engineering projects, websites, web apps, native apps for iOS and Android and more',
+	title: t('projects.title'),
+	description: t('projects.metaDescription'),
 	canonicalPath: '/projects',
 })
 ---
 
 <Layout locale={locale} meta={meta}>
-	<h1>Projects</h1>
-	<p class={pageDescription}>
-		Here are some of the projects I've worked on. You can find more information
-		for each one.
-	</p>
+	<h1>{t('projects.title')}</h1>
+	<p class={pageDescription}>{t('projects.description')}</p>
 	<ul class={entriesList}>
 		{
 			entries.map((entry) => {
@@ -140,7 +136,7 @@ const meta = getMetadata({
 		}
 	</ul>
 
-	<h2>{TOOLS_HEADING[locale]}</h2>
+	<h2>{t('projects.tools')}</h2>
 	<ul class={entriesList}>
 		{
 			tools.map((tool) => (

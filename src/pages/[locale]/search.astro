@@ -4,6 +4,7 @@ import SiteSearch from '@/modules/SiteSearch'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 
@@ -14,16 +15,17 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+const t = getTranslate(locale)
 
 const meta = getMetadata({
 	locale,
-	title: 'Search',
-	description: 'Search posts, projects and pages on cesargdm.com',
+	title: t('search.title'),
+	description: t('search.metaDescription'),
 	canonicalPath: '/search',
 })
 ---
 
 <Layout locale={locale} meta={meta}>
-	<h1>Search</h1>
+	<h1>{t('search.title')}</h1>
 	<SiteSearch client:load locale={locale} />
 </Layout>

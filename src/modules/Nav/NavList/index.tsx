@@ -1,10 +1,11 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 
 import type { Locale } from '@/lib/i18n'
+import { getTranslate } from '@/lib/translate'
 import { useSiteSearch } from '@/lib/use-site-search'
 
 import { vars } from '@/styles/theme.css'
@@ -41,6 +42,8 @@ export default function NavList({
 	locale: Locale
 	pathname: string
 }) {
+	const t = useMemo(() => getTranslate(locale), [locale])
+
 	const navList = useRef<HTMLOListElement>(null)
 
 	const [query, setQuery] = useState<string | null>(getInitialQuery)
@@ -88,7 +91,7 @@ export default function NavList({
 						<TextInput
 							type="search"
 							style={{ width: '100%', flexGrow: 1 }}
-							placeholder="Start typing to search..."
+							placeholder={t('nav.search.placeholder')}
 							onChange={handleOnSearchChange}
 							value={query as string}
 						/>
@@ -97,7 +100,7 @@ export default function NavList({
 					)}
 
 					<li className={navItem}>
-						<Search isOpen={isOpen} onClick={handleOnSearch} />
+						<Search isOpen={isOpen} locale={locale} onClick={handleOnSearch} />
 					</li>
 				</ol>
 			</Popover.Anchor>
@@ -157,7 +160,7 @@ export default function NavList({
 						</ol>
 					) : (
 						<div>
-							<p>{query ? 'No results' : 'Start typing to see suggestions'}</p>
+							<p>{t(query ? 'nav.search.empty' : 'nav.search.hint')}</p>
 						</div>
 					)}
 				</Popover.Content>

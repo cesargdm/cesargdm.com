@@ -7,6 +7,7 @@ import { BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 import {
@@ -29,6 +30,7 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+const t = getTranslate(locale)
 
 const slug = Astro.params.slug as string
 const post = await getPost(locale, slug)
@@ -72,7 +74,7 @@ const meta = post
 
 						<div class="giscus" />
 					</div>
-					<AsideAboutMe client:visible />
+					<AsideAboutMe client:visible locale={locale} />
 				</div>
 
 				<script
@@ -96,11 +98,10 @@ const meta = post
 			</>
 		) : (
 			<div class={notFoundContainer}>
-				<h1>🙈 Not Found</h1>
+				<h1>🙈 {t('notFound.title')}</h1>
 				<p>
-					You just hit a post that doesn't exist, or existed and now its gone...
-					the sadness.
-					<a href={`/${locale}`}>Go back home</a>
+					{t('notFound.post')}
+					<a href={`/${locale}`}>{t('notFound.home')}</a>
 				</p>
 			</div>
 		)
