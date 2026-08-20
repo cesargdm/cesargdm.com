@@ -18,13 +18,16 @@ export type ChatMessage = {
  * Facts that are not derivable from the site's own content. Everything else in
  * the prompt is generated from the published projects and posts, so the
  * assistant cannot drift out of date the way the previous hand-maintained Q&A
- * set did — it still claimed OCHO was current and had never heard of TOLO.
+ * set did.
+ *
+ * The distinction between employer and personal project matters here — an
+ * earlier version stated it backwards and the assistant repeated it.
  */
 const BIO = [
 	'César Guadarrama Cantú is a product engineer from Toluca, México.',
 	'He studied Computer Engineering at Tec de Monterrey and has worked full time since 2019.',
-	'He currently builds TOLO (a specialty coffee company and the platform that runs it, on Cloudflare Workers) and Cretia (an ERP for Mexican SMEs).',
-	'Previously he worked at OCHO, Tesorio, Aura, Covalto and IBM — mostly fintech.',
+	'He currently works at OCHO, an insurance tech company. Before that: Tesorio, Aura, Covalto and IBM — mostly fintech.',
+	'TOLO and Cretia are his own projects, not employers. TOLO is a specialty coffee company he built the whole platform for (point of sale, mobile ordering, and an MCP server that lets AI agents query the business), running on Cloudflare Workers. Cretia is an ERP for Mexican SMEs.',
 	'He works mainly in TypeScript with React and React Native, plus Node, GraphQL and Cloudflare Workers.',
 	'He has contributed to open source upstream, including Expo, wagmi, React Native Skia, ENS docs and PDFKit.',
 	'Outside work he is into specialty coffee, mountain biking, photography and reading.',

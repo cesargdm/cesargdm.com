@@ -36,19 +36,25 @@ const meta = getMetadata({ locale })
 		<div class={introContainer}>
 			<h1>Hi <span id="cheer">{getCheerFromVisitsCount('1')}</span>!</h1>
 			<p class={introParagraph}>
-				I'm a product engineer who likes owning the whole thing — from the
-				database to the pixels. Right now I'm building <HoverCompany
-					name="TOLO"
-				/>, a specialty coffee company where I also wrote the platform that runs
-				it: point-of-sale integration, mobile ordering, and an MCP server that
-				lets AI agents query the business directly — all on Cloudflare Workers.
-				Alongside it I keep building <HoverCompany name="Cretia" />, an ERP for
-				Mexican SMEs. Before that I was part of <HoverCompany name="OCHO" />,{
+				I'm a product engineer. I like owning a problem end to end — the data
+				model, the API, the interface, and the thing people actually touch. Most
+				of my work is TypeScript: React and React Native on the front, Node and
+				Cloudflare Workers behind it. Seven years of it has mostly been fintech,
+				currently at <HoverCompany name="OCHO" />, before that <HoverCompany
+					name="Tesorio"
+				/>, <HoverCompany name="Aura" />, <HoverCompany name="Covalto" /> and{
 					' '
 				}
-				<HoverCompany name="Tesorio" />, <HoverCompany name="Aura" />,{' '}
-				<HoverCompany name="Covalto" /> and <HoverCompany name="IBM" />. I also
-				contribute upstream — <a
+				<HoverCompany name="IBM" />.
+			</p>
+			<p class={introParagraph}>
+				I build my own things too. <a href={`/${locale}/projects/tolo`}>TOLO</a
+				>{' '}
+				is a specialty coffee company I wrote the whole platform for — point of sale,
+				mobile ordering, and an MCP server that lets AI agents query the business
+				directly. <a href={`/${locale}/projects/cretia`}>Cretia</a> is an ERP for
+				Mexican SMEs. I also send patches upstream to the tools I use —{' '}
+				<a
 					href="https://github.com/expo/expo/pulls?q=author%3Acesargdm"
 					target="_blank"
 					rel="noopener noreferrer">Expo</a
@@ -56,8 +62,9 @@ const meta = getMetadata({ locale })
 					href="https://github.com/wevm/wagmi/pulls?q=author%3Acesargdm"
 					target="_blank"
 					rel="noopener noreferrer">wagmi</a
-				> and React Native Skia among others. Since I cannot sit still, here are some
-				<a href={`/${locale}/projects`}>projects</a>.
+				> and React Native Skia among them. More in <a
+					href={`/${locale}/projects`}>projects</a
+				>.
 			</p>
 		</div>
 		<ul class={cardsList}>
