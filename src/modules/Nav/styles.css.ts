@@ -1,3 +1,4 @@
+import { glass } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
@@ -20,12 +21,13 @@ export const navContainer = style({
 	paddingTop: `max(${vars.space.medium}, env(safe-area-inset-top))`,
 })
 
-export const floatingList = style({
-	padding: vars.space.small,
-	boxShadow: vars.boxShadow.medium,
-	borderRadius: vars.borderRadius.full,
-	backgroundColor: vars.colors.background.content,
-})
+export const floatingList = style([
+	glass,
+	{
+		padding: vars.space.small,
+		borderRadius: vars.borderRadius.full,
+	},
+])
 
 export const navList = style([
 	floatingList,
@@ -43,7 +45,6 @@ export const searchList = style([
 	{
 		paddingTop: vars.space.medium,
 		paddingBottom: vars.space.medium,
-		backgroundColor: vars.colors.background.regular,
 		borderRadius: vars.borderRadius.xlarge,
 		width: 'min(var(--radix-popover-content-available-height), 800px)',
 		maxHeight: 'var(--radix-popover-content-available-height)',
@@ -86,8 +87,10 @@ export const navLink = style({
 
 export const navLinkActive = style({
 	color: vars.colors.text.regular,
-	backgroundColor: vars.colors.background.regular,
-	boxShadow: `0 2px 5px rgba(0, 0, 0, 0.05)`,
+	// A darkening wash rather than an opaque fill, so whatever is refracting
+	// through the pill still shows behind the current item.
+	backgroundColor: 'rgba(0, 0, 0, 0.25)',
+	boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
 })
 
 export const navToggleThemeItem = style({
@@ -111,3 +114,28 @@ export const navToggleThemeItem = style({
 		},
 	},
 })
+
+export const backButton = style([
+	glass,
+	{
+		alignItems: 'center',
+		gap: vars.space.small,
+		justifySelf: 'start',
+		height: vars.sizes.button,
+		padding: `0 ${vars.space.large} 0 ${vars.space.medium}`,
+		borderRadius: vars.borderRadius.full,
+		color: vars.colors.text.regular,
+		fontWeight: vars.fontWeight.bold,
+		// The nav is three slots wide; below the tablet breakpoint the middle one
+		// needs every pixel, and the browser's own back gesture covers this.
+		display: 'none',
+		'@media': {
+			'(min-width: 768px)': {
+				display: 'flex',
+			},
+		},
+		':hover': {
+			textDecoration: 'none',
+		},
+	},
+])

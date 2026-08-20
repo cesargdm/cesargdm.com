@@ -1,20 +1,15 @@
 import { cardButton } from '@/modules/card.css'
 
+import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
 
 import { style } from '@vanilla-extract/css'
 
 export const profileButton = style([
 	cardButton,
-	{
-		color: 'white',
-		boxShadow: 'none',
-		backgroundColor: '#0f6fd6',
-		':hover': {
-			boxShadow: 'none',
-			backgroundColor: '#0b57a8',
-		},
-	},
+	// A high tint rather than a translucent one: the brand colour has to survive
+	// and white-on-blue has to keep its contrast.
+	glassTint('rgba(15, 111, 214, 0.88)', 'rgba(11, 87, 168, 0.94)'),
 ])
 
 export const postParagraph = style({
