@@ -1,7 +1,10 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { IconBrandLinkedin, IconBrandX } from '@tabler/icons-react'
+
+import type { Locale } from '@/lib/i18n'
+import { getTranslate } from '@/lib/translate'
 
 import {
 	sitename,
@@ -10,7 +13,9 @@ import {
 	socialLinksList,
 } from './styles.css'
 
-export default function SideAboutMe() {
+export default function SideAboutMe({ locale }: { locale: Locale }) {
+	const t = useMemo(() => getTranslate(locale), [locale])
+
 	const [url, setUrl] = useState('')
 
 	useEffect(() => {
@@ -28,19 +33,16 @@ export default function SideAboutMe() {
 				src="/apple-touch-icon.png"
 				width={40}
 				height={40}
-				alt="César Guadarrama"
+				alt={t('aside.avatarAlt')}
 			/>
 			<p className={sitename}>cesargdm</p>
-			<p className={smallDescription}>
-				Product Engineer crafting interfaces with latest technologies.
-				Contributed to the success of multiple top companies.
-			</p>
+			<p className={smallDescription}>{t('aside.description')}</p>
 			<ul className={socialLinksList}>
 				{Boolean(url) && (
 					<li>
 						<a
 							className={socialLink}
-							aria-label="Share on X"
+							aria-label={t('share.x')}
 							href={`https://x.com/intent/tweet?text=Check out this awesome post by @cesargdm ${url}`}
 						>
 							<IconBrandX aria-hidden />
@@ -51,7 +53,7 @@ export default function SideAboutMe() {
 					<li>
 						<a
 							className={socialLink}
-							aria-label="Share on LinkedIn"
+							aria-label={t('share.linkedin')}
 							href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
 						>
 							<IconBrandLinkedin aria-hidden />
@@ -63,7 +65,7 @@ export default function SideAboutMe() {
 				typeof navigator === 'object' &&
 				url &&
 				typeof navigator.share === 'function',
-			) && <button onClick={handleShare}>Share</button>}
+			) && <button onClick={handleShare}>{t('aside.share')}</button>}
 		</aside>
 	)
 }

@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "nav.blog"
+msgstr "Blog"
+
+msgid "nav.projects"
+msgstr "Projects"
+
+msgid "nav.search.label"
+msgstr "Search"
+
+msgid "nav.search.close"
+msgstr "Close"
+
+msgid "nav.search.placeholder"
+msgstr "Start typing to search..."
+
+msgid "nav.search.empty"
+msgstr "No results"
+
+msgid "nav.search.hint"
+msgstr "Start typing to see suggestions"
+
+msgid "nav.theme.toggle"
+msgstr "Toggle theme"
+
+msgid "footer.copyright"
+msgstr "Copyright"
+
+msgid "footer.source"
+msgstr "Source"
+
+msgid "footer.localTime"
+msgstr "Local time"
+
+msgid "blog.title"
+msgstr "Blog"
+
+msgid "blog.description"
+msgstr "Read about coding tips, tutorials, programming configurations, thoughts, ideas and more"
+
+msgid "blog.readingTime"
+msgstr "{minutes} minutes read"
+
+msgid "projects.title"
+msgstr "Projects"
+
+msgid "projects.description"
+msgstr "Here are some of the projects I've worked on. You can find more information for each one."
+
+msgid "projects.metaDescription"
+msgstr "Software engineering projects, websites, web apps, native apps for iOS and Android and more"
+
+msgid "projects.tools"
+msgstr "Tools"
+
+msgid "chat.title"
+msgstr "AI Chat"
+
+msgid "chat.description"
+msgstr "Ask about my work, projects or background. Answers come from a model running on Cloudflare Workers AI, grounded in what this site says about me."
+
+msgid "chat.metaDescription"
+msgstr "Ask an AI assistant about César Guadarrama — his work, projects and background."
+
+msgid "chat.greeting"
+msgstr "Hey! what's up?"
+
+msgid "chat.placeholder"
+msgstr "Message..."
+
+msgid "chat.loading"
+msgstr "Loading..."
+
+msgid "chat.send"
+msgstr "Send message"
+
+msgid "chat.empty"
+msgstr "Sorry, I couldn't respond right now."
+
+msgid "chat.error"
+msgstr "Sorry, something went wrong. Please try again."
+
+msgid "search.title"
+msgstr "Search"
+
+msgid "search.metaDescription"
+msgstr "Search posts, projects and pages on cesargdm.com"
+
+msgid "search.label"
+msgstr "Search this site"
+
+msgid "search.placeholder"
+msgstr "Search posts, projects and pages..."
+
+msgid "search.hint"
+msgstr "Type to search."
+
+msgid "nfts.title"
+msgstr "NFTs"
+
+msgid "nfts.metaDescription"
+msgstr "César Guadarrama Cantú - Product engineer - NFTs"
+
+msgid "nfts.empty"
+msgstr "Nothing to show right now. You can browse the collection on"
+
+msgid "notFound.title"
+msgstr "Not Found"
+
+msgid "notFound.description"
+msgstr "You just hit a page that doesn't exist... the sadness."
+
+msgid "notFound.home"
+msgstr "Go back home"
+
+msgid "notFound.post"
+msgstr "You just hit a post that doesn't exist, or existed and now its gone... the sadness."
+
+msgid "notFound.project"
+msgstr "You just hit a project that doesn't exist, or existed and now its dead... the sadness."
+
+msgid "notFound.backToNfts"
+msgstr "Back to NFTs"
+
+msgid "share.x"
+msgstr "Share on X"
+
+msgid "share.linkedin"
+msgstr "Share on LinkedIn"
+
+msgid "search.results"
+msgstr "{count, plural, one {# result} other {# results}}"
+
+msgid "aside.description"
+msgstr "Product Engineer crafting interfaces with latest technologies. Contributed to the success of multiple top companies."
+
+msgid "aside.share"
+msgstr "Share"
+
+msgid "aside.avatarAlt"
+msgstr "César Guadarrama"
+

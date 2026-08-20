@@ -4,6 +4,8 @@ import Cookies from 'js-cookie'
 import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
 import ThemeButton, { CookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
+import type { Locale } from '@/lib/i18n'
+
 import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
 const THEME_CLASSES: Record<Theme, string> = {
@@ -35,7 +37,7 @@ function applyTheme(theme: Theme) {
  * these pages are prerendered, so `Astro.locals` is empty at build time and any
  * server-provided value would always be the default.
  */
-function ToggleTheme() {
+function ToggleTheme({ locale }: { locale: Locale }) {
 	const [theme, setTheme] = useState<Theme>(
 		() => (Cookies.get(CookieName) ?? '') as Theme,
 	)
@@ -68,7 +70,9 @@ function ToggleTheme() {
 		setTheme((current) => NEXT_THEME[current])
 	}, [])
 
-	return <ThemeButton value={theme} onChange={handleToggleTheme} />
+	return (
+		<ThemeButton locale={locale} value={theme} onChange={handleToggleTheme} />
+	)
 }
 
 export default ToggleTheme

@@ -4,6 +4,7 @@ import cloudflare from '@astrojs/cloudflare'
 import react from '@astrojs/react'
 import { defineConfig } from 'astro/config'
 
+import { lingui } from '@lingui/vite-plugin'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
 // https://astro.build/config
@@ -31,6 +32,10 @@ export default defineConfig({
 	trailingSlash: 'never',
 	integrations: [react()],
 	vite: {
-		plugins: [vanillaExtractPlugin()],
+		// lingui() compiles src/locales/*.po on import. Only the catalogs are
+		// wired up: Lingui's macros cannot run in .astro frontmatter, so call
+		// sites use the runtime form instead (see src/lib/translate.ts) and no
+		// Babel transform is needed.
+		plugins: [lingui(), vanillaExtractPlugin()],
 	},
 })

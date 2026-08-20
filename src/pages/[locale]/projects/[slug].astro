@@ -7,6 +7,7 @@ import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getProject, getProjects } from '@/lib/projects'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 import { notFoundContainer } from '@/styles/blog-post.css'
@@ -23,6 +24,8 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+
+const t = getTranslate(locale)
 
 const slug = Astro.params.slug as string
 const post = await getProject(locale, slug)
@@ -42,7 +45,7 @@ const meta = post
 				`${BASE_URL}/${locale}/projects/${post.slug}/opengraph-image.png`,
 			],
 		})
-	: getMetadata({ locale, title: 'Not Found' })
+	: getMetadata({ locale, title: t('notFound.title') })
 ---
 
 <Layout locale={locale} meta={meta}>
@@ -56,11 +59,10 @@ const meta = post
 			</div>
 		) : (
 			<div class={notFoundContainer}>
-				<h1>🙈 Not Found</h1>
+				<h1>🙈 {t('notFound.title')}</h1>
 				<p>
-					You just hit a project that doesn't exist, or existed and now its
-					dead... the sadness.
-					<a href={`/${locale}`}>Go back home</a>
+					{t('notFound.project')}
+					<a href={`/${locale}`}>{t('notFound.home')}</a>
 				</p>
 			</div>
 		)

@@ -11,6 +11,7 @@ import TextInput from '@/components/TextInput'
 
 import type { Locale } from '@/lib/i18n'
 import { readJson } from '@/lib/json'
+import { getTranslate } from '@/lib/translate'
 
 import { vars } from '@/styles/theme.css'
 
@@ -31,16 +32,14 @@ type Message = {
 	loading?: boolean
 }
 
-const GREETING: Message = {
-	id: 'greeting',
-	role: 'assistant',
-	text: "Hey! what's up?",
-}
-
 const LOADING_ID = 'LOADING'
 
 function Chat({ locale }: { locale: Locale }) {
-	const [messages, setMessages] = useState<Message[]>([GREETING])
+	const t = useMemo(() => getTranslate(locale), [locale])
+
+	const [messages, setMessages] = useState<Message[]>(() => [
+		{ id: 'greeting', role: 'assistant', text: t('chat.greeting') },
+	])
 	const [content, setContent] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -86,7 +85,7 @@ function Chat({ locale }: { locale: Locale }) {
 					response,
 				)
 
-				const reply = data.reply || "Sorry, I couldn't respond right now."
+				const reply = data.reply || t('chat.empty')
 
 				setMessages((prev) =>
 					prev
@@ -104,14 +103,14 @@ function Chat({ locale }: { locale: Locale }) {
 						.concat({
 							id: `assistant-${Date.now()}`,
 							role: 'assistant',
-							text: 'Sorry, something went wrong. Please try again.',
+							text: t('chat.error'),
 						}),
 				)
 			} finally {
 				setIsLoading(false)
 			}
 		},
-		[content, isLoading, messages],
+		[content, isLoading, locale, messages, t],
 	)
 
 	useEffect(() => {
@@ -145,7 +144,7 @@ function Chat({ locale }: { locale: Locale }) {
 			<a className={headingLink} href={`/${locale}/chat`}>
 				<h2>
 					<IconMessage aria-hidden />
-					AI Chat
+					{t('chat.title')}
 				</h2>
 				<IconArrowUpRight />
 			</a>
@@ -158,13 +157,13 @@ function Chat({ locale }: { locale: Locale }) {
 						value={content}
 						onChange={handleChange}
 						name="content"
-						placeholder={isLoading ? 'Loading...' : 'Message...'}
+						placeholder={t(isLoading ? 'chat.loading' : 'chat.placeholder')}
 						type="text"
 					/>
 					<button
 						type="submit"
 						disabled={isLoading || !content}
-						aria-label="Send message"
+						aria-label={t('chat.send')}
 						className={submitButton}
 					>
 						<IconArrowUp strokeWidth={3} aria-hidden />

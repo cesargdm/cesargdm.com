@@ -2,6 +2,7 @@
 import { isLocale } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getNfts } from '@/lib/open-sea'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 import {
@@ -17,27 +18,29 @@ import {
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')
 
+const t = getTranslate(locale)
+
 const nfts = (await getNfts({ chain: 'ethereum' })).filter(
 	(nft) => nft.image_url,
 )
 
 const meta = getMetadata({
 	locale,
-	title: 'NFTs',
-	description: 'César Guadarrama Cantú - Product engineer - NFTs',
+	title: t('nfts.title'),
+	description: t('nfts.metaDescription'),
 	canonicalPath: '/nfts',
 })
 ---
 
 <Layout locale={locale} meta={meta}>
-	<h1>NFTs</h1>
+	<h1>{t('nfts.title')}</h1>
 
 	{
 		/* Without this the page rendered an empty <ul> and nothing else — a blank
 		   screen whenever OpenSea returned no items or was unreachable. */
 		!nfts.length && (
 			<p>
-				Nothing to show right now. You can browse the collection on{' '}
+				{t('nfts.empty')}{' '}
 				<a
 					href="https://opensea.io/0xE3a856E4034D25FF68b3702B8f1618173BBFa130"
 					target="_blank"

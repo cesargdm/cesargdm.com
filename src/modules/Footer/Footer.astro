@@ -3,6 +3,7 @@ import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getAlternateLocalePath } from '@/lib/locale-path'
 import { getTimeZone } from '@/lib/slack'
+import { getTranslate } from '@/lib/translate'
 
 import LocalTime from './LocalTime'
 
@@ -13,6 +14,7 @@ type Props = {
 }
 
 const { locale } = Astro.props
+const t = getTranslate(locale)
 
 /**
  * The time zone comes from my Slack profile — Slack follows the machine I am
@@ -33,12 +35,12 @@ const alternatePath = getAlternateLocalePath(
 <footer class={footerContainer}>
 	<ul class={footerList}>
 		<li class={footerParagraph}>
-			<b>Copyright</b>
+			<b>{t('footer.copyright')}</b>
 			{date.getFullYear()} &copy; César Guadarrama
 		</li>
 
 		<li class={footerParagraph}>
-			<b>Source</b>
+			<b>{t('footer.source')}</b>
 			<a
 				target="_blank"
 				rel="noopener noreferrer"
@@ -49,7 +51,7 @@ const alternatePath = getAlternateLocalePath(
 		</li>
 
 		<li class={footerParagraph}>
-			<b>Local time</b>
+			<b>{t('footer.localTime')}</b>
 			<LocalTime client:only="react" timeZone={timeZone} />
 		</li>
 	</ul>
