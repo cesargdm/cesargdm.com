@@ -3,6 +3,7 @@ import {
 	createGlobalTheme,
 	createTheme,
 	createThemeContract,
+	globalStyle,
 	style,
 } from '@vanilla-extract/css'
 
@@ -104,6 +105,7 @@ const darkColors = {
 
 export const responsiveTheme = style({
 	vars: assignVars(colors, lightColors),
+	colorScheme: 'light dark',
 	'@media': {
 		'(prefers-color-scheme: dark)': {
 			vars: assignVars(colors, darkColors),
@@ -114,5 +116,45 @@ export const responsiveTheme = style({
 export const lightTheme = createTheme(colors, lightColors)
 
 export const darkTheme = createTheme(colors, darkColors)
+
+/*
+ * The theme is a class on <html>, so a forced theme and the OS preference can
+ * disagree. Without this, a visitor who toggles dark on a light OS keeps
+ * light-rendered native controls — the select popup, the option list and the
+ * scrollbars all stay white against a dark page.
+ */
+globalStyle(`.${lightTheme}`, { colorScheme: 'light' })
+globalStyle(`.${darkTheme}`, { colorScheme: 'dark' })
+
+/*
+ * Form controls the reset in the global stylesheet does not reach. `select`
+ * deliberately keeps its native appearance so the disclosure arrow and the
+ * popup follow colorScheme above; only the box is brought in line.
+ */
+globalStyle('select, textarea', {
+	color: colors.text.regular,
+	backgroundColor: colors.background.content,
+	border: `1px solid ${colors.border}`,
+	borderRadius: root.borderRadius.medium,
+	padding: `0 ${root.space.medium}`,
+	minHeight: root.sizes.button,
+	font: 'inherit',
+})
+
+globalStyle('textarea', {
+	padding: root.space.large,
+	lineHeight: 1.5,
+})
+
+/* Honoured by Firefox and by Chromium on Windows and Linux. */
+globalStyle('option', {
+	color: colors.text.regular,
+	backgroundColor: colors.background.content,
+})
+
+globalStyle('select:focus-visible, textarea:focus-visible', {
+	outline: `2px solid ${colors.primary}`,
+	outlineOffset: '1px',
+})
 
 export const vars = { ...root, colors }
