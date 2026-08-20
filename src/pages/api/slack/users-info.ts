@@ -1,35 +1,17 @@
 import type { APIRoute } from 'astro'
-import { env } from 'cloudflare:workers'
 
-import { readJson } from '@/lib/json'
+import { ONE_DAY_SECONDS } from '@/lib/fetch-cache'
+import { getTimeZone } from '@/lib/slack'
 
 export const prerender = false
 
-// 24 hours
-const REVALIDATE = 86400
-
 export const GET: APIRoute = async () => {
-	const slackToken = env.SLACK_TOKEN
-	const userId = env.SLACK_USER_ID
-
-	if (!slackToken || !userId) {
-		return new Response(JSON.stringify({ message: 'Server error' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json; charset=utf-8' },
-		})
-	}
-
-	const response = await fetch(
-		`https://slack.com/api/users.info?user=${userId}&pretty=1`,
-		{ headers: { Authorization: `Bearer ${slackToken}` } },
-	)
-
-	const data = await readJson<{ user: object }>(response)
-
-	return new Response(JSON.stringify(data.user), {
+	// Never 500s: an unset token or a revoked one falls back to the default zone,
+	// same as the footer does.
+	return new Response(JSON.stringify({ tz: await getTimeZone() }), {
 		headers: {
 			'content-type': 'application/json; charset=utf-8',
-			'cache-control': `public, s-maxage=${REVALIDATE}, stale-while-revalidate`,
+			'cache-control': `public, s-maxage=${ONE_DAY_SECONDS}, stale-while-revalidate`,
 		},
 	})
 }

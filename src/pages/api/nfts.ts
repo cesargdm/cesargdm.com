@@ -1,26 +1,17 @@
 import type { APIRoute } from 'astro'
 
+import { ONE_DAY_SECONDS } from '@/lib/fetch-cache'
 import { getNfts } from '@/lib/open-sea'
 
 export const prerender = false
 
-// 24 hours
-const REVALIDATE = 86400
-
 export const GET: APIRoute = async () => {
-	try {
-		const nfts = await getNfts()
-
-		return new Response(JSON.stringify(nfts), {
-			headers: {
-				'content-type': 'application/json; charset=utf-8',
-				'cache-control': `public, s-maxage=${REVALIDATE}, stale-while-revalidate`,
-			},
-		})
-	} catch {
-		return new Response(JSON.stringify({ message: 'Failed to fetch NFTs' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json; charset=utf-8' },
-		})
-	}
+	// `getNfts` logs and degrades to an empty list rather than throwing, so the
+	// catch this route used to carry could never fire.
+	return new Response(JSON.stringify(await getNfts()), {
+		headers: {
+			'content-type': 'application/json; charset=utf-8',
+			'cache-control': `public, s-maxage=${ONE_DAY_SECONDS}, stale-while-revalidate`,
+		},
+	})
 }
