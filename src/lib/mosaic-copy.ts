@@ -24,7 +24,7 @@ export const MOSAIC_COPY = {
 		photosLabel: 'Choose the photos to build it from',
 		photosHint:
 			'The more photos you add, the better the result. Up to 512 are used.',
-		dropPrompt: 'Drag photos or a whole folder here, or click to choose files',
+		dropPrompt: 'Drag photos or a whole folder here, or:',
 		photosPick: 'Choose files',
 		folderLabel: 'Choose a folder',
 		folderHint:
@@ -100,8 +100,7 @@ export const MOSAIC_COPY = {
 		photosLabel: 'Elige las fotos con las que se construirá',
 		photosHint:
 			'Cuantas más fotos agregues, mejor será el resultado. Se usan hasta 512.',
-		dropPrompt:
-			'Arrastra fotos o una carpeta entera aquí, o haz clic para elegirlas',
+		dropPrompt: 'Arrastra fotos o una carpeta entera aquí, o:',
 		photosPick: 'Elegir archivos',
 		folderLabel: 'Elegir una carpeta',
 		folderHint:

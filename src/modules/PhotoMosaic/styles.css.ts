@@ -120,30 +120,29 @@ export const visuallyHidden = style({
 	border: 0,
 })
 
-export const dropZone = style([
-	press,
-	{
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center',
-		gap: vars.space.small,
-		padding: vars.space.xlarge,
-		textAlign: 'center',
-		cursor: 'pointer',
-		border: `1px dashed ${vars.colors.border}`,
-		borderRadius: vars.borderRadius.medium,
-		backgroundColor: vars.colors.background.content,
-		color: vars.colors.text.secondary,
-		fontSize: vars.fontSize.small,
-		selectors: {
-			'&:focus-within': {
-				outline: `2px solid ${vars.colors.primary}`,
-				outlineOffset: 2,
-			},
-		},
-	},
-])
+/**
+ * A drop target, not a control.
+ *
+ * Deliberately without `press` or a pointer cursor: it used to have both, and
+ * looking clickable while doing nothing on click is worse than looking inert —
+ * people click the panel, nothing happens, and the buttons inside it read as
+ * broken. The buttons are the controls; this is the surface you can drop on.
+ */
+export const dropZone = style({
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	justifyContent: 'center',
+	gap: vars.space.small,
+	padding: vars.space.xlarge,
+	textAlign: 'center',
+	cursor: 'default',
+	border: `1px dashed ${vars.colors.border}`,
+	borderRadius: vars.borderRadius.medium,
+	backgroundColor: vars.colors.background.content,
+	color: vars.colors.text.secondary,
+	fontSize: vars.fontSize.small,
+})
 
 export const dropZoneActive = style({
 	borderStyle: 'solid',

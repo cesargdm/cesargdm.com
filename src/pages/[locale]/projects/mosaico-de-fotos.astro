@@ -1,5 +1,9 @@
 ---
-import PhotoMosaic from '@/modules/PhotoMosaic'
+// The explicit /index, rather than the directory: Vite resolves the bare
+// directory to a PhotoMosaic.tsx that does not exist, so every hot update of
+// this island fails to apply and the page silently keeps running the module it
+// loaded first.
+import PhotoMosaic from '@/modules/PhotoMosaic/index'
 
 import { getMetadata } from '@/lib/metadata'
 import { MOSAIC_COPY } from '@/lib/mosaic-copy'
