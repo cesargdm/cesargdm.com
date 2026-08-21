@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 
 import { includeIgnoreFile } from '@eslint/compat'
 import eslintPluginAstro from 'eslint-plugin-astro'
+import tseslint from 'typescript-eslint'
 
 /*
  * ESLint is scoped to `.astro` files and nothing else — oxlint covers every
@@ -25,6 +26,16 @@ export default [
 		ignores: ['dist/', '.astro/', '.wrangler/', '**/*.d.ts'],
 	},
 	...eslintPluginAstro.configs.recommended,
+	{
+		// astro-eslint-parser hands the frontmatter block to a TypeScript parser.
+		// Without this it parses as plain JS and every `as` cast or typed
+		// destructure is a syntax error — which only shows up on a clean install,
+		// since a stale node_modules still resolves the parser.
+		files: ['**/*.astro'],
+		languageOptions: {
+			parserOptions: { parser: tseslint.parser },
+		},
+	},
 	...eslintPluginAstro.configs['flat/jsx-a11y-strict'],
 	{
 		// Astro compiles each frontmatter block to a virtual `*.astro/N.ts` file.
