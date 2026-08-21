@@ -155,3 +155,96 @@ msgstr "Share"
 msgid "aside.avatarAlt"
 msgstr "César Guadarrama"
 
+msgid "chess.board"
+msgstr "Chess board"
+
+msgid "chess.newGame"
+msgstr "New game"
+
+msgid "chess.loading"
+msgstr "Loading the engine…"
+
+msgid "chess.turn.white"
+msgstr "White to move"
+
+msgid "chess.turn.black"
+msgstr "Black to move"
+
+msgid "chess.square.empty"
+msgstr "empty"
+
+msgid "chess.piece.whiteRook"
+msgstr "white rook"
+
+msgid "chess.piece.whiteKnight"
+msgstr "white knight"
+
+msgid "chess.piece.whiteBishop"
+msgstr "white bishop"
+
+msgid "chess.piece.whiteQueen"
+msgstr "white queen"
+
+msgid "chess.piece.whiteKing"
+msgstr "white king"
+
+msgid "chess.piece.whitePawn"
+msgstr "white pawn"
+
+msgid "chess.piece.blackRook"
+msgstr "black rook"
+
+msgid "chess.piece.blackKnight"
+msgstr "black knight"
+
+msgid "chess.piece.blackBishop"
+msgstr "black bishop"
+
+msgid "chess.piece.blackQueen"
+msgstr "black queen"
+
+msgid "chess.piece.blackKing"
+msgstr "black king"
+
+msgid "chess.piece.blackPawn"
+msgstr "black pawn"
+
+msgid "chess.error.notYourPiece"
+msgstr "That is not your piece."
+
+msgid "chess.error.emptySquare"
+msgstr "There is no piece there."
+
+msgid "chess.error.ownPiece"
+msgstr "That square holds one of your own pieces."
+
+msgid "chess.error.blocked"
+msgstr "A piece is in the way."
+
+msgid "chess.error.illegalMove"
+msgstr "That piece does not move like that."
+
+msgid "chess.error.pickYourPiece"
+msgstr "Empty square — pick one of your pieces."
+
+msgid "chess.error.rejected"
+msgstr "Rejected by the engine ({code})."
+
+msgid "chess.failed.before"
+msgstr "The WebAssembly engine did not load, so there is no board to play. The C it was built from is on"
+
+msgid "chess.failed.after"
+msgstr "."
+
+msgid "chess.footnote.before"
+msgstr "This is the 2017 C engine compiled to WebAssembly — every move above is validated by the original"
+
+msgid "chess.footnote.after"
+msgstr ", not by JavaScript. It knows how pieces move, what blocks them and when a pawn promotes. It has no concept of check, castling or en passant; turn order was the server’s job, and the server is not here."
+
+msgid "modal.close"
+msgstr "Close"
+
+msgid "modal.closeLabel"
+msgstr "Close modal"
+

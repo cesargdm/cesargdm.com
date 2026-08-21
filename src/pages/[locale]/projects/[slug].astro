@@ -54,7 +54,9 @@ const meta = post
 			<div class={entryContainer}>
 				{/* The back link lives in the nav bar now. */}
 				<article set:html={post.contentHtml} />
-				{slug === 'c-chess' ? <ChessBoard client:visible /> : null}
+				{slug === 'c-chess' ? (
+					<ChessBoard client:visible locale={locale} />
+				) : null}
 				<EditPageBanner type="projects" lang={locale} slug={slug} />
 			</div>
 		) : (

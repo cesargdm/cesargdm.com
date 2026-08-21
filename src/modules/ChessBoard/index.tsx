@@ -1,7 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { ChessModule } from '@/lib/chess/engine.js'
 import initEngine from '@/lib/chess/engine.js'
+import type { Locale } from '@/lib/i18n'
+import type { MessageId } from '@/lib/message-ids'
+import { getTranslate } from '@/lib/translate'
 
 import {
 	board as boardClass,
@@ -35,29 +38,29 @@ const PIECES: Record<string, string> = {
 	c: '♟',
 }
 
-const NAMES: Record<string, string> = {
-	'1': 'white rook',
-	'2': 'white knight',
-	'3': 'white bishop',
-	'4': 'white queen',
-	'5': 'white king',
-	'6': 'white pawn',
-	'7': 'black rook',
-	'8': 'black knight',
-	'9': 'black bishop',
-	a: 'black queen',
-	b: 'black king',
-	c: 'black pawn',
+const NAMES: Record<string, MessageId> = {
+	'1': 'chess.piece.whiteRook',
+	'2': 'chess.piece.whiteKnight',
+	'3': 'chess.piece.whiteBishop',
+	'4': 'chess.piece.whiteQueen',
+	'5': 'chess.piece.whiteKing',
+	'6': 'chess.piece.whitePawn',
+	'7': 'chess.piece.blackRook',
+	'8': 'chess.piece.blackKnight',
+	'9': 'chess.piece.blackBishop',
+	a: 'chess.piece.blackQueen',
+	b: 'chess.piece.blackKing',
+	c: 'chess.piece.blackPawn',
 }
 
 // The engine's own codes, written to the socket in cchess-server.c. Anything
-// unlisted still surfaces raw rather than being swallowed.
-const ERRORS: Record<string, string> = {
-	'e-07': 'That is not your piece.',
-	'e-08': 'There is no piece there.',
-	'e-09': 'That square holds one of your own pieces.',
-	'e-30': 'A piece is in the way.',
-	'e-31': 'That piece does not move like that.',
+// unlisted still surfaces via chess.error.rejected rather than being swallowed.
+const ERRORS: Record<string, MessageId> = {
+	'e-07': 'chess.error.notYourPiece',
+	'e-08': 'chess.error.emptySquare',
+	'e-09': 'chess.error.ownPiece',
+	'e-30': 'chess.error.blocked',
+	'e-31': 'chess.error.illegalMove',
 }
 
 type Engine = {
@@ -94,7 +97,9 @@ function teamOf(piece: string) {
 	return piece >= '7' ? BLACK : WHITE
 }
 
-export default function ChessBoard() {
+export default function ChessBoard({ locale }: { locale: Locale }) {
+	const t = useMemo(() => getTranslate(locale), [locale])
+
 	const engineRef = useRef<Engine | null>(null)
 	const [cells, setCells] = useState<string | null>(null)
 	const [from, setFrom] = useState<number | null>(null)
@@ -148,9 +153,11 @@ export default function ChessBoard() {
 			if (from === null) {
 				if (teamOf(cells[index]) !== turn) {
 					setMessage(
-						cells[index] === '0'
-							? 'Empty square — pick one of your pieces.'
-							: 'That is not your piece.',
+						t(
+							cells[index] === '0'
+								? 'chess.error.pickYourPiece'
+								: 'chess.error.notYourPiece',
+						),
 					)
 
 					return
@@ -173,7 +180,11 @@ export default function ChessBoard() {
 
 			if (!ok) {
 				const code = engine.lastError()
-				setMessage(ERRORS[code] ?? `Rejected by the engine (${code}).`)
+				const messageId = ERRORS[code]
+
+				setMessage(
+					messageId ? t(messageId) : t('chess.error.rejected', { code }),
+				)
 				setFrom(null)
 
 				return
@@ -184,16 +195,16 @@ export default function ChessBoard() {
 			setTurn(turn === WHITE ? BLACK : WHITE)
 			setMessage(null)
 		},
-		[cells, from, turn],
+		[cells, from, t, turn],
 	)
 
 	if (failed) {
 		return (
 			<div className={container}>
 				<p className={status} role="alert">
-					The WebAssembly engine did not load, so there is no board to play. The
-					C it was built from is on{' '}
-					<a href="https://github.com/cesargdm/c-chess">GitHub</a>.
+					{t('chess.failed.before')}{' '}
+					<a href="https://github.com/cesargdm/c-chess">GitHub</a>
+					{t('chess.failed.after')}
 				</p>
 			</div>
 		)
@@ -202,7 +213,7 @@ export default function ChessBoard() {
 	if (!cells) {
 		return (
 			<div className={container}>
-				<p className={status}>Loading the engine…</p>
+				<p className={status}>{t('chess.loading')}</p>
 			</div>
 		)
 	}
@@ -210,17 +221,17 @@ export default function ChessBoard() {
 	return (
 		<div className={container}>
 			<p className={status}>
-				{turn === WHITE ? 'White' : 'Black'} to move
+				{t(turn === WHITE ? 'chess.turn.white' : 'chess.turn.black')}
 				{message ? <span className={errorClass}> — {message}</span> : null}
 			</p>
 
-			<div className={boardClass} role="grid" aria-label="Chess board">
+			<div className={boardClass} role="grid" aria-label={t('chess.board')}>
 				{Array.from({ length: SIZE * SIZE }, (_, rendered) => {
 					const index = toEngineIndex(rendered)
 					const piece = cells[index]
 					const isLight =
 						(Math.floor(rendered / SIZE) + (rendered % SIZE)) % 2 === 0
-					const label = piece === '0' ? 'empty' : NAMES[piece]
+					const label = t(piece === '0' ? 'chess.square.empty' : NAMES[piece])
 
 					return (
 						<button
@@ -245,15 +256,12 @@ export default function ChessBoard() {
 			</div>
 
 			<button type="button" className={newGame} onClick={reset}>
-				New game
+				{t('chess.newGame')}
 			</button>
 
 			<p className={footnote}>
-				This is the 2017 C engine compiled to WebAssembly — every move above is
-				validated by the original <code>is_move_valid</code>, not by JavaScript.
-				It knows how pieces move, what blocks them and when a pawn promotes. It
-				has no concept of check, castling or en passant; turn order was the
-				server&rsquo;s job, and the server is not here.
+				{t('chess.footnote.before')} <code>is_move_valid</code>
+				{t('chess.footnote.after')}
 			</p>
 		</div>
 	)

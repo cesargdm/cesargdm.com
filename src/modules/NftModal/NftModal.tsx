@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Modal from '@/components/Modal'
 import NftInfo from '@/components/Nft'
 
+import type { Locale } from '@/lib/i18n'
 import { readJson } from '@/lib/json'
 import type { Nft } from '@/lib/open-sea'
 
@@ -15,7 +16,7 @@ const NFT_PATH = /^\/(?:en|es)\/nfts\/([^/]+)\/?$/
  * an overlay dialog, while direct visits / refreshes fall through to the full
  * page at src/pages/[locale]/nfts/[id].astro.
  */
-export default function NftModal() {
+export default function NftModal({ locale }: { locale: Locale }) {
 	const [nft, setNft] = useState<Nft | null>(null)
 	const dialogRef = useRef<HTMLDialogElement>(null)
 	// Set right before we close the dialog ourselves (in the effect below) so
@@ -131,7 +132,7 @@ export default function NftModal() {
 			}}
 		>
 			{nft ? (
-				<Modal onClose={handleClose}>
+				<Modal locale={locale} onClose={handleClose}>
 					<NftInfo {...nft} />
 				</Modal>
 			) : null}

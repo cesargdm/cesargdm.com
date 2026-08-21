@@ -155,3 +155,96 @@ msgstr "Compartir"
 msgid "aside.avatarAlt"
 msgstr "César Guadarrama"
 
+msgid "chess.board"
+msgstr "Tablero de ajedrez"
+
+msgid "chess.newGame"
+msgstr "Nueva partida"
+
+msgid "chess.loading"
+msgstr "Cargando el motor…"
+
+msgid "chess.turn.white"
+msgstr "Juegan las blancas"
+
+msgid "chess.turn.black"
+msgstr "Juegan las negras"
+
+msgid "chess.square.empty"
+msgstr "vacía"
+
+msgid "chess.piece.whiteRook"
+msgstr "torre blanca"
+
+msgid "chess.piece.whiteKnight"
+msgstr "caballo blanco"
+
+msgid "chess.piece.whiteBishop"
+msgstr "alfil blanco"
+
+msgid "chess.piece.whiteQueen"
+msgstr "dama blanca"
+
+msgid "chess.piece.whiteKing"
+msgstr "rey blanco"
+
+msgid "chess.piece.whitePawn"
+msgstr "peón blanco"
+
+msgid "chess.piece.blackRook"
+msgstr "torre negra"
+
+msgid "chess.piece.blackKnight"
+msgstr "caballo negro"
+
+msgid "chess.piece.blackBishop"
+msgstr "alfil negro"
+
+msgid "chess.piece.blackQueen"
+msgstr "dama negra"
+
+msgid "chess.piece.blackKing"
+msgstr "rey negro"
+
+msgid "chess.piece.blackPawn"
+msgstr "peón negro"
+
+msgid "chess.error.notYourPiece"
+msgstr "Esa pieza no es tuya."
+
+msgid "chess.error.emptySquare"
+msgstr "Ahí no hay ninguna pieza."
+
+msgid "chess.error.ownPiece"
+msgstr "En esa casilla hay una pieza tuya."
+
+msgid "chess.error.blocked"
+msgstr "Hay una pieza en el camino."
+
+msgid "chess.error.illegalMove"
+msgstr "Esa pieza no se mueve así."
+
+msgid "chess.error.pickYourPiece"
+msgstr "Casilla vacía — elige una de tus piezas."
+
+msgid "chess.error.rejected"
+msgstr "El motor la rechazó ({code})."
+
+msgid "chess.failed.before"
+msgstr "El motor de WebAssembly no cargó, así que no hay tablero para jugar. El código en C del que se compiló está en"
+
+msgid "chess.failed.after"
+msgstr "."
+
+msgid "chess.footnote.before"
+msgstr "Este es el motor en C de 2017 compilado a WebAssembly — cada movimiento de arriba lo valida el"
+
+msgid "chess.footnote.after"
+msgstr " original, no JavaScript. Sabe cómo se mueven las piezas, qué las bloquea y cuándo corona un peón. No tiene noción de jaque, enroque ni captura al paso; el orden de los turnos era trabajo del servidor, y el servidor no está aquí."
+
+msgid "modal.close"
+msgstr "Cerrar"
+
+msgid "modal.closeLabel"
+msgstr "Cerrar la ventana"
+
