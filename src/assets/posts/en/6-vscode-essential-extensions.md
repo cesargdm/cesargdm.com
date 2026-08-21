@@ -3,6 +3,7 @@ title: 6 VS Code essential extensions
 date: 2022-07-21
 extract: Boost your coding game with 6 essential VS Code extensions, including GitHub Copilot or Tab9 as a bonus.
 technical: true
+translationKey: vscode-extensions
 ---
 
 # 6 VS Code essential extensions
