@@ -2,6 +2,7 @@ import { getPosts } from '@/lib/blog'
 import { text } from '@/lib/frontmatter'
 import type { Locale } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
+import { getTools } from '@/lib/tools'
 
 export type SearchDocument = {
 	id: string
@@ -27,12 +28,6 @@ const PAGES: Record<
 		},
 		{ path: 'contact', title: 'Contact', description: 'Where to find me.' },
 		{ path: 'chat', title: 'AI Chat', description: 'Ask me anything.' },
-		{
-			path: 'projects/qr-code-generator',
-			title: 'QR Code Generator',
-			description:
-				'Generate a QR code from any text and download it as SVG or PNG.',
-		},
 	],
 	es: [
 		{ path: '', title: 'Acerca de', description: 'Quién soy y qué construyo.' },
@@ -47,12 +42,6 @@ const PAGES: Record<
 			path: 'chat',
 			title: 'Chat IA',
 			description: 'Pregúntame lo que quieras.',
-		},
-		{
-			path: 'projects/qr-code-generator',
-			title: 'Generador de códigos QR',
-			description:
-				'Genera un código QR desde cualquier texto y descárgalo en SVG o PNG.',
 		},
 	],
 }
@@ -114,7 +103,18 @@ export function buildSearchIndex(locale: Locale): SearchDocument[] {
 		),
 	)
 
-	return [...pages, ...projects, ...posts]
+	// Tools come from tools.ts — the single source of truth for the micro-apps —
+	// so this list cannot drift the way the old hardcoded QR entry did.
+	const tools = getTools(locale).map((tool) =>
+		toDocument(
+			'page',
+			`/${locale}/projects/${tool.path}`,
+			tool.title,
+			tool.description,
+		),
+	)
+
+	return [...pages, ...tools, ...projects, ...posts]
 }
 
 export function searchDocuments(

@@ -45,3 +45,6 @@ next-env.d.ts
 # cloudflare
 .dev.vars
 .wrangler
+
+# Throwaway local artifacts (fixtures, debug output). Never committed.
+.tmp/

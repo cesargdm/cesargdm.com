@@ -8,6 +8,7 @@ import { LOCALES } from '@/lib/i18n'
 import { getAlternateLocalePath } from '@/lib/locale-path'
 import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
+import { getTools } from '@/lib/tools'
 
 export const prerender = false
 
@@ -90,6 +91,11 @@ export const GET: APIRoute = async () => {
 			path: `/${locale}/projects/${project.slug}`,
 			locale,
 			lastmod: isoDate(project.data.date, now),
+		})),
+		...getTools(locale).map((tool) => ({
+			path: `/${locale}/projects/${tool.path}`,
+			locale,
+			lastmod: now,
 		})),
 		...getPosts(locale).map((post) => ({
 			path: `/${locale}/blog/${post.slug}`,
