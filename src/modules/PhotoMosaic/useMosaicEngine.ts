@@ -832,18 +832,38 @@ export function useMosaicEngine() {
 	// Ingestion counts: the library is still being mutated, so matching now would
 	// use whatever subset had decoded, and an in-flight ingest finishing first
 	// would clear the dirty flags and present that partial result as current.
+	const autoDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
 	const isBusy =
 		state.ingesting ||
 		state.job === 'matching' ||
 		state.job === 'drawing' ||
 		state.job === 'encoding'
 
+	const canGenerate = state.sourceReady && state.tileCount > 0 && !isBusy
+
+	// Nothing waits for a Generate press. The pipeline re-runs itself whenever the
+	// assignment goes stale — a source, a batch of photos, a density change —
+	// debounced so dragging a slider does not queue a run per pixel.
+	useEffect(() => {
+		if (!canGenerate || !state.matchDirty) return
+
+		if (autoDebounceRef.current) clearTimeout(autoDebounceRef.current)
+		autoDebounceRef.current = setTimeout(() => {
+			generate()
+		}, RENDER_DEBOUNCE_MS)
+
+		return () => {
+			if (autoDebounceRef.current) clearTimeout(autoDebounceRef.current)
+		}
+	}, [canGenerate, state.matchDirty, generate])
+
 	return {
 		state,
 		canvasKey,
 		exportOptions,
 		isBusy,
-		canGenerate: state.sourceReady && state.tileCount > 0 && !isBusy,
+		canGenerate,
 		canExport: state.job === 'done' && !state.renderDirty && !isBusy,
 		attachCanvas,
 		setMainImage,

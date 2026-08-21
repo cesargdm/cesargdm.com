@@ -25,12 +25,15 @@ export const MOSAIC_COPY = {
 		photosHint:
 			'The more photos you add, the better the result. Up to 512 are used.',
 		dropPrompt: 'Drag photos or a whole folder here, or:',
+		dropPromptWithCount: '{count} photos ready. Drag more here, or:',
 		photosPick: 'Choose files',
+		photosMore: 'Add more',
 		folderLabel: 'Choose a folder',
-		folderHint:
-			'Picks up every image in the folder and its subfolders. Non-images are skipped.',
-
+		folderMore: 'Add a folder',
+		explain: 'What this does',
 		gridDensityLabel: 'Grid density',
+		gridDensityHint:
+			'How many photos across. More means a closer likeness and smaller tiles; fewer means each photo stays recognisable.',
 		blackAndWhiteLabel: 'Black and white',
 		tintLabel: 'Tint strength',
 		tintHint:
@@ -42,11 +45,9 @@ export const MOSAIC_COPY = {
 		tiltHint:
 			'Tilts each tile by a small random amount, so the grid looks less mechanical.',
 		exportSizeLabel: 'Export size',
-		exportFormatLabel: 'Export format',
 		nativeDetail: 'Native detail (full resolution)',
 		exceedsCanvasLimit: "Exceeds this browser's canvas size limit",
 
-		generate: 'Generate mosaic',
 		cancel: 'Cancel',
 		download: 'Download',
 
@@ -60,13 +61,8 @@ export const MOSAIC_COPY = {
 		gridSummary: '{cols} columns × {rows} rows',
 		photoCountSummary: 'Built from {count} photos',
 
-		rejectedFiles: 'Could not read {count} of the files.',
-		duplicatesSkipped: 'Skipped {count} already in the set.',
 		heicUnsupported:
 			'iPhone photos in HEIC format cannot be read in Chrome or Firefox. Export them as JPEG first, or open this page in Safari.',
-		tooMany:
-			'Using {used} of your {total} photos, evenly spaced across the selection.',
-
 		errors: {
 			unsupported:
 				'This tool needs a recent browser — Chrome, Firefox, or Safari 16.4 or later.',
@@ -101,12 +97,15 @@ export const MOSAIC_COPY = {
 		photosHint:
 			'Cuantas más fotos agregues, mejor será el resultado. Se usan hasta 512.',
 		dropPrompt: 'Arrastra fotos o una carpeta entera aquí, o:',
+		dropPromptWithCount: '{count} fotos listas. Arrastra más aquí, o:',
 		photosPick: 'Elegir archivos',
+		photosMore: 'Agregar más',
 		folderLabel: 'Elegir una carpeta',
-		folderHint:
-			'Toma todas las imágenes de la carpeta y sus subcarpetas. Lo que no sea imagen se omite.',
-
+		folderMore: 'Agregar una carpeta',
+		explain: 'Qué hace esto',
 		gridDensityLabel: 'Densidad de la cuadrícula',
+		gridDensityHint:
+			'Cuántas fotos a lo ancho. Más significa mayor parecido y fotos más pequeñas; menos, que cada foto se siga reconociendo.',
 		blackAndWhiteLabel: 'Blanco y negro',
 		tintLabel: 'Intensidad del tinte',
 		tintHint:
@@ -118,11 +117,9 @@ export const MOSAIC_COPY = {
 		tiltHint:
 			'Inclina cada foto una pequeña cantidad al azar, para que la cuadrícula se vea menos mecánica.',
 		exportSizeLabel: 'Tamaño de exportación',
-		exportFormatLabel: 'Formato de exportación',
 		nativeDetail: 'Detalle nativo (resolución completa)',
 		exceedsCanvasLimit: 'Supera el límite de lienzo de este navegador',
 
-		generate: 'Generar mosaico',
 		cancel: 'Cancelar',
 		download: 'Descargar',
 
@@ -136,12 +133,8 @@ export const MOSAIC_COPY = {
 		gridSummary: '{cols} columnas × {rows} filas',
 		photoCountSummary: 'Hecho con {count} fotos',
 
-		rejectedFiles: 'No se pudieron leer {count} de los archivos.',
-		duplicatesSkipped: 'Se omitieron {count} que ya estaban.',
 		heicUnsupported:
 			'Las fotos de iPhone en formato HEIC no se pueden leer en Chrome ni en Firefox. Expórtalas como JPEG, o abre esta página en Safari.',
-		tooMany: 'Usando {used} de tus {total} fotos, repartidas de forma pareja.',
-
 		errors: {
 			unsupported:
 				'Esta herramienta necesita un navegador reciente — Chrome, Firefox o Safari 16.4 o posterior.',

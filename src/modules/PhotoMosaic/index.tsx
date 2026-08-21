@@ -5,6 +5,7 @@
    zone carries drag handlers but is not itself a control; the buttons inside it
    are, and they are what the keyboard uses. Dropping is enhancement on top, and
    removing it would cost mouse users the drop target for nothing. */
+import { IconArrowsMaximize, IconPhotoEdit } from '@tabler/icons-react'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 
@@ -16,11 +17,13 @@ import {
 	MIN_COLUMNS,
 } from './engine/constants'
 import { imageFilesFrom, imageFilesFromDrop } from './files'
+import { InfoLabel } from './InfoLabel'
 import type { MosaicPhase } from './protocol'
 import * as styles from './styles.css'
 import { useMosaicEngine } from './useMosaicEngine'
 
 const PERCENT = 100
+const ICON_SIZE = 18
 
 function format(template: string, values: Record<string, number | string>) {
 	return Object.entries(values).reduce(
@@ -61,13 +64,11 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 		canvasKey,
 		exportOptions,
 		isBusy,
-		canGenerate,
 		canExport,
 		attachCanvas,
 		setMainImage,
 		addPhotos,
 		updateSettings,
-		generate,
 		cancel,
 		exportAt,
 		clearExport,
@@ -152,18 +153,17 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 		})
 	}
 
-	// A photo already in the set is not a failure, and saying it "could not be
-	// used" reads as something having gone wrong.
-	const duplicateCount = rejected.filter(
-		(file) => file.reason === 'duplicate',
-	).length
-	const unreadableCount = rejected.length - duplicateCount
-
 	const selected = exportOptions[sizeIndex] ?? exportOptions[0]
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.panel}>
+			<div
+				className={
+					state.sourceReady
+						? styles.panel
+						: `${styles.panel} ${styles.panelSolo}`
+				}
+			>
 				<div className={styles.preview}>
 					{/* The frame takes the source's aspect ratio as soon as one is
 					    chosen, so the placeholder and the finished mosaic occupy exactly
@@ -199,6 +199,33 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 								src={state.sourcePreview}
 							/>
 						) : null}
+						{state.sourceReady && !zoomed ? (
+							<label
+								aria-label={copy.replaceMainImage}
+								className={styles.cornerLeft}
+								title={copy.replaceMainImage}
+							>
+								<IconPhotoEdit size={ICON_SIZE} />
+								<input
+									accept="image/*"
+									className={styles.fileOverInput}
+									onChange={handleMain}
+									type="file"
+								/>
+							</label>
+						) : null}
+						{state.job === 'done' && !zoomed ? (
+							<button
+								aria-label={copy.viewFullSize}
+								className={styles.cornerRight}
+								onClick={() => setZoomed(true)}
+								ref={zoomTriggerRef}
+								title={copy.viewFullSize}
+								type="button"
+							>
+								<IconArrowsMaximize size={ICON_SIZE} />
+							</button>
+						) : null}
 						{state.sourceReady ? null : (
 							<label className={styles.emptyOverlay}>
 								{copy.mainImageEmpty}
@@ -220,30 +247,6 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						/>
 					</div>
 
-					<span className={styles.pickerRow}>
-						{state.sourceReady ? (
-							<label className={styles.pickerButton}>
-								{copy.replaceMainImage}
-								<input
-									accept="image/*"
-									className={styles.fileOverInput}
-									onChange={handleMain}
-									type="file"
-								/>
-							</label>
-						) : null}
-						{state.job === 'done' ? (
-							<button
-								className={styles.pickerButton}
-								onClick={() => setZoomed(true)}
-								ref={zoomTriggerRef}
-								type="button"
-							>
-								{copy.viewFullSize}
-							</button>
-						) : null}
-					</span>
-
 					<progress
 						aria-label={state.phase ? phaseLabel(copy, state.phase) : undefined}
 						className={styles.progressBar}
@@ -263,262 +266,280 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						</p>
 					) : null}
 
-					{/* One action at a time. Every control re-runs the pipeline on its
-					    own now, so Generate is only ever the first step; once there is a
-					    mosaic the only thing left to do with it is take it away. */}
+					{/* No Generate button: the mosaic rebuilds itself whenever anything
+					    it depends on changes, so the only actions left are stopping a run
+					    and taking the result away. The size belongs with Download because
+					    it is a property of that one action, not of the mosaic. */}
 					<div className={styles.actions}>
 						{isBusy ? (
 							<button className={styles.button} onClick={cancel} type="button">
 								{copy.cancel}
 							</button>
 						) : canExport ? (
-							state.downloadUrl ? (
-								<a
-									className={styles.downloadLink}
-									download={state.downloadName ?? 'mosaic.png'}
-									href={state.downloadUrl}
-								>
-									{copy.download}
-								</a>
-							) : (
-								<button
-									className={styles.button}
-									disabled={!selected?.available}
-									onClick={() => {
-										if (selected) exportAt(selected)
+							<span className={styles.exportRow}>
+								{/* The label is for assistive tech only: the options read as
+								    sizes on their own, and a visible "Export size" caption
+								    pushed Download onto a second line. */}
+								<label className={styles.visuallyHidden} htmlFor={sizeId}>
+									{copy.exportSizeLabel}
+								</label>
+								<select
+									className={styles.exportSelect}
+									id={sizeId}
+									onChange={(event) => {
+										setSizeIndex(Number(event.target.value))
+										clearExport()
 									}}
-									type="button"
+									value={sizeIndex}
 								>
-									{copy.download}
-								</button>
-							)
-						) : (
-							<button
-								className={styles.button}
-								disabled={!canGenerate}
-								onClick={generate}
-								type="button"
-							>
-								{copy.generate}
-							</button>
-						)}
+									{exportOptions.map((option, index) => (
+										<option
+											disabled={!option.available}
+											key={option.edge}
+											value={index}
+										>
+											{option.width} × {option.height}
+											{option.nativeDetail ? ` — ${copy.nativeDetail}` : ''}
+											{option.available ? '' : ` — ${copy.exceedsCanvasLimit}`}
+										</option>
+									))}
+								</select>
+								{state.downloadUrl ? (
+									<a
+										className={styles.downloadLink}
+										download={state.downloadName ?? 'mosaic.png'}
+										href={state.downloadUrl}
+									>
+										{copy.download}
+									</a>
+								) : (
+									<button
+										className={styles.button}
+										disabled={!selected?.available}
+										onClick={() => {
+											if (selected) exportAt(selected)
+										}}
+										type="button"
+									>
+										{copy.download}
+									</button>
+								)}
+							</span>
+						) : null}
 					</div>
 				</div>
 
-				<div className={styles.controls}>
-					<div className={styles.group}>
-						<h2 className={styles.groupHeading}>{copy.tilesHeading}</h2>
-						{/* A plain div. It was a <label> once, but it now contains the two
+				{/* Nothing to configure until there is an image to configure it for,
+				    and an empty rail of sliders beside an empty canvas only asks the
+				    reader to work out which control to touch first. */}
+				{state.sourceReady ? (
+					<div className={styles.controls}>
+						<div className={styles.group}>
+							<h2 className={styles.groupHeading}>{copy.tilesHeading}</h2>
+							{/* A plain div. It was a <label> once, but it now contains the two
 						    picker buttons, and a label wrapping controls double-fires every
 						    click through them — that opened a file dialog per level. */}
-						<div
-							className={
-								dragging
-									? `${styles.dropZone} ${styles.dropZoneActive}`
-									: styles.dropZone
-							}
-							onDragLeave={() => setDragging(false)}
-							onDragOver={(event) => {
-								event.preventDefault()
-								setDragging(true)
-							}}
-							onDrop={handleDrop}
-						>
-							<span className={styles.label}>{copy.photosLabel}</span>
-							<span>{copy.dropPrompt}</span>
-							{/* Two buttons rather than one, because `webkitdirectory` is a
+							<div
+								className={
+									dragging
+										? `${styles.dropZone} ${styles.dropZoneActive}`
+										: styles.dropZone
+								}
+								onDragLeave={() => setDragging(false)}
+								onDragOver={(event) => {
+									event.preventDefault()
+									setDragging(true)
+								}}
+								onDrop={handleDrop}
+							>
+								<span className={styles.label}>{copy.photosLabel}</span>
+								<span>
+									{state.tileCount > 0
+										? format(copy.dropPromptWithCount, {
+												count: state.tileCount,
+											})
+										: copy.dropPrompt}
+								</span>
+								{/* Two buttons rather than one, because `webkitdirectory` is a
 							    mode on the input: the OS picker offers files or folders,
 							    never both. A drop handles either in one gesture, which is
 							    why the zone around them takes both. */}
-							{/* Each input is the button, stretched over it at zero opacity,
+								{/* Each input is the button, stretched over it at zero opacity,
 							    rather than something a button clicks for you. WebKit will not
 							    open a picker for an input it considers hidden, so a
 							    programmatic click on a clipped one silently does nothing. */}
-							<span className={styles.pickerRow}>
-								<label className={styles.pickerButton}>
-									{copy.photosPick}
-									<input
-										accept="image/*"
-										className={styles.fileOverInput}
-										multiple
-										onChange={handlePhotos}
-										type="file"
-									/>
-								</label>
-								<label className={styles.pickerButton}>
-									{copy.folderLabel}
-									<input
-										className={styles.fileOverInput}
-										multiple
-										onChange={handlePhotos}
-										ref={(element) => {
-											// Assigned as a property, not a JSX attribute:
-											// `webkitdirectory` is non-standard, so React would pass
-											// it through as a string and TypeScript has no prop for
-											// it.
-											if (element) element.webkitdirectory = true
-										}}
-										type="file"
-									/>
-								</label>
+								<span className={styles.pickerRow}>
+									<label className={styles.pickerButton}>
+										{state.tileCount > 0 ? copy.photosMore : copy.photosPick}
+										<input
+											accept="image/*"
+											className={styles.fileOverInput}
+											multiple
+											onChange={handlePhotos}
+											type="file"
+										/>
+									</label>
+									<label className={styles.pickerButton}>
+										{state.tileCount > 0 ? copy.folderMore : copy.folderLabel}
+										<input
+											className={styles.fileOverInput}
+											multiple
+											onChange={handlePhotos}
+											ref={(element) => {
+												// Assigned as a property, not a JSX attribute:
+												// `webkitdirectory` is non-standard, so React would pass
+												// it through as a string and TypeScript has no prop for
+												// it.
+												if (element) element.webkitdirectory = true
+											}}
+											type="file"
+										/>
+									</label>
+								</span>
+							</div>
+							{/* Reading the photos belongs next to the photos, not down with the
+							    mosaic's own progress. */}
+							{state.ingesting ? (
+								<progress
+									aria-label={copy.phaseIngest}
+									className={styles.ingestProgress}
+									max={1}
+									value={state.phase === 'ingest' ? state.progress : undefined}
+								/>
+							) : null}
+							{/* The only rejection worth its own line, because it is the only
+							    one the reader can act on. Counts of duplicates and unreadable
+							    files were noise beside a photo count that already says how
+							    many made it in. */}
+							{looksLikeHeic(rejected.map((file) => file.name)) ? (
+								<p className={styles.notice}>{copy.heicUnsupported}</p>
+							) : null}
+						</div>
+
+						<div className={styles.group}>
+							<InfoLabel
+								explain={copy.explain}
+								hint={copy.gridDensityHint}
+								htmlFor={densityId}
+							>
+								{copy.gridDensityLabel}
+							</InfoLabel>
+							<input
+								className={styles.slider}
+								id={densityId}
+								max={MAX_COLUMNS}
+								min={MIN_COLUMNS}
+								onChange={(event) =>
+									updateSettings({ columns: Number(event.target.value) }, true)
+								}
+								type="range"
+								value={settings.columns}
+							/>
+							<span className={styles.value}>
+								{grid
+									? format(copy.gridSummary, {
+											cols: grid.cols,
+											rows: grid.rows,
+										})
+									: `${settings.columns}`}
 							</span>
 						</div>
-						<p className={styles.hint}>{copy.photosHint}</p>
-						{state.tileCount > 0 ? (
-							<p className={styles.notice}>
-								{format(copy.photoCountSummary, { count: state.tileCount })}
-							</p>
-						) : null}
-						{state.considered > state.added ? (
-							<p className={styles.notice}>
-								{format(copy.tooMany, {
-									used: state.added,
-									total: state.considered,
-								})}
-							</p>
-						) : null}
-						{duplicateCount > 0 ? (
-							<p className={styles.notice}>
-								{format(copy.duplicatesSkipped, { count: duplicateCount })}
-							</p>
-						) : null}
-						{unreadableCount > 0 ? (
-							<p className={styles.notice}>
-								{format(copy.rejectedFiles, { count: unreadableCount })}
-							</p>
-						) : null}
-						{looksLikeHeic(rejected.map((file) => file.name)) ? (
-							<p className={styles.notice}>{copy.heicUnsupported}</p>
-						) : null}
-					</div>
 
-					<div className={styles.group}>
-						<label className={styles.label} htmlFor={densityId}>
-							{copy.gridDensityLabel}
-						</label>
-						<input
-							className={styles.slider}
-							id={densityId}
-							max={MAX_COLUMNS}
-							min={MIN_COLUMNS}
-							onChange={(event) =>
-								updateSettings({ columns: Number(event.target.value) }, true)
-							}
-							type="range"
-							value={settings.columns}
-						/>
-						<span className={styles.value}>
-							{grid
-								? format(copy.gridSummary, { cols: grid.cols, rows: grid.rows })
-								: `${settings.columns}`}
-						</span>
-					</div>
-
-					<div className={styles.group}>
-						<div className={styles.checkboxRow}>
-							<input
-								checked={settings.blackAndWhite}
-								className={styles.checkbox}
-								id={monoId}
-								onChange={(event) =>
-									updateSettings({ blackAndWhite: event.target.checked }, true)
-								}
-								type="checkbox"
-							/>
-							<label className={styles.label} htmlFor={monoId}>
-								{copy.blackAndWhiteLabel}
-							</label>
+						<div className={styles.group}>
+							<div className={styles.checkboxRow}>
+								<input
+									checked={settings.blackAndWhite}
+									className={styles.checkbox}
+									id={monoId}
+									onChange={(event) =>
+										updateSettings(
+											{ blackAndWhite: event.target.checked },
+											true,
+										)
+									}
+									type="checkbox"
+								/>
+								<label className={styles.label} htmlFor={monoId}>
+									{copy.blackAndWhiteLabel}
+								</label>
+							</div>
 						</div>
-					</div>
 
-					<div className={styles.group}>
-						<label className={styles.label} htmlFor={tintId}>
-							{copy.tintLabel}
-						</label>
-						<input
-							className={styles.slider}
-							disabled={settings.blackAndWhite}
-							id={tintId}
-							max={PERCENT}
-							min={0}
-							onChange={(event) =>
-								updateSettings(
-									{ tint: Number(event.target.value) / PERCENT },
-									false,
-								)
-							}
-							type="range"
-							value={Math.round(settings.tint * PERCENT)}
-						/>
-						<span className={styles.value}>
-							{Math.round(settings.tint * PERCENT)}%
-						</span>
-						<p className={styles.hint}>{copy.tintHint}</p>
-					</div>
-
-					<div className={styles.group}>
-						<div className={styles.checkboxRow}>
+						<div className={styles.group}>
+							<InfoLabel
+								explain={copy.explain}
+								hint={copy.tintHint}
+								htmlFor={tintId}
+							>
+								{copy.tintLabel}
+							</InfoLabel>
 							<input
-								checked={settings.allowRotation}
-								className={styles.checkbox}
-								id={orientationId}
+								className={styles.slider}
+								disabled={settings.blackAndWhite}
+								id={tintId}
+								max={PERCENT}
+								min={0}
 								onChange={(event) =>
-									updateSettings({ allowRotation: event.target.checked }, true)
+									updateSettings(
+										{ tint: Number(event.target.value) / PERCENT },
+										false,
+									)
 								}
-								type="checkbox"
+								type="range"
+								value={Math.round(settings.tint * PERCENT)}
 							/>
-							<label className={styles.label} htmlFor={orientationId}>
-								{copy.orientationLabel}
-							</label>
+							<span className={styles.value}>
+								{Math.round(settings.tint * PERCENT)}%
+							</span>
 						</div>
-						<p className={styles.hint}>{copy.orientationHint}</p>
-					</div>
 
-					<div className={styles.group}>
-						<label className={styles.label} htmlFor={rotationId}>
-							{copy.tiltLabel}
-						</label>
-						<input
-							className={styles.slider}
-							id={rotationId}
-							max={MAX_ROTATION_DEGREES}
-							min={0}
-							onChange={(event) =>
-								updateSettings({ tilt: Number(event.target.value) }, false)
-							}
-							type="range"
-							value={settings.tilt}
-						/>
-						<span className={styles.value}>{settings.tilt}°</span>
-						<p className={styles.hint}>{copy.tiltHint}</p>
-					</div>
-
-					<div className={styles.group}>
-						<label className={styles.label} htmlFor={sizeId}>
-							{copy.exportSizeLabel}
-						</label>
-						<select
-							id={sizeId}
-							onChange={(event) => {
-								setSizeIndex(Number(event.target.value))
-								clearExport()
-							}}
-							value={sizeIndex}
-						>
-							{exportOptions.map((option, index) => (
-								<option
-									disabled={!option.available}
-									key={option.edge}
-									value={index}
+						<div className={styles.group}>
+							<div className={styles.checkboxRow}>
+								<input
+									checked={settings.allowRotation}
+									className={styles.checkbox}
+									id={orientationId}
+									onChange={(event) =>
+										updateSettings(
+											{ allowRotation: event.target.checked },
+											true,
+										)
+									}
+									type="checkbox"
+								/>
+								<InfoLabel
+									explain={copy.explain}
+									hint={copy.orientationHint}
+									htmlFor={orientationId}
 								>
-									{option.width} × {option.height}
-									{option.nativeDetail ? ` — ${copy.nativeDetail}` : ''}
-									{option.available ? '' : ` — ${copy.exceedsCanvasLimit}`}
-								</option>
-							))}
-						</select>
+									{copy.orientationLabel}
+								</InfoLabel>
+							</div>
+						</div>
+
+						<div className={styles.group}>
+							<InfoLabel
+								explain={copy.explain}
+								hint={copy.tiltHint}
+								htmlFor={rotationId}
+							>
+								{copy.tiltLabel}
+							</InfoLabel>
+							<input
+								className={styles.slider}
+								id={rotationId}
+								max={MAX_ROTATION_DEGREES}
+								min={0}
+								onChange={(event) =>
+									updateSettings({ tilt: Number(event.target.value) }, false)
+								}
+								type="range"
+								value={settings.tilt}
+							/>
+							<span className={styles.value}>{settings.tilt}°</span>
+						</div>
 					</div>
-				</div>
+				) : null}
 			</div>
 		</div>
 	)

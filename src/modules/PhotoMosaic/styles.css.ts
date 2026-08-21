@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
+import { glassOverImage } from '@/styles/glass.css'
 import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 
@@ -417,3 +418,111 @@ export const zoomClose = style([
 		cursor: 'pointer',
 	},
 ])
+
+/** Before a main image exists there are no tools yet, so the canvas has the row. */
+export const panelSolo = style({
+	display: 'block',
+})
+
+/**
+ * The corner controls that sit on the mosaic itself.
+ *
+ * Glass rather than a solid chip because they overlay an arbitrary image: the
+ * dark tint plus the blur keeps an icon legible whatever ends up behind it, and
+ * the lit edge stops it reading as a hole punched in the photo.
+ */
+const cornerBase = {
+	position: 'absolute',
+	zIndex: 2,
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: '2.25rem',
+	height: '2.25rem',
+	minWidth: 0,
+	minHeight: 0,
+	padding: 0,
+	overflow: 'hidden',
+	borderRadius: vars.borderRadius.full,
+	border: 'none',
+	color: '#FFFFFF',
+	cursor: 'pointer',
+} as const
+
+export const cornerLeft = style([
+	glassOverImage,
+	press,
+	{
+		...cornerBase,
+		top: vars.space.large,
+		left: vars.space.large,
+		selectors: {
+			'&:focus-within': {
+				outline: `2px solid ${vars.colors.primary}`,
+				outlineOffset: 2,
+			},
+		},
+	},
+])
+
+export const cornerRight = style([
+	glassOverImage,
+	press,
+	{
+		...cornerBase,
+		top: vars.space.large,
+		right: vars.space.large,
+	},
+])
+
+/** The [i] toggle beside a control's label. */
+export const infoButton = style({
+	display: 'inline-flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: '1.1rem',
+	height: '1.1rem',
+	minWidth: 0,
+	minHeight: 0,
+	padding: 0,
+	marginLeft: vars.space.small,
+	borderRadius: vars.borderRadius.full,
+	border: `1px solid ${vars.colors.border}`,
+	backgroundColor: vars.colors.background.content,
+	color: vars.colors.text.secondary,
+	fontSize: '0.7rem',
+	lineHeight: 1,
+	cursor: 'help',
+	verticalAlign: 'middle',
+})
+
+export const labelRow = style({
+	display: 'flex',
+	alignItems: 'center',
+})
+
+export const ingestProgress = style({
+	width: '100%',
+	height: vars.space.small,
+	marginTop: vars.space.small,
+	appearance: 'auto',
+	accentColor: vars.colors.primary,
+})
+
+/** Export size and Download read as one control, so they sit together. */
+export const exportRow = style({
+	display: 'flex',
+	flexWrap: 'nowrap',
+	alignItems: 'center',
+	gap: vars.space.medium,
+	width: '100%',
+})
+
+export const exportSelect = style({
+	// Shrinks rather than pushing Download onto its own line; the two are one
+	// action read left to right, and a wrap breaks that reading.
+	flex: '1 1 auto',
+	minWidth: 0,
+	minHeight: vars.sizes.button,
+	fontSize: vars.fontSize.small,
+})
