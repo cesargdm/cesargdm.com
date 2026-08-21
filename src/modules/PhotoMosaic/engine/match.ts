@@ -246,16 +246,16 @@ export function assignTilesLinear(input: MatchInput): MatchResult {
 }
 
 /**
- * On the bucketed pre-filter: `writeSignatureMean` is specified as a *plain*
- * (unweighted) mean of the 9 samples, while `signatureDistanceSq` is a
- * *weighted* sum (corner/edge/centre weights of 0.75/1/1.5). The Jensen bound
- * needed to prune admissibly requires the mean and the distance to use the
- * same weighting — with mismatched weights the plain-mean-based bound can
- * exceed the true weighted distance (counterexample: 4 corner samples at +1
- * deviation, the centre sample at -4 deviation, giving a weighted mean-square
- * of ~24.6 against a naive bound of 25), which would wrongly prune the actual
- * best tile and break exact equivalence with the brute-force scan. Rather than
- * ship a pre-filter that can silently diverge from brute force, this file
- * always uses the brute-force scan (see the doc comment on
- * `assignTilesIterative`).
+ * Why there is no bucketed pre-filter here.
+ *
+ * Pruning by mean colour needs the mean and the distance to share a weighting,
+ * or Jensen's inequality no longer bounds one by the other. With a plain mean
+ * against these corner/edge/centre weights (0.75/1/1.5) the bound can exceed
+ * the true distance — four corner samples at +1 deviation and the centre at -4
+ * give a weighted mean-square of ~24.6 against a naive bound of 25 — so a shell
+ * walk would prune the actual best tile and diverge from brute force silently.
+ *
+ * It is not worth fixing, because MAX_CELLS * MAX_TILES caps the brute-force
+ * scan at ~20M candidate pairs, which measures under a second. Exactness is
+ * free here; the pre-filter would only buy risk.
  */

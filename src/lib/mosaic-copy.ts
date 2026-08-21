@@ -65,7 +65,7 @@ export const MOSAIC_COPY = {
 			'no-tiles': 'Add at least one tile photo before generating a mosaic.',
 			'no-target': 'Choose a main image before generating a mosaic.',
 			'canvas-blank':
-				'The mosaic came out blank. Try again, or use a different main image.',
+				'This browser could not allocate an image that large. Choose a smaller export size.',
 			unknown: 'Something went wrong. Try again.',
 		},
 	},
@@ -83,7 +83,7 @@ export const MOSAIC_COPY = {
 		tilesHeading: 'Fotos para el mosaico',
 		photosLabel: 'Elige las fotos con las que se construirá',
 		photosHint:
-			'Cuantas más fotos agregues, mejor el resultado. Se usan hasta 512.',
+			'Cuantas más fotos agregues, mejor será el resultado. Se usan hasta 512.',
 		dropPrompt: 'Arrastra y suelta las fotos aquí, o haz clic para elegirlas',
 
 		gridDensityLabel: 'Densidad de la cuadrícula',
@@ -129,7 +129,7 @@ export const MOSAIC_COPY = {
 				'Agrega al menos una foto para el mosaico antes de generarlo.',
 			'no-target': 'Elige una imagen principal antes de generar el mosaico.',
 			'canvas-blank':
-				'El mosaico salió en blanco. Intenta de nuevo, o usa otra imagen principal.',
+				'Este navegador no pudo reservar una imagen tan grande. Elige un tamaño de exportación menor.',
 			unknown: 'Algo salió mal. Intenta de nuevo.',
 		},
 	},

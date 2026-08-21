@@ -146,36 +146,6 @@ export function signatureDistanceSq(
 	return sum / SAMPLE_WEIGHT_SUM
 }
 
-/**
- * Mean OKLab of a signature, written into `out` at `offset` as (l, a, b).
- *
- * Used by the bucketed pre-filter. By Jensen's inequality the distance between
- * two means is a lower bound on the mean of the per-sample distances, which is
- * what makes the pre-filter's pruning admissible rather than heuristic.
- */
-export function writeSignatureMean(
-	signatures: Float32Array,
-	offset: number,
-	out: Float32Array,
-	outOffset: number,
-): void {
-	let lSum = 0
-	let aSum = 0
-	let bSum = 0
-
-	for (let sample = 0; sample < SIGNATURE_CELLS; sample++) {
-		const base = offset + sample * CHANNELS_PER_SAMPLE
-		lSum += signatures[base]
-		aSum += signatures[base + 1]
-		bSum += signatures[base + 2]
-	}
-
-	out[outOffset] = lSum / SIGNATURE_CELLS
-	out[outOffset + 1] = aSum / SIGNATURE_CELLS
-	out[outOffset + 2] = bSum / SIGNATURE_CELLS
-}
-
-/** `rgb(r, g, b)` for a canvas fillStyle. */
 export function toCssRgb(r: number, g: number, b: number): string {
 	return `rgb(${r}, ${g}, ${b})`
 }

@@ -87,7 +87,12 @@ export type ToWorker =
 			samples: Uint8ClampedArray
 	  }
 	| { type: 'match'; jobId: number; options: MatchOptions }
-	| { type: 'render'; jobId: number; target: RenderTarget; options: RenderOptions }
+	| {
+			type: 'render'
+			jobId: number
+			target: RenderTarget
+			options: RenderOptions
+	  }
 	| { type: 'encode'; jobId: number; mime: string; quality: number }
 	| { type: 'cancel'; jobId: number }
 	| { type: 'dispose' }
@@ -111,7 +116,13 @@ export type FromWorker =
 	  }
 	| { type: 'matched'; jobId: number; distinctTiles: number }
 	| { type: 'rendered'; jobId: number; kind: RenderTarget['kind']; ms: number }
-	| { type: 'encoded'; jobId: number; blob: Blob; width: number; height: number }
+	| {
+			type: 'encoded'
+			jobId: number
+			blob: Blob
+			width: number
+			height: number
+	  }
 	| { type: 'cancelled'; jobId: number }
 	| { type: 'failed'; jobId: number; code: MosaicErrorCode; detail?: string }
 

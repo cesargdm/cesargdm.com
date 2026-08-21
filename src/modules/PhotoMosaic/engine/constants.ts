@@ -58,19 +58,13 @@ export const ADJACENCY_RADIUS = 2
 /** maxUses = ceil(cells / tiles * SPREAD). Above 1 the library cannot run dry. */
 export const DEFAULT_SPREAD = 1.5
 
-/** Beyond this many (cell, tile) pairs, switch to the bucketed pre-filter. */
-export const LINEAR_SCAN_BUDGET = 4_000_000
-
-/** Buckets per OKLab axis in the pre-filter. */
-export const BUCKET_AXIS = 16
-
-/** Minimum candidates collected before the shell walk may stop. */
-export const CANDIDATE_K = 64
-
-/** OKLab a/b range covered by the bucket grid. */
-export const AB_RANGE = 0.4
-
-/** Ceiling on grid cells, so the worst case stays bounded. */
+/**
+ * Ceiling on grid cells, so the worst case stays bounded.
+ *
+ * This is what lets the matcher stay a brute-force scan: MAX_CELLS * MAX_TILES
+ * caps it at ~20M candidate pairs, which benchmarks under a second. A bucketed
+ * pre-filter was considered and dropped — see the note at the end of match.ts.
+ */
 export const MAX_CELLS = 40_000
 
 export const MIN_COLUMNS = 8
