@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 
+import type { CvCopy } from '@/lib/cv-copy'
+
 type PDFDocumentProxy = {
 	getPage: (pageNumber: number) => Promise<unknown>
 	_pdfInfo: {
@@ -32,7 +34,7 @@ declare global {
 
 const PDF_JS_SRC = '//mozilla.github.io/pdf.js/build/pdf.js'
 
-export default function CvReview() {
+export default function CvReview({ copy }: { copy: CvCopy }) {
 	const [isPdfJsLoaded, setIsPdfJsLoaded] = useState(false)
 	const [pdfTextResult, setPdfTextResult] = useState('')
 
@@ -125,7 +127,7 @@ export default function CvReview() {
 		<form onSubmit={handleSubmit}>
 			<input type="file" name="file" />
 			<button disabled={!isPdfJsLoaded} type="submit">
-				Submit
+				{isPdfJsLoaded ? copy.submit : copy.loading}
 			</button>
 			<pre>
 				<code>{pdfTextResult}</code>

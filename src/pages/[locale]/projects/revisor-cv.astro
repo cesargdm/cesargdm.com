@@ -2,8 +2,6 @@
 import CvReview from '@/modules/CvReview'
 
 import { CV_COPY } from '@/lib/cv-copy'
-import type { Locale } from '@/lib/i18n'
-import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { TOOL_PATHS } from '@/lib/tools'
 
@@ -12,26 +10,17 @@ import { entryContainer } from '@/styles/project-post.css'
 
 export const prerender = true
 
+// Spanish only — the English tool keeps its own slug.
 export function getStaticPaths() {
-	return LOCALES.map((locale) => ({ params: { locale } }))
+	return [{ params: { locale: 'es' } }]
 }
 
-const locale = Astro.params.locale as Locale
-
-// The Spanish tool has its own slug now. This path was reachable in both
-// locales for a while, so it redirects rather than 404s.
-if (locale !== 'en') {
-	return Astro.redirect(
-		`/${locale}/projects/${TOOL_PATHS.cvReview[locale]}`,
-		301,
-	)
-}
-
+const locale = 'es' as const
 const copy = CV_COPY[locale]
 
 const meta = getMetadata({
 	locale,
-	title: `${copy.title} - Projects`,
+	title: `${copy.title} - Proyectos`,
 	description: copy.description,
 	canonicalPath: `/projects/${TOOL_PATHS.cvReview[locale]}`,
 })
