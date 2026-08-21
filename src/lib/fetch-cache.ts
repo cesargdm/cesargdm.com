@@ -6,7 +6,7 @@
 export function cached(seconds: number): RequestInit {
 	return {
 		cf: { cacheEverything: true, cacheTtl: seconds },
-	} as RequestInit
+	}
 }
 
 export const ONE_HOUR_SECONDS = 3600
