@@ -130,6 +130,8 @@ export type FromWorker =
  * `MessageEvent.data` is `any`, which the type-checked lint rules reject at every
  * call site. Keep the cast here, for the same reason `src/lib/json.ts` exists.
  */
+// The single use of T is the point: callers name the type they expect back.
+// eslint-disable-next-line typescript/no-unnecessary-type-parameters -- see above
 export function readMessage<T>(event: MessageEvent): T {
 	return event.data as T
 }

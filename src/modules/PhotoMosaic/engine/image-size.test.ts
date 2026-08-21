@@ -1,3 +1,7 @@
+/* eslint-disable no-bitwise, unicorn/number-literal-case -- these fixtures
+   are hand-built container headers: bit masks and lowercase hex are how the
+   PNG/JPEG/WebP/GIF specs write them, and matching the specs matters more here
+   than matching the house style. */
 import { describe, expect, test } from 'bun:test'
 
 import { readImageSize } from './image-size'
