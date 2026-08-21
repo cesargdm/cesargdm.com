@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
+import { TOOL_PATHS } from '@/lib/tools'
 
 export const prerender = true
 
@@ -12,5 +13,8 @@ const locale = Astro.params.locale as Locale
 
 // This URL shipped as an empty stub before the tool existed. Redirecting rather
 // than deleting keeps anything already indexed pointing somewhere useful.
-return Astro.redirect(`/${locale}/projects/qr-code-generator`, 301)
+return Astro.redirect(
+	`/${locale}/projects/${TOOL_PATHS.qrCodeGenerator[locale]}`,
+	301,
+)
 ---

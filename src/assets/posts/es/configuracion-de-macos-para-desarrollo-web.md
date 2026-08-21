@@ -4,7 +4,6 @@ date: 2023
 extract: Cómo preparo una Mac nueva para desarrollo web — gestor de paquetes, shell, runtimes y los pocos ajustes que vale la pena cambiar antes de escribir código.
 technical: true
 translationKey: macos-setup
-isDraft: true
 ---
 
 # Configuración de macOS para desarrollo web

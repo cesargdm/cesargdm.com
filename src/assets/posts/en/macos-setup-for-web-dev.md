@@ -4,7 +4,6 @@ date: 2023
 extract: How I set up a fresh Mac for web development — package manager, shell, runtimes and the handful of settings worth changing before writing any code.
 technical: true
 translationKey: macos-setup
-isDraft: true
 ---
 
 # macOS Setup for Web Development

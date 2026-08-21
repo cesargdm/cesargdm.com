@@ -2,6 +2,7 @@ import { getPosts } from '@/lib/blog'
 import { text } from '@/lib/frontmatter'
 import type { Locale } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
+import { getToolKeyByPath, TOOL_PATHS } from '@/lib/tools'
 
 type Entry = { slug: string; data: Record<string, unknown> }
 
@@ -51,6 +52,17 @@ export function getAlternateLocalePath(
 	const [, section, slug] = segments
 
 	if (!section) return `/${target}`
+
+	// Tools are Astro pages rather than markdown, so `getProjects` cannot see
+	// them and the markdown pairing below would drop the visitor on the projects
+	// index. Their slugs differ per locale, so they need pairing of their own.
+	if (section === 'projects' && slug) {
+		const toolKey = getToolKeyByPath(slug)
+
+		if (toolKey) {
+			return `/${target}/projects/${TOOL_PATHS[toolKey][target]}`
+		}
+	}
 
 	if ((section === 'blog' || section === 'projects') && slug) {
 		const load = section === 'blog' ? getPosts : getProjects
