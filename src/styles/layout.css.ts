@@ -2,6 +2,30 @@ import { vars } from '@/styles/theme.css'
 
 import { globalStyle, style } from '@vanilla-extract/css'
 
+/*
+ * Off-screen until keyboard-focused, then dropped in above everything else —
+ * the standard skip-link pattern. A sighted mouse user never sees it; a
+ * keyboard/AT user tabbing from the top of the page gets it as the very
+ * first stop, before the nav's own controls.
+ */
+export const skipLink = style({
+	position: 'fixed',
+	top: vars.space.small,
+	left: vars.space.small,
+	zIndex: 1000,
+	padding: `${vars.space.small} ${vars.space.medium}`,
+	borderRadius: vars.borderRadius.medium,
+	backgroundColor: vars.colors.background.content,
+	color: vars.colors.text.regular,
+	boxShadow: vars.boxShadow.medium,
+	transform: 'translateY(-200%)',
+	selectors: {
+		'&:focus-visible': {
+			transform: 'translateY(0)',
+		},
+	},
+})
+
 export const content = style({
 	margin: '0 auto',
 	padding: vars.space.large,

@@ -5,10 +5,13 @@ import Footer from '@/modules/Footer/Footer.astro'
 import Nav from '@/modules/Nav/Nav.astro'
 import NftModal from '@/modules/NftModal/NftModal.tsx'
 
+import { AUTHOR, BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
 import type { ResolvedMetadata } from '@/lib/metadata'
+import social from '@/lib/social.json'
+import { getTranslate } from '@/lib/translate'
 
-import { body, content } from '@/styles/layout.css'
+import { body, content, skipLink } from '@/styles/layout.css'
 import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
 // One variable face covers every weight the scale uses, replacing four
@@ -20,9 +23,36 @@ import '@/styles/global.css'
 type Props = {
 	locale: Locale
 	meta: ResolvedMetadata
+	/** Page-specific structured data (e.g. a BlogPosting), on top of the
+	 * site-wide Person/WebSite graph rendered below. */
+	jsonLd?: Record<string, unknown>
 }
 
-const { locale, meta } = Astro.props
+const { locale, meta, jsonLd } = Astro.props
+const t = getTranslate(locale)
+
+const personAndWebsiteJsonLd = {
+	'@context': 'https://schema.org',
+	'@graph': [
+		{
+			'@type': 'Person',
+			...AUTHOR,
+			alternateName: 'cesargdm',
+			jobTitle: 'Product engineer',
+			sameAs: [
+				social.github.url,
+				social.linkedin.url,
+				social.x.url,
+				social.bluesky.url,
+			],
+		},
+		{
+			'@type': 'WebSite',
+			name: 'César Guadarrama C. - Product engineer',
+			url: BASE_URL,
+		},
+	],
+}
 
 // The theme is applied by an inline script rather than read from the cookie on
 // the server: reading it here would force every page to render per-request and
@@ -116,8 +146,26 @@ const Y_MAP = ramp(true)
 		<meta name="twitter:title" content={meta.title} />
 		<meta name="twitter:description" content={meta.description} />
 		{meta.images.map((image) => <meta name="twitter:image" content={image} />)}
+
+		<script
+			is:inline
+			type="application/ld+json"
+			set:html={JSON.stringify(personAndWebsiteJsonLd)}
+		/>
+		{
+			jsonLd ? (
+				<script
+					is:inline
+					type="application/ld+json"
+					set:html={JSON.stringify(jsonLd)}
+				/>
+			) : null
+		}
 	</head>
 	<body class={body}>
+		<a href="#main-content" class={skipLink}>
+			{t('nav.skipToContent')}
+		</a>
 		{
 			/*
 		  The displacement map behind the glass refraction.
@@ -178,7 +226,7 @@ const Y_MAP = ramp(true)
 
 		<Nav locale={locale} />
 
-		<main class={content}>
+		<main id="main-content" class={content}>
 			<slot />
 		</main>
 

@@ -29,6 +29,9 @@ msgstr "Start typing to see suggestions"
 msgid "nav.theme.toggle"
 msgstr "Toggle theme"
 
+msgid "nav.skipToContent"
+msgstr "Skip to content"
+
 msgid "footer.copyright"
 msgstr "Copyright"
 
@@ -37,6 +40,12 @@ msgstr "Source"
 
 msgid "footer.localTime"
 msgstr "Local time"
+
+msgid "footer.viewInSpanish"
+msgstr "View in Spanish"
+
+msgid "footer.viewInEnglish"
+msgstr "View in English"
 
 msgid "blog.title"
 msgstr "Blog"

@@ -27,6 +27,10 @@ type Entry = {
 	lastmod: string
 }
 
+// LOCALES[0] ('en') is the default elsewhere too (e.g. getPosts' fallback
+// param) — reused here rather than a second hardcoded locale.
+const DEFAULT_LOCALE: Locale = LOCALES[0]
+
 function render({ path, locale, lastmod }: Entry) {
 	const loc = `${BASE_URL}${path}`
 
@@ -36,19 +40,32 @@ function render({ path, locale, lastmod }: Entry) {
 	// and advertising a translation that redirects is worse than advertising none.
 	const depth = path.split('/').length
 
-	const alternates = LOCALES.filter((other) => other !== locale)
+	const availableAlternates = LOCALES.filter((other) => other !== locale)
 		.map((other) => ({
 			other,
 			alt: getAlternateLocalePath(locale, other, path),
 		}))
 		.filter(({ alt }) => alt.split('/').length === depth)
+
+	const alternates = availableAlternates
 		.map(
 			({ other, alt }) =>
 				`<xhtml:link rel="alternate" hreflang="${other}" href="${BASE_URL}${alt}" />`,
 		)
 		.join('')
 
-	return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod>${alternates}</url>`
+	// The default-locale path was already resolved above when it's one of the
+	// (at most one, with only two locales) other locales — reused rather than
+	// asking the resolver the same question twice.
+	const defaultPath =
+		locale === DEFAULT_LOCALE
+			? path
+			: availableAlternates.find(({ other }) => other === DEFAULT_LOCALE)?.alt
+	const xDefault = defaultPath
+		? `<xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${defaultPath}" />`
+		: ''
+
+	return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod>${alternates}${xDefault}</url>`
 }
 
 function isoDate(value: unknown, fallback: string) {

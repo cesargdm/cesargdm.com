@@ -146,7 +146,7 @@ function Chat({ locale }: { locale: Locale }) {
 					<IconMessage aria-hidden />
 					{t('chat.title')}
 				</h2>
-				<IconArrowUpRight />
+				<IconArrowUpRight aria-hidden />
 			</a>
 			<div className={chatContainer}>
 				<ul ref={chatListRef} className={chatMessagesList}>
