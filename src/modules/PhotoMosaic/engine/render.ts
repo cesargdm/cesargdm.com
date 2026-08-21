@@ -106,6 +106,8 @@ export function* renderMosaic(
 	library: TileLibrary,
 	/** cols * rows tile indices, row-major. */
 	assignment: Int32Array,
+	/** Quarter turns per cell, parallel to `assignment`. */
+	turnOf: Uint8Array,
 	grid: GridSpec,
 	/** (cols * SIGNATURE_SOURCE_PX) square blocks of RGBA target colour. */
 	samples: Uint8ClampedArray,
@@ -123,9 +125,12 @@ export function* renderMosaic(
 	// Decided once, not per cell: the rotated branch leaves its transform set for
 	// the rest of the pass (resetting 10,000 times is a real cost), so an
 	// unrotated draw mixed in among rotated ones would inherit the previous
-	// cell's matrix and land in the wrong place. Either every cell rotates or
-	// none does, and the single reset below closes the pass.
-	const rotates = jitterRad !== 0
+	// cell's matrix and land in the wrong place. Either every cell goes through
+	// the transform or none does, and the single reset below closes the pass.
+	//
+	// Quarter turns count even when there is no tilt: the matcher may have chosen
+	// to lay a photo on its side because its shapes fit the cell better that way.
+	const rotates = jitterRad !== 0 || turnOf.some((turn) => turn !== 0)
 
 	for (let cellIndex = 0; cellIndex < cellCount; cellIndex++) {
 		const cellCol = cellIndex % grid.cols
@@ -149,7 +154,10 @@ export function* renderMosaic(
 		} else {
 			// eslint-disable-next-line no-bitwise -- mulberry32 seed mixing, per cell
 			const rng = mulberry32(options.seed ^ cellIndex)
-			const theta = (rng() * 2 - 1) * jitterRad
+			// The quarter turn the matcher picked, plus the decorative tilt. A
+			// quarter turn alone has coverFactor 1, so it costs no extra crop.
+			const theta =
+				(rng() * 2 - 1) * jitterRad + (turnOf[cellIndex] * Math.PI) / 2
 			const side = Math.ceil(grid.cellPx * coverFactor(theta)) + BLEED_PX
 			const cos = Math.cos(theta)
 			const sin = Math.sin(theta)

@@ -202,4 +202,22 @@ describe('shuffledOrder', () => {
 	test('handles n = 1', () => {
 		expect(Array.from(shuffledOrder(1, 1))).toEqual([0])
 	})
+
+	test('caps cells even when cols bottoms out at MIN_COLUMNS', () => {
+		// A 1:2048 sliver: reducing cols alone reaches the floor while rows is
+		// still in the tens of thousands.
+		for (const ratio of [512, 1024, 2048, 8192]) {
+			const grid = deriveGrid(1, ratio, MAX_COLUMNS, 1200)
+			expect(grid.cols * grid.rows).toBeLessThanOrEqual(MAX_CELLS)
+			expect(grid.rows).toBeGreaterThanOrEqual(1)
+			expect(grid.width).toBe(grid.cols * grid.cellPx)
+			expect(grid.height).toBe(grid.rows * grid.cellPx)
+		}
+
+		// And the mirrored case, a very wide panorama.
+		for (const ratio of [512, 2048]) {
+			const grid = deriveGrid(ratio, 1, MAX_COLUMNS, 1200)
+			expect(grid.cols * grid.rows).toBeLessThanOrEqual(MAX_CELLS)
+		}
+	})
 })

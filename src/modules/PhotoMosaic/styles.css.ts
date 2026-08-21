@@ -35,7 +35,9 @@ export const panel = style({
 	gridTemplateColumns: '1fr',
 	'@media': {
 		'screen and (min-width: 768px)': {
-			gridTemplateColumns: '20rem 1fr',
+			// Preview first: it is the thing being made, and it is where the main
+			// image is chosen when there isn't one yet.
+			gridTemplateColumns: '1fr 20rem',
 			alignItems: 'start',
 		},
 	},
@@ -157,6 +159,7 @@ export const preview = style({
 })
 
 export const canvasFrame = style({
+	position: 'relative',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
@@ -171,8 +174,10 @@ export const canvasFrame = style({
 })
 
 export const canvas = style({
-	maxWidth: '100%',
-	maxHeight: '70vh',
+	// No maxHeight: the frame already carries the source's aspect ratio, and a
+	// viewport-relative cap there would fight it and letterbox the result.
+	width: '100%',
+	height: '100%',
 	objectFit: 'contain',
 	borderRadius: vars.borderRadius.medium,
 })
@@ -257,3 +262,131 @@ export const error = style({
 	color: vars.colors.primary,
 	fontWeight: vars.fontWeight.medium,
 })
+
+/**
+ * The chosen main image, sitting under the canvas until a mosaic replaces it.
+ *
+ * A layer rather than something drawn into the canvas: that canvas belongs to
+ * the worker once its control is transferred, so the main thread cannot paint
+ * on it at all.
+ */
+export const placeholder = style({
+	position: 'absolute',
+	inset: vars.space.medium,
+	width: 'auto',
+	height: 'auto',
+	maxWidth: `calc(100% - ${vars.space.xlarge})`,
+	margin: 'auto',
+	objectFit: 'contain',
+	opacity: 0.5,
+	borderRadius: vars.borderRadius.medium,
+	pointerEvents: 'none',
+})
+
+export const pickerButton = style([
+	press,
+	{
+		alignSelf: 'flex-start',
+		minHeight: vars.sizes.button,
+		display: 'inline-flex',
+		alignItems: 'center',
+		padding: `0 ${vars.space.large}`,
+		borderRadius: vars.borderRadius.full,
+		border: `1px solid ${vars.colors.border}`,
+		backgroundColor: vars.colors.background.content,
+		color: vars.colors.text.regular,
+		fontSize: vars.fontSize.small,
+		cursor: 'pointer',
+		selectors: {
+			'&:focus-within': {
+				outline: `2px solid ${vars.colors.primary}`,
+				outlineOffset: 2,
+			},
+		},
+	},
+])
+
+/**
+ * Covers the empty canvas and picks the main image.
+ *
+ * A label over the canvas rather than a separate control: with nothing rendered
+ * yet, that rectangle is the most obvious place to click, and the canvas itself
+ * cannot be a file input.
+ */
+export const emptyOverlay = style([
+	press,
+	{
+		position: 'absolute',
+		inset: 0,
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: vars.space.xlarge,
+		textAlign: 'center',
+		cursor: 'pointer',
+		borderRadius: vars.borderRadius.medium,
+		border: `1px dashed ${vars.colors.border}`,
+		color: vars.colors.text.secondary,
+		fontSize: vars.fontSize.small,
+		selectors: {
+			'&:hover': { backgroundColor: vars.colors.background.gray },
+			'&:focus-within': {
+				outline: `2px solid ${vars.colors.primary}`,
+				outlineOffset: 2,
+			},
+		},
+	},
+])
+
+export const pickerRow = style({
+	display: 'flex',
+	flexWrap: 'wrap',
+	gap: vars.space.medium,
+	justifyContent: 'center',
+	marginTop: vars.space.small,
+})
+
+/**
+ * The preview frame, promoted to fill the viewport.
+ *
+ * The canvas cannot move: its control belongs to the worker, and reparenting it
+ * in React would unmount the element and make the transfer unrepeatable. So the
+ * frame it already lives in becomes the lightbox instead.
+ */
+export const frameZoomed = style({
+	position: 'fixed',
+	inset: 0,
+	zIndex: 100,
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	padding: vars.space.xxlarge,
+	margin: 0,
+	border: 'none',
+	borderRadius: 0,
+	backgroundColor: 'rgba(0, 0, 0, 0.92)',
+	backdropFilter: 'blur(20px)',
+	WebkitBackdropFilter: 'blur(20px)',
+	overflow: 'auto',
+})
+
+export const zoomClose = style([
+	press,
+	{
+		position: 'fixed',
+		top: vars.space.xlarge,
+		right: vars.space.xlarge,
+		zIndex: 101,
+		minHeight: vars.sizes.button,
+		display: 'inline-flex',
+		alignItems: 'center',
+		padding: `0 ${vars.space.xlarge}`,
+		borderRadius: vars.borderRadius.full,
+		border: '1px solid rgba(255, 255, 255, 0.25)',
+		backgroundColor: 'rgba(255, 255, 255, 0.12)',
+		color: '#FFFFFF',
+		fontSize: vars.fontSize.small,
+		fontWeight: vars.fontWeight.medium,
+		cursor: 'pointer',
+	},
+])

@@ -1,18 +1,21 @@
 import type { RejectedFile } from '../protocol'
 
-import { writeSignature } from './color'
+import { rotateSignature, signatureDistanceSq, writeSignature } from './color'
 import {
 	ATLAS_PAGE_PX,
 	DECODE_CONCURRENCY,
+	DUPLICATE_DISTANCE_SQ,
 	DECODE_CONCURRENCY_FALLBACK,
 	HEADER_BYTES,
 	MAX_FILE_BYTES,
 	MAX_TILES,
+	ORIENTATIONS,
 	SIGNATURE_LENGTH,
 	SIGNATURE_SOURCE_PX,
 	TILE_PX,
 	TILES_PER_PAGE,
 	TILES_PER_ROW,
+	WEIGHT_C,
 } from './constants'
 import { readImageSize } from './image-size'
 
@@ -41,7 +44,7 @@ export type IngestSummary = {
 
 export type TileLibrary = {
 	readonly count: number
-	/** count * SIGNATURE_LENGTH OKLab values, for the matcher. */
+	/** count * ORIENTATIONS * SIGNATURE_LENGTH OKLab values, for the matcher. */
 	readonly signatures: Float32Array
 	slotOf: (index: number) => TileSlot
 	/**
@@ -200,9 +203,37 @@ function evenlySpacedIndices(total: number, take: number): Set<number> {
 export function createTileLibrary(resizeSupported: boolean): TileLibrary {
 	const pages: OffscreenCanvas[] = []
 	const pageContexts: OffscreenCanvasRenderingContext2D[] = []
-	const signatures = new Float32Array(MAX_TILES * SIGNATURE_LENGTH)
+	// Four turns per tile, precomputed: rotating a signature is a permutation,
+	// so this costs ~221KB and saves the matcher recomputing it per comparison.
+	const signatures = new Float32Array(
+		MAX_TILES * ORIENTATIONS * SIGNATURE_LENGTH,
+	)
 	const dedupeKeys = new Set<string>()
 	let count = 0
+
+	// Reused per file: the signature of the tile currently being considered,
+	// before it is known whether the library will keep it.
+	const candidate = new Float32Array(SIGNATURE_LENGTH)
+
+	/**
+	 * Whether some tile already in the library looks like this one.
+	 *
+	 * Only the upright signature is compared. A rotated copy of a photo is a
+	 * different picture to place, and the matcher can already use it as one.
+	 */
+	function isDuplicateOf(signature: Float32Array): boolean {
+		for (let index = 0; index < count; index++) {
+			const distance = signatureDistanceSq(
+				signature,
+				0,
+				signatures,
+				index * ORIENTATIONS * SIGNATURE_LENGTH,
+				WEIGHT_C,
+			)
+			if (distance < DUPLICATE_DISTANCE_SQ) return true
+		}
+		return false
+	}
 
 	const scratch = new OffscreenCanvas(SIGNATURE_SOURCE_PX, SIGNATURE_SOURCE_PX)
 	const scratchContext = getContext2d(scratch, { willReadFrequently: true })
@@ -256,15 +287,9 @@ export function createTileLibrary(resizeSupported: boolean): TileLibrary {
 			return { name: file.name, reason: 'duplicate' }
 		}
 
-		const index = count
-		count += 1
-		dedupeKeys.add(key)
-
-		const pageIndex = Math.floor(index / TILES_PER_PAGE)
-		ensurePage(pageIndex)
-		const slot = slotOf(index)
-		pageContexts[pageIndex].drawImage(tile, slot.sx, slot.sy)
-
+		// Signature first, slot second: a photo that turns out to be one the
+		// library already holds can then be dropped without leaving a hole in the
+		// atlas or a gap in the signature buffer.
 		scratchContext.clearRect(0, 0, SIGNATURE_SOURCE_PX, SIGNATURE_SOURCE_PX)
 		scratchContext.drawImage(
 			tile,
@@ -279,12 +304,36 @@ export function createTileLibrary(resizeSupported: boolean): TileLibrary {
 			SIGNATURE_SOURCE_PX,
 			SIGNATURE_SOURCE_PX,
 		)
-		writeSignature(
-			imageData.data,
-			SIGNATURE_SOURCE_PX,
-			signatures,
-			index * SIGNATURE_LENGTH,
-		)
+		writeSignature(imageData.data, SIGNATURE_SOURCE_PX, candidate, 0)
+
+		// Catches the same picture arriving under a different name, which the
+		// name/size/mtime key above cannot see.
+		if (isDuplicateOf(candidate)) {
+			tile.close()
+			dedupeKeys.add(key)
+			return { name: file.name, reason: 'duplicate' }
+		}
+
+		const index = count
+		count += 1
+		dedupeKeys.add(key)
+
+		const pageIndex = Math.floor(index / TILES_PER_PAGE)
+		ensurePage(pageIndex)
+		const slot = slotOf(index)
+		pageContexts[pageIndex].drawImage(tile, slot.sx, slot.sy)
+
+		const base = index * ORIENTATIONS * SIGNATURE_LENGTH
+		signatures.set(candidate, base)
+		for (let turn = 1; turn < ORIENTATIONS; turn++) {
+			rotateSignature(
+				signatures,
+				base,
+				turn,
+				signatures,
+				base + turn * SIGNATURE_LENGTH,
+			)
+		}
 
 		tile.close()
 		return null

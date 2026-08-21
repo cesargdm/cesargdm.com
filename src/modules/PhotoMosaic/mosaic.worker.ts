@@ -15,7 +15,9 @@ import {
 } from './engine/caps'
 import { writeSignature } from './engine/color'
 import {
+	ORIENTATIONS,
 	PROGRESS_INTERVAL_MS,
+	SLICE_BUDGET_MS,
 	SIGNATURE_LENGTH,
 	SIGNATURE_SOURCE_PX,
 	WEIGHT_C,
@@ -46,6 +48,7 @@ let previewCanvas: OffscreenCanvas | null = null
 let grid: GridSpec | null = null
 let samples: Uint8ClampedArray | null = null
 let assignment: Int32Array | null = null
+let turnOf: Uint8Array | null = null
 let exportCanvas: OffscreenCanvas | null = null
 let currentJobId = 0
 
@@ -209,12 +212,14 @@ async function handleMatch(
 		tileCount: library.count,
 		spread: message.options.spread,
 		weightC: message.options.blackAndWhite ? 0 : WEIGHT_C,
+		orientations: message.options.allowRotation ? ORIENTATIONS : 1,
 		seed: message.options.seed,
 	}
 
 	currentJobId = message.jobId
 	const iterator = assignTilesIterative(input)
 	let lastPost = 0
+	let sliceStart = performance.now()
 	let result = iterator.next()
 
 	while (!result.done) {
@@ -236,7 +241,12 @@ async function handleMatch(
 			lastPost = now
 		}
 
-		await yieldNow()
+		// Yield on elapsed time, not on a fixed count: that is what makes the
+		// cadence fit the device instead of a guess about it.
+		if (performance.now() - sliceStart >= SLICE_BUDGET_MS) {
+			await yieldNow()
+			sliceStart = performance.now()
+		}
 		result = iterator.next()
 	}
 
@@ -246,6 +256,7 @@ async function handleMatch(
 	}
 
 	assignment = result.value.assignment
+	turnOf = result.value.orientation
 	post({
 		type: 'matched',
 		jobId: message.jobId,
@@ -263,7 +274,7 @@ async function runRenderJob(
 			post({ type: 'failed', jobId, code: 'no-tiles' })
 			return
 		}
-		if (!grid || !samples || !assignment) {
+		if (!grid || !samples || !assignment || !turnOf) {
 			post({ type: 'failed', jobId, code: 'no-target' })
 			return
 		}
@@ -327,12 +338,14 @@ async function runRenderJob(
 			canvas,
 			library,
 			assignment,
+			turnOf,
 			renderGrid,
 			samples,
 			options,
 			renderCaps,
 		)
 		let lastPost = 0
+		let sliceStart = performance.now()
 		let result = iterator.next()
 
 		while (!result.done) {
@@ -354,7 +367,12 @@ async function runRenderJob(
 				lastPost = now
 			}
 
-			await yieldNow()
+			// Same adaptive cadence as the match loop: hand control back once this
+			// slice has used its time budget, whatever number of cells that took.
+			if (now - sliceStart >= SLICE_BUDGET_MS) {
+				await yieldNow()
+				sliceStart = performance.now()
+			}
 			result = iterator.next()
 		}
 
@@ -445,6 +463,7 @@ function handleDispose(): void {
 	grid = null
 	samples = null
 	assignment = null
+	turnOf = null
 	pendingRender = null
 	renderRunning = false
 }
@@ -492,6 +511,11 @@ async function handleMessage(message: ToWorker): Promise<void> {
 			}
 			case 'cancel': {
 				currentJobId += 1
+				// The queued render has to go too. Bumping the job id only stops the
+				// draw that is running; the one waiting behind it would start the
+				// moment that returned and report itself finished, so Cancel would
+				// visibly not stick.
+				pendingRender = null
 				return
 			}
 			case 'dispose': {

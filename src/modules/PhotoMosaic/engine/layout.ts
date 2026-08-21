@@ -52,6 +52,14 @@ export function deriveGrid(
 		}
 	}
 
+	// Past a certain aspect ratio, cols bottoms out at MIN_COLUMNS while rows is
+	// still enormous — a 1:2048 sliver gives 8 x 16384 even at the floor. Rows
+	// has to be capped too, or the ceiling this function documents is not
+	// actually enforced and the caller allocates a sampling canvas tens of
+	// thousands of pixels tall. The mosaic stops matching the source aspect
+	// exactly at that point, which is the lesser of the two evils.
+	rows = Math.max(1, Math.min(rows, Math.floor(MAX_CELLS / cols)))
+
 	const cellPx = Math.max(1, Math.floor(targetLongEdge / Math.max(cols, rows)))
 	const width = cols * cellPx
 	const height = rows * cellPx

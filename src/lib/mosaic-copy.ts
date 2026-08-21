@@ -14,22 +14,33 @@ export const MOSAIC_COPY = {
 		noscript:
 			'Your mosaic will appear here. This tool needs JavaScript, because it does all its work in your browser rather than on a server.',
 
-		mainImageHeading: 'Main image',
 		mainImageLabel: 'Choose the photo to recreate',
+		mainImageEmpty: 'Click here to choose the photo to recreate',
+		replaceMainImage: 'Replace main image',
+		viewFullSize: 'View full size',
+		closeFullSize: 'Close full size view',
+		fullSizeLabel: 'Mosaic at full size',
 		tilesHeading: 'Tile photos',
 		photosLabel: 'Choose the photos to build it from',
 		photosHint:
 			'The more photos you add, the better the result. Up to 512 are used.',
-		dropPrompt: 'Drag and drop photos here, or click to choose files',
+		dropPrompt: 'Drag photos or a whole folder here, or click to choose files',
+		photosPick: 'Choose files',
+		folderLabel: 'Choose a folder',
+		folderHint:
+			'Picks up every image in the folder and its subfolders. Non-images are skipped.',
 
 		gridDensityLabel: 'Grid density',
 		blackAndWhiteLabel: 'Black and white',
 		tintLabel: 'Tint strength',
 		tintHint:
 			"Blends the main image's colors into each tile, so the mosaic reads correctly from a distance.",
-		rotationLabel: 'Rotation',
-		rotationHint:
-			'Rotates each tile by a small random amount, so the grid looks less mechanical.',
+		orientationLabel: 'Rotate photos to fit',
+		orientationHint:
+			'Lets each photo turn in quarter turns, so one whose shapes run the other way can still match. Gives the matcher four times as much to choose from.',
+		tiltLabel: 'Tilt',
+		tiltHint:
+			'Tilts each tile by a small random amount, so the grid looks less mechanical.',
 		exportSizeLabel: 'Export size',
 		exportFormatLabel: 'Export format',
 		nativeDetail: 'Native detail (full resolution)',
@@ -49,7 +60,8 @@ export const MOSAIC_COPY = {
 		gridSummary: '{cols} columns × {rows} rows',
 		photoCountSummary: 'Built from {count} photos',
 
-		rejectedFiles: '{count} files could not be used',
+		rejectedFiles: 'Could not read {count} of the files.',
+		duplicatesSkipped: 'Skipped {count} already in the set.',
 		heicUnsupported:
 			'iPhone photos in HEIC format cannot be read in Chrome or Firefox. Export them as JPEG first, or open this page in Safari.',
 		tooMany:
@@ -78,22 +90,34 @@ export const MOSAIC_COPY = {
 		noscript:
 			'Tu mosaico aparecerá aquí. Esta herramienta necesita JavaScript, porque hace todo su trabajo en tu navegador y no en un servidor.',
 
-		mainImageHeading: 'Imagen principal',
 		mainImageLabel: 'Elige la foto que quieres recrear',
+		mainImageEmpty: 'Haz clic aquí para elegir la foto que quieres recrear',
+		replaceMainImage: 'Cambiar la imagen principal',
+		viewFullSize: 'Ver a tamaño completo',
+		closeFullSize: 'Cerrar la vista a tamaño completo',
+		fullSizeLabel: 'Mosaico a tamaño completo',
 		tilesHeading: 'Fotos para el mosaico',
 		photosLabel: 'Elige las fotos con las que se construirá',
 		photosHint:
 			'Cuantas más fotos agregues, mejor será el resultado. Se usan hasta 512.',
-		dropPrompt: 'Arrastra y suelta las fotos aquí, o haz clic para elegirlas',
+		dropPrompt:
+			'Arrastra fotos o una carpeta entera aquí, o haz clic para elegirlas',
+		photosPick: 'Elegir archivos',
+		folderLabel: 'Elegir una carpeta',
+		folderHint:
+			'Toma todas las imágenes de la carpeta y sus subcarpetas. Lo que no sea imagen se omite.',
 
 		gridDensityLabel: 'Densidad de la cuadrícula',
 		blackAndWhiteLabel: 'Blanco y negro',
 		tintLabel: 'Intensidad del tinte',
 		tintHint:
 			'Mezcla los colores de la imagen principal en cada foto, para que el mosaico se lea bien desde lejos.',
-		rotationLabel: 'Rotación',
-		rotationHint:
-			'Gira cada foto una pequeña cantidad al azar, para que la cuadrícula se vea menos mecánica.',
+		orientationLabel: 'Girar fotos para que encajen',
+		orientationHint:
+			'Permite que cada foto gire en cuartos de vuelta, para que una con las formas al revés también pueda encajar. Le da al emparejador cuatro veces más opciones.',
+		tiltLabel: 'Inclinación',
+		tiltHint:
+			'Inclina cada foto una pequeña cantidad al azar, para que la cuadrícula se vea menos mecánica.',
 		exportSizeLabel: 'Tamaño de exportación',
 		exportFormatLabel: 'Formato de exportación',
 		nativeDetail: 'Detalle nativo (resolución completa)',
@@ -113,7 +137,8 @@ export const MOSAIC_COPY = {
 		gridSummary: '{cols} columnas × {rows} filas',
 		photoCountSummary: 'Hecho con {count} fotos',
 
-		rejectedFiles: '{count} archivos no se pudieron usar',
+		rejectedFiles: 'No se pudieron leer {count} de los archivos.',
+		duplicatesSkipped: 'Se omitieron {count} que ya estaban.',
 		heicUnsupported:
 			'Las fotos de iPhone en formato HEIC no se pueden leer en Chrome ni en Firefox. Expórtalas como JPEG, o abre esta página en Safari.',
 		tooMany: 'Usando {used} de tus {total} fotos, repartidas de forma pareja.',

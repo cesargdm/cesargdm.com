@@ -2,11 +2,10 @@
    which cannot be an <img>; role="img" plus a label is the only way to give the
    rendered mosaic an accessible name. */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions -- the drop
-   zone is a <label> wrapping a real <input type="file">, so it already has a
-   keyboard path (tab to the input, Space/Enter opens the picker). The rule
-   cannot see that, and the drag handlers on it are pure enhancement — removing
-   them would cost mouse users the drop target and gain nobody anything. */
-import { useId, useMemo, useState } from 'react'
+   zone carries drag handlers but is not itself a control; the buttons inside it
+   are, and they are what the keyboard uses. Dropping is enhancement on top, and
+   removing it would cost mouse users the drop target for nothing. */
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 
 import type { MosaicCopy } from '@/lib/mosaic-copy'
@@ -16,6 +15,7 @@ import {
 	MAX_ROTATION_DEGREES,
 	MIN_COLUMNS,
 } from './engine/constants'
+import { imageFilesFrom, imageFilesFromDrop } from './files'
 import type { MosaicPhase } from './protocol'
 import * as styles from './styles.css'
 import { useMosaicEngine } from './useMosaicEngine'
@@ -43,8 +43,7 @@ function looksLikeHeic(names: string[]): boolean {
 }
 
 export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
-	const mainId = useId()
-	const photosId = useId()
+	const orientationId = useId()
 	const densityId = useId()
 	const monoId = useId()
 	const tintId = useId()
@@ -52,10 +51,20 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 	const sizeId = useId()
 
 	const [dragging, setDragging] = useState(false)
+	const [zoomed, setZoomed] = useState(false)
+	const closeZoomRef = useRef<HTMLButtonElement | null>(null)
+	// The file inputs are opened through these rather than by a <label for>.
+	// A button that clicks the input is announced the same way and works the same
+	// from the keyboard, without depending on id wiring surviving a refactor.
+	const mainInputRef = useRef<HTMLInputElement | null>(null)
+	const photosInputRef = useRef<HTMLInputElement | null>(null)
+	const folderInputRef = useRef<HTMLInputElement | null>(null)
+	const zoomTriggerRef = useRef<HTMLButtonElement | null>(null)
 	const [sizeIndex, setSizeIndex] = useState(1)
 
 	const {
 		state,
+		canvasKey,
 		exportOptions,
 		isBusy,
 		canGenerate,
@@ -80,6 +89,33 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 		return `${phaseLabel(copy, state.phase)} ${format(copy.progressAnnouncement, { percent: step })}`
 	}, [copy, state.phase, state.progress])
 
+	// Escape closes it, as any dialog should. Bound only while open so the
+	// handler is not sitting on the document for the life of the page.
+	useEffect(() => {
+		if (!zoomed) {
+			// Focus goes back where it came from, or it would be left on an element
+			// that is no longer on screen.
+			zoomTriggerRef.current?.focus()
+			return
+		}
+
+		// Moving focus into the dialog is the point of opening one; `autoFocus`
+		// would do it too, but only on first mount and the a11y rule flags it.
+		closeZoomRef.current?.focus()
+
+		function onKeyDown(event: KeyboardEvent) {
+			if (event.key === 'Escape') setZoomed(false)
+		}
+
+		document.addEventListener('keydown', onKeyDown)
+		return () => document.removeEventListener('keydown', onKeyDown)
+	}, [zoomed])
+
+	// A finished mosaic is the only thing worth enlarging.
+	useEffect(() => {
+		if (state.job !== 'done') setZoomed(false)
+	}, [state.job])
+
 	const canvasLabel = useMemo(() => {
 		if (!grid || state.job !== 'done') return copy.empty
 		return `${format(copy.gridSummary, { cols: grid.cols, rows: grid.rows })} — ${format(copy.photoCountSummary, { count: state.tileCount })}`
@@ -100,17 +136,27 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 
 	function handlePhotos(event: ChangeEvent<HTMLInputElement>) {
 		const files = event.target.files
-		if (files) addPhotos([...files])
+		// A folder pick hands back every file in it — .DS_Store, sidecars, videos
+		// — so the non-images are dropped before they reach the decoder.
+		if (files) addPhotos(imageFilesFrom(files))
 	}
 
-	function handleDrop(event: DragEvent<HTMLLabelElement>) {
+	function handleDrop(event: DragEvent<HTMLDivElement>) {
 		event.preventDefault()
 		setDragging(false)
-		const files = [...event.dataTransfer.files].filter((file) =>
-			file.type.startsWith('image/'),
-		)
-		if (files.length > 0) addPhotos(files)
+		// Walks into dropped folders; a folder arrives as one unusable File
+		// otherwise.
+		void imageFilesFromDrop(event.dataTransfer).then((files) => {
+			if (files.length > 0) addPhotos(files)
+		})
 	}
+
+	// A photo already in the set is not a failure, and saying it "could not be
+	// used" reads as something having gone wrong.
+	const duplicateCount = rejected.filter(
+		(file) => file.reason === 'duplicate',
+	).length
+	const unreadableCount = rejected.length - duplicateCount
 
 	const selected = exportOptions[sizeIndex] ?? exportOptions[0]
 
@@ -119,34 +165,16 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 			<div className={styles.panel}>
 				<div className={styles.controls}>
 					<div className={styles.group}>
-						<h2 className={styles.groupHeading}>{copy.mainImageHeading}</h2>
-						<label className={styles.label} htmlFor={mainId}>
-							{copy.mainImageLabel}
-						</label>
-						<input
-							accept="image/*"
-							className={styles.fileInput}
-							id={mainId}
-							onChange={handleMain}
-							type="file"
-						/>
-					</div>
-
-					<div className={styles.group}>
 						<h2 className={styles.groupHeading}>{copy.tilesHeading}</h2>
-						{/* The whole zone is the label, so clicking anywhere in it opens
-						    the picker — the prompt text says "click to choose files", and
-						    a click that lands on that text has to actually do it. The
-						    input inside is a real focusable control, which is what gives
-						    the keyboard path without a role or a key handler; the drag
-						    handlers are pure enhancement on top. */}
-						<label
+						{/* A plain div. It was a <label> once, but it now contains the two
+						    picker buttons, and a label wrapping controls double-fires every
+						    click through them — that opened a file dialog per level. */}
+						<div
 							className={
 								dragging
 									? `${styles.dropZone} ${styles.dropZoneActive}`
 									: styles.dropZone
 							}
-							htmlFor={photosId}
 							onDragLeave={() => setDragging(false)}
 							onDragOver={(event) => {
 								event.preventDefault()
@@ -156,15 +184,54 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						>
 							<span className={styles.label}>{copy.photosLabel}</span>
 							<span>{copy.dropPrompt}</span>
+							{/* Two buttons rather than one, because `webkitdirectory` is a
+							    mode on the input: the OS picker offers files or folders,
+							    never both. A drop handles either in one gesture, which is
+							    why the zone around them takes both. */}
+							<span className={styles.pickerRow}>
+								<button
+									className={styles.pickerButton}
+									onClick={() => photosInputRef.current?.click()}
+									type="button"
+								>
+									{copy.photosPick}
+								</button>
+								<button
+									className={styles.pickerButton}
+									onClick={() => folderInputRef.current?.click()}
+									type="button"
+								>
+									{copy.folderLabel}
+								</button>
+							</span>
+							{/* aria-hidden and out of the tab order: the buttons above are
+							    the control, as far as anyone using this is concerned. */}
 							<input
 								accept="image/*"
+								aria-hidden
 								className={styles.visuallyHidden}
-								id={photosId}
 								multiple
 								onChange={handlePhotos}
+								ref={photosInputRef}
+								tabIndex={-1}
 								type="file"
 							/>
-						</label>
+							<input
+								aria-hidden
+								className={styles.visuallyHidden}
+								multiple
+								onChange={handlePhotos}
+								ref={(element) => {
+									folderInputRef.current = element
+									// Assigned as a property, not a JSX attribute:
+									// `webkitdirectory` is non-standard, so React would pass it
+									// through as a string and TypeScript has no prop for it.
+									if (element) element.webkitdirectory = true
+								}}
+								tabIndex={-1}
+								type="file"
+							/>
+						</div>
 						<p className={styles.hint}>{copy.photosHint}</p>
 						{state.tileCount > 0 ? (
 							<p className={styles.notice}>
@@ -179,9 +246,14 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 								})}
 							</p>
 						) : null}
-						{rejected.length > 0 ? (
+						{duplicateCount > 0 ? (
 							<p className={styles.notice}>
-								{format(copy.rejectedFiles, { count: rejected.length })}
+								{format(copy.duplicatesSkipped, { count: duplicateCount })}
+							</p>
+						) : null}
+						{unreadableCount > 0 ? (
+							<p className={styles.notice}>
+								{format(copy.rejectedFiles, { count: unreadableCount })}
 							</p>
 						) : null}
 						{looksLikeHeic(rejected.map((file) => file.name)) ? (
@@ -254,8 +326,26 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 					</div>
 
 					<div className={styles.group}>
+						<div className={styles.checkboxRow}>
+							<input
+								checked={settings.allowRotation}
+								className={styles.checkbox}
+								id={orientationId}
+								onChange={(event) =>
+									updateSettings({ allowRotation: event.target.checked }, true)
+								}
+								type="checkbox"
+							/>
+							<label className={styles.label} htmlFor={orientationId}>
+								{copy.orientationLabel}
+							</label>
+						</div>
+						<p className={styles.hint}>{copy.orientationHint}</p>
+					</div>
+
+					<div className={styles.group}>
 						<label className={styles.label} htmlFor={rotationId}>
-							{copy.rotationLabel}
+							{copy.tiltLabel}
 						</label>
 						<input
 							className={styles.slider}
@@ -263,13 +353,13 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							max={MAX_ROTATION_DEGREES}
 							min={0}
 							onChange={(event) =>
-								updateSettings({ rotation: Number(event.target.value) }, false)
+								updateSettings({ tilt: Number(event.target.value) }, false)
 							}
 							type="range"
-							value={settings.rotation}
+							value={settings.tilt}
 						/>
-						<span className={styles.value}>{settings.rotation}°</span>
-						<p className={styles.hint}>{copy.rotationHint}</p>
+						<span className={styles.value}>{settings.tilt}°</span>
+						<p className={styles.hint}>{copy.tiltHint}</p>
 					</div>
 
 					<div className={styles.group}>
@@ -300,18 +390,89 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 				</div>
 
 				<div className={styles.preview}>
-					<div className={styles.canvasFrame}>
-						{state.job === 'idle' && !state.sourceReady ? (
-							<span>{copy.empty}</span>
+					{/* The frame takes the source's aspect ratio as soon as one is
+					    chosen, so the placeholder and the finished mosaic occupy exactly
+					    the same box and nothing reshapes on Generate. */}
+					<div
+						aria-label={zoomed ? copy.fullSizeLabel : undefined}
+						aria-modal={zoomed ? true : undefined}
+						className={zoomed ? styles.frameZoomed : styles.canvasFrame}
+						role={zoomed ? 'dialog' : undefined}
+						style={
+							!zoomed && state.sourceWidth > 0
+								? {
+										aspectRatio: `${state.sourceWidth} / ${state.sourceHeight}`,
+										minHeight: 0,
+									}
+								: undefined
+						}
+					>
+						{zoomed ? (
+							<button
+								className={styles.zoomClose}
+								ref={closeZoomRef}
+								onClick={() => setZoomed(false)}
+								type="button"
+							>
+								{copy.closeFullSize}
+							</button>
 						) : null}
+						{state.sourcePreview && state.job !== 'done' ? (
+							<img
+								alt=""
+								className={styles.placeholder}
+								src={state.sourcePreview}
+							/>
+						) : null}
+						{state.sourceReady ? null : (
+							<button
+								className={styles.emptyOverlay}
+								onClick={() => mainInputRef.current?.click()}
+								type="button"
+							>
+								{copy.mainImageEmpty}
+							</button>
+						)}
 						<canvas
 							aria-busy={isBusy}
 							aria-label={canvasLabel}
 							className={styles.canvas}
+							key={canvasKey}
 							ref={attachCanvas}
 							role="img"
 						/>
 					</div>
+
+					<input
+						accept="image/*"
+						aria-hidden
+						className={styles.visuallyHidden}
+						onChange={handleMain}
+						ref={mainInputRef}
+						tabIndex={-1}
+						type="file"
+					/>
+					<span className={styles.pickerRow}>
+						{state.sourceReady ? (
+							<button
+								className={styles.pickerButton}
+								onClick={() => mainInputRef.current?.click()}
+								type="button"
+							>
+								{copy.replaceMainImage}
+							</button>
+						) : null}
+						{state.job === 'done' ? (
+							<button
+								className={styles.pickerButton}
+								onClick={() => setZoomed(true)}
+								ref={zoomTriggerRef}
+								type="button"
+							>
+								{copy.viewFullSize}
+							</button>
+						) : null}
+					</span>
 
 					<progress
 						aria-label={state.phase ? phaseLabel(copy, state.phase) : undefined}
@@ -332,34 +493,43 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						</p>
 					) : null}
 
+					{/* One action at a time. Every control re-runs the pipeline on its
+					    own now, so Generate is only ever the first step; once there is a
+					    mosaic the only thing left to do with it is take it away. */}
 					<div className={styles.actions}>
-						<button
-							className={styles.button}
-							disabled={!isBusy && !canGenerate}
-							onClick={isBusy ? cancel : generate}
-							type="button"
-						>
-							{isBusy ? copy.cancel : copy.generate}
-						</button>
-
-						{state.downloadUrl && canExport ? (
-							<a
-								className={styles.downloadLink}
-								download={state.downloadName ?? 'mosaic.png'}
-								href={state.downloadUrl}
-							>
-								{copy.download}
-							</a>
+						{isBusy ? (
+							<button className={styles.button} onClick={cancel} type="button">
+								{copy.cancel}
+							</button>
+						) : canExport ? (
+							state.downloadUrl ? (
+								<a
+									className={styles.downloadLink}
+									download={state.downloadName ?? 'mosaic.png'}
+									href={state.downloadUrl}
+								>
+									{copy.download}
+								</a>
+							) : (
+								<button
+									className={styles.button}
+									disabled={!selected?.available}
+									onClick={() => {
+										if (selected) exportAt(selected)
+									}}
+									type="button"
+								>
+									{copy.download}
+								</button>
+							)
 						) : (
 							<button
 								className={styles.button}
-								disabled={!canExport || !selected?.available}
-								onClick={() => {
-									if (selected) exportAt(selected)
-								}}
+								disabled={!canGenerate}
+								onClick={generate}
 								type="button"
 							>
-								{copy.download}
+								{copy.generate}
 							</button>
 						)}
 					</div>

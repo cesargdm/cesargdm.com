@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useReducer,
+	useRef,
+	useState,
+} from 'react'
 
 import {
 	ANALYSIS_MAX_PX,
@@ -44,7 +51,10 @@ export type ExportOption = {
 export type Settings = {
 	columns: number
 	tint: number
-	rotation: number
+	/** Decorative tilt, in degrees. */
+	tilt: number
+	/** Whether the matcher may turn photos in quarter turns to fit. */
+	allowRotation: boolean
 	blackAndWhite: boolean
 }
 
@@ -54,6 +64,8 @@ type State = {
 	/** Analysis-canvas dimensions, so export sizes derive without touching a ref. */
 	sourceWidth: number
 	sourceHeight: number
+	/** Object URL of the chosen main image, shown under the canvas as a guide. */
+	sourcePreview: string | null
 	tileCount: number
 	/** Files offered in the most recent batch, before the MAX_TILES subsample. */
 	considered: number
@@ -77,7 +89,13 @@ type State = {
 type Action =
 	| { type: 'unsupported' }
 	| { type: 'supported' }
-	| { type: 'source'; grid: Grid; width: number; height: number }
+	| {
+			type: 'source'
+			grid: Grid
+			width: number
+			height: number
+			preview: string
+	  }
 	| { type: 'ingest-start' }
 	| {
 			type: 'tiles'
@@ -91,7 +109,7 @@ type Action =
 	| { type: 'progress'; phase: MosaicPhase; progress: number }
 	| { type: 'rendered' }
 	| { type: 'encoded'; url: string; name: string }
-	| { type: 'error'; code: MosaicErrorCode }
+	| { type: 'error'; code: MosaicErrorCode; keepPreview: boolean }
 	| { type: 'limits'; maxArea: number }
 	| { type: 'export-cleared' }
 	| { type: 'settings'; patch: Partial<Settings>; invalidatesMatch: boolean }
@@ -101,6 +119,7 @@ const INITIAL: State = {
 	sourceReady: false,
 	sourceWidth: 0,
 	sourceHeight: 0,
+	sourcePreview: null,
 	tileCount: 0,
 	considered: 0,
 	added: 0,
@@ -119,7 +138,8 @@ const INITIAL: State = {
 	settings: {
 		columns: DEFAULT_COLUMNS,
 		tint: DEFAULT_TINT,
-		rotation: DEFAULT_ROTATION_DEGREES,
+		tilt: DEFAULT_ROTATION_DEGREES,
+		allowRotation: true,
 		blackAndWhite: false,
 	},
 }
@@ -138,6 +158,7 @@ function reducer(state: State, action: Action): State {
 				sourceReady: true,
 				sourceWidth: action.width,
 				sourceHeight: action.height,
+				sourcePreview: action.preview,
 				grid: action.grid,
 				error: null,
 				matchDirty: true,
@@ -199,7 +220,16 @@ function reducer(state: State, action: Action): State {
 			}
 		}
 		case 'error': {
-			return { ...state, job: 'idle', phase: null, error: action.code }
+			// A failed export must not throw away a preview that is still valid.
+			// The message tells the user to pick a smaller size, and dropping to
+			// 'idle' would disable Download and make following that instruction
+			// impossible without regenerating the whole mosaic first.
+			return {
+				...state,
+				job: action.keepPreview ? 'done' : 'idle',
+				phase: null,
+				error: action.code,
+			}
 		}
 		case 'limits': {
 			return { ...state, maxArea: action.maxArea }
@@ -264,19 +294,26 @@ function downscaleStepwise(
 
 export function useMosaicEngine() {
 	const [state, dispatch] = useReducer(reducer, INITIAL)
+	// Bumped to remount the preview canvas when a rebuilt worker needs a fresh one.
+	const [canvasKey, setCanvasKey] = useState(0)
 
 	const workerRef = useRef<Worker | null>(null)
 	const jobIdRef = useRef(0)
 	const seedRef = useRef(1)
 	const analysisRef = useRef<HTMLCanvasElement | null>(null)
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)
-	const transferredRef = useRef(false)
+	/** The element whose control was handed over; a canvas allows that once, ever. */
+	const transferredElementRef = useRef<HTMLCanvasElement | null>(null)
 	const urlRef = useRef<string | null>(null)
 	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const pendingExportRef = useRef<string | null>(null)
 	const settingsRef = useRef(state.settings)
 	const gridRef = useRef<Grid | null>(null)
 	const tileCountRef = useRef(0)
+	const matchDirtyRef = useRef(true)
+	const jobRef = useRef<State['job']>('idle')
+	const sourceTokenRef = useRef(0)
+	const sourceUrlRef = useRef<string | null>(null)
 
 	// Mirrored into refs rather than read from state inside the worker callbacks,
 	// which close over the render they were created in. Updated in an effect, not
@@ -284,7 +321,9 @@ export function useMosaicEngine() {
 	useEffect(() => {
 		settingsRef.current = state.settings
 		gridRef.current = state.grid
-	}, [state.settings, state.grid])
+		matchDirtyRef.current = state.matchDirty
+		jobRef.current = state.job
+	}, [state.settings, state.grid, state.matchDirty, state.job])
 
 	const post = useCallback((message: ToWorker, transfer?: Transferable[]) => {
 		workerRef.current?.postMessage(message, transfer ?? [])
@@ -302,19 +341,27 @@ export function useMosaicEngine() {
 	 *
 	 * Called from both the ref callback and the `ready` handler because the order
 	 * is not fixed: React attaches refs during commit, before effects run, so on
-	 * mount there is no worker yet — and the effect that creates one runs after
-	 * the canvas already exists. Whichever happens second is the one that
-	 * actually transfers.
+	 * mount there is no worker yet — and the effect that creates one runs after the
+	 * canvas already exists. Whichever happens second does the transfer.
 	 */
 	const tryAttachCanvas = useCallback(() => {
 		const element = canvasRef.current
 		const worker = workerRef.current
-		if (!element || !worker || transferredRef.current) return
+		if (!element || !worker) return
 
-		// A second transfer of the same element throws InvalidStateError, which a
-		// StrictMode or HMR remount would otherwise trigger.
+		if (transferredElementRef.current === element) {
+			// `transferControlToOffscreen` may be called once per element for that
+			// element's whole lifetime — a second call throws InvalidStateError, and
+			// no flag reset can undo it. So when the worker is rebuilt (StrictMode's
+			// double invoke, an HMR update) the old canvas cannot be handed to the new
+			// one; React has to give us a new element first. Bumping the key remounts
+			// it, and the fresh element arrives back here through the ref callback.
+			setCanvasKey((key) => key + 1)
+			return
+		}
+
 		const offscreen = element.transferControlToOffscreen()
-		transferredRef.current = true
+		transferredElementRef.current = element
 		worker.postMessage(
 			{ type: 'attach-preview', canvas: offscreen } satisfies ToWorker,
 			[offscreen],
@@ -405,7 +452,7 @@ export function useMosaicEngine() {
 							height: PREVIEW_MAX_PX,
 						},
 						options: {
-							jitterDeg: settingsRef.current.rotation,
+							jitterDeg: settingsRef.current.tilt,
 							tint: settingsRef.current.tint,
 							blackAndWhite: settingsRef.current.blackAndWhite,
 							seed: seedRef.current,
@@ -416,6 +463,10 @@ export function useMosaicEngine() {
 				case 'rendered': {
 					if (message.kind === 'export' && pendingExportRef.current) {
 						dispatch({ type: 'job', job: 'encoding' })
+						// convertToBlob gives no incremental progress, but leaving the
+						// phase on 'draw' at 100% makes a multi-second encode of a large
+						// export look like a hang.
+						dispatch({ type: 'progress', phase: 'encode', progress: 0 })
 						post({
 							type: 'encode',
 							jobId: jobIdRef.current,
@@ -428,21 +479,41 @@ export function useMosaicEngine() {
 					return
 				}
 				case 'encoded': {
+					// A settings change during encoding already cleared the export and
+					// started a new job. Accepting this would resurrect a link to a blob
+					// encoded from the settings the user just moved away from.
+					if (message.jobId !== jobIdRef.current) return
 					revokeUrl()
 					const url = URL.createObjectURL(message.blob)
 					urlRef.current = url
 					// Browsers silently fall back to PNG for a type they cannot
 					// encode, so the extension has to come from what came back.
 					const extension = message.blob.type === MIME_JPEG ? 'jpg' : 'png'
-					dispatch({
-						type: 'encoded',
-						url,
-						name: `mosaic-${message.width}x${message.height}.${extension}`,
-					})
+					const name = `mosaic-${message.width}x${message.height}.${extension}`
+
+					// Save it now rather than swapping the button for a link and waiting
+					// for a second click: the click that started this WAS the request to
+					// download, and encoding a large export takes long enough that being
+					// asked to ask again reads as the first click having failed.
+					const link = document.createElement('a')
+					link.href = url
+					link.download = name
+					link.rel = 'noopener'
+					link.click()
+
+					dispatch({ type: 'encoded', url, name })
 					return
 				}
 				case 'failed': {
-					dispatch({ type: 'error', code: message.code })
+					// An export that fails leaves the previewed mosaic intact, so the
+					// user can just choose a smaller size and try again.
+					const wasExport = pendingExportRef.current !== null
+					pendingExportRef.current = null
+					dispatch({
+						type: 'error',
+						code: message.code,
+						keepPreview: wasExport && jobRef.current !== 'idle',
+					})
 					return
 				}
 				default: {
@@ -459,12 +530,13 @@ export function useMosaicEngine() {
 		function teardown() {
 			if (debounceRef.current) clearTimeout(debounceRef.current)
 			revokeUrl()
+			if (sourceUrlRef.current) {
+				URL.revokeObjectURL(sourceUrlRef.current)
+				sourceUrlRef.current = null
+			}
 			workerRef.current?.postMessage({ type: 'dispose' } satisfies ToWorker)
 			workerRef.current?.terminate()
 			workerRef.current = null
-			// Without this a re-run of this effect builds a new worker that never
-			// receives a canvas, because the flag still says one was handed over.
-			transferredRef.current = false
 		}
 
 		/**
@@ -529,6 +601,13 @@ export function useMosaicEngine() {
 	)
 
 	const setMainImage = useCallback(async (file: File) => {
+		// Two picks in quick succession decode concurrently, and a slow first one
+		// would otherwise overwrite the newer image after it already looked ready.
+		sourceTokenRef.current += 1
+		const token = sourceTokenRef.current
+		// Not revoked in `finally` like a throwaway: this URL stays alive as the
+		// placeholder shown under the canvas, so it is released on replacement
+		// and on teardown instead.
 		const url = URL.createObjectURL(file)
 		try {
 			const image = new Image()
@@ -537,6 +616,8 @@ export function useMosaicEngine() {
 			// engine; createImageBitmap does not on Safari <= 16.6, and a
 			// sideways source would rotate the entire mosaic.
 			await image.decode()
+
+			if (token !== sourceTokenRef.current) return
 
 			analysisRef.current = downscaleStepwise(
 				image,
@@ -552,16 +633,19 @@ export function useMosaicEngine() {
 				settingsRef.current.columns,
 				PREVIEW_MAX_PX,
 			)
+			if (sourceUrlRef.current) URL.revokeObjectURL(sourceUrlRef.current)
+			sourceUrlRef.current = url
+
 			dispatch({
 				type: 'source',
 				grid,
 				width: analysis.width,
 				height: analysis.height,
+				preview: url,
 			})
 		} catch {
-			dispatch({ type: 'error', code: 'decode' })
-		} finally {
 			URL.revokeObjectURL(url)
+			dispatch({ type: 'error', code: 'decode', keepPreview: false })
 		}
 	}, [])
 
@@ -589,6 +673,7 @@ export function useMosaicEngine() {
 			options: {
 				spread: 1.5,
 				blackAndWhite: settingsRef.current.blackAndWhite,
+				allowRotation: settingsRef.current.allowRotation,
 				seed: seedRef.current,
 			},
 		})
@@ -606,7 +691,7 @@ export function useMosaicEngine() {
 				height: PREVIEW_MAX_PX,
 			},
 			options: {
-				jitterDeg: settingsRef.current.rotation,
+				jitterDeg: settingsRef.current.tilt,
 				tint: settingsRef.current.tint,
 				blackAndWhite: settingsRef.current.blackAndWhite,
 				seed: seedRef.current,
@@ -657,7 +742,11 @@ export function useMosaicEngine() {
 			if (debounceRef.current) clearTimeout(debounceRef.current)
 			debounceRef.current = setTimeout(() => {
 				if (!gridRef.current) return
-				if (invalidatesMatch) generate()
+				// `invalidatesMatch` describes only this change. If the assignment was
+				// already stale — a new main image, more tiles — a plain redraw would
+				// paint the old assignment and then clear the dirty flags, quietly
+				// making that stale mosaic exportable.
+				if (invalidatesMatch || matchDirtyRef.current) generate()
 				else rerender()
 			}, RENDER_DEBOUNCE_MS)
 		},
@@ -724,7 +813,7 @@ export function useMosaicEngine() {
 					height: option.height,
 				},
 				options: {
-					jitterDeg: settingsRef.current.rotation,
+					jitterDeg: settingsRef.current.tilt,
 					tint: settingsRef.current.tint,
 					blackAndWhite: settingsRef.current.blackAndWhite,
 					seed: seedRef.current,
@@ -740,13 +829,18 @@ export function useMosaicEngine() {
 		dispatch({ type: 'job', job: 'idle' })
 	}, [post])
 
+	// Ingestion counts: the library is still being mutated, so matching now would
+	// use whatever subset had decoded, and an in-flight ingest finishing first
+	// would clear the dirty flags and present that partial result as current.
 	const isBusy =
+		state.ingesting ||
 		state.job === 'matching' ||
 		state.job === 'drawing' ||
 		state.job === 'encoding'
 
 	return {
 		state,
+		canvasKey,
 		exportOptions,
 		isBusy,
 		canGenerate: state.sourceReady && state.tileCount > 0 && !isBusy,

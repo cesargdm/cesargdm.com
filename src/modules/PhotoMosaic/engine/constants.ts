@@ -42,9 +42,31 @@ export const SIGNATURE_LENGTH = SIGNATURE_CELLS * CHANNELS_PER_SAMPLE
 /** Pixels per signature axis before block-averaging: 12 = 3 blocks of 4. */
 export const SIGNATURE_SOURCE_PX = 12
 
+/**
+ * Quarter turns a tile may be placed at when orientation matching is on.
+ *
+ * Rotating a signature is an index permutation, so this multiplies the effective
+ * library by four without decoding anything again — a photo whose shapes run the
+ * wrong way for a cell can still match it turned.
+ */
+export const ORIENTATIONS = 4
+
 /** Luminance carries recognisability; chroma is secondary. */
 export const WEIGHT_L = 2
 export const WEIGHT_C = 1
+
+/**
+ * Below this weighted squared OKLab distance, two tiles are treated as the same
+ * photo and the second is dropped.
+ *
+ * Filename plus size plus mtime catches the same file offered twice; this
+ * catches the same picture arriving under another name — a re-export, a copy in
+ * a second folder, a re-download. Deliberately tiny: a just-noticeable
+ * difference in OKLab lightness is around 0.01, so squaring puts a visible
+ * difference near 1e-4 and this sits well under it. Two genuinely different
+ * photos that happen to be flat and similar are kept.
+ */
+export const DUPLICATE_DISTANCE_SQ = 5e-5
 
 /** Squared OKLab distance added per prior use of a tile. */
 export const REUSE_PENALTY = 0.0008
@@ -86,9 +108,30 @@ export const NEUTRAL_GREY = '#808080'
 /** Longest edge retained when analysing the source image. */
 export const ANALYSIS_MAX_PX = 2048
 
-/** Cooperative yield cadence, so `cancel` can actually be delivered mid-run. */
-export const MATCH_YIELD_INTERVAL = 512
-export const DRAW_YIELD_INTERVAL = 256
+/**
+ * How often the generators offer a yield point.
+ *
+ * Only a granularity, not a cadence: the worker decides which of these offers
+ * to act on, by elapsed time (see SLICE_BUDGET_MS). Resuming a generator costs
+ * nanoseconds, so offering often is cheap and gives the time check resolution.
+ *
+ * Measuring is the only option — no API reports a device's speed.
+ * `hardwareConcurrency` counts cores and `deviceMemory` is Chromium-only and
+ * about RAM, so neither predicts how fast this particular loop will run.
+ */
+export const MATCH_YIELD_INTERVAL = 64
+export const DRAW_YIELD_INTERVAL = 64
+
+/**
+ * Wall-clock budget for one slice of work between real yields.
+ *
+ * A little over one 60Hz frame: long enough that yield overhead stays
+ * negligible, short enough that a `cancel` is picked up promptly. The worker
+ * checks elapsed time rather than counting items, so the same code adapts
+ * itself — a slow phone hands control back after fewer cells than a desktop
+ * does, with nothing having to know which it is running on.
+ */
+export const SLICE_BUDGET_MS = 20
 
 /** Progress messages are throttled to this, plus a guaranteed final one. */
 export const PROGRESS_INTERVAL_MS = 100

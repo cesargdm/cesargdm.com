@@ -55,6 +55,14 @@ export type MatchOptions = {
 	/** Multiplier over the mean use count; > 1 guarantees the library cannot run dry. */
 	spread: number
 	blackAndWhite: boolean
+	/**
+	 * Let the matcher place a photo in quarter turns.
+	 *
+	 * Rotating a signature is an index permutation, so this gives it four times
+	 * as many candidates without decoding anything again — a photo whose shapes
+	 * run the wrong way for a cell can still fit it turned.
+	 */
+	allowRotation: boolean
 	seed: number
 }
 

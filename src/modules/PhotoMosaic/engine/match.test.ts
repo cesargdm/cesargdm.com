@@ -1,9 +1,10 @@
 import { describe, expect, test } from 'bun:test'
 
-import { srgbToOklab } from './color'
+import { rotateSignature, srgbToOklab } from './color'
 import {
 	CHANNELS_PER_SAMPLE,
 	SIGNATURE_CELLS,
+	ORIENTATIONS,
 	SIGNATURE_LENGTH,
 } from './constants'
 import { mulberry32 } from './layout'
@@ -30,11 +31,29 @@ function randomSignature(random: () => number): Float32Array {
 	return sig
 }
 
-function buildRandomSignatures(count: number, seed: number): Float32Array {
+/** Cell signatures: one per cell, no orientation stride. */
+function buildCellSignatures(count: number, seed: number): Float32Array {
 	const random = mulberry32(seed)
 	const out = new Float32Array(count * SIGNATURE_LENGTH)
 	for (let i = 0; i < count; i++) {
 		out.set(randomSignature(random), i * SIGNATURE_LENGTH)
+	}
+	return out
+}
+
+/**
+ * Tile signatures always carry ORIENTATIONS slots per tile, matching what the
+ * tile library produces; here every turn holds the same values, since these
+ * tests are not about rotation.
+ */
+function buildTileSignatures(count: number, seed: number): Float32Array {
+	const random = mulberry32(seed)
+	const out = new Float32Array(count * ORIENTATIONS * SIGNATURE_LENGTH)
+	for (let i = 0; i < count; i++) {
+		const sig = randomSignature(random)
+		for (let turn = 0; turn < ORIENTATIONS; turn++) {
+			out.set(sig, (i * ORIENTATIONS + turn) * SIGNATURE_LENGTH)
+		}
 	}
 	return out
 }
@@ -49,11 +68,18 @@ describe('assignTiles', () => {
 			srgbToOklab(0, 0, 255),
 		]
 		const cellSignatures = new Float32Array(colors.length * SIGNATURE_LENGTH)
-		const tileSignatures = new Float32Array(colors.length * SIGNATURE_LENGTH)
+		const tileSignatures = new Float32Array(
+			colors.length * ORIENTATIONS * SIGNATURE_LENGTH,
+		)
 		for (const [index, color] of colors.entries()) {
 			const sig = flatSignature(color.l, color.a, color.b)
 			cellSignatures.set(sig, index * SIGNATURE_LENGTH)
-			tileSignatures.set(sig, index * SIGNATURE_LENGTH)
+			for (let turn = 0; turn < ORIENTATIONS; turn++) {
+				tileSignatures.set(
+					sig,
+					(index * ORIENTATIONS + turn) * SIGNATURE_LENGTH,
+				)
+			}
 		}
 
 		const input: MatchInput = {
@@ -64,6 +90,7 @@ describe('assignTiles', () => {
 			tileCount: colors.length,
 			spread: 4,
 			weightC: 1,
+			orientations: 1,
 			seed: 1,
 		}
 
@@ -76,13 +103,14 @@ describe('assignTiles', () => {
 		const rows = 5
 		const tileCount = 6
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 11),
-			tileSignatures: buildRandomSignatures(tileCount, 22),
+			cellSignatures: buildCellSignatures(cols * rows, 11),
+			tileSignatures: buildTileSignatures(tileCount, 22),
 			cols,
 			rows,
 			tileCount,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 42,
 		}
 
@@ -99,13 +127,14 @@ describe('assignTiles', () => {
 		const rows = 4
 		const tileCount = 5
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 5),
-			tileSignatures: buildRandomSignatures(tileCount, 6),
+			cellSignatures: buildCellSignatures(cols * rows, 5),
+			tileSignatures: buildTileSignatures(tileCount, 6),
 			cols,
 			rows,
 			tileCount,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 99,
 		}
 
@@ -120,13 +149,14 @@ describe('assignTiles', () => {
 		const rows = 6
 		const tileCount = 10
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 3),
-			tileSignatures: buildRandomSignatures(tileCount, 4),
+			cellSignatures: buildCellSignatures(cols * rows, 3),
+			tileSignatures: buildTileSignatures(tileCount, 4),
 			cols,
 			rows,
 			tileCount,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 7,
 		}
 
@@ -143,13 +173,14 @@ describe('assignTiles', () => {
 		const rows = 30
 		const tileCount = 15
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 111),
-			tileSignatures: buildRandomSignatures(tileCount, 222),
+			cellSignatures: buildCellSignatures(cols * rows, 111),
+			tileSignatures: buildTileSignatures(tileCount, 222),
 			cols,
 			rows,
 			tileCount,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 333,
 		}
 
@@ -174,13 +205,14 @@ describe('assignTiles', () => {
 		const cols = 10
 		const rows = 10
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 8),
-			tileSignatures: buildRandomSignatures(1, 9),
+			cellSignatures: buildCellSignatures(cols * rows, 8),
+			tileSignatures: buildTileSignatures(1, 9),
 			cols,
 			rows,
 			tileCount: 1,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 1,
 		}
 
@@ -195,13 +227,14 @@ describe('assignTiles', () => {
 		const rows = 20
 		const tileCount = 50
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 17),
-			tileSignatures: buildRandomSignatures(tileCount, 18),
+			cellSignatures: buildCellSignatures(cols * rows, 17),
+			tileSignatures: buildTileSignatures(tileCount, 18),
 			cols,
 			rows,
 			tileCount,
 			spread: 0.1,
 			weightC: 1,
+			orientations: 1,
 			seed: 19,
 		}
 
@@ -218,18 +251,84 @@ describe('assignTiles', () => {
 		const rows = 12
 		const tileCount = 20
 		const input: MatchInput = {
-			cellSignatures: buildRandomSignatures(cols * rows, 55),
-			tileSignatures: buildRandomSignatures(tileCount, 56),
+			cellSignatures: buildCellSignatures(cols * rows, 55),
+			tileSignatures: buildTileSignatures(tileCount, 56),
 			cols,
 			rows,
 			tileCount,
 			spread: 1.5,
 			weightC: 1,
+			orientations: 1,
 			seed: 57,
 		}
 
 		const result = assignTiles(input)
 		expect(result.distinctTiles).toBeGreaterThanOrEqual(1)
 		expect(result.distinctTiles).toBeLessThanOrEqual(tileCount)
+	})
+
+	test('a tile only matching when turned is chosen, and turned', () => {
+		// One tile whose signature is asymmetric, and one cell wanting it rotated a
+		// quarter turn. With orientations: 1 the matcher cannot reach it.
+		const upright = new Float32Array(SIGNATURE_LENGTH)
+		for (let sample = 0; sample < SIGNATURE_CELLS; sample++) {
+			// A gradient across the samples, so a rotation is distinguishable.
+			const value = sample / SIGNATURE_CELLS
+			upright[sample * CHANNELS_PER_SAMPLE] = value
+			upright[sample * CHANNELS_PER_SAMPLE + 1] = 0
+			upright[sample * CHANNELS_PER_SAMPLE + 2] = 0
+		}
+
+		const turned = new Float32Array(SIGNATURE_LENGTH)
+		rotateSignature(upright, 0, 1, turned, 0)
+
+		const tileSignatures = new Float32Array(ORIENTATIONS * SIGNATURE_LENGTH)
+		for (let turn = 0; turn < ORIENTATIONS; turn++) {
+			const slot = new Float32Array(SIGNATURE_LENGTH)
+			rotateSignature(upright, 0, turn, slot, 0)
+			tileSignatures.set(slot, turn * SIGNATURE_LENGTH)
+		}
+
+		const base = {
+			cellSignatures: turned,
+			tileSignatures,
+			cols: 1,
+			rows: 1,
+			tileCount: 1,
+			spread: 4,
+			weightC: 1,
+			seed: 1,
+		}
+
+		const rotated = assignTiles({ ...base, orientations: ORIENTATIONS })
+		expect(rotated.assignment[0]).toBe(0)
+		expect(rotated.orientation[0]).toBe(1)
+
+		// Pinned upright, the same tile is still the only option but stays at 0.
+		const upright1 = assignTiles({ ...base, orientations: 1 })
+		expect(upright1.orientation[0]).toBe(0)
+	})
+
+	test('orientation is parallel to assignment and always a valid quarter turn', () => {
+		const cols = 4
+		const rows = 4
+		const tileCount = 5
+		const result = assignTiles({
+			cellSignatures: buildCellSignatures(cols * rows, 7),
+			tileSignatures: buildTileSignatures(tileCount, 8),
+			cols,
+			rows,
+			tileCount,
+			spread: 2,
+			weightC: 1,
+			orientations: ORIENTATIONS,
+			seed: 3,
+		})
+
+		expect(result.orientation.length).toBe(result.assignment.length)
+		for (const turn of result.orientation) {
+			expect(turn).toBeGreaterThanOrEqual(0)
+			expect(turn).toBeLessThan(ORIENTATIONS)
+		}
 	})
 })

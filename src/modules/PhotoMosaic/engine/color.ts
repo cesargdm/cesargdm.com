@@ -8,6 +8,7 @@
 import {
 	CHANNELS_PER_SAMPLE,
 	SIGNATURE_CELLS,
+	ORIENTATIONS,
 	SIGNATURE_GRID,
 	WEIGHT_L,
 } from './constants'
@@ -148,4 +149,49 @@ export function signatureDistanceSq(
 
 export function toCssRgb(r: number, g: number, b: number): string {
 	return `rgb(${r}, ${g}, ${b})`
+}
+
+/**
+ * Writes `src` rotated by `quarterTurns` clockwise into `out`.
+ *
+ * A signature is a SIGNATURE_GRID square of samples, so turning the photo a
+ * quarter turn is exactly a permutation of those samples — no pixels are read
+ * and nothing is decoded again. That is what makes orientation matching cheap
+ * enough to quadruple the candidate set.
+ */
+export function rotateSignature(
+	src: Float32Array,
+	srcOffset: number,
+	quarterTurns: number,
+	out: Float32Array,
+	outOffset: number,
+): void {
+	const turns = ((quarterTurns % ORIENTATIONS) + ORIENTATIONS) % ORIENTATIONS
+	const last = SIGNATURE_GRID - 1
+
+	for (let row = 0; row < SIGNATURE_GRID; row++) {
+		for (let col = 0; col < SIGNATURE_GRID; col++) {
+			let srcRow = row
+			let srcCol = col
+
+			// Read the source sample that lands at (row, col) after the turn.
+			if (turns === 1) {
+				srcRow = last - col
+				srcCol = row
+			} else if (turns === 2) {
+				srcRow = last - row
+				srcCol = last - col
+			} else if (turns === 3) {
+				srcRow = col
+				srcCol = last - row
+			}
+
+			const from =
+				srcOffset + (srcRow * SIGNATURE_GRID + srcCol) * CHANNELS_PER_SAMPLE
+			const to = outOffset + (row * SIGNATURE_GRID + col) * CHANNELS_PER_SAMPLE
+			out[to] = src[from]
+			out[to + 1] = src[from + 1]
+			out[to + 2] = src[from + 2]
+		}
+	}
 }
