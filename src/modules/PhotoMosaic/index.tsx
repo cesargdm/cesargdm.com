@@ -1,6 +1,11 @@
 /* eslint-disable jsx-a11y/prefer-tag-over-role -- the preview is a <canvas>,
    which cannot be an <img>; role="img" plus a label is the only way to give the
    rendered mosaic an accessible name. */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions -- the drop
+   zone is a <label> wrapping a real <input type="file">, so it already has a
+   keyboard path (tab to the input, Space/Enter opens the picker). The rule
+   cannot see that, and the drag handlers on it are pure enhancement — removing
+   them would cost mouse users the drop target and gain nobody anything. */
 import { useId, useMemo, useState } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 
@@ -62,6 +67,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 		generate,
 		cancel,
 		exportAt,
+		clearExport,
 	} = useMosaicEngine()
 
 	const { settings, grid, rejected } = state
@@ -97,7 +103,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 		if (files) addPhotos([...files])
 	}
 
-	function handleDrop(event: DragEvent<HTMLDivElement>) {
+	function handleDrop(event: DragEvent<HTMLLabelElement>) {
 		event.preventDefault()
 		setDragging(false)
 		const files = [...event.dataTransfer.files].filter((file) =>
@@ -128,15 +134,19 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 
 					<div className={styles.group}>
 						<h2 className={styles.groupHeading}>{copy.tilesHeading}</h2>
-						{/* The input is a real focusable control inside the label, so the
-						    keyboard path exists without any role or key handler; the drag
+						{/* The whole zone is the label, so clicking anywhere in it opens
+						    the picker — the prompt text says "click to choose files", and
+						    a click that lands on that text has to actually do it. The
+						    input inside is a real focusable control, which is what gives
+						    the keyboard path without a role or a key handler; the drag
 						    handlers are pure enhancement on top. */}
-						<div
+						<label
 							className={
 								dragging
 									? `${styles.dropZone} ${styles.dropZoneActive}`
 									: styles.dropZone
 							}
+							htmlFor={photosId}
 							onDragLeave={() => setDragging(false)}
 							onDragOver={(event) => {
 								event.preventDefault()
@@ -144,9 +154,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							}}
 							onDrop={handleDrop}
 						>
-							<label className={styles.label} htmlFor={photosId}>
-								{copy.photosLabel}
-							</label>
+							<span className={styles.label}>{copy.photosLabel}</span>
 							<span>{copy.dropPrompt}</span>
 							<input
 								accept="image/*"
@@ -156,7 +164,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 								onChange={handlePhotos}
 								type="file"
 							/>
-						</div>
+						</label>
 						<p className={styles.hint}>{copy.photosHint}</p>
 						{state.tileCount > 0 ? (
 							<p className={styles.notice}>
@@ -226,6 +234,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						</label>
 						<input
 							className={styles.slider}
+							disabled={settings.blackAndWhite}
 							id={tintId}
 							max={PERCENT}
 							min={0}
@@ -269,7 +278,10 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						</label>
 						<select
 							id={sizeId}
-							onChange={(event) => setSizeIndex(Number(event.target.value))}
+							onChange={(event) => {
+								setSizeIndex(Number(event.target.value))
+								clearExport()
+							}}
 							value={sizeIndex}
 						>
 							{exportOptions.map((option, index) => (

@@ -89,6 +89,7 @@ type Action =
 	| { type: 'encoded'; url: string; name: string }
 	| { type: 'error'; code: MosaicErrorCode }
 	| { type: 'limits'; maxArea: number }
+	| { type: 'export-cleared' }
 	| { type: 'settings'; patch: Partial<Settings>; invalidatesMatch: boolean }
 
 const INITIAL: State = {
@@ -145,6 +146,8 @@ function reducer(state: State, action: Action): State {
 			return {
 				...state,
 				ingesting: false,
+				phase: null,
+				progress: 0,
 				tileCount: action.total,
 				considered: state.considered + action.considered,
 				rejected: [...state.rejected, ...action.rejected],
@@ -190,6 +193,9 @@ function reducer(state: State, action: Action): State {
 		}
 		case 'limits': {
 			return { ...state, maxArea: action.maxArea }
+		}
+		case 'export-cleared': {
+			return { ...state, downloadUrl: null, downloadName: null }
 		}
 		case 'settings': {
 			return {
@@ -280,6 +286,38 @@ export function useMosaicEngine() {
 		}
 	}, [])
 
+	/**
+	 * Hands the preview canvas to the worker.
+	 *
+	 * Called from both the ref callback and the `ready` handler because the order
+	 * is not fixed: React attaches refs during commit, before effects run, so on
+	 * mount there is no worker yet — and the effect that creates one runs after
+	 * the canvas already exists. Whichever happens second is the one that
+	 * actually transfers.
+	 */
+	const tryAttachCanvas = useCallback(() => {
+		const element = canvasRef.current
+		const worker = workerRef.current
+		if (!element || !worker || transferredRef.current) return
+
+		// A second transfer of the same element throws InvalidStateError, which a
+		// StrictMode or HMR remount would otherwise trigger.
+		const offscreen = element.transferControlToOffscreen()
+		transferredRef.current = true
+		worker.postMessage(
+			{ type: 'attach-preview', canvas: offscreen } satisfies ToWorker,
+			[offscreen],
+		)
+	}, [])
+
+	const attachCanvas = useCallback(
+		(element: HTMLCanvasElement | null) => {
+			canvasRef.current = element
+			tryAttachCanvas()
+		},
+		[tryAttachCanvas],
+	)
+
 	useEffect(() => {
 		const unsupported =
 			typeof Worker === 'undefined' ||
@@ -318,6 +356,7 @@ export function useMosaicEngine() {
 				case 'ready': {
 					clearTimeout(readyTimer)
 					dispatch({ type: 'supported' })
+					tryAttachCanvas()
 					post({ type: 'probe-canvas' })
 					return
 				}
@@ -421,21 +460,7 @@ export function useMosaicEngine() {
 			window.removeEventListener('pagehide', teardown)
 			teardown()
 		}
-	}, [post, revokeUrl])
-
-	const attachCanvas = useCallback((element: HTMLCanvasElement | null) => {
-		canvasRef.current = element
-		if (!element || transferredRef.current || !workerRef.current) return
-
-		// A second transfer on the same element throws InvalidStateError, which
-		// a StrictMode or HMR remount will otherwise trigger.
-		const offscreen = element.transferControlToOffscreen()
-		transferredRef.current = true
-		workerRef.current.postMessage(
-			{ type: 'attach-preview', canvas: offscreen } satisfies ToWorker,
-			[offscreen],
-		)
-	}, [])
+	}, [post, revokeUrl, tryAttachCanvas])
 
 	const sendTarget = useCallback(
 		(grid: Grid) => {
@@ -587,7 +612,7 @@ export function useMosaicEngine() {
 	const exportOptions = useMemo<ExportOption[]>(() => {
 		if (!state.sourceReady) return []
 
-		return EXPORT_EDGES.map((edge) => {
+		const sizes = EXPORT_EDGES.map((edge) => {
 			const derived = deriveGrid(
 				state.sourceWidth,
 				state.sourceHeight,
@@ -603,9 +628,22 @@ export function useMosaicEngine() {
 				// The browser limit is on AREA, so a width that clears a square probe
 				// does not mean a portrait export at that width clears it too.
 				available: state.maxArea === null || area <= state.maxArea,
-				nativeDetail: derived.cellPx >= NATIVE_DETAIL_CELL_PX,
+				nativeDetail: false,
 			}
 		})
+
+		// Tiles are stored at TILE_PX, so past roughly that cell size they are
+		// being upscaled and the extra pixels buy nothing. Mark the largest size
+		// that still renders them at their own resolution, rather than marking
+		// everything above it — the useful fact is where the detail stops.
+		const lastCrisp = sizes.reduce(
+			(best, size, index) =>
+				size.cellPx <= NATIVE_DETAIL_CELL_PX ? index : best,
+			-1,
+		)
+		if (lastCrisp >= 0) sizes[lastCrisp].nativeDetail = true
+
+		return sizes
 	}, [
 		state.sourceReady,
 		state.sourceWidth,
@@ -641,6 +679,18 @@ export function useMosaicEngine() {
 		[post],
 	)
 
+	/**
+	 * Drops a finished export.
+	 *
+	 * Called when the chosen export size changes: the existing blob was encoded
+	 * at the old dimensions, so leaving the link in place would hand the user a
+	 * file that silently disagrees with the size they just picked.
+	 */
+	const clearExport = useCallback(() => {
+		revokeUrl()
+		dispatch({ type: 'export-cleared' })
+	}, [revokeUrl])
+
 	const cancel = useCallback(() => {
 		post({ type: 'cancel', jobId: jobIdRef.current })
 		jobIdRef.current += 1
@@ -665,5 +715,6 @@ export function useMosaicEngine() {
 		generate,
 		cancel,
 		exportAt,
+		clearExport,
 	}
 }

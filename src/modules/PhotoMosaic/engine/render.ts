@@ -194,7 +194,11 @@ export function* renderMosaic(
 		}
 	}
 
-	if (options.tint > 0) {
+	// Skipped entirely in black-and-white mode. The tint pass takes hue and
+	// chroma from the source and luminosity from the backdrop, so running it
+	// after the desaturation pass would put the colour straight back and a box
+	// labelled "black and white" would produce a pastel image instead.
+	if (options.tint > 0 && !options.blackAndWhite) {
 		const tintCanvas = buildCellColorCanvas(samples, grid.cols, grid.rows)
 
 		if (caps.blendModes) {
