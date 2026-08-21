@@ -164,7 +164,8 @@ export const canvasFrame = style({
 	alignItems: 'center',
 	justifyContent: 'center',
 	minHeight: 320,
-	padding: vars.space.medium,
+	// No padding: the frame carries the source's aspect ratio, so any inset here
+	// is subtracted from the mosaic and letterboxes it inside its own box.
 	borderRadius: vars.borderRadius.medium,
 	border: `1px solid ${vars.colors.border}`,
 	backgroundColor: vars.colors.background.gray,
@@ -272,11 +273,9 @@ export const error = style({
  */
 export const placeholder = style({
 	position: 'absolute',
-	inset: vars.space.medium,
-	width: 'auto',
-	height: 'auto',
-	maxWidth: `calc(100% - ${vars.space.xlarge})`,
-	margin: 'auto',
+	inset: 0,
+	width: '100%',
+	height: '100%',
 	objectFit: 'contain',
 	opacity: 0.5,
 	borderRadius: vars.borderRadius.medium,
