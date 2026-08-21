@@ -109,6 +109,11 @@ export function detectBlendModes(
  * only a blank read-back proves a real browser limit.
  */
 export function probeMaxCanvasArea(): number {
+	// Seeded with the smallest rung rather than 0, deliberately: if even that
+	// fails there is no size worth offering, and reporting 0 would empty the
+	// export menu and leave the tool looking broken. Reporting the smallest is
+	// optimistic, so `probeExactCanvas` still gates the actual export and turns
+	// a wrong guess into a clear message instead of a blank file.
 	let lastPassing = CANDIDATE_AREAS[0]
 
 	for (const area of CANDIDATE_AREAS) {

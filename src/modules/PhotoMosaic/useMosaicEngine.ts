@@ -12,7 +12,7 @@ import {
 	NATIVE_DETAIL_CELL_PX,
 	READY_TIMEOUT_MS,
 	RENDER_DEBOUNCE_MS,
-	SIGNATURE_GRID,
+	SIGNATURE_SOURCE_PX,
 } from './engine/constants'
 import type { Grid } from './engine/layout'
 import { deriveGrid } from './engine/layout'
@@ -55,7 +55,10 @@ type State = {
 	sourceWidth: number
 	sourceHeight: number
 	tileCount: number
+	/** Files offered in the most recent batch, before the MAX_TILES subsample. */
 	considered: number
+	/** Files accepted from that batch. */
+	added: number
 	rejected: RejectedFile[]
 	ingesting: boolean
 	job: 'idle' | 'matching' | 'drawing' | 'encoding' | 'done'
@@ -80,6 +83,7 @@ type Action =
 			type: 'tiles'
 			total: number
 			considered: number
+			added: number
 			rejected: RejectedFile[]
 	  }
 	| { type: 'grid'; grid: Grid }
@@ -99,6 +103,7 @@ const INITIAL: State = {
 	sourceHeight: 0,
 	tileCount: 0,
 	considered: 0,
+	added: 0,
 	rejected: [],
 	ingesting: false,
 	job: 'idle',
@@ -143,14 +148,19 @@ function reducer(state: State, action: Action): State {
 			return { ...state, ingesting: true, error: null }
 		}
 		case 'tiles': {
+			// Both describe the batch that just finished, not the session. Adding
+			// them up while `tileCount` stays absolute produced messages that never
+			// happened — re-picking the same photos would claim "using 5 of your 10"
+			// when the second five were simply duplicates.
 			return {
 				...state,
 				ingesting: false,
 				phase: null,
 				progress: 0,
 				tileCount: action.total,
-				considered: state.considered + action.considered,
-				rejected: [...state.rejected, ...action.rejected],
+				considered: action.considered,
+				added: action.added,
+				rejected: action.rejected,
 				matchDirty: true,
 				renderDirty: true,
 			}
@@ -266,6 +276,7 @@ export function useMosaicEngine() {
 	const pendingExportRef = useRef<string | null>(null)
 	const settingsRef = useRef(state.settings)
 	const gridRef = useRef<Grid | null>(null)
+	const tileCountRef = useRef(0)
 
 	// Mirrored into refs rather than read from state inside the worker callbacks,
 	// which close over the render they were created in. Updated in an effect, not
@@ -377,8 +388,10 @@ export function useMosaicEngine() {
 						type: 'tiles',
 						total: message.total,
 						considered: message.considered,
+						added: message.total - tileCountRef.current,
 						rejected: message.rejected,
 					})
+					tileCountRef.current = message.total
 					return
 				}
 				case 'matched': {
@@ -449,15 +462,29 @@ export function useMosaicEngine() {
 			workerRef.current?.postMessage({ type: 'dispose' } satisfies ToWorker)
 			workerRef.current?.terminate()
 			workerRef.current = null
+			// Without this a re-run of this effect builds a new worker that never
+			// receives a canvas, because the flag still says one was handed over.
+			transferredRef.current = false
+		}
+
+		/**
+		 * `pagehide` also fires when the page goes into the back/forward cache,
+		 * where it will be resumed rather than reloaded — and this effect does not
+		 * re-run on a bfcache restore. Tearing down there would leave the restored
+		 * page looking ready while every message went nowhere, so only a real
+		 * unload tears down.
+		 */
+		function handlePageHide(event: PageTransitionEvent) {
+			if (!event.persisted) teardown()
 		}
 
 		document.addEventListener('astro:before-swap', teardown)
-		window.addEventListener('pagehide', teardown)
+		window.addEventListener('pagehide', handlePageHide)
 
 		return () => {
 			clearTimeout(readyTimer)
 			document.removeEventListener('astro:before-swap', teardown)
-			window.removeEventListener('pagehide', teardown)
+			window.removeEventListener('pagehide', handlePageHide)
 			teardown()
 		}
 	}, [post, revokeUrl, tryAttachCanvas])
@@ -467,8 +494,16 @@ export function useMosaicEngine() {
 			const analysis = analysisRef.current
 			if (!analysis) return
 
-			const sampleWidth = grid.cols * SIGNATURE_GRID
-			const sampleHeight = grid.rows * SIGNATURE_GRID
+			// SIGNATURE_SOURCE_PX per cell, not SIGNATURE_GRID: tile signatures are
+			// built by block-averaging a SIGNATURE_SOURCE_PX square in linear light,
+			// so cells have to be sampled at the same resolution and averaged the
+			// same way. Handing the worker one pixel per sub-cell instead would
+			// leave tiles averaged linearly and cells averaged in gamma space by
+			// the browser's downscale — tiles then read lighter than the cells they
+			// are compared against, and the matcher systematically picks tiles that
+			// are too dark.
+			const sampleWidth = grid.cols * SIGNATURE_SOURCE_PX
+			const sampleHeight = grid.rows * SIGNATURE_SOURCE_PX
 			const sampler = document.createElement('canvas')
 			sampler.width = sampleWidth
 			sampler.height = sampleHeight
@@ -579,9 +614,25 @@ export function useMosaicEngine() {
 		})
 	}, [post])
 
+	/**
+	 * Drops a finished export.
+	 *
+	 * Called when the chosen export size changes: the existing blob was encoded
+	 * at the old dimensions, so leaving the link in place would hand the user a
+	 * file that silently disagrees with the size they just picked.
+	 */
+	const clearExport = useCallback(() => {
+		revokeUrl()
+		dispatch({ type: 'export-cleared' })
+	}, [revokeUrl])
+
 	const updateSettings = useCallback(
 		(patch: Partial<Settings>, invalidatesMatch: boolean) => {
 			dispatch({ type: 'settings', patch, invalidatesMatch })
+
+			// The finished export was encoded from the settings that just changed,
+			// so the link would hand over a file that disagrees with the preview.
+			clearExport()
 
 			if (invalidatesMatch) {
 				const analysis = analysisRef.current
@@ -596,17 +647,21 @@ export function useMosaicEngine() {
 						),
 					})
 				}
-				return
 			}
 
-			// Jitter, tint and B&W are O(1) passes over an already-matched mosaic,
-			// so they re-draw on their own rather than waiting for Generate.
+			// Every control re-runs on its own; nothing waits for Generate to be
+			// pressed again. Jitter and tint only need the O(1) draw passes, while
+			// density and black-and-white change the assignment and so re-match —
+			// leaving those silently stale (with the tint slider greying out and
+			// nothing else happening) read as the tool being broken.
 			if (debounceRef.current) clearTimeout(debounceRef.current)
 			debounceRef.current = setTimeout(() => {
-				if (gridRef.current) rerender()
+				if (!gridRef.current) return
+				if (invalidatesMatch) generate()
+				else rerender()
 			}, RENDER_DEBOUNCE_MS)
 		},
-		[rerender],
+		[rerender, generate, clearExport],
 	)
 
 	const exportOptions = useMemo<ExportOption[]>(() => {
@@ -678,18 +733,6 @@ export function useMosaicEngine() {
 		},
 		[post],
 	)
-
-	/**
-	 * Drops a finished export.
-	 *
-	 * Called when the chosen export size changes: the existing blob was encoded
-	 * at the old dimensions, so leaving the link in place would hand the user a
-	 * file that silently disagrees with the size they just picked.
-	 */
-	const clearExport = useCallback(() => {
-		revokeUrl()
-		dispatch({ type: 'export-cleared' })
-	}, [revokeUrl])
 
 	const cancel = useCallback(() => {
 		post({ type: 'cancel', jobId: jobIdRef.current })

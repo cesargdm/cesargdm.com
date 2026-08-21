@@ -171,10 +171,10 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 								{format(copy.photoCountSummary, { count: state.tileCount })}
 							</p>
 						) : null}
-						{state.considered > state.tileCount ? (
+						{state.considered > state.added ? (
 							<p className={styles.notice}>
 								{format(copy.tooMany, {
-									used: state.tileCount,
+									used: state.added,
 									total: state.considered,
 								})}
 							</p>

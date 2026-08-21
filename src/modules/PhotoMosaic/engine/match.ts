@@ -37,17 +37,25 @@ export type MatchResult = {
 }
 
 /**
- * Whether any cell already assigned within a Chebyshev `ADJACENCY_RADIUS` of
- * (cellCol, cellRow) already uses `tileIndex`.
+ * Collects the tiles already used within a Chebyshev `ADJACENCY_RADIUS` of
+ * (cellCol, cellRow) into `out`.
+ *
+ * Gathered once per cell rather than re-scanned per candidate tile. The
+ * neighbourhood is a property of the cell, not of the tile being scored, so
+ * doing it inside the tile loop multiplied the matcher's real cost by the
+ * neighbourhood size (up to 24 reads per candidate) — the brute-force bound
+ * quoted at the end of this file assumes it happens out here.
  */
-function hasAdjacentUse(
+function collectAdjacentTiles(
 	assignment: Int32Array,
 	cols: number,
 	rows: number,
 	cellCol: number,
 	cellRow: number,
-	tileIndex: number,
-): boolean {
+	out: Set<number>,
+): void {
+	out.clear()
+
 	const minCol = Math.max(0, cellCol - ADJACENCY_RADIUS)
 	const maxCol = Math.min(cols - 1, cellCol + ADJACENCY_RADIUS)
 	const minRow = Math.max(0, cellRow - ADJACENCY_RADIUS)
@@ -56,11 +64,10 @@ function hasAdjacentUse(
 	for (let row = minRow; row <= maxRow; row++) {
 		for (let col = minCol; col <= maxCol; col++) {
 			if (col === cellCol && row === cellRow) continue
-			if (assignment[row * cols + col] === tileIndex) return true
+			const used = assignment[row * cols + col]
+			if (used !== -1) out.add(used)
 		}
 	}
-
-	return false
 }
 
 /**
@@ -75,11 +82,7 @@ function findBestTile(
 	weightC: number,
 	usesSoFar: Uint16Array,
 	maxUses: number,
-	assignment: Int32Array,
-	cols: number,
-	rows: number,
-	cellCol: number,
-	cellRow: number,
+	adjacentTiles: Set<number>,
 ): number {
 	let bestTile = -1
 	let bestScore = Number.POSITIVE_INFINITY
@@ -95,18 +98,10 @@ function findBestTile(
 			tileOffset,
 			weightC,
 		)
-		const adjacent = hasAdjacentUse(
-			assignment,
-			cols,
-			rows,
-			cellCol,
-			cellRow,
-			tileIndex,
-		)
 		const score =
 			distance +
 			REUSE_PENALTY * usesSoFar[tileIndex] +
-			(adjacent ? ADJACENCY_PENALTY : 0)
+			(adjacentTiles.has(tileIndex) ? ADJACENCY_PENALTY : 0)
 
 		if (score < bestScore) {
 			bestScore = score
@@ -150,6 +145,8 @@ function* runAssignment(
 		tileCount > 0 ? Math.max(1, Math.ceil(cellCount / tileCount)) : 0
 
 	const order = shuffledOrder(cellCount, seed)
+	// Reused across cells; `collectAdjacentTiles` clears it each time.
+	const adjacentTiles = new Set<number>()
 	let distinctTiles = 0
 	let assignedCount = 0
 
@@ -159,6 +156,15 @@ function* runAssignment(
 		const cellCol = cellIndex % cols
 		const cellOffset = cellIndex * SIGNATURE_LENGTH
 
+		collectAdjacentTiles(
+			assignment,
+			cols,
+			rows,
+			cellCol,
+			cellRow,
+			adjacentTiles,
+		)
+
 		let bestTile = findBestTile(
 			cellSignatures,
 			cellOffset,
@@ -167,11 +173,7 @@ function* runAssignment(
 			weightC,
 			usesSoFar,
 			initialMaxUses,
-			assignment,
-			cols,
-			rows,
-			cellCol,
-			cellRow,
+			adjacentTiles,
 		)
 
 		if (bestTile === -1 && tileCount > 0) {
@@ -183,11 +185,7 @@ function* runAssignment(
 				weightC,
 				usesSoFar,
 				fallbackMaxUses,
-				assignment,
-				cols,
-				rows,
-				cellCol,
-				cellRow,
+				adjacentTiles,
 			)
 		}
 

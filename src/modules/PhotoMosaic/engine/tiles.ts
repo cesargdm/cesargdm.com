@@ -156,7 +156,15 @@ async function decodeTile(
 			resizeWidth: TILE_PX,
 			resizeHeight: TILE_PX,
 			resizeQuality: 'high',
-			imageOrientation: 'from-image',
+			// 'none', deliberately. The crop rectangle above was computed from the
+			// dimensions in the container header, which are pre-rotation; letting
+			// the decoder apply EXIF orientation first would leave the rectangle
+			// measured against a frame that no longer exists, and on a rotated
+			// iPhone photo it runs off the edge and yields an off-centre tile with
+			// a transparent stripe. It also keeps this path consistent with the
+			// fallback below, which cannot honour the dict at all. A sideways tile
+			// is invisible at 96px under rotation jitter; a mis-cropped one is not.
+			imageOrientation: 'none',
 		})
 		fullBitmap?.close()
 		return tile

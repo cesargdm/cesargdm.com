@@ -16,8 +16,8 @@ import {
 import { writeSignature } from './engine/color'
 import {
 	PROGRESS_INTERVAL_MS,
-	SIGNATURE_GRID,
 	SIGNATURE_LENGTH,
+	SIGNATURE_SOURCE_PX,
 	WEIGHT_C,
 } from './engine/constants'
 import type { MatchInput } from './engine/match'
@@ -139,9 +139,13 @@ async function handleAddTiles(
 }
 
 /**
- * `samples` is `(cols*3) x (rows*3)` RGBA, but `writeSignature` expects a
- * square `sourcePx x sourcePx` buffer — copy each cell's 3x3 block into a
- * reusable scratch array first.
+ * `samples` is `(cols*SIGNATURE_SOURCE_PX) x (rows*SIGNATURE_SOURCE_PX)` RGBA,
+ * but `writeSignature` wants a square `sourcePx x sourcePx` buffer — copy each
+ * cell's block into a reusable scratch array first.
+ *
+ * The block is SIGNATURE_SOURCE_PX square so that cells go through exactly the
+ * same linear-light block averaging as tiles do; anything smaller would compare
+ * linearly-averaged tiles against gamma-averaged cells.
  */
 function writeCellSignatures(
 	targetGrid: GridSpec,
@@ -149,21 +153,22 @@ function writeCellSignatures(
 	out: Float32Array,
 ): void {
 	const { cols, rows } = targetGrid
-	const sampleWidth = cols * SIGNATURE_GRID
+	const sampleWidth = cols * SIGNATURE_SOURCE_PX
 	const scratch = new Uint8ClampedArray(
-		SIGNATURE_GRID * SIGNATURE_GRID * SIGNATURE_SCRATCH_CHANNELS,
+		SIGNATURE_SOURCE_PX * SIGNATURE_SOURCE_PX * SIGNATURE_SCRATCH_CHANNELS,
 	)
 
 	for (let cellIndex = 0; cellIndex < cols * rows; cellIndex++) {
 		const cellCol = cellIndex % cols
 		const cellRow = Math.floor(cellIndex / cols)
 
-		for (let dy = 0; dy < SIGNATURE_GRID; dy++) {
-			const sy = cellRow * SIGNATURE_GRID + dy
-			for (let dx = 0; dx < SIGNATURE_GRID; dx++) {
-				const sx = cellCol * SIGNATURE_GRID + dx
+		for (let dy = 0; dy < SIGNATURE_SOURCE_PX; dy++) {
+			const sy = cellRow * SIGNATURE_SOURCE_PX + dy
+			for (let dx = 0; dx < SIGNATURE_SOURCE_PX; dx++) {
+				const sx = cellCol * SIGNATURE_SOURCE_PX + dx
 				const srcIndex = (sy * sampleWidth + sx) * SIGNATURE_SCRATCH_CHANNELS
-				const dstIndex = (dy * SIGNATURE_GRID + dx) * SIGNATURE_SCRATCH_CHANNELS
+				const dstIndex =
+					(dy * SIGNATURE_SOURCE_PX + dx) * SIGNATURE_SCRATCH_CHANNELS
 				scratch[dstIndex] = targetSamples[srcIndex]
 				scratch[dstIndex + 1] = targetSamples[srcIndex + 1]
 				scratch[dstIndex + 2] = targetSamples[srcIndex + 2]
@@ -171,7 +176,12 @@ function writeCellSignatures(
 			}
 		}
 
-		writeSignature(scratch, SIGNATURE_GRID, out, cellIndex * SIGNATURE_LENGTH)
+		writeSignature(
+			scratch,
+			SIGNATURE_SOURCE_PX,
+			out,
+			cellIndex * SIGNATURE_LENGTH,
+		)
 	}
 }
 
@@ -265,7 +275,18 @@ async function runRenderJob(
 		// antialias against each other into hairline seams) and the preview and
 		// the export are the same mosaic at two scales rather than two different
 		// crops of one.
-		const cellPx = Math.max(1, Math.floor(target.width / grid.cols))
+		// Both axes, not just the width: the target is a bounding box, and the
+		// island sends a square one for previews. Dividing by cols alone would
+		// make a portrait mosaic overflow it — a tall panorama at 60 columns
+		// would render several times larger than asked for, and could cross the
+		// canvas-area limit and come back silently blank.
+		const cellPx = Math.max(
+			1,
+			Math.min(
+				Math.floor(target.width / grid.cols),
+				Math.floor(target.height / grid.rows),
+			),
+		)
 		const renderGrid = { cols: grid.cols, rows: grid.rows, cellPx }
 		const width = renderGrid.cols * cellPx
 		const height = renderGrid.rows * cellPx

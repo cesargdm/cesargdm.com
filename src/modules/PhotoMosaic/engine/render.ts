@@ -4,8 +4,7 @@ import {
 	BLEED_PX,
 	DRAW_YIELD_INTERVAL,
 	NEUTRAL_GREY,
-	SIGNATURE_CELLS,
-	SIGNATURE_GRID,
+	SIGNATURE_SOURCE_PX,
 	TILE_PX,
 } from './constants'
 import { coverFactor, mulberry32 } from './layout'
@@ -49,15 +48,16 @@ function desaturateInPlace(
 }
 
 /**
- * A `cols` x `rows` canvas holding the mean colour of each cell's 3x3 sample
- * block, for the tint pass to upscale in a single `drawImage`.
+ * A `cols` x `rows` canvas holding the mean colour of each cell's sample block,
+ * for the tint pass to upscale in a single `drawImage`.
  */
 function buildCellColorCanvas(
 	samples: Uint8ClampedArray,
 	cols: number,
 	rows: number,
 ): OffscreenCanvas {
-	const sampleWidth = cols * SIGNATURE_GRID
+	const sampleWidth = cols * SIGNATURE_SOURCE_PX
+	const samplesPerCell = SIGNATURE_SOURCE_PX * SIGNATURE_SOURCE_PX
 	const imageData = new ImageData(cols, rows)
 	const data = imageData.data
 
@@ -67,10 +67,10 @@ function buildCellColorCanvas(
 			let gSum = 0
 			let bSum = 0
 
-			for (let dy = 0; dy < SIGNATURE_GRID; dy++) {
-				const sy = cellRow * SIGNATURE_GRID + dy
-				for (let dx = 0; dx < SIGNATURE_GRID; dx++) {
-					const sx = cellCol * SIGNATURE_GRID + dx
+			for (let dy = 0; dy < SIGNATURE_SOURCE_PX; dy++) {
+				const sy = cellRow * SIGNATURE_SOURCE_PX + dy
+				for (let dx = 0; dx < SIGNATURE_SOURCE_PX; dx++) {
+					const sx = cellCol * SIGNATURE_SOURCE_PX + dx
 					const srcIndex = (sy * sampleWidth + sx) * RGBA_CHANNELS
 					rSum += samples[srcIndex]
 					gSum += samples[srcIndex + 1]
@@ -79,9 +79,9 @@ function buildCellColorCanvas(
 			}
 
 			const dstIndex = (cellRow * cols + cellCol) * RGBA_CHANNELS
-			data[dstIndex] = rSum / SIGNATURE_CELLS
-			data[dstIndex + 1] = gSum / SIGNATURE_CELLS
-			data[dstIndex + 2] = bSum / SIGNATURE_CELLS
+			data[dstIndex] = rSum / samplesPerCell
+			data[dstIndex + 1] = gSum / samplesPerCell
+			data[dstIndex + 2] = bSum / samplesPerCell
 			data[dstIndex + 3] = OPAQUE_ALPHA
 		}
 	}
@@ -107,7 +107,7 @@ export function* renderMosaic(
 	/** cols * rows tile indices, row-major. */
 	assignment: Int32Array,
 	grid: GridSpec,
-	/** (cols * 3) x (rows * 3) RGBA target colours from the source image. */
+	/** (cols * SIGNATURE_SOURCE_PX) square blocks of RGBA target colour. */
 	samples: Uint8ClampedArray,
 	options: RenderOptions,
 	caps: RenderCaps,
