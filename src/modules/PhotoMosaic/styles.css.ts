@@ -282,6 +282,31 @@ export const placeholder = style({
 	pointerEvents: 'none',
 })
 
+/**
+ * The file input itself, stretched invisibly over its button.
+ *
+ * The button does not call `input.click()`: WebKit refuses to open a file
+ * picker for an input that is clipped or hidden, so a programmatic click on one
+ * silently does nothing. Letting the real click land on the input avoids the
+ * restriction altogether, and works the same in every browser.
+ */
+export const fileOverInput = style({
+	position: 'absolute',
+	inset: 0,
+	width: '100%',
+	height: '100%',
+	minWidth: 0,
+	minHeight: 0,
+	margin: 0,
+	padding: 0,
+	opacity: 0,
+	cursor: 'pointer',
+	borderRadius: 'inherit',
+	// Safari lays a file input out at its intrinsic width and ignores the box
+	// otherwise, which would leave part of the button dead.
+	fontSize: 0,
+})
+
 export const pickerButton = style([
 	press,
 	{
@@ -296,6 +321,8 @@ export const pickerButton = style([
 		color: vars.colors.text.regular,
 		fontSize: vars.fontSize.small,
 		cursor: 'pointer',
+		position: 'relative',
+		overflow: 'hidden',
 		selectors: {
 			'&:focus-within': {
 				outline: `2px solid ${vars.colors.primary}`,
@@ -317,6 +344,7 @@ export const emptyOverlay = style([
 	{
 		position: 'absolute',
 		inset: 0,
+		overflow: 'hidden',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
