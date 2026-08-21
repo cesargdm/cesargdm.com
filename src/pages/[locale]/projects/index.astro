@@ -53,11 +53,9 @@ const meta = getMetadata({
 		{
 			entries.map((entry) => {
 				const highlight = entry.data.highlight as
-					| { color?: string; logoUrl?: string }
-					| undefined
+					{ color?: string; logoUrl?: string } | undefined
 				const repository = entry.data.repository as
-					| { url: string; stars?: number }
-					| undefined
+					{ url: string; stars?: number } | undefined
 
 				return (
 					<li class={highlight ? highlightedEntryItem : entryItem}>
