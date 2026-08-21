@@ -1,13 +1,19 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { ReactNode } from 'react'
 
+import type { Locale } from '@/lib/i18n'
+import { getTranslate } from '@/lib/translate'
+
 type Props = {
+	locale: Locale
 	onClose?: () => void
 	children: ReactNode
 }
 
 export default function Modal(props: Props) {
-	const { children, onClose } = props
+	const { children, locale, onClose } = props
+
+	const t = useMemo(() => getTranslate(locale), [locale])
 
 	const handleOnClose = useCallback(() => {
 		onClose?.()
@@ -29,8 +35,12 @@ export default function Modal(props: Props) {
 			}}
 		>
 			<div>
-				<button type="button" onClick={handleOnClose} aria-label="Close modal">
-					Close
+				<button
+					type="button"
+					onClick={handleOnClose}
+					aria-label={t('modal.closeLabel')}
+				>
+					{t('modal.close')}
 				</button>
 			</div>
 			{children}
