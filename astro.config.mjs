@@ -37,5 +37,13 @@ export default defineConfig({
 		// sites use the runtime form instead (see src/lib/translate.ts) and no
 		// Babel transform is needed.
 		plugins: [lingui(), vanillaExtractPlugin()],
+		// The PhotoMosaic island declares its worker `{ type: 'module' }`, and
+		// Vite rewrites only the URL — not the type. Its default 'iife' output
+		// therefore works only while the worker stays a single chunk, and fails
+		// the build the moment one is shared. Note this does NOT extend
+		// worker.plugins, which stays empty: vanilla-extract and Lingui do not
+		// run for the worker bundle, so nothing it imports may reach a .css.ts
+		// or a .po.
+		worker: { format: 'es' },
 	},
 })

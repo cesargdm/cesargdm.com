@@ -4,6 +4,8 @@
  * Pure: no canvas, no DOM, no worker globals.
  */
 
+import { MAX_CELLS, MAX_COLUMNS, MIN_COLUMNS } from './constants'
+
 export type Grid = {
 	cols: number
 	rows: number
@@ -13,6 +15,10 @@ export type Grid = {
 	width: number
 	/** `rows * cellPx`. */
 	height: number
+}
+
+function clamp(value: number, min: number, max: number): number {
+	return Math.min(max, Math.max(min, value))
 }
 
 /**
@@ -32,7 +38,25 @@ export function deriveGrid(
 	columns: number,
 	targetLongEdge: number,
 ): Grid {
-	throw new Error('unimplemented')
+	let cols = clamp(columns, MIN_COLUMNS, MAX_COLUMNS)
+	let rows = Math.max(1, Math.round((cols * sourceHeight) / sourceWidth))
+
+	if (cols * rows > MAX_CELLS) {
+		const scale = Math.sqrt(MAX_CELLS / (cols * rows))
+		cols = Math.max(MIN_COLUMNS, Math.floor(cols * scale))
+		rows = Math.max(1, Math.round((cols * sourceHeight) / sourceWidth))
+
+		while (cols * rows > MAX_CELLS && cols > MIN_COLUMNS) {
+			cols -= 1
+			rows = Math.max(1, Math.round((cols * sourceHeight) / sourceWidth))
+		}
+	}
+
+	const cellPx = Math.max(1, Math.floor(targetLongEdge / Math.max(cols, rows)))
+	const width = cols * cellPx
+	const height = rows * cellPx
+
+	return { cols, rows, cellPx, width, height }
 }
 
 /**
@@ -44,7 +68,7 @@ export function deriveGrid(
  * cell corners.
  */
 export function coverFactor(theta: number): number {
-	throw new Error('unimplemented')
+	return Math.abs(Math.cos(theta)) + Math.abs(Math.sin(theta))
 }
 
 /**
@@ -60,12 +84,35 @@ export function coverSide(
 	cellHeight: number,
 	theta: number,
 ): number {
-	throw new Error('unimplemented')
+	const cos = Math.abs(Math.cos(theta))
+	const sin = Math.abs(Math.sin(theta))
+	return Math.max(
+		cellWidth * cos + cellHeight * sin,
+		cellWidth * sin + cellHeight * cos,
+	)
 }
 
-/** Deterministic PRNG. Same seed, same mosaic — preview and export must agree. */
+/**
+ * Deterministic PRNG. Same seed, same mosaic — preview and export must agree.
+ *
+ * The mulberry32 algorithm is bitwise by construction (xorshift-style mixing);
+ * there is no non-bitwise way to express it.
+ */
 export function mulberry32(seed: number): () => number {
-	throw new Error('unimplemented')
+	// eslint-disable-next-line no-bitwise
+	let state = seed >>> 0
+
+	return function next(): number {
+		// eslint-disable-next-line no-bitwise, unicorn/number-literal-case -- oxfmt normalises hex literals to lowercase
+		state = (state + 0x6d2b79f5) >>> 0
+		let t = state
+		// eslint-disable-next-line no-bitwise
+		t = Math.imul(t ^ (t >>> 15), t | 1)
+		// eslint-disable-next-line no-bitwise
+		t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+		// eslint-disable-next-line no-bitwise
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+	}
 }
 
 /**
@@ -78,5 +125,16 @@ export function mulberry32(seed: number): () => number {
  * but leaves the residual with no spatial structure to see.
  */
 export function shuffledOrder(count: number, seed: number): Uint32Array {
-	throw new Error('unimplemented')
+	const order = new Uint32Array(count)
+	for (let i = 0; i < count; i++) order[i] = i
+
+	const random = mulberry32(seed)
+	for (let i = count - 1; i > 0; i--) {
+		const j = Math.floor(random() * (i + 1))
+		const temp = order[i]
+		order[i] = order[j]
+		order[j] = temp
+	}
+
+	return order
 }

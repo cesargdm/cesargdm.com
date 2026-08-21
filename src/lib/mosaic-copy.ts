@@ -1,0 +1,138 @@
+import type { Locale } from '@/lib/i18n'
+
+/**
+ * Copy for the photo mosaic tool, shared by the two locale-slugged pages that
+ * render it (/en/projects/photo-mosaic and /es/projects/mosaico-de-fotos).
+ */
+export const MOSAIC_COPY = {
+	en: {
+		title: 'Photo Mosaic',
+		description:
+			'Turn a photo into a mosaic built from hundreds of your other photos, entirely in your browser — nothing is uploaded.',
+		intro:
+			'Pick one photo to recreate and a batch of others to build it from. This tool tiles the main image into a grid, matches each cell to the photo that fits it best, and draws the result — all in your browser. Nothing is uploaded.',
+		noscript:
+			'Your mosaic will appear here. This tool needs JavaScript, because it does all its work in your browser rather than on a server.',
+
+		mainImageHeading: 'Main image',
+		mainImageLabel: 'Choose the photo to recreate',
+		tilesHeading: 'Tile photos',
+		photosLabel: 'Choose the photos to build it from',
+		photosHint:
+			'The more photos you add, the better the result. Up to 512 are used.',
+		dropPrompt: 'Drag and drop photos here, or click to choose files',
+
+		gridDensityLabel: 'Grid density',
+		blackAndWhiteLabel: 'Black and white',
+		tintLabel: 'Tint strength',
+		tintHint:
+			"Blends the main image's colors into each tile, so the mosaic reads correctly from a distance.",
+		rotationLabel: 'Rotation',
+		rotationHint:
+			'Rotates each tile by a small random amount, so the grid looks less mechanical.',
+		exportSizeLabel: 'Export size',
+		exportFormatLabel: 'Export format',
+		nativeDetail: 'Native detail (full resolution)',
+		exceedsCanvasLimit: "Exceeds this browser's canvas size limit",
+
+		generate: 'Generate mosaic',
+		cancel: 'Cancel',
+		download: 'Download',
+
+		phaseIngest: 'Reading photos…',
+		phaseMatch: 'Matching tiles…',
+		phaseDraw: 'Drawing…',
+		phaseEncode: 'Encoding…',
+		progressAnnouncement: '{percent}% complete',
+
+		empty: 'Your mosaic will appear here.',
+		gridSummary: '{cols} columns × {rows} rows',
+		photoCountSummary: 'Built from {count} photos',
+
+		rejectedFiles: '{count} files could not be used',
+		heicUnsupported:
+			'iPhone photos in HEIC format cannot be read in Chrome or Firefox. Export them as JPEG first, or open this page in Safari.',
+		tooMany:
+			'Using {used} of your {total} photos, evenly spaced across the selection.',
+
+		errors: {
+			unsupported:
+				'This tool needs a recent browser — Chrome, Firefox, or Safari 16.4 or later.',
+			decode:
+				'One of your photos could not be read. It may be corrupted or in a format this browser does not support.',
+			memory:
+				'Ran out of memory. Try a smaller grid, fewer photos, or a smaller export size.',
+			'no-tiles': 'Add at least one tile photo before generating a mosaic.',
+			'no-target': 'Choose a main image before generating a mosaic.',
+			'canvas-blank':
+				'The mosaic came out blank. Try again, or use a different main image.',
+			unknown: 'Something went wrong. Try again.',
+		},
+	},
+	es: {
+		title: 'Mosaico de fotos',
+		description:
+			'Convierte una foto en un mosaico hecho con cientos de tus otras fotos, todo en tu navegador — nada se sube.',
+		intro:
+			'Elige una foto para recrear y un lote de otras para construirla. Esta herramienta divide la imagen principal en una cuadrícula, empareja cada celda con la foto que mejor encaja y dibuja el resultado — todo en tu navegador. Nada se sube.',
+		noscript:
+			'Tu mosaico aparecerá aquí. Esta herramienta necesita JavaScript, porque hace todo su trabajo en tu navegador y no en un servidor.',
+
+		mainImageHeading: 'Imagen principal',
+		mainImageLabel: 'Elige la foto que quieres recrear',
+		tilesHeading: 'Fotos para el mosaico',
+		photosLabel: 'Elige las fotos con las que se construirá',
+		photosHint:
+			'Cuantas más fotos agregues, mejor el resultado. Se usan hasta 512.',
+		dropPrompt: 'Arrastra y suelta las fotos aquí, o haz clic para elegirlas',
+
+		gridDensityLabel: 'Densidad de la cuadrícula',
+		blackAndWhiteLabel: 'Blanco y negro',
+		tintLabel: 'Intensidad del tinte',
+		tintHint:
+			'Mezcla los colores de la imagen principal en cada foto, para que el mosaico se lea bien desde lejos.',
+		rotationLabel: 'Rotación',
+		rotationHint:
+			'Gira cada foto una pequeña cantidad al azar, para que la cuadrícula se vea menos mecánica.',
+		exportSizeLabel: 'Tamaño de exportación',
+		exportFormatLabel: 'Formato de exportación',
+		nativeDetail: 'Detalle nativo (resolución completa)',
+		exceedsCanvasLimit: 'Supera el límite de lienzo de este navegador',
+
+		generate: 'Generar mosaico',
+		cancel: 'Cancelar',
+		download: 'Descargar',
+
+		phaseIngest: 'Leyendo fotos…',
+		phaseMatch: 'Emparejando fotos…',
+		phaseDraw: 'Dibujando…',
+		phaseEncode: 'Codificando…',
+		progressAnnouncement: '{percent}% completado',
+
+		empty: 'Tu mosaico aparecerá aquí.',
+		gridSummary: '{cols} columnas × {rows} filas',
+		photoCountSummary: 'Hecho con {count} fotos',
+
+		rejectedFiles: '{count} archivos no se pudieron usar',
+		heicUnsupported:
+			'Las fotos de iPhone en formato HEIC no se pueden leer en Chrome ni en Firefox. Expórtalas como JPEG, o abre esta página en Safari.',
+		tooMany: 'Usando {used} de tus {total} fotos, repartidas de forma pareja.',
+
+		errors: {
+			unsupported:
+				'Esta herramienta necesita un navegador reciente — Chrome, Firefox o Safari 16.4 o posterior.',
+			decode:
+				'Una de tus fotos no se pudo leer. Puede estar dañada o en un formato que este navegador no admite.',
+			memory:
+				'Se acabó la memoria. Prueba con una cuadrícula más pequeña, menos fotos o un tamaño de exportación menor.',
+			'no-tiles':
+				'Agrega al menos una foto para el mosaico antes de generarlo.',
+			'no-target': 'Elige una imagen principal antes de generar el mosaico.',
+			'canvas-blank':
+				'El mosaico salió en blanco. Intenta de nuevo, o usa otra imagen principal.',
+			unknown: 'Algo salió mal. Intenta de nuevo.',
+		},
+	},
+} as const
+
+export type MosaicCopy = (typeof MOSAIC_COPY)[Locale]

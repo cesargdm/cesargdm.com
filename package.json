@@ -11,6 +11,7 @@
 		"format:check": "oxfmt --check . && prettier --check '**/*.astro'",
 		"lint": "oxlint --type-aware && eslint 'src/**/*.astro'",
 		"i18n:check": "node scripts/check-i18n.mjs",
+		"test": "bun test",
 		"start": "astro preview",
 		"typecheck": "astro sync && tsgo --noEmit && astro check",
 		"clean": "rm -rf node_modules bun.lockb dist .vercel .astro .wrangler"

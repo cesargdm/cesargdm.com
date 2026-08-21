@@ -33,6 +33,8 @@ jobs:
         run: bun run typecheck
       - name: 🌍 Check Translations
         run: bun run i18n:check
+      - name: 🧪 Run Tests
+        run: bun test
 
   build:
     name: Build Site

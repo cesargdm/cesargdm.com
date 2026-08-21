@@ -5,6 +5,16 @@
  * Float32Arrays so the inner loop stays monomorphic and allocation-free.
  */
 
+import { signatureDistanceSq } from './color'
+import {
+	ADJACENCY_PENALTY,
+	ADJACENCY_RADIUS,
+	MATCH_YIELD_INTERVAL,
+	REUSE_PENALTY,
+	SIGNATURE_LENGTH,
+} from './constants'
+import { shuffledOrder } from './layout'
+
 export type MatchInput = {
 	/** cols * rows * SIGNATURE_LENGTH, in row-major cell order. */
 	cellSignatures: Float32Array
@@ -27,22 +37,203 @@ export type MatchResult = {
 }
 
 /**
+ * Whether any cell already assigned within a Chebyshev `ADJACENCY_RADIUS` of
+ * (cellCol, cellRow) already uses `tileIndex`.
+ */
+function hasAdjacentUse(
+	assignment: Int32Array,
+	cols: number,
+	rows: number,
+	cellCol: number,
+	cellRow: number,
+	tileIndex: number,
+): boolean {
+	const minCol = Math.max(0, cellCol - ADJACENCY_RADIUS)
+	const maxCol = Math.min(cols - 1, cellCol + ADJACENCY_RADIUS)
+	const minRow = Math.max(0, cellRow - ADJACENCY_RADIUS)
+	const maxRow = Math.min(rows - 1, cellRow + ADJACENCY_RADIUS)
+
+	for (let row = minRow; row <= maxRow; row++) {
+		for (let col = minCol; col <= maxCol; col++) {
+			if (col === cellCol && row === cellRow) continue
+			if (assignment[row * cols + col] === tileIndex) return true
+		}
+	}
+
+	return false
+}
+
+/**
+ * Brute-force best tile for one cell among tiles under `maxUses`. Returns -1
+ * if every tile is already at `maxUses`.
+ */
+function findBestTile(
+	cellSignatures: Float32Array,
+	cellOffset: number,
+	tileSignatures: Float32Array,
+	tileCount: number,
+	weightC: number,
+	usesSoFar: Uint16Array,
+	maxUses: number,
+	assignment: Int32Array,
+	cols: number,
+	rows: number,
+	cellCol: number,
+	cellRow: number,
+): number {
+	let bestTile = -1
+	let bestScore = Number.POSITIVE_INFINITY
+
+	for (let tileIndex = 0; tileIndex < tileCount; tileIndex++) {
+		if (usesSoFar[tileIndex] >= maxUses) continue
+
+		const tileOffset = tileIndex * SIGNATURE_LENGTH
+		const distance = signatureDistanceSq(
+			cellSignatures,
+			cellOffset,
+			tileSignatures,
+			tileOffset,
+			weightC,
+		)
+		const adjacent = hasAdjacentUse(
+			assignment,
+			cols,
+			rows,
+			cellCol,
+			cellRow,
+			tileIndex,
+		)
+		const score =
+			distance +
+			REUSE_PENALTY * usesSoFar[tileIndex] +
+			(adjacent ? ADJACENCY_PENALTY : 0)
+
+		if (score < bestScore) {
+			bestScore = score
+			bestTile = tileIndex
+		}
+	}
+
+	return bestTile
+}
+
+/**
+ * The brute-force greedy assignment shared by every exported entry point.
+ *
+ * Visits cells in shuffled order (not raster order — see `shuffledOrder`),
+ * scoring every tile against the cell's signature plus a reuse penalty and an
+ * adjacency penalty. Tiles at `maxUses` are skipped; if that leaves a cell
+ * with no candidate, the cap is raised to `ceil(cells / tileCount)` — enough
+ * capacity for every cell to get a tile — so a pathological `spread` cannot
+ * hang or crash the assignment.
+ */
+function* runAssignment(
+	input: MatchInput,
+): Generator<number, MatchResult, void> {
+	const {
+		cellSignatures,
+		tileSignatures,
+		cols,
+		rows,
+		tileCount,
+		spread,
+		weightC,
+		seed,
+	} = input
+	const cellCount = cols * rows
+	const assignment = new Int32Array(cellCount).fill(-1)
+	const usesSoFar = new Uint16Array(tileCount)
+
+	const initialMaxUses =
+		tileCount > 0 ? Math.max(1, Math.ceil((cellCount / tileCount) * spread)) : 0
+	const fallbackMaxUses =
+		tileCount > 0 ? Math.max(1, Math.ceil(cellCount / tileCount)) : 0
+
+	const order = shuffledOrder(cellCount, seed)
+	let distinctTiles = 0
+	let assignedCount = 0
+
+	for (let k = 0; k < cellCount; k++) {
+		const cellIndex = order[k]
+		const cellRow = Math.floor(cellIndex / cols)
+		const cellCol = cellIndex % cols
+		const cellOffset = cellIndex * SIGNATURE_LENGTH
+
+		let bestTile = findBestTile(
+			cellSignatures,
+			cellOffset,
+			tileSignatures,
+			tileCount,
+			weightC,
+			usesSoFar,
+			initialMaxUses,
+			assignment,
+			cols,
+			rows,
+			cellCol,
+			cellRow,
+		)
+
+		if (bestTile === -1 && tileCount > 0) {
+			bestTile = findBestTile(
+				cellSignatures,
+				cellOffset,
+				tileSignatures,
+				tileCount,
+				weightC,
+				usesSoFar,
+				fallbackMaxUses,
+				assignment,
+				cols,
+				rows,
+				cellCol,
+				cellRow,
+			)
+		}
+
+		if (bestTile !== -1) {
+			assignment[cellIndex] = bestTile
+			if (usesSoFar[bestTile] === 0) distinctTiles++
+			usesSoFar[bestTile]++
+		}
+
+		assignedCount++
+		if (assignedCount % MATCH_YIELD_INTERVAL === 0) yield assignedCount
+	}
+
+	yield assignedCount
+	return { assignment, distinctTiles }
+}
+
+function drain(iterator: Generator<number, MatchResult, void>): MatchResult {
+	let result = iterator.next()
+	while (!result.done) {
+		result = iterator.next()
+	}
+	return result.value
+}
+
+/**
  * Generator form, yielding the number of cells assigned so far.
  *
  * A generator rather than a plain function because the worker must actually
  * yield to its event loop between chunks: a synchronous loop that only calls
  * `postMessage` can never observe an inbound `cancel`, since the message queues
  * behind the running task.
+ *
+ * NOTE: the bucketed pre-filter described for large (cells * tileCount) is not
+ * implemented — see the module-level remark at the bottom of this file for why.
+ * This always runs the brute-force scan, identically to `assignTilesLinear`.
  */
 export function* assignTilesIterative(
 	input: MatchInput,
 ): Generator<number, MatchResult, void> {
-	throw new Error('unimplemented')
+	return yield* runAssignment(input)
 }
 
 /** Drains the generator. For tests and for grids small enough not to need yielding. */
 export function assignTiles(input: MatchInput): MatchResult {
-	throw new Error('unimplemented')
+	return drain(assignTilesIterative(input))
 }
 
 /**
@@ -51,5 +242,20 @@ export function assignTiles(input: MatchInput): MatchResult {
  * asserted.
  */
 export function assignTilesLinear(input: MatchInput): MatchResult {
-	throw new Error('unimplemented')
+	return drain(runAssignment(input))
 }
+
+/**
+ * On the bucketed pre-filter: `writeSignatureMean` is specified as a *plain*
+ * (unweighted) mean of the 9 samples, while `signatureDistanceSq` is a
+ * *weighted* sum (corner/edge/centre weights of 0.75/1/1.5). The Jensen bound
+ * needed to prune admissibly requires the mean and the distance to use the
+ * same weighting — with mismatched weights the plain-mean-based bound can
+ * exceed the true weighted distance (counterexample: 4 corner samples at +1
+ * deviation, the centre sample at -4 deviation, giving a weighted mean-square
+ * of ~24.6 against a naive bound of 25), which would wrongly prune the actual
+ * best tile and break exact equivalence with the brute-force scan. Rather than
+ * ship a pre-filter that can silently diverge from brute force, this file
+ * always uses the brute-force scan (see the doc comment on
+ * `assignTilesIterative`).
+ */

@@ -1,11 +1,8 @@
 /**
- * Every tunable in the mosaic engine.
+ * Every tunable in the mosaic engine, in one place.
  *
- * `no-magic-numbers` allows only -1, 0, 1 and 2, and CI runs eslint with
- * `--max-warnings=0`. Scalar consts here are the escape hatch that works;
- * literals inside array literals or expressions are flagged even when assigned
- * to a named const, which is why `color.ts` and `render.ts` disable the rule
- * at file scope instead.
+ * Gathered here so the engine's behaviour can be read and adjusted without
+ * hunting through the draw and match loops for a literal.
  */
 
 /** Edge length of one tile in the atlas, in pixels. */

@@ -4,6 +4,8 @@ import { getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
 import { text } from '@/lib/frontmatter'
 import { getProjects } from '@/lib/projects'
+import type { Tool } from '@/lib/tools'
+import { getTools } from '@/lib/tools'
 
 export const prerender = true
 
@@ -26,9 +28,16 @@ function toLink(section: string, entry: Entry) {
 		: `- [${title}](${url})`
 }
 
+// Tools live in tools.ts, not as markdown Entry objects, so they get their own
+// mapping — same `- [title](url): description` format as toLink.
+function toToolLink(tool: Tool) {
+	return `- [${tool.title}](${BASE_URL}/en/projects/${tool.path}): ${tool.description}`
+}
+
 export const GET: APIRoute = () => {
 	const projects = getProjects('en')
 	const posts = getPosts('en')
+	const tools = getTools('en')
 
 	const body = `# César Guadarrama Cantú
 
@@ -51,7 +60,7 @@ ${posts.map((entry) => toLink('blog', entry)).join('\n')}
 
 ## Tools
 
-- [QR Code Generator](${BASE_URL}/en/projects/qr-code-generator): Generate a QR code from any text and download it as SVG or PNG, entirely in the browser.
+${tools.map(toToolLink).join('\n')}
 
 ## Optional
 

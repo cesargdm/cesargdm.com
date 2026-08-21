@@ -24,6 +24,7 @@ export type Tool = {
 export const TOOL_PATHS = {
 	qrCodeGenerator: { en: 'qr-code-generator', es: 'codigo-qr' },
 	cvReview: { en: 'cv-review', es: 'revisor-cv' },
+	photoMosaic: { en: 'photo-mosaic', es: 'mosaico-de-fotos' },
 } as const
 
 export type ToolKey = keyof typeof TOOL_PATHS
@@ -42,6 +43,12 @@ const TOOLS: Record<Locale, Tool[]> = {
 			description:
 				'Extract the text from a PDF résumé in the browser, so you can see what a parser sees.',
 		},
+		{
+			path: TOOL_PATHS.photoMosaic.en,
+			title: 'Photo Mosaic',
+			description:
+				'Rebuild any photo as a mosaic of your own images, matched by color and rendered entirely in your browser.',
+		},
 	],
 	es: [
 		{
@@ -55,6 +62,12 @@ const TOOLS: Record<Locale, Tool[]> = {
 			title: 'Revisión de CV',
 			description:
 				'Extrae el texto de un CV en PDF desde el navegador, para ver lo que ve un parser.',
+		},
+		{
+			path: TOOL_PATHS.photoMosaic.es,
+			title: 'Mosaico de fotos',
+			description:
+				'Reconstruye cualquier foto como un mosaico hecho con tus propias imágenes, emparejadas por color y generado por completo en tu navegador.',
 		},
 	],
 }

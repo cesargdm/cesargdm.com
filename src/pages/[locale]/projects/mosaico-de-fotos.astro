@@ -1,0 +1,40 @@
+---
+import PhotoMosaic from '@/modules/PhotoMosaic'
+
+import { getMetadata } from '@/lib/metadata'
+import { MOSAIC_COPY } from '@/lib/mosaic-copy'
+import { TOOL_PATHS } from '@/lib/tools'
+
+import Layout from '@/layouts/Layout.astro'
+import { entryContainer } from '@/styles/project-post.css'
+
+export const prerender = true
+
+// Spanish only — the English tool keeps its own slug.
+export function getStaticPaths() {
+	return [{ params: { locale: 'es' } }]
+}
+
+const locale = 'es' as const
+const copy = MOSAIC_COPY[locale]
+
+const meta = getMetadata({
+	locale,
+	title: `${copy.title} - Proyectos`,
+	description: copy.description,
+	canonicalPath: `/projects/${TOOL_PATHS.photoMosaic[locale]}`,
+})
+---
+
+<Layout locale={locale} meta={meta}>
+	<div class={entryContainer}>
+		<h1>{copy.title}</h1>
+		<p>{copy.intro}</p>
+
+		<PhotoMosaic client:only="react" copy={copy} />
+
+		<noscript>
+			<p>{copy.noscript}</p>
+		</noscript>
+	</div>
+</Layout>
