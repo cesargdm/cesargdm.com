@@ -1,6 +1,6 @@
-import { vars } from '@/styles/theme.css'
-
 import { globalStyle, style } from '@vanilla-extract/css'
+
+import { vars } from '@/styles/theme.css'
 
 export const notFoundContainer = style({
 	display: 'flex',

@@ -1,6 +1,6 @@
-import { vars } from '@/styles/theme.css'
-
 import { globalStyle, style } from '@vanilla-extract/css'
+
+import { vars } from '@/styles/theme.css'
 
 /*
  * Off-screen until keyboard-focused, then dropped in above everything else —

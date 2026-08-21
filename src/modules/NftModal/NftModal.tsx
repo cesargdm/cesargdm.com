@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import Modal from '@/components/Modal'
 import NftInfo from '@/components/Nft'
-
 import type { Locale } from '@/lib/i18n'
 import { readJson } from '@/lib/json'
 import type { Nft } from '@/lib/open-sea'

@@ -1,10 +1,9 @@
-import { useMemo } from 'react'
 import { IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
-
-import { toggleTheme } from '@/modules/Nav/ToggleTheme/styles.css'
+import { useMemo } from 'react'
 
 import type { Locale } from '@/lib/i18n'
 import { getTranslate } from '@/lib/translate'
+import { toggleTheme } from '@/modules/Nav/ToggleTheme/styles.css'
 
 type Props = {
 	locale: Locale
@@ -27,6 +26,7 @@ export default function ThemeButton({ locale, value, onChange }: Props) {
 
 	return (
 		<button
+			type="button"
 			title={t('nav.theme.toggle')}
 			aria-label={t('nav.theme.toggle')}
 			className={toggleTheme}

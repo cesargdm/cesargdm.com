@@ -1,3 +1,6 @@
+import avatarDataUri from '@/assets/avatar.png?inline'
+import interRegular from '@/assets/fonts/inter-latin-400-normal.woff?inline'
+import interSemiBold from '@/assets/fonts/inter-latin-600-normal.woff?inline'
 // eslint-disable-next-line no-magic-numbers
 type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
@@ -43,10 +46,6 @@ export const styles = {
 		fontWeight: 600,
 	},
 } as const
-
-import avatarDataUri from '@/assets/avatar.png?inline'
-import interRegular from '@/assets/fonts/inter-latin-400-normal.woff?inline'
-import interSemiBold from '@/assets/fonts/inter-latin-600-normal.woff?inline'
 
 export type OgFont = {
 	name: string

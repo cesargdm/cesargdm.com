@@ -1,6 +1,6 @@
-import { vars } from '@/styles/theme.css'
-
 import { style } from '@vanilla-extract/css'
+
+import { vars } from '@/styles/theme.css'
 
 const LIGHT_SQUARE = '#E4E8EF'
 const DARK_SQUARE = '#9AA7BA'

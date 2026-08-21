@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
 import { IconBrandLinkedin, IconBrandX } from '@tabler/icons-react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Locale } from '@/lib/i18n'
 import { getTranslate } from '@/lib/translate'
@@ -24,7 +24,7 @@ export default function SideAboutMe({ locale }: { locale: Locale }) {
 
 	const handleShare = useCallback(() => {
 		navigator.share({ title: 'César Guadarrama Cantú', url }).catch(() => null)
-	}, [])
+	}, [url])
 
 	return (
 		<aside>
@@ -65,7 +65,11 @@ export default function SideAboutMe({ locale }: { locale: Locale }) {
 				typeof navigator === 'object' &&
 				url &&
 				typeof navigator.share === 'function',
-			) && <button onClick={handleShare}>{t('aside.share')}</button>}
+			) && (
+				<button type="button" onClick={handleShare}>
+					{t('aside.share')}
+				</button>
+			)}
 		</aside>
 	)
 }

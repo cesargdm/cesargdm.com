@@ -1,18 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
 	IconArrowUp,
 	IconArrowUpRight,
 	IconDots,
 	IconMessage,
 } from '@tabler/icons-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
-
 import type { Locale } from '@/lib/i18n'
 import { readJson } from '@/lib/json'
 import { getTranslate } from '@/lib/translate'
-
 import { vars } from '@/styles/theme.css'
 
 import {

@@ -1,5 +1,5 @@
-import { useEffect, useId, useState } from 'react'
 import * as QRCode from 'qrcode'
+import { useEffect, useId, useState } from 'react'
 
 import {
 	actions,
@@ -132,6 +132,9 @@ export default function QrCodeGenerator({ copy }: Props) {
 					<>
 						<div
 							className={previewFrame}
+							// The QR code is inline SVG injected as markup, so there is no
+							// <img> to use instead; role + label is how it is announced.
+							// eslint-disable-next-line jsx-a11y/prefer-tag-over-role
 							role="img"
 							aria-label={copy.textLabel}
 							// The library emits pure path geometry — it never echoes the

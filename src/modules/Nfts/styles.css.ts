@@ -1,13 +1,12 @@
-import { cardButton } from '@/modules/card.css'
-
-import { vars } from '@/styles/theme.css'
-
 import {
 	globalStyle,
 	keyframes,
 	style,
 	styleVariants,
 } from '@vanilla-extract/css'
+
+import { cardButton } from '@/modules/card.css'
+import { vars } from '@/styles/theme.css'
 
 export const headingLink = style({
 	display: 'flex',

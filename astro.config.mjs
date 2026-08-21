@@ -1,11 +1,11 @@
 // @ts-check
 import process from 'node:process'
+
 import cloudflare from '@astrojs/cloudflare'
 import react from '@astrojs/react'
-import { defineConfig } from 'astro/config'
-
 import { lingui } from '@lingui/vite-plugin'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({

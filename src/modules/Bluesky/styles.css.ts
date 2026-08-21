@@ -1,9 +1,8 @@
-import { cardButton } from '@/modules/card.css'
+import { style } from '@vanilla-extract/css'
 
+import { cardButton } from '@/modules/card.css'
 import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
-
-import { style } from '@vanilla-extract/css'
 
 export const profileButton = style([
 	cardButton,

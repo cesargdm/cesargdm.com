@@ -1,9 +1,8 @@
-import { cardButton } from '@/modules/card.css'
+import { style, styleVariants } from '@vanilla-extract/css'
 
+import { cardButton } from '@/modules/card.css'
 import { glassTint } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
-
-import { style, styleVariants } from '@vanilla-extract/css'
 
 /*
  * GitHub's own calendar palette, light value first. `light-dark()` keys off
