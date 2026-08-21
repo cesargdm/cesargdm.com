@@ -3,7 +3,10 @@
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
-		"baseUrl": ".",
+		// No `baseUrl`: TypeScript 6 errors on it (TS5101) and 7.0 drops it, and
+		// that error aborts the whole config — `paths` never loads, so editors
+		// report every `@/` import as a missing module. Since TS 4.1 `paths` are
+		// resolved relative to this file, so it was never needed.
 		"paths": {
 			"@/*": ["./src/*"]
 		}
