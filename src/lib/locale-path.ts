@@ -40,7 +40,14 @@ export function getAlternateLocalePath(
 	target: Locale,
 	pathname: string,
 ): string {
-	const segments = pathname.replace(/^\/|\/$/g, '').split('/')
+	// `build.format: 'file'` prerenders /en/blog/x as /en/blog/x.html, and the
+	// pathname carries that suffix at build time. Left on, the slug never matched
+	// an entry, so switching language from an article silently fell back to the
+	// section index — and section pages linked to `/es/blog.html`.
+	const segments = pathname
+		.replace(/\.html$/, '')
+		.replace(/^\/|\/$/g, '')
+		.split('/')
 	const [, section, slug] = segments
 
 	if (!section) return `/${target}`
