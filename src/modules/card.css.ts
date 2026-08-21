@@ -1,8 +1,8 @@
+import { style } from '@vanilla-extract/css'
+
 import { glassOverImage } from '@/styles/glass.css'
 import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
-
-import { style } from '@vanilla-extract/css'
 
 /**
  * Shared call-to-action button for the home page cards. Lived in the X/Post

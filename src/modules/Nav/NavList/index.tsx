@@ -1,20 +1,17 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
 import * as Popover from '@radix-ui/react-popover'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
-
 import type { Locale } from '@/lib/i18n'
 import { getTranslate } from '@/lib/translate'
 import { useSiteSearch } from '@/lib/use-site-search'
-
 import { vars } from '@/styles/theme.css'
 
 import Search from '../Search'
+import { centerNavList, navItem, searchList } from '../styles.css'
 
 import StaticNavList from './StaticNavList'
-
-import { centerNavList, navItem, searchList } from '../styles.css'
 
 function getInitialQuery() {
 	if (typeof window === 'undefined') return null

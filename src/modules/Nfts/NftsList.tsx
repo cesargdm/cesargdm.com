@@ -27,17 +27,17 @@ type Props = {
 export default function NftList({ data }: Props) {
 	const [isResizing, setIsResizing] = useState(false)
 	const [rerenderKey, setRerenderKey] = useState(0)
-	let resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null).current
+	const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	useEffect(() => {
 		function handleResizeEvent() {
 			setIsResizing(true)
 
-			if (typeof resizeTimer === 'number') {
-				clearTimeout(resizeTimer)
+			if (resizeTimer.current) {
+				clearTimeout(resizeTimer.current)
 			}
 
-			resizeTimer = setTimeout(() => {
+			resizeTimer.current = setTimeout(() => {
 				setIsResizing(false)
 				setRerenderKey((prev) => prev + 1)
 				// eslint-disable-next-line no-magic-numbers
@@ -48,6 +48,7 @@ export default function NftList({ data }: Props) {
 
 		return () => {
 			window.removeEventListener('resize', handleResizeEvent)
+			if (resizeTimer.current) clearTimeout(resizeTimer.current)
 		}
 	}, [])
 

@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react'
 import type { ChangeEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
-
 import type { Locale } from '@/lib/i18n'
 import { getTranslate } from '@/lib/translate'
 import { useSiteSearch } from '@/lib/use-site-search'

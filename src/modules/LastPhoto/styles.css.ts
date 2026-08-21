@@ -1,8 +1,7 @@
-import { cardButton } from '@/modules/card.css'
-
-import { vars } from '@/styles/theme.css'
-
 import { globalStyle, style } from '@vanilla-extract/css'
+
+import { cardButton } from '@/modules/card.css'
+import { vars } from '@/styles/theme.css'
 
 export const photosWrapper = style({
 	width: '100%',

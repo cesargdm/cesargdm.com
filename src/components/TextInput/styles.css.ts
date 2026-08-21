@@ -1,7 +1,7 @@
+import { style } from '@vanilla-extract/css'
+
 import { glass } from '@/styles/glass.css'
 import { vars } from '@/styles/theme.css'
-
-import { style } from '@vanilla-extract/css'
 
 export const textInput = style([
 	glass,

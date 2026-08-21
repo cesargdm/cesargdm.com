@@ -1,8 +1,8 @@
+import { style } from '@vanilla-extract/css'
+
 import { glassTint } from '@/styles/glass.css'
 import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
-
-import { style } from '@vanilla-extract/css'
 
 export const runContainer = style({
 	display: 'flex',
