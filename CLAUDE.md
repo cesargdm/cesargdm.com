@@ -8,10 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 bun dev              # Start workerd-backed Astro dev server (localhost:4321)
 bun run build        # Production build (Astro + Cloudflare adapter)
 bun run preview      # Preview the production build locally (also workerd)
-bun run typecheck    # Type checking (astro check)
-bun run lint         # ESLint with zero warnings (--max-warnings=0)
-bun run format:check # Prettier check
-bun run format       # Prettier auto-fix
+bun run typecheck    # tsgo (ts/tsx) + astro check (.astro)
+bun run lint         # oxlint (ts/tsx) + eslint (.astro), warnings are errors
+bun run format:check # oxfmt (everything) + prettier (.astro)
+bun run format       # same, auto-fixing
 bun run i18n:check   # Fail if src/locales/*.po and src/lib/message-ids.ts disagree
 
 # Full CI check (what integration.yml runs):
@@ -98,16 +98,32 @@ Since the extractor cannot see runtime calls, `lingui extract` reports nothing; 
 - `src/styles/` - Vanilla Extract theme + shared/page styles + global CSS
 - `src/assets/` - Markdown content and static icons
 
+## Toolchain
+
+`oxlint`, `oxfmt` and `tsgo` cover `.ts`/`.tsx`, matching the setup in the TOLO monorepo.
+ESLint, Prettier and the `typescript` package are still installed, each scoped to `.astro`
+only, because none of the oxc tools can cover those files yet:
+
+- **oxfmt has no `.astro` parser** — it treats the files as excluded, so Prettier still
+  formats them (`prettier.config.cjs` keeps the same tabs/quotes/semicolon settings so the
+  two formatters agree)
+- **oxlint reads `.astro` only as far as its `<script>` block**, so it never sees the
+  markup. Most of this site's HTML is `.astro` templates, and `eslint.config.mjs` — now
+  reduced to `eslint-plugin-astro` and nothing else — is what keeps a11y enforced on them
+- **`tsgo` cannot parse `.astro`**; `astro check` does
+
+Do not "simplify" by deleting the ESLint or Prettier configs. Each one is load-bearing for
+a file type oxc does not handle, and dropping them fails silently rather than loudly.
+
 ## Code Conventions
 
 - **Bun** as package manager
-- React island components use **function declarations** (enforced by ESLint on `.ts`/`.tsx`)
+- React island components use **function declarations** (enforced by oxlint on `.ts`/`.tsx`)
 - **Separate type imports** required: `import type { X }` (not inline `import { type X }`)
-- Import order is auto-sorted by `eslint-plugin-simple-import-sort`
+- Import order is auto-sorted by oxfmt's `experimentalSortImports` (`.oxfmtrc.json`), not by a lint rule
 - No magic numbers except -1, 0, 1, 2 (object-literal properties like `{ status: 400 }` are exempt)
-- No `console.log` (ESLint warns)
-- Strict accessibility: `jsx-a11y/strict` config (TS/TSX); `.astro` linted with `eslint-plugin-astro`
-- Prettier config: `prettier.config.cjs` (extends `prettier-config-cretia` + `prettier-plugin-astro`)
+- No `console.log` (`console.warn`/`console.error` are allowed)
+- Strict accessibility: oxlint's `jsx-a11y` plugin on TS/TSX; `.astro` markup via `eslint-plugin-astro`
 - Deploy target: **Cloudflare Workers** (`wrangler.jsonc`, `compatibility_date` + `nodejs_compat`)
 - After changing `wrangler.jsonc`, run `bunx wrangler types` and commit `worker-configuration.d.ts`. Do not hand-write the generated `Env`; add secret names only via the `Cloudflare.Env` augmentation in `src/env.d.ts`
 
@@ -126,10 +142,11 @@ Non-obvious notes for developing here:
 - **Dev / preview is workerd, not Node.** `bun dev` and `bun run preview` both run the Cloudflare
   adapter. The root path `/` returns a 302 redirect to a locale prefix (`/en` or `/es`) via
   `src/middleware.ts`, so hit `/en` (or `/es`) directly when checking pages. Port is **4321**.
-- **`astro check` is the type checker** (`bun run typecheck`), not `tsc`. Run `bunx astro sync`
-  after changing routes/config if editor types get stale. `bun run lint` runs `astro sync` first
-  because type-aware ESLint needs `.astro/types.d.ts` (that file is gitignored; CI lint runs
-  before `astro check`).
+- **Two type checkers, by necessity.** `tsgo` (TypeScript 7, from `@typescript/native-preview`)
+  handles `.ts`/`.tsx`; `astro check` handles `.astro`, and it still needs the 6.x `typescript`
+  package, which is why both are installed. `bun run typecheck` runs `astro sync` first — without
+  the generated `.astro/types.d.ts`, `tsgo` cannot resolve `astro:*` modules, `import.meta.glob`
+  or `?inline` imports.
 - **Remote bindings are opt-in.** `remoteBindings` in `astro.config.mjs` is off unless
   `ASTRO_CF_REMOTE=1`. Enabling it starts a proxy session that requires Cloudflare auth, which
   made `astro build` — and therefore CI — fail without a token. The deployed Worker gets the real
