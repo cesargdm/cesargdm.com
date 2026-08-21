@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import Modal from '@/components/Modal'
 import NftInfo from '@/components/Nft'
@@ -17,6 +17,11 @@ const NFT_PATH = /^\/(?:en|es)\/nfts\/([^/]+)\/?$/
  */
 export default function NftModal() {
 	const [nft, setNft] = useState<Nft | null>(null)
+	const dialogRef = useRef<HTMLDialogElement>(null)
+	// Set right before we close the dialog ourselves (in the effect below) so
+	// the resulting native "close" event — indistinguishable from an Escape-key
+	// close — doesn't also trigger a second, redundant history.back().
+	const closingProgrammatically = useRef(false)
 
 	const loadNft = useCallback(async (id: string) => {
 		try {
@@ -75,10 +80,45 @@ export default function NftModal() {
 		window.history.back()
 	}, [])
 
-	if (!nft) return null
+	// `showModal()`/`close()` are imperative DOM APIs, not props — this is what
+	// gives the dialog its native focus trap, top-layer `aria-modal` semantics,
+	// initial focus, and focus-return-to-trigger on close. Setting the `open`
+	// attribute directly (the previous approach) opts out of all of that.
+	useEffect(() => {
+		const dialog = dialogRef.current
+		if (!dialog) return
+
+		if (nft && !dialog.open) {
+			dialog.showModal()
+		} else if (!nft && dialog.open) {
+			closingProgrammatically.current = true
+			dialog.close()
+		}
+	}, [nft])
+
+	// Escape closes the dialog natively before this fires, which would leave
+	// the pushed history entry (and URL) out of sync with the now-closed
+	// dialog — so this is what reconciles them for that path.
+	useEffect(() => {
+		const dialog = dialogRef.current
+		if (!dialog) return
+
+		function handleDialogClose() {
+			if (closingProgrammatically.current) {
+				closingProgrammatically.current = false
+				return
+			}
+			handleClose()
+		}
+
+		dialog.addEventListener('close', handleDialogClose)
+		return () => dialog.removeEventListener('close', handleDialogClose)
+	}, [handleClose])
 
 	return (
 		<dialog
+			ref={dialogRef}
+			aria-label={nft?.name}
 			style={{
 				top: 0,
 				left: 0,
@@ -89,11 +129,12 @@ export default function NftModal() {
 				backgroundColor: 'rgba(0,0,0,0.1)',
 				zIndex: 1,
 			}}
-			open
 		>
-			<Modal onClose={handleClose}>
-				<NftInfo {...nft} />
-			</Modal>
+			{nft ? (
+				<Modal onClose={handleClose}>
+					<NftInfo {...nft} />
+				</Modal>
+			) : null}
 		</dialog>
 	)
 }

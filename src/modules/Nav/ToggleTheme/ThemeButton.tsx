@@ -28,6 +28,7 @@ export default function ThemeButton({ locale, value, onChange }: Props) {
 	return (
 		<button
 			title={t('nav.theme.toggle')}
+			aria-label={t('nav.theme.toggle')}
 			className={toggleTheme}
 			onClick={onChange}
 		>

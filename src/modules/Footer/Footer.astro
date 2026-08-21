@@ -30,6 +30,9 @@ const alternatePath = getAlternateLocalePath(
 	alternateLocale,
 	Astro.url.pathname,
 )
+const viewInAlternateLocale = t(
+	alternateLocale === 'es' ? 'footer.viewInSpanish' : 'footer.viewInEnglish',
+)
 ---
 
 <footer class={footerContainer}>
@@ -57,6 +60,8 @@ const alternatePath = getAlternateLocalePath(
 	</ul>
 
 	<p>
-		<a href={alternatePath} hreflang={alternateLocale}>{alternateLocale}</a>
+		<a href={alternatePath} hreflang={alternateLocale}>
+			{viewInAlternateLocale}
+		</a>
 	</p>
 </footer>

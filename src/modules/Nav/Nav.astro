@@ -51,11 +51,11 @@ const back =
 		)
 	}
 
-	<NavList client:load locale={locale} pathname={pathname} />
+	<NavList client:idle locale={locale} pathname={pathname} />
 
 	<ul class:list={[navList, navToggleThemeItem]}>
 		<li>
-			<ToggleTheme client:load locale={locale} />
+			<ToggleTheme client:idle locale={locale} />
 		</li>
 	</ul>
 </nav>

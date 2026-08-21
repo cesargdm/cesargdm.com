@@ -13,7 +13,10 @@ export function getHumanReadableDate(date: string | Date) {
  * everything is normalised to a timestamp before sorting.
  */
 export function toTimestamp(value: unknown): number {
-	if (value instanceof Date) return value.getTime()
+	if (value instanceof Date) {
+		const timestamp = value.getTime()
+		return Number.isNaN(timestamp) ? 0 : timestamp
+	}
 
 	if (typeof value === 'number') return new Date(`${value}`).getTime()
 
@@ -39,4 +42,11 @@ export function byDateDescending(
 	b: { data: { date?: unknown } },
 ) {
 	return toTimestamp(b.data.date) - toTimestamp(a.data.date)
+}
+
+/** ISO 8601 string for a frontmatter date, or `null` when it can't be parsed. */
+export function toIsoDate(value: unknown): string | null {
+	const timestamp = toTimestamp(value)
+
+	return timestamp ? new Date(timestamp).toISOString() : null
 }

@@ -3,7 +3,8 @@ import AsideAboutMe from '@/modules/AsideAboutMe'
 import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
 
 import { getPost, getPosts } from '@/lib/blog'
-import { BASE_URL } from '@/lib/constants'
+import { AUTHOR, BASE_URL } from '@/lib/constants'
+import { toIsoDate } from '@/lib/date'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
@@ -51,9 +52,29 @@ const meta = post
 			images: [`${BASE_URL}/${locale}/blog/${post.slug}/opengraph-image.png`],
 		})
 	: getMetadata({ locale, title: 'Not Found' })
+
+const datePublished = post ? toIsoDate(post.data.date) : null
+
+const jsonLd = post
+	? {
+			'@context': 'https://schema.org',
+			'@type': 'BlogPosting',
+			headline: post.data.title as string,
+			description: post.data.extract as string,
+			image: `${BASE_URL}/${locale}/blog/${post.slug}/opengraph-image.png`,
+			// Omitted rather than defaulted: frontmatter dates come from hand-edited
+			// markdown, and an unparseable one is better left out than reported as
+			// a false (epoch) `datePublished` to search engines.
+			...(datePublished ? { datePublished } : {}),
+			url: meta.canonical,
+			mainEntityOfPage: meta.canonical,
+			inLanguage: locale,
+			author: { '@type': 'Person', ...AUTHOR },
+		}
+	: undefined
 ---
 
-<Layout locale={locale} meta={meta}>
+<Layout locale={locale} meta={meta} jsonLd={jsonLd}>
 	{
 		post ? (
 			<>

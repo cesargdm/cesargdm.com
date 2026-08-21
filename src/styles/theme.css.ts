@@ -88,7 +88,10 @@ const lightColors = {
 		regular: '#111318',
 		secondary: '#374151',
 		tertiary: '#6B7280',
-		decorative: '#A5AFBD',
+		// #A5AFBD read ~2.2:1 on the content background, failing the 3:1 WCAG
+		// 1.4.11 minimum for non-text (icon) contrast. This clears it (~3.2:1)
+		// while staying visibly lighter than `tertiary`.
+		decorative: '#8791A0',
 	},
 } as const
 

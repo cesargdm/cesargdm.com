@@ -29,6 +29,9 @@ msgstr "Escribe para ver sugerencias"
 msgid "nav.theme.toggle"
 msgstr "Cambiar tema"
 
+msgid "nav.skipToContent"
+msgstr "Saltar al contenido"
+
 msgid "footer.copyright"
 msgstr "Derechos"
 
@@ -37,6 +40,12 @@ msgstr "Código"
 
 msgid "footer.localTime"
 msgstr "Hora local"
+
+msgid "footer.viewInSpanish"
+msgstr "Ver en español"
+
+msgid "footer.viewInEnglish"
+msgstr "Ver en inglés"
 
 msgid "blog.title"
 msgstr "Blog"
