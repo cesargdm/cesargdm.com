@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
-import { glassTint } from '@/styles/glass.css'
+import { glassTint } from '@/styles/glass-tint.css'
 import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 

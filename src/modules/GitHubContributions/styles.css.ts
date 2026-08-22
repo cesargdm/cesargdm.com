@@ -1,7 +1,7 @@
 import { style, styleVariants } from '@vanilla-extract/css'
 
 import { cardButton } from '@/modules/card.css'
-import { glassTint } from '@/styles/glass.css'
+import { glassTint } from '@/styles/glass-tint.css'
 import { vars } from '@/styles/theme.css'
 
 /*

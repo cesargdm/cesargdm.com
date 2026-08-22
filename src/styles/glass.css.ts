@@ -1,6 +1,14 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { vars } from '@/styles/theme.css'
+
+/*
+ * Every export here has to be serialisable. Layout.astro imports the refraction
+ * CSS below, and importing a `.css.ts` from a runtime module makes
+ * vanilla-extract serialise the whole module's exports — which a function
+ * cannot survive. That is why `glassTint` lives in `glass-tint.css.ts` rather
+ * than here.
+ */
 
 /*
  * One layer, not a stack. The effect that reads as glass is a blurred and
@@ -13,8 +21,8 @@ import { vars } from '@/styles/theme.css'
  */
 // Barely any blur: blur is what makes a surface read as frosted, and the
 // bending is supposed to do the work here.
-const BACKDROP = 'blur(1px) saturate(215%)'
-const BACKDROP_HOVER = 'blur(2px) saturate(250%)'
+export const BACKDROP = 'blur(1px) saturate(215%)'
+export const BACKDROP_HOVER = 'blur(2px) saturate(250%)'
 
 /*
  * Refraction: what makes it read as glass rather than as frosting. The filter
@@ -34,7 +42,7 @@ const REFRACTED_HOVER = `${BACKDROP_HOVER} url(#glass-refraction)`
  * which is the opposite of what a pane you can see through should do — the
  * refracted edge already separates it from the backdrop.
  */
-const BEVEL = [
+export const BEVEL = [
 	// The lit edge, where light catches the top of the pane.
 	'inset 0 1px 0 0 rgba(255, 255, 255, 0.5)',
 	// A hairline rim so the shape stays legible against a busy backdrop.
@@ -82,26 +90,6 @@ export const glassOverImage = style({
 	},
 })
 
-/**
- * Glass for a button that has to keep a brand colour. The tint stays high so
- * white text keeps effectively the same contrast it had when the button was
- * solid — below about 0.8 the label starts competing with whatever shows
- * through, which is exactly the trade a CTA should not make.
- */
-export function glassTint(color: string, hoverColor: string) {
-	return style({
-		backgroundColor: color,
-		backdropFilter: BACKDROP,
-		boxShadow: BEVEL,
-		transition:
-			'backdrop-filter 300ms, background-color 300ms, transform 260ms cubic-bezier(0.2, 0.8, 0.3, 1)',
-		':hover': {
-			backgroundColor: hoverColor,
-			backdropFilter: BACKDROP_HOVER,
-		},
-	})
-}
-
 /** Lifting the blur on hover reads as the pane catching more light. */
 export const glassInteractive = style([
 	glass,
@@ -112,7 +100,37 @@ export const glassInteractive = style([
 	},
 ])
 
-globalStyle(`.${glass}`, { backdropFilter: REFRACTED })
-globalStyle(`.${glassOverImage}`, { backdropFilter: REFRACTED })
-globalStyle(`.${glassInteractive}:hover`, { backdropFilter: REFRACTED_HOVER })
-globalStyle(`.${glassOverImage}:hover`, { backdropFilter: REFRACTED_HOVER })
+/*
+ * A composed style's class name is several class names separated by spaces, so
+ * interpolating one straight into a selector builds a descendant combinator and
+ * matches nothing — `.a b:hover` rather than `.a.b:hover`. Chaining them is what
+ * keeps a composed class addressable.
+ */
+function selector(className: string) {
+	return `.${className.trim().split(/\s+/).join('.')}`
+}
+
+/**
+ * The refraction, as plain CSS for `Layout.astro` to inline.
+ *
+ * It cannot be emitted from this file. Vanilla-extract's output is a virtual
+ * module, and the production pipeline drops any `backdrop-filter` whose value
+ * carries a `url()` when it arrives that way — through `globalStyle` and
+ * through the fallback-array form on the style object alike. The identical
+ * declaration in a real `.css` file survives untouched, so this is not the
+ * minifier: `blur(3px) url(#probe)` added to `global.css` comes out the other
+ * side complete, and autoprefixed.
+ *
+ * The failure was silent and asymmetric, which is what made it expensive. The
+ * rules are in the dev-server CSS, so the effect looked right locally while
+ * production had been shipping the SVG filter and nothing that referenced it.
+ * `is:inline` is what Astro leaves alone.
+ *
+ * Ordering is load-bearing: these are single-class selectors, the same
+ * specificity as the bundled rules they override, so only document order
+ * separates them — Layout renders this in the body, after the head stylesheet.
+ */
+export const REFRACTION_CSS = [
+	`${selector(glass)},${selector(glassOverImage)}{-webkit-backdrop-filter:${REFRACTED};backdrop-filter:${REFRACTED}}`,
+	`${selector(glassInteractive)}:hover,${selector(glassOverImage)}:hover{-webkit-backdrop-filter:${REFRACTED_HOVER};backdrop-filter:${REFRACTED_HOVER}}`,
+].join('')

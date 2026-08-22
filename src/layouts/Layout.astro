@@ -11,6 +11,7 @@ import type { ResolvedMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
 import { getTranslate } from '@/lib/translate'
 
+import { REFRACTION_CSS } from '@/styles/glass.css'
 import { body, content, skipLink } from '@/styles/layout.css'
 import { darkTheme, lightTheme, responsiveTheme } from '@/styles/theme.css'
 
@@ -223,6 +224,20 @@ const Y_MAP = ramp(true)
 					yChannelSelector="G"></feDisplacementMap>
 			</filter>
 		</svg>
+
+		{
+			/*
+			  The rules that point the glass at that filter, inlined rather than
+			  bundled. Vanilla-extract's CSS is a virtual module, and the production
+			  pipeline strips any `backdrop-filter` carrying a `url()` that comes
+			  from one — silently, and only in the build, so the effect worked in dev
+			  while production shipped without it. `is:inline` is what Astro leaves
+			  alone. It sits here, in the body, because these selectors have the same
+			  specificity as the bundled ones they override and only order separates
+			  them.
+			*/
+		}
+		<style is:inline set:html={REFRACTION_CSS}></style>
 
 		<Nav locale={locale} />
 
