@@ -5,10 +5,12 @@
    zone carries drag handlers but is not itself a control; the buttons inside it
    are, and they are what the keyboard uses. Dropping is enhancement on top, and
    removing it would cost mouse users the drop target for nothing. */
-import { IconArrowsMaximize, IconPhotoEdit } from '@tabler/icons-react'
+import { IconArrowsMaximize, IconArrowsShuffle } from '@tabler/icons-react'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent } from 'react'
 
+import Checkbox from '@/components/Checkbox'
+import Slider from '@/components/Slider'
 import type { MosaicCopy } from '@/lib/mosaic-copy'
 
 import {
@@ -205,7 +207,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 								className={styles.cornerLeft}
 								title={copy.replaceMainImage}
 							>
-								<IconPhotoEdit size={ICON_SIZE} />
+								<IconArrowsShuffle size={ICON_SIZE} />
 								<input
 									accept="image/*"
 									className={styles.fileOverInput}
@@ -247,11 +249,18 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 						/>
 					</div>
 
+					{/* Kept in the layout while idle rather than unmounted: the mosaic
+					    regenerates on every control change, and a bar that came and went
+					    would make the whole column jump several times a second. */}
 					<progress
 						aria-label={state.phase ? phaseLabel(copy, state.phase) : undefined}
-						className={styles.progressBar}
+						className={
+							isBusy
+								? styles.progressBar
+								: `${styles.progressBar} ${styles.progressIdle}`
+						}
 						max={1}
-						value={isBusy ? state.progress : 1}
+						value={isBusy ? state.progress : 0}
 					/>
 
 					{/* <output> carries an implicit status role, so the announcement
@@ -277,33 +286,34 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							</button>
 						) : canExport ? (
 							<span className={styles.exportRow}>
-								{/* The label is for assistive tech only: the options read as
-								    sizes on their own, and a visible "Export size" caption
-								    pushed Download onto a second line. */}
-								<label className={styles.visuallyHidden} htmlFor={sizeId}>
-									{copy.exportSizeLabel}
-								</label>
-								<select
-									className={styles.exportSelect}
-									id={sizeId}
-									onChange={(event) => {
-										setSizeIndex(Number(event.target.value))
-										clearExport()
-									}}
-									value={sizeIndex}
-								>
-									{exportOptions.map((option, index) => (
-										<option
-											disabled={!option.available}
-											key={option.edge}
-											value={index}
-										>
-											{option.width} × {option.height}
-											{option.nativeDetail ? ` — ${copy.nativeDetail}` : ''}
-											{option.available ? '' : ` — ${copy.exceedsCanvasLimit}`}
-										</option>
-									))}
-								</select>
+								<span className={styles.exportField}>
+									<label className={styles.label} htmlFor={sizeId}>
+										{copy.exportSizeLabel}
+									</label>
+									<select
+										className={styles.exportSelect}
+										id={sizeId}
+										onChange={(event) => {
+											setSizeIndex(Number(event.target.value))
+											clearExport()
+										}}
+										value={sizeIndex}
+									>
+										{exportOptions.map((option, index) => (
+											<option
+												disabled={!option.available}
+												key={option.edge}
+												value={index}
+											>
+												{option.width} × {option.height}
+												{option.nativeDetail ? ` — ${copy.nativeDetail}` : ''}
+												{option.available
+													? ''
+													: ` — ${copy.exceedsCanvasLimit}`}
+											</option>
+										))}
+									</select>
+								</span>
 								{state.downloadUrl ? (
 									<a
 										className={styles.downloadLink}
@@ -424,15 +434,13 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							>
 								{copy.gridDensityLabel}
 							</InfoLabel>
-							<input
-								className={styles.slider}
+							<Slider
 								id={densityId}
 								max={MAX_COLUMNS}
 								min={MIN_COLUMNS}
 								onChange={(event) =>
 									updateSettings({ columns: Number(event.target.value) }, true)
 								}
-								type="range"
 								value={settings.columns}
 							/>
 							<span className={styles.value}>
@@ -447,9 +455,8 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 
 						<div className={styles.group}>
 							<div className={styles.checkboxRow}>
-								<input
+								<Checkbox
 									checked={settings.blackAndWhite}
-									className={styles.checkbox}
 									id={monoId}
 									onChange={(event) =>
 										updateSettings(
@@ -457,7 +464,6 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 											true,
 										)
 									}
-									type="checkbox"
 								/>
 								<label className={styles.label} htmlFor={monoId}>
 									{copy.blackAndWhiteLabel}
@@ -473,8 +479,7 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							>
 								{copy.tintLabel}
 							</InfoLabel>
-							<input
-								className={styles.slider}
+							<Slider
 								disabled={settings.blackAndWhite}
 								id={tintId}
 								max={PERCENT}
@@ -485,7 +490,6 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 										false,
 									)
 								}
-								type="range"
 								value={Math.round(settings.tint * PERCENT)}
 							/>
 							<span className={styles.value}>
@@ -495,9 +499,8 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 
 						<div className={styles.group}>
 							<div className={styles.checkboxRow}>
-								<input
+								<Checkbox
 									checked={settings.allowRotation}
-									className={styles.checkbox}
 									id={orientationId}
 									onChange={(event) =>
 										updateSettings(
@@ -505,7 +508,6 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 											true,
 										)
 									}
-									type="checkbox"
 								/>
 								<InfoLabel
 									explain={copy.explain}
@@ -525,15 +527,13 @@ export default function PhotoMosaic({ copy }: { copy: MosaicCopy }) {
 							>
 								{copy.tiltLabel}
 							</InfoLabel>
-							<input
-								className={styles.slider}
+							<Slider
 								id={rotationId}
 								max={MAX_ROTATION_DEGREES}
 								min={0}
 								onChange={(event) =>
 									updateSettings({ tilt: Number(event.target.value) }, false)
 								}
-								type="range"
 								value={settings.tilt}
 							/>
 							<span className={styles.value}>{settings.tilt}°</span>
