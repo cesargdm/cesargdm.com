@@ -9,8 +9,14 @@ import { checkbox } from './styles.css'
  * focus, keyboard and assistive-technology behaviour for free; only its
  * appearance is replaced.
  */
-function Checkbox(props: ComponentProps<'input'>) {
-	return <input {...props} className={checkbox} type="checkbox" />
+function Checkbox({ className, ...props }: ComponentProps<'input'>) {
+	return (
+		<input
+			{...props}
+			className={className ? `${checkbox} ${className}` : checkbox}
+			type="checkbox"
+		/>
+	)
 }
 
 export default Checkbox
