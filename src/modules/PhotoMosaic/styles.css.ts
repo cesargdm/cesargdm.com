@@ -4,22 +4,6 @@ import { glassOverImage } from '@/styles/glass.css'
 import { press } from '@/styles/press.css'
 import { vars } from '@/styles/theme.css'
 
-/**
- * `global.css` gives every `input` `appearance: none`, a 40px minimum box and a
- * pill radius. On a range or a checkbox that does not merely restyle the
- * control — it deletes its track and thumb outright in WebKit and Chromium — so
- * each one has to opt back in explicitly.
- */
-const nativeControl = {
-	// Unprefixed only: `appearance` has been supported since Safari 15.4, below
-	// this tool's 16.4 floor, and csstype has no 'auto' for the -webkit- form.
-	appearance: 'auto',
-	accentColor: vars.colors.primary,
-	minWidth: 0,
-	minHeight: 'auto',
-	borderRadius: 0,
-} as const
-
 export const container = style({
 	display: 'flex',
 	flexDirection: 'column',
@@ -68,21 +52,10 @@ export const label = style({
 	color: vars.colors.text.regular,
 })
 
-export const hint = style({
-	margin: 0,
-	fontSize: vars.fontSize.xsmall,
-	color: vars.colors.text.secondary,
-})
-
 export const value = style({
 	fontSize: vars.fontSize.xsmall,
 	color: vars.colors.text.secondary,
 	fontVariantNumeric: 'tabular-nums',
-})
-
-export const slider = style({
-	...nativeControl,
-	width: '100%',
 })
 
 export const checkboxRow = style({
@@ -91,34 +64,11 @@ export const checkboxRow = style({
 	gap: vars.space.medium,
 })
 
-export const checkbox = style({
-	...nativeControl,
-	width: '1rem',
-	height: '1rem',
-	flexShrink: 0,
-})
-
 export const fileInput = style({
 	fontSize: vars.fontSize.small,
 	minHeight: 'auto',
 	borderRadius: 0,
 	textAlign: 'left',
-})
-
-/**
- * Clipped rather than `display: none`: a hidden-by-display input cannot be
- * focused, which would leave the drop zone keyboard-unreachable.
- */
-export const visuallyHidden = style({
-	position: 'absolute',
-	width: 1,
-	height: 1,
-	padding: 0,
-	margin: -1,
-	overflow: 'hidden',
-	clipPath: 'inset(50%)',
-	whiteSpace: 'nowrap',
-	border: 0,
 })
 
 /**
@@ -244,6 +194,18 @@ export const progressBar = style({
 	accentColor: vars.colors.primary,
 })
 
+/**
+ * Idle, the bar is a full-width filled line directly under the canvas — it read
+ * as a rule drawn across the bottom of the frame rather than as progress.
+ *
+ * Hidden rather than unmounted: the mosaic now regenerates on every control
+ * change, so a bar that came and went would make the whole column jump several
+ * times a second.
+ */
+export const progressIdle = style({
+	visibility: 'hidden',
+})
+
 export const status = style({
 	margin: 0,
 	fontSize: vars.fontSize.xsmall,
@@ -338,32 +300,34 @@ export const pickerButton = style([
  * A label over the canvas rather than a separate control: with nothing rendered
  * yet, that rectangle is the most obvious place to click, and the canvas itself
  * cannot be a file input.
+ *
+ * Deliberately without `press`. The press-in reads as a control yielding under
+ * the finger, which works on something button-sized; on a rectangle this large
+ * it scales the whole frame — and the frame is the piece the layout is built
+ * around, so the whole page appears to flinch.
  */
-export const emptyOverlay = style([
-	press,
-	{
-		position: 'absolute',
-		inset: 0,
-		overflow: 'hidden',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: vars.space.xlarge,
-		textAlign: 'center',
-		cursor: 'pointer',
-		borderRadius: vars.borderRadius.medium,
-		border: `1px dashed ${vars.colors.border}`,
-		color: vars.colors.text.secondary,
-		fontSize: vars.fontSize.small,
-		selectors: {
-			'&:hover': { backgroundColor: vars.colors.background.gray },
-			'&:focus-within': {
-				outline: `2px solid ${vars.colors.primary}`,
-				outlineOffset: 2,
-			},
+export const emptyOverlay = style({
+	position: 'absolute',
+	inset: 0,
+	overflow: 'hidden',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	padding: vars.space.xlarge,
+	textAlign: 'center',
+	cursor: 'pointer',
+	borderRadius: vars.borderRadius.medium,
+	border: `1px dashed ${vars.colors.border}`,
+	color: vars.colors.text.secondary,
+	fontSize: vars.fontSize.small,
+	selectors: {
+		'&:hover': { backgroundColor: vars.colors.background.gray },
+		'&:focus-within': {
+			outline: `2px solid ${vars.colors.primary}`,
+			outlineOffset: 2,
 		},
 	},
-])
+})
 
 export const pickerRow = style({
 	display: 'flex',
@@ -474,7 +438,7 @@ export const cornerRight = style([
 	},
 ])
 
-/** The [i] toggle beside a control's label. */
+/** The `?` toggle beside a control's label. */
 export const infoButton = style({
 	display: 'inline-flex',
 	alignItems: 'center',
@@ -496,8 +460,32 @@ export const infoButton = style({
 })
 
 export const labelRow = style({
+	position: 'relative',
 	display: 'flex',
 	alignItems: 'center',
+})
+
+/**
+ * The explanation, floating under the `?` that opened it.
+ *
+ * Out of flow on purpose: in the flow it displaced every control below it, so
+ * reading about a slider slid that slider out from under the pointer.
+ */
+export const hintPopover = style({
+	position: 'absolute',
+	top: 'calc(100% + 6px)',
+	left: 0,
+	zIndex: 5,
+	width: 'max-content',
+	maxWidth: '15rem',
+	padding: `${vars.space.medium} ${vars.space.large}`,
+	borderRadius: vars.borderRadius.medium,
+	border: `1px solid ${vars.colors.border}`,
+	backgroundColor: vars.colors.background.content,
+	boxShadow: vars.boxShadow.medium,
+	color: vars.colors.text.secondary,
+	fontSize: vars.fontSize.xsmall,
+	lineHeight: 1.4,
 })
 
 export const ingestProgress = style({
@@ -512,15 +500,25 @@ export const ingestProgress = style({
 export const exportRow = style({
 	display: 'flex',
 	flexWrap: 'nowrap',
-	alignItems: 'center',
+	// Bottom-aligned, not centred: the size carries a label above it now, and
+	// centring would float Download half a line off the select it belongs to.
+	alignItems: 'flex-end',
 	gap: vars.space.medium,
 	width: '100%',
 })
 
-export const exportSelect = style({
+export const exportField = style({
 	// Shrinks rather than pushing Download onto its own line; the two are one
 	// action read left to right, and a wrap breaks that reading.
 	flex: '1 1 auto',
+	minWidth: 0,
+	display: 'flex',
+	flexDirection: 'column',
+	gap: vars.space.small,
+})
+
+export const exportSelect = style({
+	width: '100%',
 	minWidth: 0,
 	minHeight: vars.sizes.button,
 	fontSize: vars.fontSize.small,
