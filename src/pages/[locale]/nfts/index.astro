@@ -1,5 +1,5 @@
 ---
-import { isLocale } from '@/lib/i18n'
+import { isLocale, LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import { getNfts } from '@/lib/open-sea'
 import { getTranslate } from '@/lib/translate'
@@ -14,6 +14,12 @@ import {
 	nftsList,
 	nftTextWrapper,
 } from '@/styles/nfts.css'
+
+export const prerender = true
+
+export function getStaticPaths() {
+	return LOCALES.map((locale) => ({ params: { locale } }))
+}
 
 const locale = Astro.params.locale
 if (!isLocale(locale)) return Astro.rewrite('/404')

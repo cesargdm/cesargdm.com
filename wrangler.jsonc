@@ -7,6 +7,16 @@
 	"assets": {
 		"directory": "./dist",
 		"binding": "ASSETS",
+		// Match `trailingSlash: 'never'` / `build.format: 'file'`. The default
+		// `auto-trailing-slash` already 307s `/en/` → `/en` for `en.html`, but
+		// being explicit keeps a future `index.html` from flipping the policy.
+		"html_handling": "drop-trailing-slash",
+	},
+	// Worker-generated GET responses (API, OG images, on-demand HTML) honor
+	// Cache-Control. Static assets are served without the Worker and keep using
+	// `_headers`. Deploys bust this cache because the key includes the version.
+	"cache": {
+		"enabled": true,
 	},
 	// Workers AI powers the /api/assistant chat endpoint. There is no local
 	// simulation; `remote: true` is required (omitting it still connects remotely

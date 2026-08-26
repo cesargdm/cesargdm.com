@@ -3,6 +3,11 @@ import type { APIRoute } from 'astro'
 import { getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
 import { toTimestamp } from '@/lib/date'
+import {
+	cacheControl,
+	ONE_DAY_SECONDS,
+	ONE_HOUR_SECONDS,
+} from '@/lib/fetch-cache'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getAlternateLocalePath } from '@/lib/locale-path'
@@ -10,7 +15,7 @@ import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
 import { getTools } from '@/lib/tools'
 
-export const prerender = false
+export const prerender = true
 
 const STATIC_PATHS = [
 	'',
@@ -114,6 +119,9 @@ export const GET: APIRoute = async () => {
 		.join('')}</urlset>`
 
 	return new Response(body, {
-		headers: { 'content-type': 'application/xml; charset=utf-8' },
+		headers: {
+			'content-type': 'application/xml; charset=utf-8',
+			'cache-control': cacheControl(ONE_DAY_SECONDS, ONE_HOUR_SECONDS),
+		},
 	})
 }

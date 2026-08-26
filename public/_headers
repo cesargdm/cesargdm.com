@@ -5,11 +5,32 @@
   Permissions-Policy: geolocation=(self), microphone=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 
-/_astro/*
-  Cache-Control: public, max-age=31556952, immutable
-
-/fonts/*
-  Cache-Control: public, max-age=31556952, immutable
+/*.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 /images/*
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/favicon.ico
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/site.webmanifest
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/robots.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/llms.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/api/assets
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/*/search-index.json
+  Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400
+
+/_astro/*
+  Cache-Control: public, max-age=31556952, immutable

@@ -1,5 +1,10 @@
 import type { APIRoute } from 'astro'
 
+import {
+	cacheControl,
+	ONE_DAY_SECONDS,
+	ONE_HOUR_SECONDS,
+} from '@/lib/fetch-cache'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { buildSearchIndex } from '@/lib/search-index'
@@ -16,7 +21,7 @@ export const GET: APIRoute = ({ params }) => {
 	return new Response(JSON.stringify(index), {
 		headers: {
 			'content-type': 'application/json; charset=utf-8',
-			'cache-control': 'public, max-age=3600, stale-while-revalidate=86400',
+			'cache-control': cacheControl(ONE_DAY_SECONDS, ONE_HOUR_SECONDS),
 		},
 	})
 }
