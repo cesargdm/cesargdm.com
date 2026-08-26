@@ -5,10 +5,25 @@
   Permissions-Policy: geolocation=(self), microphone=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 
-/*.png
+/images/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
-/images/*
+/apple-touch-icon.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/android-chrome-192x192.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/android-chrome-512x512.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/favicon-16x16.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/favicon-32x32.png
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+/opengraph-image.png
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
 /favicon.ico
