@@ -2,11 +2,17 @@ import { match as matchLocale } from '@formatjs/intl-localematcher'
 import { defineMiddleware } from 'astro:middleware'
 import Negotiator from 'negotiator'
 
-import { LOCALES } from '@/lib/i18n'
+import {
+	cacheControl,
+	ONE_HOUR_SECONDS,
+	ONE_MINUTE_SECONDS,
+} from '@/lib/fetch-cache'
+import type { Locale } from '@/lib/i18n'
+import { isLocale, LOCALES, withLocalePrefix } from '@/lib/i18n'
 import type { Theme } from '@/modules/Nav/ToggleTheme/ThemeButton'
 import { CookieName as ThemeCookieName } from '@/modules/Nav/ToggleTheme/ThemeButton'
 
-function getLocale(request: Request): string {
+function getLocale(request: Request): Locale {
 	const negotiatorHeaders: Record<string, string> = {}
 	request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
 
@@ -16,7 +22,9 @@ function getLocale(request: Request): string {
 		locales,
 	)
 
-	return matchLocale(languages, locales, LOCALES[0])
+	const matched = matchLocale(languages, locales, LOCALES[0])
+
+	return isLocale(matched) ? matched : LOCALES[0]
 }
 
 const FILE_EXTENSION = /\.[a-zA-Z0-9]+$/
@@ -44,6 +52,26 @@ function withSecurityHeaders(response: Response) {
 	return response
 }
 
+/**
+ * Workers Cache (wrangler `cache.enabled`) applies RFC 9111 heuristics when a
+ * 200 has no Cache-Control — two hours, which is longer than we want on a 404
+ * and silent on routes that forgot a header. Only fill in the gap; routes that
+ * already set Cache-Control (APIs, OG images) win.
+ */
+function withDefaultCacheControl(request: Request, response: Response) {
+	if (request.method !== 'GET' && request.method !== 'HEAD') return response
+	if (response.headers.has('cache-control')) return response
+	if (response.status >= 300 && response.status < 400) return response
+
+	if (response.status === 200) {
+		response.headers.set('cache-control', cacheControl(ONE_HOUR_SECONDS))
+	} else if (response.status === 404) {
+		response.headers.set('cache-control', cacheControl(ONE_MINUTE_SECONDS))
+	}
+
+	return response
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
 	const { url, request, cookies, locals } = context
 	const pathname = url.pathname
@@ -52,7 +80,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 	// Skip locale handling for API routes and static assets, but still render.
 	if (pathname.startsWith('/api') || FILE_EXTENSION.test(pathname)) {
-		return withSecurityHeaders(await next())
+		return withSecurityHeaders(withDefaultCacheControl(request, await next()))
 	}
 
 	// Redirect if there is no locale prefix in the pathname
@@ -63,12 +91,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 	if (pathnameIsMissingLocale) {
 		const locale = getLocale(request)
+		const response = context.redirect(
+			withLocalePrefix(locale, pathname, url.search),
+		)
 
-		// Carry the query string across. Dropping it silently broke anything that
-		// round-trips through a bare path — an OAuth callback to `/?code=…` lost
-		// its code, and `/?query=…` lost the search term.
-		return context.redirect(`/${locale}${pathname}${url.search}`)
+		// Locale negotiation depends on Accept-Language. Never let a shared cache
+		// pin the first visitor's locale onto everyone else.
+		response.headers.set('cache-control', 'private, no-store')
+
+		return withSecurityHeaders(response)
 	}
 
-	return withSecurityHeaders(await next())
+	return withSecurityHeaders(withDefaultCacheControl(request, await next()))
 })

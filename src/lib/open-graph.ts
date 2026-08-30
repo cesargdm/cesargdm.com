@@ -1,6 +1,11 @@
 import avatarDataUri from '@/assets/avatar.png?inline'
 import interRegular from '@/assets/fonts/inter-latin-400-normal.woff?inline'
 import interSemiBold from '@/assets/fonts/inter-latin-600-normal.woff?inline'
+import {
+	cacheControl,
+	ONE_DAY_SECONDS,
+	ONE_HOUR_SECONDS,
+} from '@/lib/fetch-cache'
 // eslint-disable-next-line no-magic-numbers
 type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 
@@ -120,6 +125,9 @@ export async function fetchImageAsDataUri(url: string) {
 export const OG_SIZE = { width: 1200, height: 630 }
 
 export function ogResponse(image: Response) {
-	image.headers.set('cache-control', 'public, max-age=3600, s-maxage=86400')
+	image.headers.set(
+		'cache-control',
+		cacheControl(ONE_DAY_SECONDS, ONE_HOUR_SECONDS),
+	)
 	return image
 }

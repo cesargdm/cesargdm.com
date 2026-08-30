@@ -2,6 +2,11 @@ import type { APIRoute } from 'astro'
 
 import { getPosts } from '@/lib/blog'
 import { BASE_URL } from '@/lib/constants'
+import {
+	cacheControl,
+	ONE_DAY_SECONDS,
+	ONE_HOUR_SECONDS,
+} from '@/lib/fetch-cache'
 import { text } from '@/lib/frontmatter'
 import { getProjects } from '@/lib/projects'
 import type { Tool } from '@/lib/tools'
@@ -72,6 +77,9 @@ ${tools.map(toToolLink).join('\n')}
 `
 
 	return new Response(body, {
-		headers: { 'content-type': 'text/plain; charset=utf-8' },
+		headers: {
+			'content-type': 'text/plain; charset=utf-8',
+			'cache-control': cacheControl(ONE_DAY_SECONDS, ONE_HOUR_SECONDS),
+		},
 	})
 }
