@@ -7,8 +7,8 @@
  */
 
 /** Same values as the light/dark theme `text.regular` tokens. */
-const INK_DARK = '#111318'
-const INK_LIGHT = '#F5F7FA'
+export const INK_DARK = '#111318'
+export const INK_LIGHT = '#F5F7FA'
 
 const SHORT_HEX_LENGTH = 3
 const LONG_HEX_LENGTH = 6

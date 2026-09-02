@@ -1,9 +1,22 @@
 import { describe, expect, test } from 'bun:test'
 
-import { getContrastingInk, getRelativeLuminance } from './contrast'
+import {
+	getContrastingInk,
+	getRelativeLuminance,
+	INK_DARK,
+	INK_LIGHT,
+} from './contrast'
 
-const INK_DARK = '#111318'
-const INK_LIGHT = '#F5F7FA'
+describe('the ink constants', () => {
+	// Imported rather than restated so the cases below read as "the light one"
+	// instead of a hex — but something still has to pin the hexes themselves,
+	// since they are hand-copied from a `.css.ts` that cannot be imported here
+	// (vanilla-extract needs its Vite plugin, which `bun test` does not run).
+	test('match the theme `text.regular` tokens', () => {
+		expect(INK_DARK).toBe('#111318')
+		expect(INK_LIGHT).toBe('#F5F7FA')
+	})
+})
 
 describe('getContrastingInk', () => {
 	test('picks light ink on the dark project backgrounds', () => {
