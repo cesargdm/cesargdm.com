@@ -1,6 +1,7 @@
 ---
 import { IconBrandGithub, IconStar } from '@tabler/icons-react'
 
+import { getContrastingInk } from '@/lib/contrast'
 import { getHumanReadableDate } from '@/lib/date'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
@@ -57,10 +58,18 @@ const meta = getMetadata({
 				const repository = entry.data.repository as
 					{ url: string; stars?: number } | undefined
 
+				// A highlighted card keeps its brand background in both themes, so
+				// its ink has to come from that background — inheriting the theme
+				// ink puts dark text on TOLO's green in light mode and light text
+				// on Cretia's grey in dark mode.
+				const ink = highlight?.color
+					? getContrastingInk(highlight.color)
+					: undefined
+
 				return (
 					<li class={highlight ? highlightedEntryItem : entryItem}>
 						<a
-							style={{ backgroundColor: highlight?.color }}
+							style={{ backgroundColor: highlight?.color, color: ink }}
 							class={projectEntryLink}
 							href={`/${locale}/projects/${entry.slug}`}
 						>
@@ -110,7 +119,7 @@ const meta = getMetadata({
 											: vars.colors.background.gray,
 										padding: '4px 8px',
 										borderRadius: '16px',
-										color: '#333',
+										color: repository.stars ? '#333' : vars.colors.text.regular,
 										textDecoration: 'none',
 									}}
 									href={repository.url}

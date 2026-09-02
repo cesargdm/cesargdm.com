@@ -37,7 +37,10 @@ export const projectTechnologies = style({
 })
 
 export const projectTechnologyItem = style({
-	backgroundColor: 'rgba(0, 0, 0, 0.075)',
+	// Tinted from the ink rather than a fixed black: a highlighted card keeps
+	// its brand background in both themes, so a hardcoded tint disappears on
+	// the dark ones.
+	backgroundColor: 'color-mix(in srgb, currentColor 10%, transparent)',
 	padding: `${vars.space.small} ${vars.space.medium}`,
 	borderRadius: vars.borderRadius.large,
 	fontSize: vars.fontSize.xsmall,
