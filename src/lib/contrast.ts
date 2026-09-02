@@ -40,6 +40,11 @@ function channelToLinear(channel: number): number {
 	return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
 }
 
+/** WCAG 2.1 contrast between two relative luminances, 1:1 to 21:1. */
+function getContrastRatio(a: number, b: number): number {
+	return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+}
+
 /** WCAG 2.1 relative luminance, 0 (black) to 1 (white). */
 export function getRelativeLuminance(color: string): number | null {
 	const rgb = parseHex(color)
@@ -60,7 +65,16 @@ export function getContrastingInk(background: string): string | undefined {
 	const luminance = getRelativeLuminance(background)
 	if (luminance === null) return undefined
 
-	// Contrast against white is (1.05 / (L + 0.05)); against black it is
-	// ((L + 0.05) / 0.05). They cross at L ≈ 0.179.
-	return luminance > 0.179 ? INK_DARK : INK_LIGHT
+	// Compared rather than thresholded: the crossover depends on the two ink
+	// values, so any constant here would silently go stale the moment the theme
+	// changes one. (For the current pair it sits at L ≈ 0.185 — the textbook
+	// 0.179 is the crossover for pure white and black, and using it picks the
+	// worse ink for backgrounds in between.)
+	const darkInk = getRelativeLuminance(INK_DARK) ?? 0
+	const lightInk = getRelativeLuminance(INK_LIGHT) ?? 1
+
+	return getContrastRatio(luminance, darkInk) >=
+		getContrastRatio(luminance, lightInk)
+		? INK_DARK
+		: INK_LIGHT
 }

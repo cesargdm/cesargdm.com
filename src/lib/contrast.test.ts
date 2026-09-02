@@ -49,3 +49,12 @@ describe('getRelativeLuminance', () => {
 		expect(getRelativeLuminance('#ffffff')).toBeCloseTo(1)
 	})
 })
+
+describe('the ink choice', () => {
+	test('is the better of the two at the crossover, not a stale constant', () => {
+		// A saturated blue at L ≈ 0.1816 lands between the textbook white/black
+		// crossover (0.179) and the real one for this ink pair (0.1851). A
+		// hardcoded 0.179 picks the dark ink here, which is the worse of the two.
+		expect(getContrastingInk('#006DFF')).toBe(INK_LIGHT)
+	})
+})
