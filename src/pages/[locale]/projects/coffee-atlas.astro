@@ -1,0 +1,10 @@
+---
+import Page from '@/modules/CoffeeAtlas/Page.astro'
+
+export const prerender = true
+export function getStaticPaths() {
+	return [{ params: { locale: 'en' } }]
+}
+---
+
+<Page locale="en" />

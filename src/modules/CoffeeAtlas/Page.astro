@@ -1,0 +1,53 @@
+---
+import CoffeeAtlas from './index'
+import { catalog, fallbackGrid } from './styles.css'
+import { VARIETIES, SOURCES } from '@/lib/coffee/data'
+import type { Locale } from '@/lib/i18n'
+import { getTranslate } from '@/lib/translate'
+import { getMetadata } from '@/lib/metadata'
+import { TOOL_PATHS } from '@/lib/tools'
+import Layout from '@/layouts/Layout.astro'
+
+const { locale } = Astro.props as { locale: Locale }
+const t = getTranslate(locale)
+const meta = getMetadata({
+	locale,
+	title: t('coffee.title'),
+	description: t('coffee.description'),
+	canonicalPath: `/projects/${TOOL_PATHS.coffeeAtlas[locale]}`,
+})
+---
+
+<Layout locale={locale} meta={meta} wide>
+	<CoffeeAtlas client:load locale={locale} />
+	<details class={catalog}>
+		<summary>{t('coffee.fallback')}</summary>
+		<p>{t('coffee.coverageBody')}</p>
+		<div class={fallbackGrid}>
+			{
+				VARIETIES.map((variety) => (
+					<article id={`catalog-${variety.id}`}>
+						<>
+							<h2>
+								<a
+									href={`?species=${variety.species.value}&variety=${variety.id}`}
+								>
+									{variety.name}
+								</a>
+							</h2>
+							<p>{variety.summary.value[locale]}</p>
+							<a
+								href={
+									SOURCES.find((source) => source.id === variety.summary.source)
+										?.url
+								}
+							>
+								{t('coffee.sources')}
+							</a>
+						</>
+					</article>
+				))
+			}
+		</div>
+	</details>
+</Layout>

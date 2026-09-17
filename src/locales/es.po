@@ -248,3 +248,217 @@ msgstr "Cerrar"
 msgid "modal.closeLabel"
 msgstr "Cerrar la ventana"
 
+
+msgid "coffee.title"
+msgstr "Atlas del café"
+
+msgid "coffee.description"
+msgstr "Explora las variedades de café, sus orígenes y las relaciones que las conectan."
+
+msgid "coffee.eyebrow"
+msgstr "Una guía viva del café"
+
+msgid "coffee.intro"
+msgstr "Cada café tiene una historia familiar."
+
+msgid "coffee.subtitle"
+msgstr "Empieza por una especie. Sigue un linaje. Descubre lo que distingue a cada variedad."
+
+msgid "coffee.overview"
+msgstr "Todas las especies"
+
+msgid "coffee.filters"
+msgstr "Filtros"
+
+msgid "coffee.search"
+msgstr "Buscar variedades o sinónimos"
+
+msgid "coffee.species"
+msgstr "Especie"
+
+msgid "coffee.group"
+msgstr "Grupo genético"
+
+msgid "coffee.origin"
+msgstr "País de origen o selección"
+
+msgid "coffee.evidence"
+msgstr "Evidencia en la ficha"
+
+msgid "coffee.unknown"
+msgstr "Desconocido / sin revisar"
+
+msgid "coffee.documented"
+msgstr "Documentado"
+
+msgid "coffee.reported"
+msgstr "Reportado"
+
+msgid "coffee.disputed"
+msgstr "En disputa"
+
+msgid "coffee.graph"
+msgstr "Mapa"
+
+msgid "coffee.list"
+msgstr "Lista"
+
+msgid "coffee.reset"
+msgstr "Restablecer filtros"
+
+msgid "coffee.close"
+msgstr "Cerrar"
+
+msgid "coffee.expand"
+msgstr "Ampliar explorador"
+
+msgid "coffee.collapse"
+msgstr "Salir de vista ampliada"
+
+msgid "coffee.zoomIn"
+msgstr "Acercar"
+
+msgid "coffee.zoomOut"
+msgstr "Alejar"
+
+msgid "coffee.fit"
+msgstr "Ajustar mapa"
+
+msgid "coffee.hint"
+msgstr "Arrastra para explorar · Desplaza para acercar"
+
+msgid "coffee.touchHint"
+msgstr "Usa dos dedos para mover y acercar. Amplía para arrastrar con un dedo."
+
+msgid "coffee.results"
+msgstr "{count} fichas en esta vista"
+
+msgid "coffee.records"
+msgstr "fichas"
+
+msgid "coffee.featured"
+msgstr "Variedades destacadas"
+
+msgid "coffee.enter"
+msgstr "Explorar especie"
+
+msgid "coffee.counts"
+msgstr "El tamaño refleja este atlas, no la abundancia mundial."
+
+msgid "coffee.empty"
+msgstr "Ninguna variedad coincide con estos filtros."
+
+msgid "coffee.select"
+msgstr "Un mundo de café, conexión por conexión."
+
+msgid "coffee.selectHint"
+msgstr "Elige una especie o busca un café que conozcas. Selecciona una variedad para leer su historia."
+
+msgid "coffee.lineage"
+msgstr "Explorar linaje"
+
+msgid "coffee.lineageLabel"
+msgstr "Linaje"
+
+msgid "coffee.relations"
+msgstr "Conexiones documentadas"
+
+msgid "coffee.noRelations"
+msgstr "Sin ascendencia representada en esta edición. Esto no significa que no existan parientes."
+
+msgid "coffee.parent"
+msgstr "Progenitor → descendiente"
+
+msgid "coffee.mutation"
+msgstr "Mutación → descendiente"
+
+msgid "coffee.membership"
+msgstr "Los círculos sombreados indican grupos genéticos, no ascendencia."
+
+msgid "coffee.aliases"
+msgstr "También conocido como"
+
+msgid "coffee.kind"
+msgstr "Tipo de ficha"
+
+msgid "coffee.cultivar"
+msgstr "Cultivar"
+
+msgid "coffee.selection"
+msgstr "Selección"
+
+msgid "coffee.hybrid"
+msgstr "Híbrido"
+
+msgid "coffee.landrace"
+msgstr "Variedad local"
+
+msgid "coffee.trade-name"
+msgstr "Nombre comercial"
+
+msgid "coffee.sources"
+msgstr "Fuentes y evidencia"
+
+msgid "coffee.reviewed"
+msgstr "Revisado"
+
+msgid "coffee.undated"
+msgstr "Fecha de publicación no indicada"
+
+msgid "coffee.share"
+msgstr "Copiar enlace de exploración"
+
+msgid "coffee.copied"
+msgstr "Enlace copiado"
+
+msgid "coffee.copyFailed"
+msgstr "Copia esta dirección"
+
+msgid "coffee.coverage"
+msgstr "Acerca de esta edición"
+
+msgid "coffee.coverageBody"
+msgstr "Un punto de partida curado: 113 fichas de dos especies, revisadas con World Coffee Research y el Instituto Agronômico de Brasil. No es un catálogo completo. Aún faltan Liberica, otras especies de Coffea, muchas selecciones regionales y nombres comerciales recientes. Las variedades destacadas son elecciones editoriales, no una clasificación."
+
+msgid "coffee.method"
+msgstr "Los orígenes indican lugares documentados de descubrimiento o selección, no todos los países de cultivo. Los orígenes ausentes o ambiguos permanecen desconocidos. Los filtros de evidencia coinciden con cualquier afirmación de la ficha. Los grupos genéticos no son progenitores directos. Las conexiones representan relaciones revisadas; las accesiones mencionadas no son automáticamente variedades."
+
+msgid "coffee.updates"
+msgstr "Mantenimiento manual, resúmenes originales y citas por afirmación. Las fuentes pueden cambiar después de la revisión; no se garantiza actualización automática ni cobertura completa."
+
+msgid "coffee.suggest"
+msgstr "Sugerir una variedad o corrección"
+
+msgid "coffee.fallback"
+msgstr "Consultar el catálogo"
+
+msgid "coffee.catalogHint"
+msgstr "El catálogo de texto completo está disponible abajo, incluso sin JavaScript."
+
+msgid "coffee.sizes"
+msgstr "Los puntos grandes tienen más descendientes documentados. Acerca el mapa para ver todas las etiquetas."
+
+msgid "coffee.remove"
+msgstr "Quitar filtro"
+
+msgid "coffee.revision"
+msgstr "Revisión de los datos"
+
+
+msgid "coffee.derivedFrom"
+msgstr "Derivada de"
+
+msgid "coffee.gaveRiseTo"
+msgstr "Dio origen a"
+
+msgid "coffee.mutationKind"
+msgstr "Mutación"
+
+msgid "coffee.crossParent"
+msgstr "Progenitor de un cruce"
+
+msgid "coffee.noParents"
+msgstr "La ascendencia no está documentada en esta edición."
+
+msgid "coffee.crossOffspring"
+msgstr "Descendiente de un cruce"

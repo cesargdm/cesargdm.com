@@ -22,6 +22,7 @@ export type Tool = {
  * the way `translationKey` pairs translated markdown slugs.
  */
 export const TOOL_PATHS = {
+	coffeeAtlas: { en: 'coffee-atlas', es: 'atlas-del-cafe' },
 	qrCodeGenerator: { en: 'qr-code-generator', es: 'codigo-qr' },
 	cvReview: { en: 'cv-review', es: 'revisor-cv' },
 	photoMosaic: { en: 'photo-mosaic', es: 'mosaico-de-fotos' },
@@ -31,6 +32,12 @@ export type ToolKey = keyof typeof TOOL_PATHS
 
 const TOOLS: Record<Locale, Tool[]> = {
 	en: [
+		{
+			path: TOOL_PATHS.coffeeAtlas.en,
+			title: 'Coffee Atlas',
+			description:
+				'Explore coffee species, varieties, origins and documented family relationships in an interactive botanical atlas.',
+		},
 		{
 			path: TOOL_PATHS.qrCodeGenerator.en,
 			title: 'QR Code Generator',
@@ -51,6 +58,12 @@ const TOOLS: Record<Locale, Tool[]> = {
 		},
 	],
 	es: [
+		{
+			path: TOOL_PATHS.coffeeAtlas.es,
+			title: 'Atlas del café',
+			description:
+				'Explora especies, variedades, orígenes y relaciones documentadas del café en un atlas botánico interactivo.',
+		},
 		{
 			path: TOOL_PATHS.qrCodeGenerator.es,
 			title: 'Generador de códigos QR',

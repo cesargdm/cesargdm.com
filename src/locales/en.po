@@ -248,3 +248,217 @@ msgstr "Close"
 msgid "modal.closeLabel"
 msgstr "Close modal"
 
+
+msgid "coffee.title"
+msgstr "Coffee Atlas"
+
+msgid "coffee.description"
+msgstr "Explore coffee varieties, their origins and the relationships that connect them."
+
+msgid "coffee.eyebrow"
+msgstr "A living field guide"
+
+msgid "coffee.intro"
+msgstr "Every coffee has a family story."
+
+msgid "coffee.subtitle"
+msgstr "Start with a species. Follow a lineage. Discover what makes each variety its own."
+
+msgid "coffee.overview"
+msgstr "All species"
+
+msgid "coffee.filters"
+msgstr "Filters"
+
+msgid "coffee.search"
+msgstr "Search varieties or aliases"
+
+msgid "coffee.species"
+msgstr "Species"
+
+msgid "coffee.group"
+msgstr "Genetic group"
+
+msgid "coffee.origin"
+msgstr "Origin / selection country"
+
+msgid "coffee.evidence"
+msgstr "Evidence in profile"
+
+msgid "coffee.unknown"
+msgstr "Unknown / not reviewed"
+
+msgid "coffee.documented"
+msgstr "Documented"
+
+msgid "coffee.reported"
+msgstr "Reported"
+
+msgid "coffee.disputed"
+msgstr "Disputed"
+
+msgid "coffee.graph"
+msgstr "Map"
+
+msgid "coffee.list"
+msgstr "List"
+
+msgid "coffee.reset"
+msgstr "Reset filters"
+
+msgid "coffee.close"
+msgstr "Close"
+
+msgid "coffee.expand"
+msgstr "Expand explorer"
+
+msgid "coffee.collapse"
+msgstr "Exit expanded view"
+
+msgid "coffee.zoomIn"
+msgstr "Zoom in"
+
+msgid "coffee.zoomOut"
+msgstr "Zoom out"
+
+msgid "coffee.fit"
+msgstr "Fit map"
+
+msgid "coffee.hint"
+msgstr "Drag to explore · Scroll to zoom"
+
+msgid "coffee.touchHint"
+msgstr "Use two fingers to move and zoom. Expand for one-finger dragging."
+
+msgid "coffee.results"
+msgstr "{count} records in this view"
+
+msgid "coffee.records"
+msgstr "records"
+
+msgid "coffee.featured"
+msgstr "Featured varieties"
+
+msgid "coffee.enter"
+msgstr "Explore species"
+
+msgid "coffee.counts"
+msgstr "Bubble sizes reflect this atlas, not worldwide prevalence."
+
+msgid "coffee.empty"
+msgstr "No varieties match these filters."
+
+msgid "coffee.select"
+msgstr "A world of coffee, one connection at a time."
+
+msgid "coffee.selectHint"
+msgstr "Choose a species to begin, or search for a coffee you know. Select a variety to read its story."
+
+msgid "coffee.lineage"
+msgstr "Explore lineage"
+
+msgid "coffee.lineageLabel"
+msgstr "Lineage"
+
+msgid "coffee.relations"
+msgstr "Documented connections"
+
+msgid "coffee.noRelations"
+msgstr "No parentage mapped in this edition. This does not imply no relatives exist."
+
+msgid "coffee.parent"
+msgstr "Parent → descendant"
+
+msgid "coffee.mutation"
+msgstr "Mutation → descendant"
+
+msgid "coffee.membership"
+msgstr "Shaded circles show genetic groups, not parentage."
+
+msgid "coffee.aliases"
+msgstr "Also known as"
+
+msgid "coffee.kind"
+msgstr "Record type"
+
+msgid "coffee.cultivar"
+msgstr "Cultivar"
+
+msgid "coffee.selection"
+msgstr "Selection"
+
+msgid "coffee.hybrid"
+msgstr "Hybrid"
+
+msgid "coffee.landrace"
+msgstr "Landrace"
+
+msgid "coffee.trade-name"
+msgstr "Trade name"
+
+msgid "coffee.sources"
+msgstr "Sources & evidence"
+
+msgid "coffee.reviewed"
+msgstr "Reviewed"
+
+msgid "coffee.undated"
+msgstr "Publication date not provided"
+
+msgid "coffee.share"
+msgstr "Copy exploration link"
+
+msgid "coffee.copied"
+msgstr "Link copied"
+
+msgid "coffee.copyFailed"
+msgstr "Copy this address"
+
+msgid "coffee.coverage"
+msgstr "About this edition"
+
+msgid "coffee.coverageBody"
+msgstr "A curated starting point: 113 records across two species, reviewed against World Coffee Research and Brazil’s Instituto Agronômico. This is not a complete catalog. Liberica, other Coffea species, many regional selections and emerging trade names are not yet covered. Featured labels are editorial choices. Zoom in to see every name."
+
+msgid "coffee.method"
+msgstr "Origins refer to documented discovery or selection, not every country of cultivation. Missing or ambiguous origins remain unknown. Evidence filters match any claim in a profile. Genetic groups are not direct parents. Links only represent reviewed relationships; accession names in descriptions are not automatically varieties."
+
+msgid "coffee.updates"
+msgstr "Manually maintained, with original summaries and claim-level citations. Sources may change after review; no automatic freshness or completeness is promised."
+
+msgid "coffee.suggest"
+msgstr "Suggest a variety or correction"
+
+msgid "coffee.fallback"
+msgstr "Browse the catalog"
+
+msgid "coffee.catalogHint"
+msgstr "The complete text catalog is available below, including without JavaScript."
+
+msgid "coffee.sizes"
+msgstr "Larger dots have more documented descendants. Zoom in to reveal every label."
+
+msgid "coffee.remove"
+msgstr "Remove filter"
+
+msgid "coffee.revision"
+msgstr "Dataset revision"
+
+
+msgid "coffee.derivedFrom"
+msgstr "Derived from"
+
+msgid "coffee.gaveRiseTo"
+msgstr "Gave rise to"
+
+msgid "coffee.mutationKind"
+msgstr "Mutation"
+
+msgid "coffee.crossParent"
+msgstr "Parent of a cross"
+
+msgid "coffee.noParents"
+msgstr "Parentage is not documented in this edition."
+
+msgid "coffee.crossOffspring"
+msgstr "Cross offspring"

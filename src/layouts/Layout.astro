@@ -28,6 +28,7 @@ type Props = {
 	/** Page-specific structured data (e.g. a BlogPosting), on top of the
 	 * site-wide Person/WebSite graph rendered below. */
 	jsonLd?: Record<string, unknown>
+	wide?: boolean
 }
 
 const { locale, meta, jsonLd } = Astro.props
@@ -249,7 +250,11 @@ const Y_MAP = ramp(true)
 
 		<Nav locale={locale} />
 
-		<main id="main-content" class={content}>
+		<main
+			id="main-content"
+			class={content}
+			style={Astro.props.wide ? { maxWidth: '2400px' } : undefined}
+		>
 			<slot />
 		</main>
 

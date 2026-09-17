@@ -1,0 +1,932 @@
+[
+	{
+		"id": "pache",
+		"name": "Pache",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "GT",
+		"group": "typica",
+		"en": "A compact Typica mutation found in Guatemala in 1949.",
+		"es": "Mutación compacta de Typica encontrada en Guatemala en 1949."
+	},
+	{
+		"id": "venecia",
+		"name": "Venecia",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "CR",
+		"group": "bourbon",
+		"en": "ICAFE selected this natural Bourbon mutation in Costa Rica.",
+		"es": "El ICAFE seleccionó esta mutación natural de Bourbon en Costa Rica."
+	},
+	{
+		"id": "tekisic",
+		"name": "Tekisic",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "SV",
+		"group": "bourbon",
+		"en": "An ISIC mass selection of Bourbon released in 1977.",
+		"es": "Selección masal de Bourbon realizada por el ISIC y liberada en 1977."
+	},
+	{
+		"id": "caripe",
+		"name": "Caripe",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "VE",
+		"group": "typica",
+		"en": "A Venezuelan Typica selection identified in 1956.",
+		"es": "Selección venezolana de Typica identificada en 1956."
+	},
+	{
+		"id": "sl14",
+		"name": "SL14",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "KE",
+		"group": "typica",
+		"en": "A Scott Laboratories selection from 1936 with a Typica-like genetic background.",
+		"es": "Selección de los laboratorios Scott de 1936 con afinidad genética con Typica."
+	},
+	{
+		"id": "nyasaland",
+		"name": "Nyasaland",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": null,
+		"group": "typica",
+		"en": "A historic East African population traced to coffee introduced from Jamaica to Malawi in 1878.",
+		"es": "Población histórica de África oriental vinculada al café introducido de Jamaica a Malawi en 1878."
+	},
+	{
+		"id": "harar-rwanda",
+		"name": "Harar Rwanda",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "RW",
+		"group": "typica",
+		"en": "The Rwandan Harar population belongs to the Typica genetic group; the name does not identify every Harar coffee.",
+		"es": "La población Harar de Ruanda pertenece al grupo Typica; el nombre no identifica todos los cafés Harar."
+	},
+	{
+		"id": "bourbon-mayaguez-139",
+		"name": "Bourbon Mayaguez 139",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "RW",
+		"group": "bourbon",
+		"en": "One of two related selections from Bourbon Mayaguez populations introduced to East Africa.",
+		"es": "Una de dos selecciones relacionadas de poblaciones Bourbon Mayaguez introducidas en África oriental."
+	},
+	{
+		"id": "bourbon-mayaguez-71",
+		"name": "Bourbon Mayaguez 71",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "RW",
+		"group": "bourbon",
+		"en": "A Bourbon Mayaguez population selection maintained separately from BM139.",
+		"es": "Selección de la población Bourbon Mayaguez conservada por separado de BM139."
+	},
+	{
+		"id": "jackson-2-1257",
+		"name": "Jackson 2/1257",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": null,
+		"group": "bourbon",
+		"en": "Selected from Jackson; its Bourbon genetic affinity is not a documented direct Bourbon parent.",
+		"es": "Selección de Jackson; su afinidad genética con Bourbon no documenta un progenitor Bourbon directo."
+	},
+	{
+		"id": "k7",
+		"name": "K7",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "KE",
+		"group": "bourbon",
+		"en": "Selected from French Mission and released in Kenya in 1936.",
+		"es": "Seleccionada de French Mission y liberada en Kenia en 1936."
+	},
+	{
+		"id": "java",
+		"name": "Java",
+		"species": "arabica",
+		"kind": "landrace",
+		"origin": null,
+		"group": "ethiopian",
+		"en": "Genetic evidence places this historically distributed population with Ethiopian landraces.",
+		"es": "La evidencia genética sitúa esta población histórica entre las variedades locales etíopes."
+	},
+	{
+		"id": "ab3",
+		"name": "AB3",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "ethiopian",
+		"en": "Selected from Ethiopian material introduced to Indonesia; nationally released in 1995.",
+		"es": "Selección de material etíope introducido en Indonesia; liberada a nivel nacional en 1995."
+	},
+	{
+		"id": "bpl10",
+		"name": "BPL10",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "typica",
+		"en": "A Typica population selection associated with the Blawan-Pasoemah breeding history in Indonesia.",
+		"es": "Selección de una población Typica vinculada al mejoramiento Blawan-Pasoemah en Indonesia."
+	},
+	{
+		"id": "batian",
+		"name": "Batian",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "KE",
+		"group": "introgressed",
+		"en": "A composite of three lines released in Kenya in 2010. Its complex pedigree is not reduced to direct-parent arrows.",
+		"es": "Compuesto de tres líneas liberado en Kenia en 2010. Su genealogía compleja no se reduce a flechas de progenitores directos."
+	},
+	{
+		"id": "ruiru-11",
+		"name": "Ruiru 11",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": "KE",
+		"group": "f1",
+		"en": "A Kenyan composite hybrid combining Catimor material with multiple breeding parents.",
+		"es": "Híbrido compuesto keniano que combina material Catimor con varios progenitores de mejoramiento."
+	},
+	{
+		"id": "casiopea",
+		"name": "Casiopea",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 cross of Caturra with the Ethiopian accession ET41.",
+		"es": "Cruce F1 de Caturra con la accesión etíope ET41."
+	},
+	{
+		"id": "h3",
+		"name": "H3",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 cross of Caturra with Ethiopian accession E531.",
+		"es": "Cruce F1 de Caturra con la accesión etíope E531."
+	},
+	{
+		"id": "centroamericano",
+		"name": "Centroamericano",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 cross between T5296 and Rume Sudan.",
+		"es": "Cruce F1 entre T5296 y Rume Sudan."
+	},
+	{
+		"id": "milenio",
+		"name": "Milenio",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 hybrid from T5296 and Rume Sudan, distinct from Centroamericano.",
+		"es": "Híbrido F1 de T5296 y Rume Sudan, distinto de Centroamericano."
+	},
+	{
+		"id": "esperanza",
+		"name": "Esperanza",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 cross of T5296 with Ethiopian accession ET25.",
+		"es": "Cruce F1 de T5296 con la accesión etíope ET25."
+	},
+	{
+		"id": "mundo-maya",
+		"name": "Mundo Maya",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": "NI",
+		"group": "f1",
+		"en": "Selected by ECOM-CIRAD from T5296 crossed with Ethiopian accession ET01.",
+		"es": "Seleccionado por ECOM-CIRAD del cruce de T5296 con la accesión etíope ET01."
+	},
+	{
+		"id": "evaluna",
+		"name": "Evaluna",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "An F1 cross of Naryelis and Ethiopian accession ET06.",
+		"es": "Cruce F1 de Naryelis con la accesión etíope ET06."
+	},
+	{
+		"id": "nayarita",
+		"name": "Nayarita",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": "NI",
+		"group": "f1",
+		"en": "An ECOM-CIRAD selection from Naryelis crossed with Ethiopian accession ET26.",
+		"es": "Selección de ECOM-CIRAD del cruce de Naryelis con la accesión etíope ET26."
+	},
+	{
+		"id": "starmaya",
+		"name": "Starmaya",
+		"species": "arabica",
+		"kind": "hybrid",
+		"origin": null,
+		"group": "f1",
+		"en": "Marsellesa crossed with a male-sterile Ethiopian or Sudanese landrace; propagated through seed.",
+		"es": "Cruce de Marsellesa con una variedad local etíope o sudanesa androestéril; propagada por semilla."
+	},
+	{
+		"id": "catisic",
+		"name": "Catisic",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "SV",
+		"group": "catimor",
+		"en": "Selected from Timor Hybrid 832/1 crossed with Caturra.",
+		"es": "Selección del cruce de Híbrido de Timor 832/1 con Caturra."
+	},
+	{
+		"id": "costa-rica-95",
+		"name": "Costa Rica 95",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "CR",
+		"group": "catimor",
+		"en": "An ICAFE pedigree selection from Timor Hybrid 832/1 crossed with Caturra.",
+		"es": "Selección genealógica del ICAFE del cruce de Híbrido de Timor 832/1 con Caturra."
+	},
+	{
+		"id": "lempira",
+		"name": "Lempira",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "HN",
+		"group": "catimor",
+		"en": "An IHCAFE selection from Timor Hybrid 832/1 crossed with Caturra.",
+		"es": "Selección del IHCAFE del cruce de Híbrido de Timor 832/1 con Caturra."
+	},
+	{
+		"id": "ihcafe-90",
+		"name": "IHCAFE 90",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "HN",
+		"group": "catimor",
+		"en": "A Honduran pedigree selection with Timor Hybrid 832/1 and Caturra ancestry.",
+		"es": "Selección genealógica hondureña con ascendencia de Híbrido de Timor 832/1 y Caturra."
+	},
+	{
+		"id": "oro-azteca",
+		"name": "Oro Azteca",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "catimor",
+		"en": "INIFAP released this Timor Hybrid 832/1 × Caturra selection in Mexico in 1995.",
+		"es": "El INIFAP liberó esta selección de Híbrido de Timor 832/1 × Caturra en México en 1995."
+	},
+	{
+		"id": "kartika-1",
+		"name": "Kartika 1",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "catimor",
+		"en": "A Timor Hybrid 832/1 × Caturra selection released in Indonesia in 1993.",
+		"es": "Selección de Híbrido de Timor 832/1 × Caturra liberada en Indonesia en 1993."
+	},
+	{
+		"id": "fronton",
+		"name": "Fronton",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "PR",
+		"group": "catimor",
+		"en": "Selected in Puerto Rico from Timor Hybrid × Caturra material introduced from Brazil.",
+		"es": "Seleccionada en Puerto Rico de material Híbrido de Timor × Caturra introducido desde Brasil."
+	},
+	{
+		"id": "t5175",
+		"name": "T5175",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "CR",
+		"group": "catimor",
+		"en": "A breeding population from Timor Hybrid 832/1 × Caturra, not an officially released ICAFE cultivar.",
+		"es": "Población de mejoramiento de Híbrido de Timor 832/1 × Caturra, sin liberación oficial del ICAFE."
+	},
+	{
+		"id": "t8667",
+		"name": "T8667",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": null,
+		"group": "catimor",
+		"en": "A Catimor breeding selection from Timor Hybrid 832/1 × Caturra.",
+		"es": "Selección de mejoramiento Catimor de Híbrido de Timor 832/1 × Caturra."
+	},
+	{
+		"id": "t5296",
+		"name": "T5296",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": null,
+		"group": "sarchimor",
+		"en": "A breeding population from Timor Hybrid 832/2 × Villa Sarchi; parent of several F1 hybrids.",
+		"es": "Población de mejoramiento de Híbrido de Timor 832/2 × Villa Sarchi; progenitora de varios híbridos F1."
+	},
+	{
+		"id": "cuscatleco",
+		"name": "Cuscatleco",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "SV",
+		"group": "sarchimor",
+		"en": "PROCAFÉ selected Cuscatleco from T5296 in El Salvador.",
+		"es": "PROCAFÉ seleccionó Cuscatleco de T5296 en El Salvador."
+	},
+	{
+		"id": "parainema",
+		"name": "Parainema",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "HN",
+		"group": "sarchimor",
+		"en": "An IHCAFE pedigree selection of T5296, released in 2004.",
+		"es": "Selección genealógica del IHCAFE de T5296, liberada en 2004."
+	},
+	{
+		"id": "iapar-59",
+		"name": "IAPAR 59",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "sarchimor",
+		"en": "A Brazilian selection from Timor Hybrid 832/2 crossed with Villa Sarchi.",
+		"es": "Selección brasileña del cruce de Híbrido de Timor 832/2 con Villa Sarchi."
+	},
+	{
+		"id": "limani",
+		"name": "Limani",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "PR",
+		"group": "sarchimor",
+		"en": "A Puerto Rican selection from Timor Hybrid 832/2 × Villa Sarchi, released in 1994.",
+		"es": "Selección puertorriqueña de Híbrido de Timor 832/2 × Villa Sarchi, liberada en 1994."
+	},
+	{
+		"id": "marsellesa",
+		"name": "Marsellesa",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "NI",
+		"group": "sarchimor",
+		"en": "An ECOM-CIRAD selection from Timor Hybrid 832/2 × Villa Sarchi, released in 2009.",
+		"es": "Selección de ECOM-CIRAD de Híbrido de Timor 832/2 × Villa Sarchi, liberada en 2009."
+	},
+	{
+		"id": "obata-red",
+		"name": "Obatá (Red)",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "sarchimor",
+		"en": "An IAC selection from Timor Hybrid 832/2 × Villa Sarchi, released in Brazil in 2000.",
+		"es": "Selección del IAC de Híbrido de Timor 832/2 × Villa Sarchi, liberada en Brasil en 2000."
+	},
+	{
+		"id": "monte-claro",
+		"name": "Monte Claro",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "VE",
+		"group": "sarchimor",
+		"en": "A Venezuelan selection from Timor Hybrid 832/2 crossed with Villa Sarchi.",
+		"es": "Selección venezolana del cruce de Híbrido de Timor 832/2 con Villa Sarchi."
+	},
+	{
+		"id": "ipr-107",
+		"name": "IPR 107",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "BR",
+		"group": "sarchimor",
+		"en": "A cross between IAPAR 59 and Mundo Novo, released in 2010.",
+		"es": "Cruce entre IAPAR 59 y Mundo Novo, liberado en 2010."
+	},
+	{
+		"id": "catigua-mg2",
+		"name": "Catiguá MG2",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "BR",
+		"group": "introgressed",
+		"en": "EPAMIG developed this cultivar using Timor Hybrid UFV 440-10 and Catuaí Amarelo IAC 86.",
+		"es": "El EPAMIG desarrolló este cultivar con Híbrido de Timor UFV 440-10 y Catuaí Amarelo IAC 86."
+	},
+	{
+		"id": "paraiso",
+		"name": "Paraíso",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "BR",
+		"group": "sarchimor",
+		"en": "Developed by EPAMIG and UFV from Catuaí Amarelo IAC 30 and Timor Hybrid UFV 445-46.",
+		"es": "Desarrollado por EPAMIG y UFV a partir de Catuaí Amarelo IAC 30 e Híbrido de Timor UFV 445-46."
+	},
+	{
+		"id": "s795",
+		"name": "S795",
+		"species": "arabica",
+		"kind": "cultivar",
+		"origin": "IN",
+		"group": "introgressed",
+		"en": "An Indian selection from S288 × Kent, carrying Liberica introgression through S288.",
+		"es": "Selección india de S288 × Kent, con introgresión de Liberica a través de S288."
+	},
+	{
+		"id": "sln-6",
+		"name": "Sln.6",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "IN",
+		"group": "introgressed",
+		"en": "Derived from Kent crossed with canephora S.274 and successive backcrosses to Kent.",
+		"es": "Derivada de Kent cruzada con canephora S.274 y retrocruces sucesivos con Kent."
+	},
+	{
+		"id": "rab-c15",
+		"name": "RAB C15",
+		"species": "arabica",
+		"kind": "selection",
+		"origin": "RW",
+		"group": "introgressed",
+		"en": "Rwanda released this selection of the Indian population Sln.6 in 2015.",
+		"es": "Ruanda liberó esta selección de la población india Sln.6 en 2015."
+	},
+	{
+		"id": "bp-534",
+		"name": "BP 534",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "congo",
+		"en": "An individually selected clone from a plantation in Jember, East Java.",
+		"es": "Clon seleccionado individualmente en una plantación de Jember, Java Oriental."
+	},
+	{
+		"id": "bp-936",
+		"name": "BP 936",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "congo",
+		"en": "Selected from the cross SA 164-11 × BP 42 by ICCRI.",
+		"es": "Seleccionado por ICCRI del cruce SA 164-11 × BP 42."
+	},
+	{
+		"id": "bp-939",
+		"name": "BP 939",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "congo",
+		"en": "Selected from BP 42 × SA 1366 by ICCRI.",
+		"es": "Seleccionado por ICCRI de BP 42 × SA 1366."
+	},
+	{
+		"id": "sa-237",
+		"name": "SA 237",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "ID",
+		"group": "congo",
+		"en": "A clone selected from robusta populations at West Kendenglembu.",
+		"es": "Clon seleccionado de poblaciones robusta en West Kendenglembu."
+	},
+	{
+		"id": "tr4",
+		"name": "TR4",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "VN",
+		"group": "congo",
+		"en": "A Daklak mother-tree selection recognized in Vietnam in 2006.",
+		"es": "Selección de un árbol madre de Daklak reconocida en Vietnam en 2006."
+	},
+	{
+		"id": "tr9",
+		"name": "TR9",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "VN",
+		"group": "congo",
+		"en": "A Daklak mother-tree selection recognized in Vietnam in 2011.",
+		"es": "Selección de un árbol madre de Daklak reconocida en Vietnam en 2011."
+	},
+	{
+		"id": "tr11",
+		"name": "TR11",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "VN",
+		"group": "congo",
+		"en": "A Daklak mother-tree selection recognized in Vietnam in 2011.",
+		"es": "Selección de un árbol madre de Daklak reconocida en Vietnam en 2011."
+	},
+	{
+		"id": "trs1",
+		"name": "TRS1",
+		"species": "canephora",
+		"kind": "cultivar",
+		"origin": "VN",
+		"group": "congo",
+		"en": "A synthetic variety combining TR4, TR9, TR11 and TR12; released in Vietnam in 2015.",
+		"es": "Variedad sintética que combina TR4, TR9, TR11 y TR12; liberada en Vietnam en 2015."
+	},
+	{
+		"id": "xanh-lun",
+		"name": "Xanh lun",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "VN",
+		"group": "congo",
+		"en": "A farmer-selected mother tree from Lam Dong, subsequently evaluated by WASI.",
+		"es": "Árbol madre seleccionado por un agricultor en Lam Dong y evaluado después por WASI."
+	},
+	{
+		"id": "sln-1-r",
+		"name": "Sln.1R",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "IN",
+		"group": "congensis",
+		"en": "Also known as S.274; an Indian selection with congensis introgression.",
+		"es": "También conocida como S.274; selección india con introgresión de congensis."
+	},
+	{
+		"id": "sln-2-r",
+		"name": "Sln.2R",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "IN",
+		"group": "congensis",
+		"en": "A seed mixture derived from selected Balehonnur Robusta progenies.",
+		"es": "Mezcla de semillas derivada de progenies seleccionadas de Balehonnur Robusta."
+	},
+	{
+		"id": "sln-3-r",
+		"name": "Sln.3R",
+		"species": "canephora",
+		"kind": "hybrid",
+		"origin": "IN",
+		"group": "congensis",
+		"en": "An Indian breeding product involving canephora and congensis with backcrossing.",
+		"es": "Producto del mejoramiento indio que incorpora canephora y congensis con retrocruzamiento."
+	},
+	{
+		"id": "kr-2",
+		"name": "NARO-Kituza Robusta 2",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-3",
+		"name": "NARO-Kituza Robusta 3",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-4",
+		"name": "NARO-Kituza Robusta 4",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-5",
+		"name": "NARO-Kituza Robusta 5",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-6",
+		"name": "NARO-Kituza Robusta 6",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-7",
+		"name": "NARO-Kituza Robusta 7",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-8",
+		"name": "NARO-Kituza Robusta 8",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-9",
+		"name": "NARO-Kituza Robusta 9",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "kr-10",
+		"name": "NARO-Kituza Robusta 10",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "UG",
+		"group": "uganda",
+		"en": "A NaCORI clone selected in Uganda after screening for coffee wilt disease resistance.",
+		"es": "Clon seleccionado por NaCORI en Uganda tras evaluar resistencia a la marchitez del cafeto."
+	},
+	{
+		"id": "brs-1216",
+		"name": "BRS 1216",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "A Brazilian clone from Robusta 1675 × Encapa 03.",
+		"es": "Clon brasileño de Robusta 1675 × Encapa 03."
+	},
+	{
+		"id": "brs-2299",
+		"name": "BRS 2299",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-2314",
+		"name": "BRS 2314",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "A Brazilian clone from Robusta 640 × Encapa 03.",
+		"es": "Clon brasileño de Robusta 640 × Encapa 03."
+	},
+	{
+		"id": "brs-2336",
+		"name": "BRS 2336",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-2357",
+		"name": "BRS 2357",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-3137",
+		"name": "BRS 3137",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-3193",
+		"name": "BRS 3193",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-3210",
+		"name": "BRS 3210",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-3213",
+		"name": "BRS 3213",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "brs-3220",
+		"name": "BRS 3220",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "BR",
+		"group": "congo-guinea",
+		"en": "An Embrapa field selection from a natural conilon–robusta cross; its individual parents are unknown.",
+		"es": "Selección de campo de Embrapa de un cruce natural conilon–robusta; se desconocen sus progenitores individuales."
+	},
+	{
+		"id": "inifap-00-24",
+		"name": "INIFAP 00-24",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "guinea",
+		"en": "A canephora clone evaluated and released by the Mexican breeding program; its parents are not identified in the profile.",
+		"es": "Clon de canephora evaluado y liberado por el programa mexicano; la ficha no identifica sus progenitores."
+	},
+	{
+		"id": "inifap-00-28",
+		"name": "INIFAP 00-28",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "congo",
+		"en": "A canephora clone evaluated and released by the Mexican breeding program; its parents are not identified in the profile.",
+		"es": "Clon de canephora evaluado y liberado por el programa mexicano; la ficha no identifica sus progenitores."
+	},
+	{
+		"id": "inifap-95-9",
+		"name": "INIFAP 95-9",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "congo",
+		"en": "A canephora clone evaluated and released by the Mexican breeding program; its parents are not identified in the profile.",
+		"es": "Clon de canephora evaluado y liberado por el programa mexicano; la ficha no identifica sus progenitores."
+	},
+	{
+		"id": "inifap-97-14",
+		"name": "INIFAP 97-14",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "congo",
+		"en": "A canephora clone evaluated and released by the Mexican breeding program; its parents are not identified in the profile.",
+		"es": "Clon de canephora evaluado y liberado por el programa mexicano; la ficha no identifica sus progenitores."
+	},
+	{
+		"id": "inifap-97-15",
+		"name": "INIFAP 97-15",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": "MX",
+		"group": "guinea",
+		"en": "A canephora clone evaluated and released by the Mexican breeding program; its parents are not identified in the profile.",
+		"es": "Clon de canephora evaluado y liberado por el programa mexicano; la ficha no identifica sus progenitores."
+	},
+	{
+		"id": "roubi-1",
+		"name": "Roubi 1",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-2",
+		"name": "Roubi 2",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-3",
+		"name": "Roubi 3",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-4",
+		"name": "Roubi 4",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-6",
+		"name": "Roubi 6",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-7",
+		"name": "Roubi 7",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-8",
+		"name": "Roubi 8",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-9",
+		"name": "Roubi 9",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	},
+	{
+		"id": "roubi-10",
+		"name": "Roubi 10",
+		"species": "canephora",
+		"kind": "selection",
+		"origin": null,
+		"group": null,
+		"en": "A commercially released robusta clone; the source does not identify its genetic group or parents.",
+		"es": "Clon robusta liberado comercialmente; la fuente no identifica su grupo genético ni sus progenitores."
+	}
+]
