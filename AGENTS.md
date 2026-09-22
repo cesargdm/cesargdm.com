@@ -49,7 +49,7 @@ bunx wrangler ai models     # check the chat model id in src/lib/assistant.ts st
   `import.meta.glob(..., { query: '?raw', eager: true })`. Never read `node:fs` at request time.
   `isDraft: true` posts are excluded in production.
 - Search is a build-time JSON index (`src/lib/search-index.ts`) filtered in the browser. There is no
-  search service (README mentions Algolia; that is stale).
+  search service.
 - OG images (`opengraph-image.png.ts`, `workers-og`) inline bundled fonts and the avatar. Do not fetch
   them over the network: the font host once started 404ing and every OG image went blank.
 - Integrations: components import `src/lib/{goodreads,unsplash,slack,strava,bluesky,open-sea}.ts`

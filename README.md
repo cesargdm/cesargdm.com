@@ -9,7 +9,7 @@ Welcome to the repository for my personal website, [cesargdm.com](https://cesarg
 - 🌍 **Internationalization**: The site supports multiple languages, offering a global user experience.
 - 🖼️ **Dynamic OG Image Generation**: Open Graph images are generated on-the-fly to ensure social sharing looks great every time.
 - 📄 **Markdown-Driven Content**: All content is sourced from Markdown files, making it easy to update and manage.
-- 🔍 **Algolia Search Integration**: The site is fully searchable, thanks to Algolia, providing fast and relevant search results.
+- 🔍 **Built-in Search**: A search index is generated at build time and filtered in the browser, so search needs no external service.
 - 🧑‍⚖️ **MIT License**: This project is open-source under the MIT License, encouraging community contributions.
 - 🏆 **Lighthouse**: see [Benchmarks](#benchmarks) for current measured scores.
 - 🤖 **Workers AI assistant**: An on-site chat powered by Cloudflare Workers AI, answering in César's voice.
@@ -87,4 +87,3 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 - Cloudflare Workers for hosting and Workers AI.
 - Astro for the web framework (React islands for interactivity).
-- Algolia for search capabilities.
