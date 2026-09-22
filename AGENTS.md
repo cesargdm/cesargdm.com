@@ -53,7 +53,8 @@ bunx wrangler ai models     # check the chat model id in src/lib/assistant.ts st
 - OG images (`opengraph-image.png.ts`, `workers-og`) inline bundled fonts and the avatar. Do not fetch
   them over the network: the font host once started 404ing and every OG image went blank.
 - Integrations: components import `src/lib/{goodreads,unsplash,slack,strava,bluesky,open-sea}.ts`
-  directly. `/api/*` routes are thin wrappers. Never fetch the site's own `/api/...` over HTTP.
+  directly. `/api/*` routes are thin wrappers. Server-side code never fetches the site's own `/api/...`
+  over HTTP; browser islands (Chat, NftModal) calling `/api/*` is the intended boundary.
 - Coffee Atlas data (`src/lib/coffee/data.ts`) has sourcing rules: follow `docs/coffee-atlas.md`.
 
 ## Gotchas
@@ -105,6 +106,9 @@ drop-trailing-slash` must stay in sync, or canonical URLs cost a redirect hop.
 
 - Flag any page or layout change that reads cookies/headers (breaks prerendering).
 - Flag a security header added to only one of `src/middleware.ts` / `public/_headers`.
-- Flag new copy missing from either `.po` file or `message-ids.ts`, or new integration code whose failure
-  path skips `logIntegrationFailure`.
-- Flag self-fetches of `/api/*`, `node:fs` at request time, or edits to `worker-configuration.d.ts`.
+- Flag a new `t()` / `getTranslate` id missing from either `.po` file or `message-ids.ts`. Copy in
+  `src/lib/*-copy.ts` modules and localized Markdown is a separate, valid system.
+- Flag new integration code whose failure path skips `logIntegrationFailure`.
+- Flag server-side self-fetches of `/api/*` and `node:fs` at request time.
+- Flag hand edits to `worker-configuration.d.ts`, or a `wrangler.jsonc` binding change without the
+  regenerated file (`bunx wrangler types`).
