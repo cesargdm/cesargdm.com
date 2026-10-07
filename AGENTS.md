@@ -102,6 +102,13 @@ drop-trailing-slash` must stay in sync, or canonical URLs cost a redirect hop.
 - Components that need interactivity are React islands; everything else is `.astro`.
 - Styles are co-located `*.css.ts` (Vanilla Extract); shared tokens in `src/styles/theme.css.ts`.
 
+## Bugbot (cloud agents)
+
+Before the first `git push` on a branch, run Bugbot self-review with the `/review-bugbot` skill (or
+`/review`); see [Run in your agent](https://cursor.com/docs/bugbot#run-in-your-agent). Compare against
+`main` when that is not the default base. Fix or justify findings, then push. The same diff is
+recognized on the PR so remote Bugbot can skip a duplicate run.
+
 ## Code Review Rules
 
 - Flag any page or layout change that reads cookies/headers (breaks prerendering).
