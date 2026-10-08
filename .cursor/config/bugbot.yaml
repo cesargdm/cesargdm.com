@@ -1,0 +1,9 @@
+# Bugbot repo config — https://cursor.com/docs/bugbot#repository-config-file
+version: 1
+
+triggers:
+  drafts: false
+
+review:
+  effort: low
+  incremental: true
