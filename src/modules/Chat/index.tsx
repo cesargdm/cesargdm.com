@@ -5,7 +5,7 @@ import {
 	IconMessage,
 } from '@tabler/icons-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { ChangeEvent, SubmitEvent } from 'react'
 
 import TextInput from '@/components/TextInput'
 import type { Locale } from '@/lib/i18n'
@@ -48,7 +48,7 @@ function Chat({ locale }: { locale: Locale }) {
 	}, [])
 
 	const handleSubmit = useCallback(
-		async (event: FormEvent<HTMLFormElement>) => {
+		async (event: SubmitEvent<HTMLFormElement>) => {
 			event.preventDefault()
 
 			const text = content.trim()
