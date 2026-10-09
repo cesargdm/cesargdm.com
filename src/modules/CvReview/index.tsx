@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 
 import type { CvCopy } from '@/lib/cv-copy'
 
@@ -61,7 +61,7 @@ export default function CvReview({ copy }: { copy: CvCopy }) {
 		document.body.appendChild(script)
 	}, [])
 
-	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault()
 
 		if (

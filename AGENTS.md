@@ -77,7 +77,7 @@ bunx wrangler ai models     # check the chat model id in src/lib/assistant.ts st
   and so CI, fail without a token. The token needs Workers Scripts Edit + Workers AI Read/Edit.
 - **Workers AI model ids get retired** without notice; a retired id 500s every chat request.
 - **URLs are unslashed**: `build.format: 'file'` + `trailingSlash: 'never'` + `html_handling:
-drop-trailing-slash` must stay in sync, or canonical URLs cost a redirect hop.
+  drop-trailing-slash` must stay in sync, or canonical URLs cost a redirect hop.
 - **Web workers bundle without plugins** (`vite.worker.format: 'es'`, empty `worker.plugins`): nothing a
   worker imports may reach a `.css.ts` or `.po` file.
 
