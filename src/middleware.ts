@@ -2,6 +2,7 @@ import { match as matchLocale } from '@formatjs/intl-localematcher'
 import { defineMiddleware } from 'astro:middleware'
 import Negotiator from 'negotiator'
 
+import { CONTENT_SECURITY_POLICY } from '@/lib/content-security-policy'
 import {
 	cacheControl,
 	ONE_HOUR_SECONDS,
@@ -38,6 +39,7 @@ const FILE_EXTENSION = /\.[a-zA-Z0-9]+$/
  * legacy auditor that is itself an XSS vector and is gone from modern browsers.
  */
 const SECURITY_HEADERS: Record<string, string> = {
+	'Content-Security-Policy': CONTENT_SECURITY_POLICY,
 	'X-Content-Type-Options': 'nosniff',
 	'X-Frame-Options': 'DENY',
 	'Referrer-Policy': 'strict-origin-when-cross-origin',
