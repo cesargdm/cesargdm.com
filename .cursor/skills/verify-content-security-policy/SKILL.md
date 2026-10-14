@@ -76,15 +76,6 @@ Expect a `Content-Security-Policy` header whose value matches
 | `/en/nfts`                               | OpenSea CDN images                               |
 | `/es/projects/...`                       | Spanish tool slugs                               |
 
-## Screenshots (home Run card)
-
-```bash
-bun scripts/capture-csp-screenshots.mjs
-```
-
-Writes full-page `/en` and `/es` before (production, no CSP) and after
-(production HTML + enforced policy) under `cloud-agent-artifacts/csp-screenshots/`.
-
 ## Unit test
 
 ```bash

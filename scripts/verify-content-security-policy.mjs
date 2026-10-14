@@ -28,13 +28,23 @@ if (cspFromHeaders !== CONTENT_SECURITY_POLICY) {
 const baseUrl = process.env.BASE_URL ?? 'http://localhost:4321'
 const injectCsp = process.env.INJECT_CSP !== '0'
 
-function isIgnoredNetworkUrl(url) {
-	return (
-		url.includes('favicon') ||
-		url.includes('cloudflareinsights.com') ||
+function isIgnoredNetworkUrl(urlString) {
+	if (!urlString) return false
+	try {
+		const url = new URL(urlString, baseUrl)
+		if (url.pathname.includes('favicon')) return true
 		// Production HTML fetched through Playwright can include CF Web Analytics.
-		url.includes('beacon.min.js')
-	)
+		if (
+			url.hostname === 'static.cloudflareinsights.com' ||
+			url.hostname.endsWith('.cloudflareinsights.com')
+		) {
+			return true
+		}
+		if (url.pathname.includes('beacon.min.js')) return true
+	} catch {
+		return false
+	}
+	return false
 }
 
 const ROUTES = [
