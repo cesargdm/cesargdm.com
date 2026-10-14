@@ -22,6 +22,16 @@ describe('CONTENT_SECURITY_POLICY', () => {
 		expect(CONTENT_SECURITY_POLICY).toContain('https://*.seadn.io')
 	})
 
+	test('allows project markdown screenshots and Cloudflare Web Analytics', () => {
+		expect(CONTENT_SECURITY_POLICY).toContain(
+			'https://user-images.githubusercontent.com',
+		)
+		expect(CONTENT_SECURITY_POLICY).toContain(
+			'https://static.cloudflareinsights.com',
+		)
+		expect(CONTENT_SECURITY_POLICY).toContain('https://cloudflareinsights.com')
+	})
+
 	test('matches public/_headers (prerendered routes)', () => {
 		const headers = readFileSync(HEADERS_PATH, 'utf8')
 		const fromHeaders = headers.match(/Content-Security-Policy: (.+)/)?.[1]

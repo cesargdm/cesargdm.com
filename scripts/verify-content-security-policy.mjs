@@ -32,19 +32,10 @@ function isIgnoredNetworkUrl(urlString) {
 	if (!urlString) return false
 	try {
 		const url = new URL(urlString, baseUrl)
-		if (url.pathname.includes('favicon')) return true
-		// Production HTML fetched through Playwright can include CF Web Analytics.
-		if (
-			url.hostname === 'static.cloudflareinsights.com' ||
-			url.hostname.endsWith('.cloudflareinsights.com')
-		) {
-			return true
-		}
-		if (url.pathname.includes('beacon.min.js')) return true
+		return url.pathname.includes('favicon')
 	} catch {
 		return false
 	}
-	return false
 }
 
 const ROUTES = [
@@ -53,6 +44,7 @@ const ROUTES = [
 	'/en/blog',
 	'/en/blog/modern-moderation',
 	'/en/projects',
+	'/en/projects/cretia',
 	'/en/projects/c-chess',
 	'/en/projects/coffee-atlas',
 	'/en/projects/photo-mosaic',
@@ -166,6 +158,27 @@ async function verifyRoute(page, pathname) {
 		}
 	}
 
+	const pageIssues = []
+	if (pathname === '/en/projects/cretia') {
+		const githubScreenshotsLoaded = await page.evaluate(() => {
+			const host = 'user-images.githubusercontent.com'
+			const imgs = [...document.querySelectorAll('main img')].filter((img) => {
+				try {
+					return new URL(img.src).hostname === host
+				} catch {
+					return false
+				}
+			})
+			return (
+				imgs.length >= 2 &&
+				imgs.every((img) => img.complete && img.naturalWidth > 0)
+			)
+		})
+		if (!githubScreenshotsLoaded) {
+			pageIssues.push('GitHub user-images project screenshots did not load')
+		}
+	}
+
 	const allViolations = [...violations, ...domViolations].filter(
 		(entry) => !isIgnoredNetworkUrl(entry.blocked ?? ''),
 	)
@@ -176,6 +189,7 @@ async function verifyRoute(page, pathname) {
 		failed,
 		emptyVisibleCards,
 		homeIssues,
+		pageIssues,
 	}
 }
 
@@ -218,6 +232,7 @@ for (const pathname of ROUTES) {
 			result.violations.length > 0 ||
 			result.failed.length > 0 ||
 			result.homeIssues.length > 0 ||
+			result.pageIssues.length > 0 ||
 			homeEmptyCards
 		) {
 			failedRun = true
