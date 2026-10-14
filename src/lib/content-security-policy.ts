@@ -1,7 +1,8 @@
 /**
  * Site-wide Content-Security-Policy. Applied in `src/middleware.ts` (on-demand
  * routes) and mirrored in `public/_headers` (prerendered pages and static
- * assets). Keep both in sync.
+ * assets). Run `bun scripts/sync-public-headers.mjs` after edits; drift fails
+ * `content-security-policy.test.ts`.
  *
  * `script-src` includes `'unsafe-inline'` because Astro emits inline bootstraps
  * for `client:*` islands and the theme FOUC script, and ClientRouter is not

@@ -2,7 +2,7 @@
 import { IconBrandStrava } from '@tabler/icons-react'
 
 import type { Locale } from '@/lib/i18n'
-import { getRunTotal } from '@/lib/strava'
+import type { YearTotal } from '@/lib/strava'
 
 import {
 	distanceText,
@@ -14,11 +14,10 @@ import {
 
 type Props = {
 	locale: Locale
+	total: YearTotal
 }
 
-const { locale } = Astro.props
-
-const total = await getRunTotal()
+const { locale, total } = Astro.props
 
 const COPY = {
 	en: { heading: 'Run', unit: 'km', period: 'ran this year', cta: 'View more' },
@@ -33,30 +32,24 @@ const COPY = {
 const copy = COPY[locale]
 ---
 
-{
-	total && total.activityCount > 0 ? (
-		<>
-			<h2>
-				<IconBrandStrava aria-hidden />
-				{copy.heading}
-			</h2>
+<h2>
+	<IconBrandStrava aria-hidden />
+	{copy.heading}
+</h2>
 
-			<div class={runContainer}>
-				<p class={distanceText}>
-					{Math.round(total.distanceKm)}
-					<span class={distanceUnit}> {copy.unit}</span>
-				</p>
-				<p class={runName}>{copy.period}</p>
-			</div>
+<div class={runContainer}>
+	<p class={distanceText}>
+		{Math.round(total.distanceKm)}
+		<span class={distanceUnit}> {copy.unit}</span>
+	</p>
+	<p class={runName}>{copy.period}</p>
+</div>
 
-			<a
-				target="_blank"
-				rel="noopener noreferrer"
-				class={stravaButton}
-				href={total.profileUrl}
-			>
-				{copy.cta}
-			</a>
-		</>
-	) : null
-}
+<a
+	target="_blank"
+	rel="noopener noreferrer"
+	class={stravaButton}
+	href={total.profileUrl}
+>
+	{copy.cta}
+</a>
