@@ -13,6 +13,7 @@ import { getCheerFromVisitsCount } from '@/lib/cheer'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
+import { getRideTotal, getRunTotal } from '@/lib/strava'
 
 import Layout from '@/layouts/Layout.astro'
 import {
@@ -33,6 +34,8 @@ export function getStaticPaths() {
 
 const locale = Astro.params.locale as Locale
 const meta = getMetadata({ locale })
+
+const [runTotal, rideTotal] = await Promise.all([getRunTotal(), getRideTotal()])
 ---
 
 <Layout locale={locale} meta={meta}>
@@ -88,12 +91,20 @@ const meta = getMetadata({ locale })
 				<li class:list={[card, squareCard]}>
 					<Bluesky />
 				</li>
-				<li class:list={[card, squareCard]}>
-					<Strava locale={locale} />
-				</li>
-				<li class:list={[card, squareCard]}>
-					<StravaRide locale={locale} />
-				</li>
+				{
+					runTotal && runTotal.activityCount > 0 ? (
+						<li class:list={[card, squareCard]}>
+							<Strava locale={locale} total={runTotal} />
+						</li>
+					) : null
+				}
+				{
+					rideTotal && rideTotal.activityCount > 0 ? (
+						<li class:list={[card, squareCard]}>
+							<StravaRide locale={locale} total={rideTotal} />
+						</li>
+					) : null
+				}
 				<li class:list={[card, twoColumnCard]} style={{ padding: 0 }}>
 					<GitHubContributions />
 				</li>

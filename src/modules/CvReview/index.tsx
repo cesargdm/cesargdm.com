@@ -32,7 +32,7 @@ declare global {
 	}
 }
 
-const PDF_JS_SRC = '//mozilla.github.io/pdf.js/build/pdf.js'
+const PDF_JS_SRC = 'https://mozilla.github.io/pdf.js/build/pdf.js'
 
 export default function CvReview({ copy }: { copy: CvCopy }) {
 	const [isPdfJsLoaded, setIsPdfJsLoaded] = useState(false)
@@ -45,7 +45,7 @@ export default function CvReview({ copy }: { copy: CvCopy }) {
 
 		function handleOnLoad() {
 			window['pdfjs-dist/build/pdf'].GlobalWorkerOptions.workerSrc =
-				'//mozilla.github.io/pdf.js/build/pdf.worker.js'
+				'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 			setIsPdfJsLoaded(true)
 		}
