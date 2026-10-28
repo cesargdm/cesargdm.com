@@ -16,7 +16,7 @@ bun test                 # bun:test, *.test.ts next to the code
 bun test src/lib/i18n.test.ts   # single file
 bun run typecheck        # astro sync, then tsgo (.ts/.tsx), then astro check (.astro)
 bun run lint             # oxlint --type-aware (.ts/.tsx) + eslint (.astro only)
-bun run format:check     # oxfmt + prettier (.astro only); `bun run format` fixes
+bun run format:check     # bun fmt + prettier (.astro only); `bun run format` fixes
 bun run i18n:check       # fails if src/locales/*.po and src/lib/message-ids.ts disagree
 
 # What CI (integration.yml) runs:
@@ -96,7 +96,7 @@ bunx wrangler ai models     # check the chat model id in src/lib/assistant.ts st
 - oxc tools cover `.ts`/`.tsx`; ESLint (`eslint-plugin-astro`, a11y), Prettier and `astro check` exist
   only because oxc cannot handle `.astro`. Do not delete those configs: dropping them fails silently.
 - Separate type imports: `import type { X }`, never inline `import { type X }`.
-- Import order comes from oxfmt `experimentalSortImports`; run `bun run format` instead of hand-sorting.
+- Import order comes from bun fmt `experimentalSortImports`; run `bun run format` instead of hand-sorting.
 - `Response.json()` returns `unknown`: use `readJson<T>()` from `src/lib/json.ts`, so lint autofix does not
   strip call-site casts.
 - Components that need interactivity are React islands; everything else is `.astro`.

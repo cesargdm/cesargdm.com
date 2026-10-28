@@ -1,7 +1,7 @@
 const cretia = require('prettier-config-cretia')
 
 /**
- * Prettier is used for `.astro` files only — oxfmt owns every other extension
+ * Prettier is used for `.astro` files only — bun fmt owns every other extension
  * (see .oxfmtrc.json) but does not recognise `.astro` at all.
  *
  * The shared Cretia settings are kept so the two formatters agree on the
