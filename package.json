@@ -7,8 +7,8 @@
 		"dev": "astro dev",
 		"preview": "astro preview",
 		"astro": "astro",
-		"format": "oxfmt . && prettier --write '**/*.astro'",
-		"format:check": "oxfmt --check . && prettier --check '**/*.astro'",
+		"format": "bun fmt . && bun fmt --config prettier.config.cjs '**/*.astro'",
+		"format:check": "bun fmt --check . && bun fmt --check --config prettier.config.cjs '**/*.astro'",
 		"lint": "oxlint --type-aware && eslint 'src/**/*.astro'",
 		"i18n:check": "node scripts/check-i18n.mjs",
 		"test": "bun test",
@@ -65,7 +65,6 @@
 		"astro-eslint-parser": "^3.2.0",
 		"eslint": "~9.39.5",
 		"eslint-plugin-astro": "^3.2.1",
-		"oxfmt": "^0.72.0",
 		"oxlint": "^1.87.0",
 		"oxlint-tsgolint": "^7.0.2003",
 		"prettier": "~3.9.9",
@@ -73,5 +72,6 @@
 		"prettier-plugin-astro": "^0.14.1",
 		"typescript-eslint": "8.71.1",
 		"wrangler": "^4.149.0"
-	}
+	},
+	"packageManager": "bun@1.4.4"
 }
