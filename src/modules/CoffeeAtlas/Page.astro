@@ -24,30 +24,28 @@ const meta = getMetadata({
 		<summary>{t('coffee.fallback')}</summary>
 		<p>{t('coffee.coverageBody')}</p>
 		<div class={fallbackGrid}>
-			{
-				VARIETIES.map((variety) => (
-					<article id={`catalog-${variety.id}`}>
-						<>
-							<h2>
-								<a
-									href={`?species=${variety.species.value}&variety=${variety.id}`}
-								>
-									{variety.name}
-								</a>
-							</h2>
-							<p>{variety.summary.value[locale]}</p>
+			{VARIETIES.map((variety) => (
+				<article id={`catalog-${variety.id}`}>
+					<>
+						<h2>
 							<a
-								href={
-									SOURCES.find((source) => source.id === variety.summary.source)
-										?.url
-								}
+								href={`?species=${variety.species.value}&variety=${variety.id}`}
 							>
-								{t('coffee.sources')}
+								{variety.name}
 							</a>
-						</>
-					</article>
-				))
-			}
+						</h2>
+						<p>{variety.summary.value[locale]}</p>
+						<a
+							href={
+								SOURCES.find((source) => source.id === variety.summary.source)
+									?.url
+							}
+						>
+							{t('coffee.sources')}
+						</a>
+					</>
+				</article>
+			))}
 		</div>
 	</details>
 </Layout>

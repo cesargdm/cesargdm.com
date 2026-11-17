@@ -51,113 +51,109 @@ const meta = getMetadata({
 	<h1>{t('projects.title')}</h1>
 	<p class={pageDescription}>{t('projects.description')}</p>
 	<ul class={entriesList}>
-		{
-			entries.map((entry) => {
-				const highlight = entry.data.highlight as
-					{ color?: string; logoUrl?: string } | undefined
-				const repository = entry.data.repository as
-					{ url: string; stars?: number } | undefined
+		{entries.map((entry) => {
+			const highlight = entry.data.highlight as
+				{ color?: string; logoUrl?: string } | undefined
+			const repository = entry.data.repository as
+				{ url: string; stars?: number } | undefined
 
-				// A highlighted card keeps its brand background in both themes, so
-				// its ink has to come from that background — inheriting the theme
-				// ink puts dark text on TOLO's green in light mode and light text
-				// on Cretia's grey in dark mode.
-				const ink = highlight?.color
-					? getContrastingInk(highlight.color)
-					: undefined
+			// A highlighted card keeps its brand background in both themes, so
+			// its ink has to come from that background — inheriting the theme
+			// ink puts dark text on TOLO's green in light mode and light text
+			// on Cretia's grey in dark mode.
+			const ink = highlight?.color
+				? getContrastingInk(highlight.color)
+				: undefined
 
-				return (
-					<li class={highlight ? highlightedEntryItem : entryItem}>
-						<a
-							style={{ backgroundColor: highlight?.color, color: ink }}
-							class={projectEntryLink}
-							href={`/${locale}/projects/${entry.slug}`}
-						>
-							{typeof highlight === 'object' ? (
-								<img
-									width={100}
-									height={100}
-									style={{ borderRadius: '20px' }}
-									src={highlight.logoUrl}
-									alt=""
-								/>
-							) : null}
-							<div class={entryText}>
-								<div class={entryDescriptionContainer}>
-									<h2 class={entryTitle}>{entry.data.title}</h2>
-									<p class={entryDate}>
-										{getHumanReadableDate(entry.data.date as string)}
-									</p>
-								</div>
-								<p class={projectDescription}>{entry.data.description}</p>
-								{Array.isArray(entry.data.tags) ? (
-									<ul class={projectTechnologies}>
-										{(entry.data.tags as string[]).map((tech) => (
-											<li class={projectTechnologyItem}>{tech}</li>
-										))}
-									</ul>
-								) : null}
-							</div>
-						</a>
-
-						{repository ? (
-							<div
-								style={{
-									position: 'absolute',
-									bottom: 0,
-									right: 0,
-									padding: '16px',
-								}}
-							>
-								<a
-									style={{
-										display: 'flex',
-										alignItems: 'center',
-										gap: '2px',
-										backgroundColor: repository.stars
-											? 'gold'
-											: vars.colors.background.gray,
-										padding: '4px 8px',
-										borderRadius: '16px',
-										color: repository.stars ? '#333' : vars.colors.text.regular,
-										textDecoration: 'none',
-									}}
-									href={repository.url}
-								>
-									{repository.stars ? (
-										<span style={{ fontSize: vars.fontSize.xsmall }}>
-											{repository.stars}
-										</span>
-									) : null}
-									{repository.stars ? (
-										<IconStar size={12} />
-									) : (
-										<IconBrandGithub size={12} />
-									)}
-								</a>
-							</div>
+			return (
+				<li class={highlight ? highlightedEntryItem : entryItem}>
+					<a
+						style={{ backgroundColor: highlight?.color, color: ink }}
+						class={projectEntryLink}
+						href={`/${locale}/projects/${entry.slug}`}
+					>
+						{typeof highlight === 'object' ? (
+							<img
+								width={100}
+								height={100}
+								style={{ borderRadius: '20px' }}
+								src={highlight.logoUrl}
+								alt=""
+							/>
 						) : null}
-					</li>
-				)
-			})
-		}
+						<div class={entryText}>
+							<div class={entryDescriptionContainer}>
+								<h2 class={entryTitle}>{entry.data.title}</h2>
+								<p class={entryDate}>
+									{getHumanReadableDate(entry.data.date as string)}
+								</p>
+							</div>
+							<p class={projectDescription}>{entry.data.description}</p>
+							{Array.isArray(entry.data.tags) ? (
+								<ul class={projectTechnologies}>
+									{(entry.data.tags as string[]).map((tech) => (
+										<li class={projectTechnologyItem}>{tech}</li>
+									))}
+								</ul>
+							) : null}
+						</div>
+					</a>
+
+					{repository ? (
+						<div
+							style={{
+								position: 'absolute',
+								bottom: 0,
+								right: 0,
+								padding: '16px',
+							}}
+						>
+							<a
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: '2px',
+									backgroundColor: repository.stars
+										? 'gold'
+										: vars.colors.background.gray,
+									padding: '4px 8px',
+									borderRadius: '16px',
+									color: repository.stars ? '#333' : vars.colors.text.regular,
+									textDecoration: 'none',
+								}}
+								href={repository.url}
+							>
+								{repository.stars ? (
+									<span style={{ fontSize: vars.fontSize.xsmall }}>
+										{repository.stars}
+									</span>
+								) : null}
+								{repository.stars ? (
+									<IconStar size={12} />
+								) : (
+									<IconBrandGithub size={12} />
+								)}
+							</a>
+						</div>
+					) : null}
+				</li>
+			)
+		})}
 	</ul>
 
 	<h2>{t('projects.tools')}</h2>
 	<ul class={entriesList}>
-		{
-			tools.map((tool) => (
-				<li class={entryItem}>
-					<a class={projectEntryLink} href={`/${locale}/projects/${tool.path}`}>
-						<div class={entryText}>
-							<div class={entryDescriptionContainer}>
-								<h3 class={entryTitle}>{tool.title}</h3>
-							</div>
-							<p class={projectDescription}>{tool.description}</p>
+		{tools.map((tool) => (
+			<li class={entryItem}>
+				<a class={projectEntryLink} href={`/${locale}/projects/${tool.path}`}>
+					<div class={entryText}>
+						<div class={entryDescriptionContainer}>
+							<h3 class={entryTitle}>{tool.title}</h3>
 						</div>
-					</a>
-				</li>
-			))
-		}
+						<p class={projectDescription}>{tool.description}</p>
+					</div>
+				</a>
+			</li>
+		))}
 	</ul>
 </Layout>

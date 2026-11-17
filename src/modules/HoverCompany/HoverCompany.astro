@@ -65,18 +65,16 @@ const metadata = companiesMetadata[name]
 		class={dropdownText}
 	>
 		{name}
-		{
-			metadata.outOfBusiness ? (
-				<span
-					style={{
-						color: vars.colors.text.secondary,
-						fontSize: vars.fontSize.small,
-					}}
-				>
-					†
-				</span>
-			) : null
-		}
+		{metadata.outOfBusiness ? (
+			<span
+				style={{
+					color: vars.colors.text.secondary,
+					fontSize: vars.fontSize.small,
+				}}
+			>
+				†
+			</span>
+		) : null}
 	</a>
 	<span style={{ display: 'none' }} class={dropdownContent} aria-hidden="true">
 		<span style={{ gap: '15px', display: 'flex', flexDirection: 'column' }}>

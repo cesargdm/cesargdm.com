@@ -16,43 +16,41 @@ import {
 const books = await getCurrentlyReading()
 ---
 
-{
-	books.length ? (
-		<>
-			<h2 style={{ padding: vars.space.large }}>
-				<IconBook aria-hidden />
-				Reading
-			</h2>
-			<ul class={bookList}>
-				{books.map((book) => (
-					<li class={bookItem}>
-						<a
-							href={book.url}
-							target="_blank"
-							class={bookAnchor}
-							rel="noopener noreferrer"
+{books.length ? (
+	<>
+		<h2 style={{ padding: vars.space.large }}>
+			<IconBook aria-hidden />
+			Reading
+		</h2>
+		<ul class={bookList}>
+			{books.map((book) => (
+				<li class={bookItem}>
+					<a
+						href={book.url}
+						target="_blank"
+						class={bookAnchor}
+						rel="noopener noreferrer"
+					>
+						<img
+							loading="lazy"
+							decoding="async"
+							class={bookImage}
+							src={book.image}
+							alt=""
+						/>
+						<div
+							style={{
+								textAlign: 'center',
+								marginTop: '16px',
+								height: '3rem',
+							}}
 						>
-							<img
-								loading="lazy"
-								decoding="async"
-								class={bookImage}
-								src={book.image}
-								alt=""
-							/>
-							<div
-								style={{
-									textAlign: 'center',
-									marginTop: '16px',
-									height: '3rem',
-								}}
-							>
-								<p class={titleText}>{book.title}</p>
-								<p>{book.author}</p>
-							</div>
-						</a>
-					</li>
-				))}
-			</ul>
-		</>
-	) : null
-}
+							<p class={titleText}>{book.title}</p>
+							<p>{book.author}</p>
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+	</>
+) : null}
