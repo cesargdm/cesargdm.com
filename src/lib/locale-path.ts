@@ -101,9 +101,6 @@ export function getAlternates(locale: Locale, path: string): Alternate[] {
 
 	if (alternates.length < 2) return []
 
-	const fallback = alternates.find(({ hreflang }) => hreflang === LOCALES[0])
-
-	return fallback
-		? [...alternates, { hreflang: 'x-default', path: fallback.path }]
-		: alternates
+	// LOCALES order is kept, so the default locale is first.
+	return [...alternates, { hreflang: 'x-default', path: alternates[0].path }]
 }
