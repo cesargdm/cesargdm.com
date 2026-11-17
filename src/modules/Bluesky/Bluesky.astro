@@ -15,13 +15,11 @@ const profileUrl = `https://bsky.app/profile/${feed?.profile.handle ?? 'cesargdm
 	Bluesky
 </h2>
 
-{
-	feed?.latestPost ? (
-		<p class={postParagraph}>{feed.latestPost.text}</p>
-	) : (
-		<p class={bioParagraph}>{feed?.profile.description ?? '@cesargdm.com'}</p>
-	)
-}
+{feed?.latestPost ? (
+	<p class={postParagraph}>{feed.latestPost.text}</p>
+) : (
+	<p class={bioParagraph}>{feed?.profile.description ?? '@cesargdm.com'}</p>
+)}
 
 <a
 	target="_blank"

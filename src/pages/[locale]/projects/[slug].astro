@@ -69,24 +69,22 @@ const jsonLd = post
 ---
 
 <Layout locale={locale} meta={meta} jsonLd={jsonLd}>
-	{
-		post ? (
-			<div class={entryContainer}>
-				{/* The back link lives in the nav bar now. */}
-				<article set:html={post.contentHtml} />
-				{slug === 'c-chess' ? (
-					<ChessBoard client:visible locale={locale} />
-				) : null}
-				<EditPageBanner type="projects" lang={locale} slug={slug} />
-			</div>
-		) : (
-			<div class={notFoundContainer}>
-				<h1>🙈 {t('notFound.title')}</h1>
-				<p>
-					{t('notFound.project')}
-					<a href={`/${locale}`}>{t('notFound.home')}</a>
-				</p>
-			</div>
-		)
-	}
+	{post ? (
+		<div class={entryContainer}>
+			{/* The back link lives in the nav bar now. */}
+			<article set:html={post.contentHtml} />
+			{slug === 'c-chess' ? (
+				<ChessBoard client:visible locale={locale} />
+			) : null}
+			<EditPageBanner type="projects" lang={locale} slug={slug} />
+		</div>
+	) : (
+		<div class={notFoundContainer}>
+			<h1>🙈 {t('notFound.title')}</h1>
+			<p>
+				{t('notFound.project')}
+				<a href={`/${locale}`}>{t('notFound.home')}</a>
+			</p>
+		</div>
+	)}
 </Layout>

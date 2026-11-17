@@ -31,25 +31,23 @@ const meta = nft
 ---
 
 <Layout locale={locale} meta={meta}>
-	{
-		nft ? (
+	{nft ? (
+		<div>
 			<div>
-				<div>
-					<a href={`/${locale}/nfts`}>Back</a>
-				</div>
-				<div>
-					<h1>{nft.name}</h1>
-					<p>{nft.description}</p>
-					<img src={nft.image_url} alt={nft.name} width={500} height={500} />
-				</div>
+				<a href={`/${locale}/nfts`}>Back</a>
 			</div>
-		) : (
 			<div>
-				<h1>🙈 {t('notFound.title')}</h1>
-				<p>
-					<a href={`/${locale}/nfts`}>{t('notFound.backToNfts')}</a>
-				</p>
+				<h1>{nft.name}</h1>
+				<p>{nft.description}</p>
+				<img src={nft.image_url} alt={nft.name} width={500} height={500} />
 			</div>
-		)
-	}
+		</div>
+	) : (
+		<div>
+			<h1>🙈 {t('notFound.title')}</h1>
+			<p>
+				<a href={`/${locale}/nfts`}>{t('notFound.backToNfts')}</a>
+			</p>
+		</div>
+	)}
 </Layout>

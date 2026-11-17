@@ -44,15 +44,13 @@ const socialLinks = [
 <Layout locale={locale} meta={meta}>
 	<h1 class={contactHeading}>{t('contact.title')}</h1>
 	<ul class={contactList}>
-		{
-			socialLinks.map(({ name, url, Icon }) => (
-				<li>
-					<a target="_blank" rel="noopener noreferrer" href={url}>
-						<Icon aria-hidden />
-						{name}
-					</a>
-				</li>
-			))
-		}
+		{socialLinks.map(({ name, url, Icon }) => (
+			<li>
+				<a target="_blank" rel="noopener noreferrer" href={url}>
+					<Icon aria-hidden />
+					{name}
+				</a>
+			</li>
+		))}
 	</ul>
 </Layout>

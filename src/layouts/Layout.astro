@@ -139,11 +139,9 @@ const Y_MAP = ramp(true)
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="canonical" href={meta.canonical} />
-		{
-			meta.alternates.map(({ hreflang, path }) => (
-				<link rel="alternate" hreflang={hreflang} href={`${BASE_URL}${path}`} />
-			))
-		}
+		{meta.alternates.map(({ hreflang, path }) => (
+			<link rel="alternate" hreflang={hreflang} href={`${BASE_URL}${path}`} />
+		))}
 		<link
 			rel="alternate"
 			type="application/rss+xml"
@@ -164,41 +162,40 @@ const Y_MAP = ramp(true)
 		<meta property="og:url" content={meta.canonical} />
 		<meta property="og:site_name" content="César Guadarrama" />
 		<meta property="og:locale" content={OG_LOCALE[locale]} />
-		{
-			LOCALES.filter((other) => other !== locale).map((other) => (
-				<meta property="og:locale:alternate" content={OG_LOCALE[other]} />
-			))
-		}
-		{meta.images.map((image) => <meta property="og:image" content={image} />)}
+		{LOCALES.filter((other) => other !== locale).map((other) => (
+			<meta property="og:locale:alternate" content={OG_LOCALE[other]} />
+		))}
+		{meta.images.map((image) => (
+			<meta property="og:image" content={image} />
+		))}
 
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:site" content={meta.twitterUsername} />
 		<meta name="twitter:creator" content={meta.twitterUsername} />
 		<meta name="twitter:title" content={meta.title} />
 		<meta name="twitter:description" content={meta.description} />
-		{meta.images.map((image) => <meta name="twitter:image" content={image} />)}
+		{meta.images.map((image) => (
+			<meta name="twitter:image" content={image} />
+		))}
 
 		<script
 			is:inline
 			type="application/ld+json"
 			set:html={JSON.stringify(personAndWebsiteJsonLd)}
 		/>
-		{
-			jsonLd ? (
-				<script
-					is:inline
-					type="application/ld+json"
-					set:html={JSON.stringify(jsonLd)}
-				/>
-			) : null
-		}
+		{jsonLd ? (
+			<script
+				is:inline
+				type="application/ld+json"
+				set:html={JSON.stringify(jsonLd)}
+			/>
+		) : null}
 	</head>
 	<body class={body}>
 		<a href="#main-content" class={skipLink}>
 			{t('nav.skipToContent')}
 		</a>
-		{
-			/*
+		{/*
 		  The displacement map behind the glass refraction.
 
 		  Noise was the wrong shape for this: feTurbulence warps the whole surface
@@ -217,8 +214,7 @@ const Y_MAP = ramp(true)
 
 		  It lives in the document because backdrop-filter can only reference a
 		  filter by id, and it is rendered once here rather than per surface.
-		*/
-		}
+		*/}
 		<svg
 			width="0"
 			height="0"
@@ -233,9 +229,15 @@ const Y_MAP = ramp(true)
 				width="1"
 				height="1"
 			>
-				<feImage href={X_MAP} preserveAspectRatio="none" result="xMap"
+				<feImage
+					href={X_MAP}
+					preserveAspectRatio="none"
+					result="xMap"
 				></feImage>
-				<feImage href={Y_MAP} preserveAspectRatio="none" result="yMap"
+				<feImage
+					href={Y_MAP}
+					preserveAspectRatio="none"
+					result="yMap"
 				></feImage>
 				<feComposite
 					in="xMap"
@@ -245,18 +247,19 @@ const Y_MAP = ramp(true)
 					k2="1"
 					k3="1"
 					k4="0"
-					result="map"></feComposite>
+					result="map"
+				></feComposite>
 				<feDisplacementMap
 					in="SourceGraphic"
 					in2="map"
 					scale="22"
 					xChannelSelector="R"
-					yChannelSelector="G"></feDisplacementMap>
+					yChannelSelector="G"
+				></feDisplacementMap>
 			</filter>
 		</svg>
 
-		{
-			/*
+		{/*
 			  The rules that point the glass at that filter, inlined rather than
 			  bundled. Vanilla-extract's CSS is a virtual module, and the production
 			  pipeline strips any `backdrop-filter` carrying a `url()` that comes
@@ -265,8 +268,7 @@ const Y_MAP = ramp(true)
 			  alone. It sits here, in the body, because these selectors have the same
 			  specificity as the bundled ones they override and only order separates
 			  them.
-			*/
-		}
+			*/}
 		<style is:inline set:html={REFRACTION_CSS}></style>
 
 		<Nav locale={locale} />

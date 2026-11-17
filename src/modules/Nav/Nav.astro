@@ -40,16 +40,14 @@ const back =
 ---
 
 <nav class={navContainer}>
-	{
-		back ? (
-			<a class={backButton} href={`/${locale}/${back}`}>
-				<IconChevronLeft aria-hidden />
-				{t(SECTIONS[back])}
-			</a>
-		) : (
-			<i aria-hidden />
-		)
-	}
+	{back ? (
+		<a class={backButton} href={`/${locale}/${back}`}>
+			<IconChevronLeft aria-hidden />
+			{t(SECTIONS[back])}
+		</a>
+	) : (
+		<i aria-hidden />
+	)}
 
 	<NavList client:idle locale={locale} pathname={pathname} />
 

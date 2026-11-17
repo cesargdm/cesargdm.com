@@ -16,21 +16,19 @@ const photos = await getLastPhotos()
 ---
 
 <div class={photosWrapper}>
-	{
-		photos.map((photo) => (
-			<div class={photoContainer}>
-				<img
-					width={photo.width}
-					height={photo.height}
-					loading="lazy"
-					decoding="async"
-					class={image}
-					src={photo.url}
-					alt={photo.alt}
-				/>
-			</div>
-		))
-	}
+	{photos.map((photo) => (
+		<div class={photoContainer}>
+			<img
+				width={photo.width}
+				height={photo.height}
+				loading="lazy"
+				decoding="async"
+				class={image}
+				src={photo.url}
+				alt={photo.alt}
+			/>
+		</div>
+	))}
 </div>
 <a
 	target="_blank"
