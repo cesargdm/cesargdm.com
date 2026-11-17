@@ -51,9 +51,12 @@ const meta = post
 			canonicalPath: `/blog/${post.slug}`,
 			images: [`${BASE_URL}/${locale}/blog/${post.slug}/opengraph-image.png`],
 		})
-	: getMetadata({ locale, title: 'Not Found' })
+	: getMetadata({ locale, title: 'Not Found', noindex: true })
 
 const datePublished = post ? toIsoDate(post.data.date) : null
+const dateModified = post
+	? (toIsoDate(post.data.updated) ?? datePublished)
+	: null
 
 const jsonLd = post
 	? {
@@ -66,6 +69,7 @@ const jsonLd = post
 			// markdown, and an unparseable one is better left out than reported as
 			// a false (epoch) `datePublished` to search engines.
 			...(datePublished ? { datePublished } : {}),
+			...(dateModified ? { dateModified } : {}),
 			url: meta.canonical,
 			mainEntityOfPage: meta.canonical,
 			inLanguage: locale,

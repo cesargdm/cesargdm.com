@@ -20,7 +20,7 @@ const t = getTranslate(locale)
 
 Astro.response.status = 404
 
-const meta = getMetadata({ locale, title: t('notFound.title') })
+const meta = getMetadata({ locale, title: t('notFound.title'), noindex: true })
 ---
 
 <Layout locale={locale} meta={meta}>

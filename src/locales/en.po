@@ -5,6 +5,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "nav.about"
+msgstr "About"
+
 msgid "nav.blog"
 msgstr "Blog"
 
@@ -52,6 +55,9 @@ msgstr "Blog"
 
 msgid "blog.description"
 msgstr "Read about coding tips, tutorials, programming configurations, thoughts, ideas and more"
+
+msgid "blog.feedTitle"
+msgstr "César Guadarrama — Blog"
 
 msgid "blog.readingTime"
 msgstr "{minutes} minutes read"
@@ -462,3 +468,9 @@ msgstr "Parentage is not documented in this edition."
 
 msgid "coffee.crossOffspring"
 msgstr "Cross offspring"
+
+msgid "contact.title"
+msgstr "Contact"
+
+msgid "contact.metaDescription"
+msgstr "Social links and contact information for César Guadarrama"

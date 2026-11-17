@@ -1,6 +1,7 @@
 import { getPosts } from '@/lib/blog'
 import { text } from '@/lib/frontmatter'
 import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
 import { getProjects } from '@/lib/projects'
 import { getToolKeyByPath, TOOL_PATHS } from '@/lib/tools'
 
@@ -78,4 +79,28 @@ export function getAlternateLocalePath(
 
 	// Everything else is the same route in both locales.
 	return `/${target}/${segments.slice(1).join('/')}`.replace(/\/$/, '')
+}
+
+export type Alternate = { hreflang: Locale | 'x-default'; path: string }
+
+/**
+ * hreflang alternates for `path`, itself included, plus x-default.
+ *
+ * The resolver falls back to a shorter path (the section index, or home) when
+ * a page has no translation, so an alternate with fewer segments means there
+ * isn't one. Advertising a translation that is really a different page is worse
+ * than advertising none, so an untranslated page gets no alternates at all.
+ */
+export function getAlternates(locale: Locale, path: string): Alternate[] {
+	const depth = path.split('/').length
+
+	const alternates: Alternate[] = LOCALES.map((other) => ({
+		hreflang: other,
+		path: other === locale ? path : getAlternateLocalePath(locale, other, path),
+	})).filter((alternate) => alternate.path.split('/').length === depth)
+
+	if (alternates.length < 2) return []
+
+	// LOCALES order is kept, so the default locale is first.
+	return [...alternates, { hreflang: 'x-default', path: alternates[0].path }]
 }

@@ -1,26 +1,15 @@
-/* eslint-disable no-magic-numbers */
-export function getCheerFromVisitsCount(visitsCount: string) {
-	const visitsCountNumber = Number(visitsCount)
+import type { Locale } from '@/lib/i18n'
 
-	if (visitsCountNumber <= 2) {
-		return 'again'
-	}
+const CHEERS: Record<Locale, string[]> = {
+	en: ['again', 'buddy', 'friend', 'stalker', 'mom', 'debugger'],
+	es: ['de nuevo', 'compa', 'amigo', 'acosador', 'mamá', 'debugger'],
+}
 
-	if (visitsCountNumber <= 10) {
-		return 'buddy'
-	}
+const VISIT_THRESHOLDS = [2, 10, 20, 30, 50]
 
-	if (visitsCountNumber <= 20) {
-		return 'friend'
-	}
+export function getCheerFromVisitsCount(visitsCount: string, locale: Locale) {
+	const visits = Number(visitsCount)
+	const index = VISIT_THRESHOLDS.findIndex((max) => visits <= max)
 
-	if (visitsCountNumber <= 30) {
-		return 'staker'
-	}
-
-	if (visitsCountNumber <= 50) {
-		return 'mom'
-	}
-
-	return 'debugger'
+	return CHEERS[locale][index === -1 ? VISIT_THRESHOLDS.length : index]
 }

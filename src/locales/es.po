@@ -5,6 +5,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "nav.about"
+msgstr "Inicio"
+
 msgid "nav.blog"
 msgstr "Blog"
 
@@ -52,6 +55,9 @@ msgstr "Blog"
 
 msgid "blog.description"
 msgstr "Consejos de programación, tutoriales, configuraciones, reflexiones, ideas y más"
+
+msgid "blog.feedTitle"
+msgstr "César Guadarrama — Blog"
 
 msgid "blog.readingTime"
 msgstr "{minutes} minutos de lectura"
@@ -462,3 +468,9 @@ msgstr "La ascendencia no está documentada en esta edición."
 
 msgid "coffee.crossOffspring"
 msgstr "Descendiente de un cruce"
+
+msgid "contact.title"
+msgstr "Contacto"
+
+msgid "contact.metaDescription"
+msgstr "Redes sociales e información de contacto de César Guadarrama"

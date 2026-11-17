@@ -27,7 +27,7 @@ const meta = nft
 			canonicalPath: `/nfts/ethereum_${nft.contract}_${nft.identifier}`,
 			images: [`${BASE_URL}/${locale}/nfts/${id}/opengraph-image.png`],
 		})
-	: getMetadata({ locale, title: 'Not Found' })
+	: getMetadata({ locale, title: 'Not Found', noindex: true })
 ---
 
 <Layout locale={locale} meta={meta}>
