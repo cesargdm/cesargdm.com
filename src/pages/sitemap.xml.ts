@@ -10,22 +10,14 @@ import {
 } from '@/lib/fetch-cache'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
-import { getAlternateLocalePath } from '@/lib/locale-path'
+import { getAlternates } from '@/lib/locale-path'
 import { getNfts } from '@/lib/open-sea'
 import { getProjects } from '@/lib/projects'
 import { getTools } from '@/lib/tools'
 
 export const prerender = true
 
-const STATIC_PATHS = [
-	'',
-	'projects',
-	'blog',
-	'contact',
-	'nfts',
-	'chat',
-	'search',
-]
+const STATIC_PATHS = ['', 'projects', 'blog', 'contact', 'nfts']
 
 type Entry = {
 	path: string
@@ -33,45 +25,15 @@ type Entry = {
 	lastmod: string
 }
 
-// LOCALES[0] ('en') is the default elsewhere too (e.g. getPosts' fallback
-// param) — reused here rather than a second hardcoded locale.
-const DEFAULT_LOCALE: Locale = LOCALES[0]
-
 function render({ path, locale, lastmod }: Entry) {
-	const loc = `${BASE_URL}${path}`
-
-	// Only claim an alternate where one actually exists. The resolver falls back
-	// to a shorter path (the section index, or home) when a page has no
-	// translation, so an alternate with fewer segments means there isn't one —
-	// and advertising a translation that redirects is worse than advertising none.
-	const depth = path.split('/').length
-
-	const availableAlternates = LOCALES.filter((other) => other !== locale)
-		.map((other) => ({
-			other,
-			alt: getAlternateLocalePath(locale, other, path),
-		}))
-		.filter(({ alt }) => alt.split('/').length === depth)
-
-	const alternates = availableAlternates
+	const alternates = getAlternates(locale, path)
 		.map(
-			({ other, alt }) =>
-				`<xhtml:link rel="alternate" hreflang="${other}" href="${BASE_URL}${alt}" />`,
+			({ hreflang, path: href }) =>
+				`<xhtml:link rel="alternate" hreflang="${hreflang}" href="${BASE_URL}${href}" />`,
 		)
 		.join('')
 
-	// The default-locale path was already resolved above when it's one of the
-	// (at most one, with only two locales) other locales — reused rather than
-	// asking the resolver the same question twice.
-	const defaultPath =
-		locale === DEFAULT_LOCALE
-			? path
-			: availableAlternates.find(({ other }) => other === DEFAULT_LOCALE)?.alt
-	const xDefault = defaultPath
-		? `<xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}${defaultPath}" />`
-		: ''
-
-	return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod>${alternates}${xDefault}</url>`
+	return `<url><loc>${BASE_URL}${path}</loc><lastmod>${lastmod}</lastmod>${alternates}</url>`
 }
 
 function isoDate(value: unknown, fallback: string) {

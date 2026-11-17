@@ -7,7 +7,9 @@ import NftModal from '@/modules/NftModal/NftModal.tsx'
 
 import { AUTHOR, BASE_URL } from '@/lib/constants'
 import type { Locale } from '@/lib/i18n'
+import { LOCALES } from '@/lib/i18n'
 import type { ResolvedMetadata } from '@/lib/metadata'
+import { OG_LOCALE } from '@/lib/metadata'
 import social from '@/lib/social.json'
 import { getTranslate } from '@/lib/translate'
 
@@ -137,6 +139,18 @@ const Y_MAP = ramp(true)
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="canonical" href={meta.canonical} />
+		{
+			meta.alternates.map(({ hreflang, path }) => (
+				<link rel="alternate" hreflang={hreflang} href={`${BASE_URL}${path}`} />
+			))
+		}
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title={t('blog.feedTitle')}
+			href={`/${locale}/rss.xml`}
+		/>
+		{meta.noindex ? <meta name="robots" content="noindex, follow" /> : null}
 
 		<title>{meta.title}</title>
 		<meta name="description" content={meta.description} />
@@ -148,6 +162,13 @@ const Y_MAP = ramp(true)
 		<meta property="og:title" content={meta.title} />
 		<meta property="og:description" content={meta.description} />
 		<meta property="og:url" content={meta.canonical} />
+		<meta property="og:site_name" content="César Guadarrama" />
+		<meta property="og:locale" content={OG_LOCALE[locale]} />
+		{
+			LOCALES.filter((other) => other !== locale).map((other) => (
+				<meta property="og:locale:alternate" content={OG_LOCALE[other]} />
+			))
+		}
 		{meta.images.map((image) => <meta property="og:image" content={image} />)}
 
 		<meta name="twitter:card" content="summary_large_image" />

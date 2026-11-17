@@ -1,10 +1,4 @@
 User-agent: *
 Allow: /
 
-User-agent: Adsbot-Google 
-Allow: / 
-
-User-agent: Googlebot-Mobile 
-Allow: / 
-
 Sitemap: https://cesargdm.com/sitemap.xml

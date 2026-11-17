@@ -2,7 +2,9 @@
 import ChessBoard from '@/modules/ChessBoard'
 import EditPageBanner from '@/modules/EditPageBanner/EditPageBanner.astro'
 
-import { BASE_URL } from '@/lib/constants'
+import { AUTHOR, BASE_URL } from '@/lib/constants'
+import { toIsoDate } from '@/lib/date'
+import { text } from '@/lib/frontmatter'
 import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
@@ -45,10 +47,28 @@ const meta = post
 				`${BASE_URL}/${locale}/projects/${post.slug}/opengraph-image.png`,
 			],
 		})
-	: getMetadata({ locale, title: t('notFound.title') })
+	: getMetadata({ locale, title: t('notFound.title'), noindex: true })
+
+const dateCreated = post ? toIsoDate(post.data.date) : null
+const projectUrl = post ? text(post.data.url) : ''
+
+const jsonLd = post
+	? {
+			'@context': 'https://schema.org',
+			'@type': 'CreativeWork',
+			name: text(post.data.title, post.slug),
+			description: text(post.data.description),
+			url: meta.canonical,
+			image: meta.images[0],
+			inLanguage: locale,
+			author: { '@type': 'Person', ...AUTHOR },
+			...(dateCreated ? { dateCreated } : {}),
+			...(projectUrl ? { sameAs: projectUrl } : {}),
+		}
+	: undefined
 ---
 
-<Layout locale={locale} meta={meta}>
+<Layout locale={locale} meta={meta} jsonLd={jsonLd}>
 	{
 		post ? (
 			<div class={entryContainer}>

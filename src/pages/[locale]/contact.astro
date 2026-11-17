@@ -11,6 +11,7 @@ import type { Locale } from '@/lib/i18n'
 import { LOCALES } from '@/lib/i18n'
 import { getMetadata } from '@/lib/metadata'
 import social from '@/lib/social.json'
+import { getTranslate } from '@/lib/translate'
 
 import Layout from '@/layouts/Layout.astro'
 import { contactHeading, contactList } from '@/styles/contact.css'
@@ -22,11 +23,12 @@ export function getStaticPaths() {
 }
 
 const locale = Astro.params.locale as Locale
+const t = getTranslate(locale)
 
 const meta = getMetadata({
 	locale,
-	title: 'Contact',
-	description: 'Social links and contact information for César Guadarrama',
+	title: t('contact.title'),
+	description: t('contact.metaDescription'),
 	canonicalPath: '/contact',
 })
 
@@ -40,7 +42,7 @@ const socialLinks = [
 ---
 
 <Layout locale={locale} meta={meta}>
-	<h1 class={contactHeading}>Contact</h1>
+	<h1 class={contactHeading}>{t('contact.title')}</h1>
 	<ul class={contactList}>
 		{
 			socialLinks.map(({ name, url, Icon }) => (
