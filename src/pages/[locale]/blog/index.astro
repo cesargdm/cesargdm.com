@@ -46,21 +46,19 @@ const meta = getMetadata({
 	<h1>{t('blog.title')}</h1>
 	<p class={pageDescription}>{t('blog.description')}</p>
 	<ul class={entriesList}>
-		{
-			entries.map((entry) => (
-				<li class={entryItem}>
-					<a class={entryLink} href={`/${locale}/blog/${entry.slug}`}>
-						<p class={entryTitle}>{entry.data.title}</p>
-						<p class={entryDate}>
-							{getHumanReadableDate(entry.data.date as string)} •{' '}
-							{t('blog.readingTime', {
-								minutes: getReadingTime(entry.content),
-							})}
-						</p>
-						<p>{entry.data.extract}</p>
-					</a>
-				</li>
-			))
-		}
+		{entries.map((entry) => (
+			<li class={entryItem}>
+				<a class={entryLink} href={`/${locale}/blog/${entry.slug}`}>
+					<p class={entryTitle}>{entry.data.title}</p>
+					<p class={entryDate}>
+						{getHumanReadableDate(entry.data.date as string)} •{' '}
+						{t('blog.readingTime', {
+							minutes: getReadingTime(entry.content),
+						})}
+					</p>
+					<p>{entry.data.extract}</p>
+				</a>
+			</li>
+		))}
 	</ul>
 </Layout>

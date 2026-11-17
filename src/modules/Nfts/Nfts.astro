@@ -17,19 +17,17 @@ const { locale } = Astro.props
 const data = await getNfts()
 ---
 
-{
-	data.length ? (
-		<>
-			<a class={headingLink} href={`/${locale}/nfts`}>
-				<h2>
-					<IconArtboard aria-hidden />
-					NFTs
-				</h2>
-				<IconArrowUpRight />
-			</a>
-			<div class={listContainer}>
-				<NftList client:visible data={data} />
-			</div>
-		</>
-	) : null
-}
+{data.length ? (
+	<>
+		<a class={headingLink} href={`/${locale}/nfts`}>
+			<h2>
+				<IconArtboard aria-hidden />
+				NFTs
+			</h2>
+			<IconArrowUpRight />
+		</a>
+		<div class={listContainer}>
+			<NftList client:visible data={data} />
+		</div>
+	</>
+) : null}

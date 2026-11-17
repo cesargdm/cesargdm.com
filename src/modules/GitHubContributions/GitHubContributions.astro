@@ -82,68 +82,66 @@ const columns = contributions ? toColumns(contributions.days).reverse() : []
 const yearSpans = toYearSpans(columns)
 ---
 
-{
-	contributions ? (
-		<>
-			<h2 class={heading}>
-				<IconBrandGithub aria-hidden />
-				GitHub
-			</h2>
-			<div class={gridContainer}>
-				<div
-					role="img"
-					class={grid}
-					style={{ '--columns': columns.length }}
-					aria-label={`GitHub contribution graph: ${contributions.total.toLocaleString()} contributions over the last ${YEARS_SHOWN} years`}
-				>
-					{columns.map((column, index) =>
-						column.map((day) => (
-							<span
-								class:list={[cell, cellLevels[day.level as Level]]}
-								style={{
-									gridColumn: index + 1,
-									gridRow: weekday(day.date) + 1,
-								}}
-								title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
-							/>
-						)),
-					)}
-					{yearSpans.map(({ year, start, span }) => (
-						<span
-							class={yearLabel}
-							style={{ gridColumn: `${start} / span ${span}` }}
-						>
-							{span * DAYS_PER_WEEK > DAYS_PER_WEEK
-								? year.slice(SHORT_YEAR_DIGITS)
-								: ''}
-						</span>
-					))}
-				</div>
-			</div>
-			<div class={footer}>
-				<p class={totalText}>
-					{contributions.total.toLocaleString()} contributions in the last{' '}
-					{YEARS_SHOWN} years
-				</p>
-				<p class={legend}>
-					<span class={legendLabel}>Less</span>
-					{LEVELS.map((level) => (
-						<span
-							class:list={[cell, legendCell, cellLevels[level]]}
-							aria-hidden
-						/>
-					))}
-					<span class={legendLabel}>More</span>
-				</p>
-			</div>
-			<a
-				target="_blank"
-				rel="noopener noreferrer"
-				class={githubButton}
-				href={GITHUB_PROFILE_URL}
+{contributions ? (
+	<>
+		<h2 class={heading}>
+			<IconBrandGithub aria-hidden />
+			GitHub
+		</h2>
+		<div class={gridContainer}>
+			<div
+				role="img"
+				class={grid}
+				style={{ '--columns': columns.length }}
+				aria-label={`GitHub contribution graph: ${contributions.total.toLocaleString()} contributions over the last ${YEARS_SHOWN} years`}
 			>
-				View profile
-			</a>
-		</>
-	) : null
-}
+				{columns.map((column, index) =>
+					column.map((day) => (
+						<span
+							class:list={[cell, cellLevels[day.level as Level]]}
+							style={{
+								gridColumn: index + 1,
+								gridRow: weekday(day.date) + 1,
+							}}
+							title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
+						/>
+					)),
+				)}
+				{yearSpans.map(({ year, start, span }) => (
+					<span
+						class={yearLabel}
+						style={{ gridColumn: `${start} / span ${span}` }}
+					>
+						{span * DAYS_PER_WEEK > DAYS_PER_WEEK
+							? year.slice(SHORT_YEAR_DIGITS)
+							: ''}
+					</span>
+				))}
+			</div>
+		</div>
+		<div class={footer}>
+			<p class={totalText}>
+				{contributions.total.toLocaleString()} contributions in the last{' '}
+				{YEARS_SHOWN} years
+			</p>
+			<p class={legend}>
+				<span class={legendLabel}>Less</span>
+				{LEVELS.map((level) => (
+					<span
+						class:list={[cell, legendCell, cellLevels[level]]}
+						aria-hidden
+					/>
+				))}
+				<span class={legendLabel}>More</span>
+			</p>
+		</div>
+		<a
+			target="_blank"
+			rel="noopener noreferrer"
+			class={githubButton}
+			href={GITHUB_PROFILE_URL}
+		>
+			View profile
+		</a>
+	</>
+) : null}
